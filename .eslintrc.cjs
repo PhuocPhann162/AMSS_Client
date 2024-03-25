@@ -18,7 +18,7 @@ module.exports = {
       'warn',
       {
         arrowParens: 'always',
-        semi: false,
+        semi: true,
         trailingComma: 'none',
         tabWidth: 2,
         endOfLine: 'auto',
@@ -29,4 +29,4 @@ module.exports = {
       }
     ]
   }
-}
+};
