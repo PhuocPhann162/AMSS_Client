@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { Logo } from '..';
 
 const StyleNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--color-dark--0);
 
   ul {
     list-style: none;
@@ -28,22 +28,23 @@ const StyleNav = styled.nav`
   }
 `;
 
-function MainNav() {
+function NavPage() {
   return (
     <StyleNav>
       <ul>
-        <li>
-          <NavLink to='/'>Home</NavLink>
-        </li>
+        <Logo />
         <li>
           <NavLink to='/product'>Product</NavLink>
         </li>
         <li>
           <NavLink to='/pricing'>Pricing</NavLink>
         </li>
+        <li>
+          <NavLink to='/login'>Login</NavLink>
+        </li>
       </ul>
     </StyleNav>
   );
 }
 
-export default MainNav;
+export default NavPage;

@@ -1,3 +1,6 @@
-import MainNav from './MainNav';
+import NavPage from './layout/NavPage';
+import AppNav from './layout/AppNav';
+import Logo from './Logo';
+import Button from './Button';
 
-export { MainNav };
+export { NavPage, AppNav, Logo, Button };
