@@ -1,58 +1,44 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { Button, NavPage } from '~/components';
-
-const StyledLogin = styled.main`
-  margin: 2.5rem;
-  padding: 2.5rem 5rem;
-  background-color: var(--color-dark--1);
-  min-height: calc(100vh - 5rem);
-`;
-
-const FormLogin = styled.form`
-  background-color: var(--color-dark--2);
-  border-radius: 7px;
-  padding: 2rem 3rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-
-  /* Different from other form */
-  width: 48rem;
-  margin: 8rem auto;
-`;
-
-const Row = styled.main`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('jack@example.com');
   const [password, setPassword] = useState('qwerty');
+
   return (
-    <StyledLogin>
-      <NavPage />
-      <FormLogin>
-        <Row>
-          <label htmlFor='email'>Email address</label>
-          <input type='email' id='email' onChange={(e) => setEmail(e.target.value)} value={email} />
-        </Row>
+    <form className='bg-dark-2 rounded-lg p-8 max-w-lg mx-auto' onSubmit={(e) => e.preventDefault()}>
+      <div className='flex flex-col gap-4'>
+        <label htmlFor='email' className='text-lg'>
+          Email address
+        </label>
+        <input
+          type='email'
+          id='email'
+          className='w-full text-stone-900 py-2 px-4 rounded border-none bg-light-3 focus:bg-white transition duration-200'
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+      </div>
 
-        <Row>
-          <label htmlFor='password'>Password</label>
-          <input type='password' id='password' onChange={(e) => setPassword(e.target.value)} value={password} />
-        </Row>
+      <div className='flex flex-col gap-4 mt-4'>
+        <label htmlFor='password' className='text-lg'>
+          Password
+        </label>
+        <input
+          type='password'
+          id='password'
+          className='w-full text-stone-900 py-2 px-4 rounded border-none bg-light-3 focus:bg-white transition duration-200'
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+      </div>
 
-        <div>
-          <Button type='primary'>Log in</Button>
-        </div>
-      </FormLogin>
-    </StyledLogin>
+      <div className='mt-6'>
+        <Button type='primary'>Log in</Button>
+      </div>
+    </form>
   );
 }
 

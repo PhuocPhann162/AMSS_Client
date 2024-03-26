@@ -1,65 +1,44 @@
-import styled from 'styled-components';
-
-enum ButtonType {
-  PRIMARY = 'primary',
-  BACK = 'back',
-  POSITION = 'position'
-}
-
-const StyledButton = styled.button<{ type?: string }>`
-  color: inherit;
-  text-transform: uppercase;
-  padding: 0.8rem 1.6rem;
-  font-family: inherit;
-  font-size: 1.5rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  ${({ type }) => {
-    switch (type) {
-      case ButtonType.PRIMARY:
-        return `
-          font-weight: 700;
-          background-color: var(--color-brand--2);
-          color: var(--color-dark--1);
-        `;
-      case ButtonType.BACK:
-        return `
-          font-weight: 600;
-          background: none;
-          border: 1px solid currentColor;
-        `;
-      case ButtonType.POSITION:
-        return `
-          font-weight: 700;
-          position: absolute;
-          z-index: 1000;
-          font-size: 1.4rem;
-          bottom: 4rem;
-          left: 50%;
-          transform: translateX(-50%);
-          background-color: var(--color-brand--2);
-          color: var(--color-dark--1);
-          box-shadow: 0 0.4rem 1.2rem rgba(36, 42, 46, 0.16);
-        `;
-      default:
-        return '';
-    }
-  }}
-`;
+import { Link } from 'react-router-dom';
 
 interface ButtonProps {
-  children?: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  type?: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+  to?: string;
+  type: 'primary' | 'secondary' | 'small' | 'round';
+  onClick?: () => void;
 }
 
-function Button({ children, onClick, type }: ButtonProps) {
+function Button({ children, disabled, to, type, onClick }: ButtonProps) {
+  const base =
+    'text-sm inline-block rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed ';
+  const styles = {
+    primary: base + ' px-4 py-3 md:px-6 md:py-4',
+    secondary:
+      ' text-sm inline-block rounded-full bg-transparent border-2 border-stone-300 font-semibold uppercase tracking-wide text-stone-400 transition-colors duration-300 hover:bg-stone-300 hover:text-stone-800 focus:text-stone-800 focus:bg-stone-300 focus:outline-none focus:ring focus:ring-stone-200 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-2.5 md:px-6 md:py-3.5',
+    small: base + ' px-4 py-2 text-xs md:px-5 md:py-2.5',
+    round: base + ' px-2.5 py-1 text-sm md:px-3.5 md:py-2'
+  };
+
+  if (to) {
+    return (
+      <Link className={styles[type]} to={to}>
+        {children}
+      </Link>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <button disabled={disabled} className={styles[type]} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+
   return (
-    <StyledButton type={type} onClick={onClick}>
+    <button disabled={disabled} className={styles[type]}>
       {children}
-    </StyledButton>
+    </button>
   );
 }
 
