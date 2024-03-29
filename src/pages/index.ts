@@ -1,8 +1,8 @@
-import HomePage from './HomePage';
-import Pricing from './Pricing';
-import Product from './Product';
-import AppLayout from './AppLayout';
-import PageNotFound from './PageNotFound';
-import Login from './Login';
+import HomePage from './Main/HomePage';
+import Pricing from './Main/Pricing';
+import Product from './Main/Product';
+import PageNotFound from './404';
+import Login from './Authentication/Login';
+import ProtectedRoute from './ProtectedRoute';
 
-export { HomePage, Pricing, Product, AppLayout, PageNotFound, Login };
+export { HomePage, Pricing, Product, PageNotFound, Login, ProtectedRoute };
