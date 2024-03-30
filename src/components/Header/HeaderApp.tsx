@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Logo } from '..';
 // import DropdownMessage from './DropdownMessage';
 // import DropdownNotification from './DropdownNotification';
@@ -54,9 +54,9 @@ const HeaderApp = (props: { sidebarOpen: string | boolean | undefined; setSideba
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <NavLink className='block flex-shrink-0 lg:hidden h-12' to='/'>
+          <div className='block flex-shrink-0 lg:hidden h-12'>
             <Logo />
-          </NavLink>
+          </div>
         </div>
 
         <div className='hidden sm:block'>
