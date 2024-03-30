@@ -25,13 +25,13 @@ export default function Home() {
               <br />
               Modern Solutions for Sustainable Farming.
             </h1>
-            <h2 className='w-9/12 text-lg text-gray-400 mb-6 font-semibold'>
+            <h2 className='w-9/12 text-lg text-gray-200 mb-6 font-semibold text-bodydark'>
               Harnessing technology to revolutionize agriculture, from smart farming techniques to precision agriculture
               methods. Increase efficiency, optimize resources, and promote environmental sustainability.
             </h2>
             <Link
               to='/login'
-              className='bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-semibold py-3 px-6 rounded-lg'
+              className='bg-yellow-400 hover:bg-yellow-300 text-strokedark font-semibold py-3 px-6 rounded-lg'
             >
               Start Tracking Now
             </Link>

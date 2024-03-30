@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { HomePage, Login, PageNotFound, Pricing, Product, ProtectedRoute } from './pages';
+import { Crop, HomePage, Login, PageNotFound, Pricing, Product, ProtectedRoute } from './pages';
 import DefaultAppLayout from './layout/DefaultAppLayout';
 import { Map } from './components';
 
@@ -18,6 +18,7 @@ function App() {
           </ProtectedRoute>
         }
       >
+        <Route path='crop' element={<Crop />} />
         <Route path='map' element={<Map />} />
       </Route>
       <Route path='*' element={<PageNotFound />} />

@@ -41,7 +41,7 @@ function HeaderPage() {
           <Logo />
         </NavLink>
       </div>
-      <div className='navbar-center hidden lg:flex'>
+      <div className='navbar-center hidden lg:flex text-slate-300'>
         <ul className='menu menu-horizontal px-1'>
           <li>
             <NavLink to='/product' className='text-lg font-medium'>
