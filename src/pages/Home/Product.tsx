@@ -1,4 +1,4 @@
-import { HeaderPage } from '~/components';
+import { HeaderPage } from '~/components/Layout/Header';
 
 export default function Product() {
   return (

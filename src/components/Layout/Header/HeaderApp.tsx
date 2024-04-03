@@ -1,10 +1,5 @@
-import { NavLink } from 'react-router-dom';
-import { Logo } from '..';
-// import DropdownMessage from './DropdownMessage';
-// import DropdownNotification from './DropdownNotification';
-// import DropdownUser from './DropdownUser';
-// import LogoIcon from '../../images/logo/logo-icon.svg';
-// import DarkModeSwitcher from './DarkModeSwitcher';
+import { Logo } from '~/common';
+import { DropdownUser } from '.';
 
 const HeaderApp = (props: { sidebarOpen: string | boolean | undefined; setSidebarOpen: (arg0: boolean) => void }) => {
   return (
@@ -111,7 +106,7 @@ const HeaderApp = (props: { sidebarOpen: string | boolean | undefined; setSideba
           </ul>
 
           {/* <!-- User Area --> */}
-          {/* <DropdownUser /> */}
+          <DropdownUser />
           {/* <!-- User Area --> */}
         </div>
       </div>

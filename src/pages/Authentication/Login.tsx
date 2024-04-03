@@ -1,13 +1,39 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Logo } from '~/components';
+import { useLoginUserMutation } from '~/api/authApi';
+import { Logo } from '~/common';
+import { apiResponse } from '~/interfaces';
+import { inputHelper } from '~/utils';
 
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('jack@example.com');
-  const [password, setPassword] = useState('qwerty');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [userInput, setUserInput] = useState({
+    username: '',
+    password: ''
+  });
+  const [loginUser] = useLoginUserMutation();
 
-  const handleSubmit = () => {
+  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tempData = inputHelper(e, userInput);
+    setUserInput(tempData);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const response: apiResponse = await loginUser({
+      username: userInput.username,
+      password: userInput.password
+    });
+
+    console.log(response);
+
+    if (response.data) {
+      const { token } = response.data.result;
+    }
     navigate('/app');
   };
 
@@ -26,11 +52,13 @@ function Login() {
               <div>
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>Your email</label>
                 <input
-                  type='email'
-                  name='email'
-                  id='email'
+                  type='username'
+                  name='username'
+                  id='username'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   placeholder='name@company.com'
+                  value={userInput.username}
+                  onChange={handleUserInput}
                 />
               </div>
               <div>
@@ -39,8 +67,10 @@ function Login() {
                   type='password'
                   name='password'
                   id='password'
-                  placeholder='••••••••'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                  placeholder='••••••••'
+                  value={userInput.password}
+                  onChange={handleUserInput}
                 />
               </div>
               <div className='flex items-center justify-between'>

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { HeaderPage } from '~/components';
+import { HeaderPage } from '~/components/Layout/Header';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className='grid h-screen grid-rows-[auto_1fr_auto]'>
       <header>

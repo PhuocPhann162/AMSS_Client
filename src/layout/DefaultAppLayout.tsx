@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { HeaderApp, Sidebar } from '~/components';
+import { HeaderApp } from '~/components/Layout/Header';
+import { Sidebar } from '~/components/Layout/SideBar';
 
 const DefaultAppLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

@@ -1,9 +1,9 @@
-import { Breadcrumb, TableTwo } from '~/components';
+import { Breadcrumb, TableTwo } from '~/components/UI';
 
 export const Crop = () => {
   return (
     <div>
-      <Breadcrumb pageName='Tables' />
+      <Breadcrumb pageParent='' pageName='Crops' />
 
       <div className='flex flex-col gap-10'>
         <TableTwo />

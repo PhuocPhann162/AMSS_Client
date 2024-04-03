@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Logo } from '..';
+import { Logo } from '~/common';
 
 function HeaderPage() {
   return (
@@ -37,9 +37,9 @@ function HeaderPage() {
             </li>
           </ul>
         </div>
-        <NavLink className='text-xl' to='/'>
+        <div className='text-xl'>
           <Logo />
-        </NavLink>
+        </div>
       </div>
       <div className='navbar-center hidden lg:flex text-slate-300'>
         <ul className='menu menu-horizontal px-1'>
@@ -68,6 +68,7 @@ function HeaderPage() {
           </li>
         </ul>
       </div>
+
       <div className='navbar-end'>
         <NavLink to='/login' className='btn btn-primary text-base text-white px-6 py-2 rounded-lg font-medium'>
           Log in
