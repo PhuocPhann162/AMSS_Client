@@ -17,13 +17,13 @@ const authApi = createApi({
       })
     }),
     loginUser: builder.mutation({
-      query: (userData) => ({
+      query: (userCredentials) => ({
         url: 'auth/login',
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
-        body: userData
+        body: userCredentials
       })
     })
   })

@@ -1,12 +1,17 @@
+import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '~/api/authApi';
 import { Logo } from '~/common';
-import { apiResponse } from '~/interfaces';
-import { inputHelper } from '~/utils';
+import { MainLoader } from '~/components/Page/common';
+import { apiResponse, userModel } from '~/interfaces';
+import { setLoggedInUser } from '~/storage/redux/authSlice';
+import { inputHelper, toastNotify } from '~/utils';
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -31,15 +36,60 @@ function Login() {
 
     console.log(response);
 
-    if (response.data) {
+    if (response.data && response.data.isSuccess) {
       const { token } = response.data.result;
+      const {
+        id,
+        fullName,
+        userName,
+        phoneNumber,
+        streetAddress,
+        city,
+        state,
+        country,
+        avatar,
+        refreshToken,
+        isActive,
+        role,
+        createdAt,
+        updatedAt
+      }: userModel = jwtDecode(token);
+
+      localStorage.setItem('token', token);
+
+      dispatch(
+        setLoggedInUser({
+          id,
+          fullName,
+          userName,
+          phoneNumber,
+          streetAddress,
+          city,
+          state,
+          country,
+          avatar,
+          refreshToken,
+          isActive,
+          role,
+          createdAt,
+          updatedAt
+        })
+      );
+      toastNotify(response?.data.successMessage || '');
+      navigate('/app');
+    } else if (response?.error) {
+      const errorMessage = response.error.data.errorMessages[0] ?? 'Something wrong when login';
+      toastNotify(errorMessage, 'error');
+      setError(errorMessage);
     }
-    navigate('/app');
+
+    setLoading(false);
   };
 
   return (
     <section className='bg-strokedark dark:bg-gray-900'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
+        {loading && <MainLoader />}
         <a href='#' className='flex items-center mb-6 mr-6 text-gray-900 dark:text-white'>
           <Logo />
         </a>
@@ -48,17 +98,18 @@ function Login() {
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
               Sign in to your account
             </h1>
-            <form className='space-y-4 md:space-y-6' action='#' onSubmit={handleSubmit}>
+            <form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
               <div>
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>Your email</label>
                 <input
-                  type='username'
+                  type='email'
                   name='username'
                   id='username'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   placeholder='name@company.com'
                   value={userInput.username}
                   onChange={handleUserInput}
+                  required
                 />
               </div>
               <div>
@@ -71,6 +122,7 @@ function Login() {
                   placeholder='••••••••'
                   value={userInput.password}
                   onChange={handleUserInput}
+                  required
                 />
               </div>
               <div className='flex items-center justify-between'>

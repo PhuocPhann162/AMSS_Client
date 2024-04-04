@@ -5,7 +5,7 @@ import ReactFlagsSelect from 'react-flags-select';
 import { apiResponse } from '~/interfaces';
 import { useRegisterUserMutation } from '~/api/authApi';
 import { SD_Roles } from '~/utils/SD';
-import { MainLoader, MiniLoader } from '~/components/Page/common';
+import { MainLoader } from '~/components/Page/common';
 
 export const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
