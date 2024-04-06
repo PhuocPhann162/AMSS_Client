@@ -1,7 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '~/common';
+import { userModel } from '~/interfaces';
+import { emtyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
+import { RootState } from '~/storage/redux/store';
+import DropdownUser from './DropdownUser';
 
 function HeaderPage() {
+  const dispatch = useDispatch();
+  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(setLoggedInUser({ ...emtyUserState }));
+    window.location.reload();
+  };
+
   return (
     <div className='navbar bg-base-100 px-8'>
       <div className='navbar-start'>
@@ -70,9 +84,25 @@ function HeaderPage() {
       </div>
 
       <div className='navbar-end'>
-        <NavLink to='/login' className='btn btn-primary text-base text-white px-6 py-2 rounded-lg font-medium'>
-          Log in
-        </NavLink>
+        {userData.id ? (
+          <>
+            <div className='absolute flex items-center gap-3 2xsm:gap-7'>
+              {/* <!-- User Area --> */}
+              <DropdownUser />
+              {/* <!-- User Area --> */}
+              <button
+                className='btn btn-warning text-base text-white px-6 py-2 font-medium rounded-full'
+                onClick={handleLogout}
+              >
+                Log out
+              </button>
+            </div>
+          </>
+        ) : (
+          <NavLink to='/login' className='btn btn-primary text-base text-white px-6 py-2 rounded-full font-medium'>
+            Log in
+          </NavLink>
+        )}
       </div>
     </div>
   );

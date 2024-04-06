@@ -5,6 +5,7 @@ import PageNotFound from './404';
 import Login from './Authentication/Login';
 import { Register } from './Authentication/Register';
 import Schedule from './Schedule/Schedule';
-import { Crop } from './Crop/Crop';
+import { Crop } from './Crops/Crop';
+import { AllUsers } from './Users/AllUsers';
 
-export { HomePage, Pricing, Product, PageNotFound, Login, Register, Schedule, Crop };
+export { HomePage, Pricing, Product, PageNotFound, Login, Register, Schedule, Crop, AllUsers };

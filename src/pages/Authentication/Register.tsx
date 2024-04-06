@@ -48,7 +48,7 @@ export const Register = () => {
   return (
     <div>
       {isLoading && <MainLoader />}
-      <Breadcrumb pageParent='Manage Users' pageName='Registration' />
+      <Breadcrumb pageParent='Users' pageName='Registration' />
       <form className='max-w-md mx-auto' onSubmit={handleSubmit}>
         <div className='relative z-0 w-full mb-5 group'>
           <input
@@ -207,7 +207,7 @@ export const Register = () => {
 
         <button
           type='submit'
-          className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+          className='text-white bg-primary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
         >
           Submit
         </button>

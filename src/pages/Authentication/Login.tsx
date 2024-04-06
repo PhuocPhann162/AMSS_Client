@@ -1,11 +1,10 @@
-import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '~/api/authApi';
 import { Logo } from '~/common';
 import { MainLoader } from '~/components/Page/common';
-import { apiResponse, userModel } from '~/interfaces';
+import { apiResponse, tokenModel, userModel } from '~/interfaces';
 import { setLoggedInUser } from '~/storage/redux/authSlice';
 import { inputHelper, toastNotify } from '~/utils';
 
@@ -15,12 +14,12 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
-    username: '',
+    userName: '',
     password: ''
   });
   const [loginUser] = useLoginUserMutation();
 
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, userInput);
     setUserInput(tempData);
   };
@@ -30,51 +29,19 @@ function Login() {
     setLoading(true);
 
     const response: apiResponse = await loginUser({
-      username: userInput.username,
+      userName: userInput.userName,
       password: userInput.password
     });
 
-    console.log(response);
-
     if (response.data && response.data.isSuccess) {
-      const { token } = response.data.result;
-      const {
-        id,
-        fullName,
-        userName,
-        phoneNumber,
-        streetAddress,
-        city,
-        state,
-        country,
-        avatar,
-        refreshToken,
-        isActive,
-        role,
-        createdAt,
-        updatedAt
-      }: userModel = jwtDecode(token);
+      const { user, token }: { user: userModel; token: tokenModel } = response.data.result as any;
 
-      localStorage.setItem('token', token);
-
-      dispatch(
-        setLoggedInUser({
-          id,
-          fullName,
-          userName,
-          phoneNumber,
-          streetAddress,
-          city,
-          state,
-          country,
-          avatar,
-          refreshToken,
-          isActive,
-          role,
-          createdAt,
-          updatedAt
-        })
+      localStorage.setItem(
+        'token',
+        JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken })
       );
+
+      dispatch(setLoggedInUser(user));
       toastNotify(response?.data.successMessage || '');
       navigate('/app');
     } else if (response?.error) {
@@ -88,27 +55,26 @@ function Login() {
 
   return (
     <section className='bg-strokedark dark:bg-gray-900'>
+      {loading && <MainLoader />}
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
-        {loading && <MainLoader />}
-        <a href='#' className='flex items-center mb-6 mr-6 text-gray-900 dark:text-white'>
+        <div className='flex items-center mb-6 mr-6 text-gray-900 dark:text-white'>
           <Logo />
-        </a>
+        </div>
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
               Sign in to your account
             </h1>
-            <form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
+            <form className='space-y-4 md:space-y-6' method='post' onSubmit={handleSubmit}>
               <div>
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>Your email</label>
                 <input
                   type='email'
-                  name='username'
-                  id='username'
+                  name='userName'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   placeholder='name@company.com'
-                  value={userInput.username}
-                  onChange={handleUserInput}
+                  value={userInput.userName}
+                  onChange={handleUserInputs}
                   required
                 />
               </div>
@@ -117,11 +83,10 @@ function Login() {
                 <input
                   type='password'
                   name='password'
-                  id='password'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   placeholder='••••••••'
                   value={userInput.password}
-                  onChange={handleUserInput}
+                  onChange={handleUserInputs}
                   required
                 />
               </div>
@@ -144,6 +109,7 @@ function Login() {
                 </a>
               </div>
               <button
+                disabled={loading}
                 type='submit'
                 className='w-full text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800'
               >

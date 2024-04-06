@@ -1,7 +1,12 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { HeaderPage } from '~/components/Layout/Header';
+import { userModel } from '~/interfaces';
+import { RootState } from '~/storage/redux/store';
 
 export default function HomePage() {
+  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+
   return (
     <div className='grid h-screen grid-rows-[auto_1fr_auto]'>
       <header>
@@ -29,12 +34,21 @@ export default function HomePage() {
               Harnessing technology to revolutionize agriculture, from smart farming techniques to precision agriculture
               methods. Increase efficiency, optimize resources, and promote environmental sustainability.
             </h2>
-            <Link
-              to='/login'
-              className='bg-yellow-400 hover:bg-yellow-300 text-strokedark font-semibold py-3 px-6 rounded-lg'
-            >
-              Start Tracking Now
-            </Link>
+            {userData.id ? (
+              <Link
+                to='/app'
+                className='bg-yellow-400 hover:bg-yellow-300 text-strokedark font-semibold py-3 px-6 rounded-lg'
+              >
+                Mange Farm Now &rarr;
+              </Link>
+            ) : (
+              <Link
+                to='/login'
+                className='bg-yellow-400 hover:bg-yellow-300 text-strokedark font-semibold py-3 px-6 rounded-lg'
+              >
+                Start Tracking Now
+              </Link>
+            )}
           </div>
         </section>
       </main>
