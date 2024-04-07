@@ -45,7 +45,7 @@ function Login() {
       toastNotify(response?.data.successMessage || '');
       navigate('/app');
     } else if (response?.error) {
-      const errorMessage = response.error.data.errorMessages[0] ?? 'Something wrong when login';
+      const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
       toastNotify(errorMessage, 'error');
       setError(errorMessage);
     }

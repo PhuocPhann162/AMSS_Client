@@ -1,18 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useGetAllUsersQuery } from '~/api/userApi';
+import { useGetAllUsersQuery, useLockUnLockUserMutation } from '~/api/userApi';
 import { MainLoader } from '~/components/Page/common';
 import { Breadcrumb } from '~/components/UI';
-import { userModel } from '~/interfaces';
+import { apiResponse, userModel } from '~/interfaces';
+import { toastNotify } from '~/utils';
 
 export const AllUsers = () => {
-  const { data, isLoading } = useGetAllUsersQuery('');
-
-  useEffect(() => {
-    if (data) console.log(data);
-  }, [data]);
-
   let cnt: number = 1;
+  const [error, setError] = useState('');
+  const { data, isLoading } = useGetAllUsersQuery('');
+  const [lockUnlockUser] = useLockUnLockUserMutation();
+
+  const handleLockUnlockUser = async (userId: string) => {
+    const response: apiResponse = await lockUnlockUser(userId);
+    if (response?.data && response.data?.isSuccess) {
+      toastNotify(response?.data.successMessage || 'User account locked/unlocked successfully');
+    } else if (response?.error) {
+      const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
+      toastNotify(errorMessage, 'error');
+      setError(errorMessage);
+    }
+  };
 
   return (
     <div>
@@ -68,6 +77,7 @@ export const AllUsers = () => {
                   <button
                     className='btn btn-sm btn-outline btn-warning tooltip tooltip-bottom'
                     data-tip='Lock/Unlock user account'
+                    onClick={() => handleLockUnlockUser(user.id)}
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
