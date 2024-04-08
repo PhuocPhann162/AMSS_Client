@@ -1,9 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { HeaderApp } from '~/components/Layout/Header';
 import { Sidebar } from '~/components/Layout/SideBar';
 
-const DefaultAppLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
+const DefaultAppLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className='dark:bg-boxdark-2 dark:text-bodydark'>

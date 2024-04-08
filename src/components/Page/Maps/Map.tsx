@@ -97,7 +97,7 @@ const Map: React.FC = () => {
         <ChangeCenter position={mapPosition} />
         <DetectClick handleMapClick={handleMapClick} />
       </MapContainer>
-      <Modal onSubmit={handleSubmit} />
+      {/* <Modal onSubmit={handleSubmit} /> */}
     </div>
   );
 };

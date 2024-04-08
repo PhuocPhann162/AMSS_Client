@@ -6,8 +6,10 @@ import { apiResponse } from '~/interfaces';
 import { useRegisterUserMutation } from '~/api/authApi';
 import { SD_Roles } from '~/utils/SD';
 import { MainLoader } from '~/components/Page/common';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
     userName: '',
@@ -38,6 +40,7 @@ export const Register = () => {
     console.log(response);
     if (response.data && response.data.isSuccess) {
       toastNotify(response?.data.successMessage ?? '', 'success');
+      navigate('/app/user/allUsers');
     } else if (response.error) {
       toastNotify(response.error.data.errorMessages[0], 'error');
     }

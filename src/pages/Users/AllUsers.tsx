@@ -1,25 +1,34 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useGetAllUsersQuery, useLockUnLockUserMutation } from '~/api/userApi';
+import { Modal } from '~/common';
 import { MainLoader } from '~/components/Page/common';
 import { Breadcrumb } from '~/components/UI';
 import { apiResponse, userModel } from '~/interfaces';
 import { toastNotify } from '~/utils';
+import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
 
 export const AllUsers = () => {
   let cnt: number = 1;
+  const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [userIdModal, setUserIdModal] = useState('');
   const { data, isLoading } = useGetAllUsersQuery('');
   const [lockUnlockUser] = useLockUnLockUserMutation();
 
   const handleLockUnlockUser = async (userId: string) => {
-    const response: apiResponse = await lockUnlockUser(userId);
-    if (response?.data && response.data?.isSuccess) {
-      toastNotify(response?.data.successMessage || 'User account locked/unlocked successfully');
-    } else if (response?.error) {
-      const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
-      toastNotify(errorMessage, 'error');
-      setError(errorMessage);
+    try {
+      const response: apiResponse = await lockUnlockUser(userId);
+      if (response?.data && response.data?.isSuccess) {
+        toastNotify(response?.data.successMessage || 'User account locked/unlocked successfully');
+      } else if (response?.error) {
+        const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
+        toastNotify(errorMessage, 'error');
+        setError(errorMessage);
+      }
+    } catch (error: any) {
+      toastNotify(error.message, 'error');
+      setError(error.message);
     }
   };
 
@@ -71,32 +80,62 @@ export const AllUsers = () => {
                 <td>{user.streetAddress}</td>
                 <td>{user.city}</td>
                 <td>{user.state}</td>
-                <td>{user.country}</td>
+                <td>{flagemojiToPNG(convertToEmoji(user.country))}</td>
                 <td>{user.role}</td>
                 <td className='flex items-center gap-2'>
-                  <button
-                    className='btn btn-sm btn-outline btn-warning tooltip tooltip-bottom'
-                    data-tip='Lock/Unlock user account'
-                    onClick={() => handleLockUnlockUser(user.id)}
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth='1.5'
-                      stroke='currentColor'
-                      className='w-5 h-5'
+                  {user.isActive ? (
+                    <button
+                      className='btn btn-sm btn-outline btn-success tooltip tooltip-bottom'
+                      data-tip='Lock user account'
+                      onClick={() => {
+                        setUserIdModal(user.id);
+                        (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+                      }}
                     >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z'
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth='1.5'
+                        stroke='currentColor'
+                        className='w-5 h-5'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z'
+                        />
+                      </svg>
+                    </button>
+                  ) : (
+                    <button
+                      className='btn btn-sm btn-outline btn-warning tooltip tooltip-bottom'
+                      data-tip='Unlock user account'
+                      onClick={() => {
+                        setUserIdModal(user.id);
+                        (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+                      }}
+                    >
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth='1.5'
+                        stroke='currentColor'
+                        className='w-5 h-5'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z'
+                        />
+                      </svg>
+                    </button>
+                  )}
                   <button
                     className='btn btn-sm btn-outline btn-info tooltip tooltip-bottom'
                     data-tip='Update user role'
+                    onClick={() => navigate(`/app/user/allUsers/updateRole/${user.id}`)}
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -121,12 +160,13 @@ export const AllUsers = () => {
       </div>
       <div className='text-end'>
         <div className='join'>
-          <button className='join-item btn btn-outline btn-graydark btn-sm'>1</button>
-          <button className='join-item btn btn-outline btn-sm btn-graydark btn-active'>2</button>
+          <button className='join-item btn btn-outline btn-graydark btn-sm btn-active'>1</button>
+          <button className='join-item btn btn-outline btn-sm btn-graydark '>2</button>
           <button className='join-item btn btn-outline btn-sm btn-graydark'>3</button>
           <button className='join-item btn btn-outline btn-sm btn-graydark'>4</button>
         </div>
       </div>
+      <Modal width='' title='lock/unlock this user?' onConfirm={() => handleLockUnlockUser(userIdModal)} />
     </div>
   );
 };
