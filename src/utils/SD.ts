@@ -1,5 +1,5 @@
 export enum SD_Roles {
-  ADMIN = 'admin',
-  OWNER = 'owner',
-  FARMER = 'farmer'
+  ADMIN = 'ADMIN',
+  OWNER = 'OWNER',
+  FARMER = 'FARMER'
 }

@@ -135,7 +135,11 @@ export const AllUsers = () => {
                   <button
                     className='btn btn-sm btn-outline btn-info tooltip tooltip-bottom'
                     data-tip='Update user role'
-                    onClick={() => navigate(`/app/user/allUsers/updateRole/${user.id}`)}
+                    onClick={() =>
+                      navigate(`/app/user/allUsers/updateRole/${user.id}`, {
+                        state: { userData: user as userModel }
+                      })
+                    }
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'

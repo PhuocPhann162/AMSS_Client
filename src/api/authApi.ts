@@ -25,6 +25,16 @@ const authApi = createApi({
         },
         body: userCredentials
       })
+    }),
+    refreshToken: builder.mutation({
+      query: (refreshToken) => ({
+        url: 'auth/refreshToken',
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: refreshToken
+      })
     })
   })
 });

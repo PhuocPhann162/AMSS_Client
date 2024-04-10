@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, FeatureGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from '~/common';
@@ -10,7 +10,7 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet-geosearch/dist/geosearch.css';
 
 const Map: React.FC = () => {
-  const [mapPosition, setMapPosition] = useState({ lat: 40, lng: 0 });
+  const [mapPosition, setMapPosition] = useState({ lat: 51.5124, lng: -0.0661 });
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
 
   useEffect(() => {
@@ -56,19 +56,28 @@ const Map: React.FC = () => {
     <div className='h-full relative flex-1'>
       {!geolocationPosition.lat && (
         <button
-          className='btn btn-secondary text-white uppercase absolute z-999 bottom-16 left-1/2  -translate-x-1/2'
+          className='btn btn-secondary text-white uppercase absolute z-999 bottom-16 left-1/2 -translate-x-1/2'
           onClick={getPosition}
         >
           {isLoadingPosition ? 'Loading...' : 'Use your location'}
         </button>
       )}
-      <MapContainer center={mapPosition} zoom={2} scrollWheelZoom={true} className='h-[38rem]'>
+      <MapContainer center={mapPosition} zoom={13} scrollWheelZoom={true} className='h-[38rem]'>
         <FeatureGroup>
           <EditControl
             position='topright'
             draw={{ rectangle: false, circle: false, circlemarker: false, marker: false, polyline: false }}
             onCreated={create}
           ></EditControl>
+          <Polygon
+            positions={[
+              [51.51, -0.06],
+              [51.51, -0.05],
+              [51.52, -0.05],
+              [51.52, -0.06]
+            ]}
+            color='purple'
+          />
         </FeatureGroup>
         <SearchControl
           provider={new OpenStreetMapProvider()}
@@ -104,7 +113,7 @@ const Map: React.FC = () => {
 
 const ChangeCenter = ({ position }: positionModel) => {
   const map = useMap();
-  map.setView(position);
+  map.flyTo(position, map.getZoom());
   return null;
 };
 

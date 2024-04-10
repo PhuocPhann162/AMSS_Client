@@ -2,9 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import UserOne from '../../../../public/user-01.png';
+import { userModel } from '~/interfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/storage/redux/store';
+import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -34,8 +39,10 @@ const DropdownUser = () => {
     <div className='relative'>
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className='flex items-center gap-4' to='#'>
         <span className='hidden text-right lg:block'>
-          <span className='block text-sm font-medium text-black dark:text-white'>Thomas Anree</span>
-          <span className='block text-xs'>UX Designer</span>
+          <span className='block text-sm font-medium text-black dark:text-white'>{userData.fullName}</span>
+          <span className='block flex gap-2 text-xs'>
+            {flagemojiToPNG(convertToEmoji(userData.country))} {userData.userName}
+          </span>
         </span>
 
         <span className='h-12 w-12 rounded-full'>
