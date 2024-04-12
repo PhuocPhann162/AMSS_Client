@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { store } from './storage/index.ts';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'leaflet-geosearch/dist/geosearch.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

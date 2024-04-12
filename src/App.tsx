@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import DefaultAppLayout from './layout/DefaultAppLayout';
-import Map from './components/Page/Maps';
+import { Map } from './components/Page/Maps';
 import {
   AllUsers,
   Crop,
@@ -15,8 +15,20 @@ import {
   Register,
   Schedule
 } from './pages';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { setLoggedInUser } from './storage/redux/authSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      dispatch(setLoggedInUser(JSON.parse(user)));
+    }
+  }, []);
+
   return (
     <Routes>
       <Route index element={<HomePage />} />

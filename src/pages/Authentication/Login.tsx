@@ -33,13 +33,13 @@ function Login() {
       password: userInput.password
     });
 
-    if (response.data && response.data.isSuccess) {
-      const { user, token }: { user: userModel; token: tokenModel } = response.data.result as any;
+    if (response.data) {
+      const { user, token }: { user: userModel; token: tokenModel } = response?.data.result as any;
 
-      localStorage.setItem(
-        'token',
-        JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken })
-      );
+      localStorage.setItem('accessToken', token.accessToken);
+      localStorage.setItem('refreshToken', token.refreshToken);
+
+      localStorage.setItem('user', JSON.stringify(user));
 
       dispatch(setLoggedInUser(user));
       toastNotify(response?.data.successMessage || '');

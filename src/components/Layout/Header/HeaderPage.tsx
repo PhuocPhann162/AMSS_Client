@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '~/common';
 import { userModel } from '~/interfaces';
-import { emtyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
+import { emptyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
 import { RootState } from '~/storage/redux/store';
 import DropdownUser from './DropdownUser';
 
@@ -11,8 +11,10 @@ function HeaderPage() {
   const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    dispatch(setLoggedInUser({ ...emtyUserState }));
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    dispatch(setLoggedInUser({ ...emptyUserState }));
     window.location.reload();
   };
 

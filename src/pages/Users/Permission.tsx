@@ -31,7 +31,6 @@ export const Permission = () => {
     formData.append('Role', userSelected.role);
     try {
       const response: apiResponse = await updateRole({ userId: userData?.id, role: formData });
-      console.log(response);
       if (response.data && response.data?.isSuccess) {
         if (response.data?.result) {
           setIsLoading(false);

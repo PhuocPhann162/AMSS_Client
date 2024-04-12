@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, FeatureGroup, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { useNavigate } from 'react-router-dom';
-import { Modal } from '~/common';
 import { useGeolocation } from '~/hooks/useGeolocation';
 import { positionModel } from '~/interfaces';
-import { SearchControl } from './SearchControl';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import 'leaflet-geosearch/dist/geosearch.css';
+import { SearchControl } from './SearchControl';
+import { CreateFarmModal } from './CreateFarmModal';
+import { calculatePolygonArea, convertSquareMetersToAcres, getAddress, toastNotify } from '~/utils';
+
+const style = {
+  color: '#ee7219',
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 0.5,
+  fillColor: '#ee7219'
+};
 
 const Map: React.FC = () => {
   const [mapPosition, setMapPosition] = useState({ lat: 51.5124, lng: -0.0661 });
+  const [area, setArea] = useState<number>(0);
+  const [farmAddress, setFarmAddress] = useState<string>('');
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
 
   useEffect(() => {
@@ -19,37 +28,33 @@ const Map: React.FC = () => {
     }
   }, [geolocationPosition]);
 
-  const handleMapClick = async (e: L.LeafletMouseEvent) => {
-    const modal = document.getElementById('my_modal_5') as HTMLDialogElement;
-    modal?.showModal();
-    const { lat, lng } = e.latlng;
-    setMapPosition({ lat, lng });
-
-    // Sử dụng API của Mapbox hoặc OpenStreetMap (Nominatim) để lấy địa chỉ từ tọa độ
-
-    try {
-      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          const address = data.display_name;
-          alert(`Bạn đã click tại địa chỉ: ${address}`);
-        })
-        .catch((error) => {
-          console.error('Lỗi khi lấy thông tin địa chỉ:', error);
-        });
-    } catch (error) {
-      console.error('Lỗi khi lấy thông tin địa chỉ:', error);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    alert('Đã submit form');
-  };
-
   const create = (e: any) => {
     console.log(e);
+    const layers = e.layer;
+    const drawnPolygon = layers.toGeoJSON();
+    const polygonCoordinates = drawnPolygon.geometry.coordinates[0];
+    const polygonArea = calculatePolygonArea(polygonCoordinates);
+    const areaInAcres = convertSquareMetersToAcres(polygonArea);
+    setArea(areaInAcres);
+
+    const latLngs = layers.getLatLngs()[0];
+    const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
+    const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
+    try {
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
+        .then((response) => response.json())
+        .then((data) => {
+          const address = data.display_name;
+          setFarmAddress(address);
+        })
+        .catch((error) => {
+          toastNotify('Something error while get address', 'error');
+        });
+    } catch (error) {
+      toastNotify('Something error while get address', 'error');
+    }
+
+    (document.getElementById('create_farm_modal') as HTMLDialogElement)?.showModal();
   };
 
   return (
@@ -66,8 +71,23 @@ const Map: React.FC = () => {
         <FeatureGroup>
           <EditControl
             position='topright'
-            draw={{ rectangle: false, circle: false, circlemarker: false, marker: false, polyline: false }}
+            draw={{
+              rectangle: false,
+              circle: false,
+              circlemarker: false,
+              marker: false,
+              polyline: false,
+              polygon: {
+                shapeOptions: style,
+                edit: false,
+                showLength: true,
+                metric: true,
+                feet: false,
+                showArea: true
+              }
+            }}
             onCreated={create}
+            onDeleted={() => setArea(0)}
           ></EditControl>
           <Polygon
             positions={[
@@ -104,9 +124,8 @@ const Map: React.FC = () => {
           </Marker>
         )}
         <ChangeCenter position={mapPosition} />
-        <DetectClick handleMapClick={handleMapClick} />
+        <CreateFarmModal area={area} address={farmAddress} />
       </MapContainer>
-      {/* <Modal onSubmit={handleSubmit} /> */}
     </div>
   );
 };
@@ -114,16 +133,6 @@ const Map: React.FC = () => {
 const ChangeCenter = ({ position }: positionModel) => {
   const map = useMap();
   map.flyTo(position, map.getZoom());
-  return null;
-};
-
-interface MapClickHandlerProps {
-  handleMapClick: (e: L.LeafletMouseEvent) => void;
-}
-
-const DetectClick: React.FC<MapClickHandlerProps> = ({ handleMapClick }) => {
-  const navigate = useNavigate();
-  useMapEvents({});
   return null;
 };
 

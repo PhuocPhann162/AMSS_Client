@@ -1,4 +1,5 @@
 import Map from './Map';
+import { CreateFarmModal } from './CreateFarmModal';
 import { SearchControl } from './SearchControl';
 
-export default Map;
+export { Map, CreateFarmModal, SearchControl };

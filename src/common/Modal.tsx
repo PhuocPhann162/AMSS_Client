@@ -34,12 +34,12 @@ export const Modal = ({ children, title, onConfirm }: ModalProps) => {
           <div className='modal-action'>
             <form method='dialog' className='flex items-center gap-4'>
               {/* if there is a button in form, it will close the modal */}
-              <button className='btn btn-primary' onClick={onConfirm}>
+              <button className='btn btn-primary text-white' onClick={onConfirm}>
                 Confirm
               </button>
               <button
-                className='btn btn-danger'
-                onClick={() => (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal()}
+                className='btn btn-danger text-white'
+                onClick={() => (document.getElementById('my_modal_5') as HTMLDialogElement)?.close()}
               >
                 Cancel
               </button>

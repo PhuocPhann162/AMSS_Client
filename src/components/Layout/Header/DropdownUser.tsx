@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 
 import UserOne from '../../../../public/user-01.png';
 import { userModel } from '~/interfaces';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '~/storage/redux/store';
 import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
+import { emptyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
 
 const DropdownUser = () => {
+  const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
 
@@ -34,6 +36,15 @@ const DropdownUser = () => {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
+
+  const handleLockOut = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+
+    dispatch(setLoggedInUser({ ...emptyUserState }));
+    window.location.replace('/');
+  };
 
   return (
     <div className='relative'>
@@ -148,7 +159,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className='flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'>
+        <button
+          onClick={handleLockOut}
+          className='flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base'
+        >
           <svg
             className='fill-current'
             width='22'
