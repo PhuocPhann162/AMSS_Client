@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useGeolocation } from '~/hooks/useGeolocation';
@@ -6,7 +6,8 @@ import { positionModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
-import { calculatePolygonArea, convertSquareMetersToAcres, getAddress, toastNotify } from '~/utils';
+import * as turf from '@turf/turf';
+import { toastNotify } from '~/helper';
 
 const style = {
   color: '#ee7219',
@@ -19,8 +20,11 @@ const style = {
 const Map: React.FC = () => {
   const [mapPosition, setMapPosition] = useState({ lat: 51.5124, lng: -0.0661 });
   const [area, setArea] = useState<number>(0);
+  const [drawnPolygon, setDrawnPolygon] = useState(null);
+  const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
   const [farmAddress, setFarmAddress] = useState<string>('');
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
+  const mapRef = useRef<any>(null);
 
   useEffect(() => {
     if (geolocationPosition) {
@@ -28,14 +32,27 @@ const Map: React.FC = () => {
     }
   }, [geolocationPosition]);
 
+  const handleCancel = () => {
+    if (isPolygonDrawn) {
+      // Xóa polygon được vẽ khỏi bản đồ
+      if (drawnPolygon) {
+        mapRef.current.removeLayer(drawnPolygon);
+      }
+      setDrawnPolygon(null); // Reset state của polygon được vẽ
+      setArea(0); // Reset area
+      setIsPolygonDrawn(false); // Reset trạng thái của polygon được vẽ
+    }
+  };
+
   const create = (e: any) => {
     console.log(e);
     const layers = e.layer;
+    setDrawnPolygon(layers);
+
     const drawnPolygon = layers.toGeoJSON();
-    const polygonCoordinates = drawnPolygon.geometry.coordinates[0];
-    const polygonArea = calculatePolygonArea(polygonCoordinates);
-    const areaInAcres = convertSquareMetersToAcres(polygonArea);
-    setArea(areaInAcres);
+    const area = turf.area(drawnPolygon);
+    console.log(area);
+    setArea(area);
 
     const latLngs = layers.getLatLngs()[0];
     const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
@@ -54,6 +71,7 @@ const Map: React.FC = () => {
       toastNotify('Something error while get address', 'error');
     }
 
+    setIsPolygonDrawn(true);
     (document.getElementById('create_farm_modal') as HTMLDialogElement)?.showModal();
   };
 
@@ -67,7 +85,7 @@ const Map: React.FC = () => {
           {isLoadingPosition ? 'Loading...' : 'Use your location'}
         </button>
       )}
-      <MapContainer center={mapPosition} zoom={13} scrollWheelZoom={true} className='h-[38rem]'>
+      <MapContainer ref={mapRef} center={mapPosition} zoom={13} scrollWheelZoom={true} className='h-[38rem]'>
         <FeatureGroup>
           <EditControl
             position='topright'
@@ -124,7 +142,7 @@ const Map: React.FC = () => {
           </Marker>
         )}
         <ChangeCenter position={mapPosition} />
-        <CreateFarmModal area={area} address={farmAddress} />
+        <CreateFarmModal area={area} address={farmAddress} onCancel={handleCancel} />
       </MapContainer>
     </div>
   );

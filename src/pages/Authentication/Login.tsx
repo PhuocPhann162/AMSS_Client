@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '~/api/authApi';
 import { Logo } from '~/common';
 import { MainLoader } from '~/components/Page/common';
+import { inputHelper, toastNotify } from '~/helper';
 import { apiResponse, tokenModel, userModel } from '~/interfaces';
 import { setLoggedInUser } from '~/storage/redux/authSlice';
-import { inputHelper, toastNotify } from '~/utils';
 
 function Login() {
   const navigate = useNavigate();

@@ -39,7 +39,7 @@ export default function HomePage() {
                 to='/app'
                 className='bg-yellow-400 hover:bg-yellow-300 text-strokedark font-semibold py-3 px-6 rounded-lg'
               >
-                Mange Farm Now &rarr;
+                Manage Farm Now &rarr;
               </Link>
             ) : (
               <Link

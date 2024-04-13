@@ -5,7 +5,7 @@ import { Modal } from '~/common';
 import { MainLoader } from '~/components/Page/common';
 import { Breadcrumb } from '~/components/UI';
 import { apiResponse, userModel } from '~/interfaces';
-import { toastNotify } from '~/utils';
+import { toastNotify } from '~/helper';
 import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
 
 export const AllUsers = () => {

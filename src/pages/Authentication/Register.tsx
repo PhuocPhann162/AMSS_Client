@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Breadcrumb } from '~/components/UI';
-import { inputHelper, toastNotify } from '~/utils';
+import { inputHelper, toastNotify } from '~/helper';
 import ReactFlagsSelect from 'react-flags-select';
 import { apiResponse } from '~/interfaces';
 import { useRegisterUserMutation } from '~/api/authApi';

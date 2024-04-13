@@ -4,7 +4,7 @@ import { useRoleManagementMutation } from '~/api/userApi';
 import { MiniLoader } from '~/components/Page/common';
 import { Breadcrumb } from '~/components/UI';
 import { apiResponse } from '~/interfaces';
-import { inputHelper, toastNotify } from '~/utils';
+import { inputHelper, toastNotify } from '~/helper';
 import { SD_Roles } from '~/utils/SD';
 
 export const Permission = () => {

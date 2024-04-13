@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { inputHelper } from '~/utils';
+import * as turf from '@turf/turf';
+import { inputHelper } from '~/helper';
 
 interface CreateFarmModalProps {
   area?: number;
   address?: string;
   onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
-export const CreateFarmModal = ({ area, address, onConfirm }: CreateFarmModalProps) => {
+export const CreateFarmModal = ({ area, address, onConfirm, onCancel }: CreateFarmModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     name: '',
@@ -78,7 +80,7 @@ export const CreateFarmModal = ({ area, address, onConfirm }: CreateFarmModalPro
               <div className='flex items-center gap-2'>
                 <h3 className='font-bold text-lg'>Total Area: </h3>
                 <h3 className='text-lg'>{area?.toFixed(2)} sqrt</h3>
-                <h5 className='text-sm'>({area?.toFixed(2)} acres) </h5>
+                <h5 className='text-sm'>({turf.convertArea(area!, 'meters', 'acres').toFixed(2)} acres) </h5>
               </div>
               <div className='modal-action flex justify-end'>
                 {/* if there is a button in form, it will close the modal */}
@@ -88,7 +90,12 @@ export const CreateFarmModal = ({ area, address, onConfirm }: CreateFarmModalPro
                 <button
                   type='button'
                   className='btn btn-danger text-white'
-                  onClick={() => (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close()}
+                  onClick={() => {
+                    (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
+                    if (onCancel) {
+                      onCancel();
+                    }
+                  }}
                 >
                   Cancel
                 </button>
