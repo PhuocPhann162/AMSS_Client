@@ -28,29 +28,35 @@ function Login() {
     e.preventDefault();
     setLoading(true);
 
-    const response: apiResponse = await loginUser({
-      userName: userInput.userName,
-      password: userInput.password
-    });
+    try {
+      const response: apiResponse = await loginUser({
+        userName: userInput.userName,
+        password: userInput.password
+      });
 
-    if (response.data) {
-      const { user, token }: { user: userModel; token: tokenModel } = response?.data.result as any;
+      if (response.data) {
+        const { user, token }: { user: userModel; token: tokenModel } = response?.data.result as any;
 
-      localStorage.setItem('accessToken', token.accessToken);
-      localStorage.setItem('refreshToken', token.refreshToken);
+        localStorage.setItem('accessToken', token.accessToken);
+        localStorage.setItem('refreshToken', token.refreshToken);
 
-      localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
 
-      dispatch(setLoggedInUser(user));
-      toastNotify(response?.data.successMessage || '');
-      navigate('/app');
-    } else if (response?.error) {
-      const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
-      toastNotify(errorMessage, 'error');
-      setError(errorMessage);
+        dispatch(setLoggedInUser(user));
+        setLoading(false);
+        toastNotify(response?.data.successMessage || '');
+        navigate('/app');
+      } else if (response?.error) {
+        setLoading(false);
+        const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
+        toastNotify(errorMessage, 'error');
+        setError(errorMessage);
+      }
+    } catch (error: any) {
+      toastNotify(error.message, 'error');
+      setError(error.message);
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

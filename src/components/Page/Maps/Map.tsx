@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useGeolocation } from '~/hooks/useGeolocation';
-import { positionModel } from '~/interfaces';
+import { locationModel, positionModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
@@ -22,7 +22,7 @@ const Map: React.FC = () => {
   const [area, setArea] = useState<number>(0);
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
-  const [farmAddress, setFarmAddress] = useState<string>('');
+  const [farmAddress, setFarmAddress] = useState<locationModel>({ address: '', lat: 0, lng: 0 });
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
 
@@ -62,7 +62,7 @@ const Map: React.FC = () => {
         .then((response) => response.json())
         .then((data) => {
           const address = data.display_name;
-          setFarmAddress(address);
+          setFarmAddress({ address: address, lat: average[0], lng: average[1] });
         })
         .catch((error) => {
           toastNotify('Something error while get address', 'error');
@@ -142,7 +142,7 @@ const Map: React.FC = () => {
           </Marker>
         )}
         <ChangeCenter position={mapPosition} />
-        <CreateFarmModal area={area} address={farmAddress} onCancel={handleCancel} />
+        <CreateFarmModal area={area} location={farmAddress} onCancel={handleCancel} />
       </MapContainer>
     </div>
   );

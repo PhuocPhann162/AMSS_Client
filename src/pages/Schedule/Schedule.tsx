@@ -1,10 +1,9 @@
 import { Breadcrumb } from '~/components/UI';
-import DefaultAppLayout from '~/layout/DefaultAppLayout';
 
 const Schedule = () => {
   return (
     <div>
-      <Breadcrumb pageName='Schedule' />
+      <Breadcrumb pageParent='' pageName='Schedule' />
 
       {/* <!-- ====== Calendar Section Start ====== --> */}
       <div className='w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>

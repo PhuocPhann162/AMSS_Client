@@ -36,16 +36,22 @@ export const Register = () => {
     e.preventDefault();
 
     setIsLoading(true);
-    const response: apiResponse = await registerUser(userInputs);
-    console.log(response);
-    if (response.data && response.data.isSuccess) {
-      toastNotify(response?.data.successMessage ?? '', 'success');
-      navigate('/app/user/allUsers');
-    } else if (response.error) {
-      toastNotify(response.error.data.errorMessages[0], 'error');
-    }
 
-    setIsLoading(false);
+    try {
+      const response: apiResponse = await registerUser(userInputs);
+      console.log(response);
+      if (response.data && response.data.isSuccess) {
+        setIsLoading(false);
+        toastNotify(response?.data.successMessage ?? '', 'success');
+        navigate('/app/user/allUsers');
+      } else if (response.error) {
+        toastNotify(response.error.data.errorMessages[0], 'error');
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      setIsLoading(false);
+      toastNotify(error.message, 'error');
+    }
   };
 
   return (
