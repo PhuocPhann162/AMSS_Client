@@ -19,6 +19,7 @@ export default {
     extend: {
       colors: {
         primary: '#00c46a',
+        brown: '#5D3D2E',
         nav: '#242a2e',
         current: 'currentColor',
         transparent: 'transparent',

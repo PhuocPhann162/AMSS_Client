@@ -5,6 +5,8 @@ import { Map } from './components/Page/Maps';
 import {
   AllUsers,
   Crop,
+  FarmList,
+  FieldList,
   HomePage,
   Login,
   PageNotFound,
@@ -48,6 +50,9 @@ function App() {
         <Route path='crop/growLocations' element={<Crop />} />
         {/* Map Routes */}
         <Route path='map' element={<Map />} />
+        {/* Farm Routes  */}
+        <Route path='land/farm/allFarms' element={<FarmList />} />
+        <Route path='land/field/allFields' element={<FieldList />} />
       </Route>
       <Route path='*' element={<PageNotFound />} />
     </Routes>

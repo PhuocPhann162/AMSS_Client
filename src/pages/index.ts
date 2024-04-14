@@ -9,5 +9,21 @@ import { Crop } from './Crops/Crop';
 import { AllUsers } from './Users/AllUsers';
 import { Permission } from './Users/Permission';
 import Profile from './Users/Profile';
+import { FarmList } from './Lands/Farms/FarmList';
+import { FieldList } from './Lands/Fields/FieldList';
 
-export { HomePage, Pricing, Product, PageNotFound, Login, Register, Schedule, Crop, AllUsers, Permission, Profile };
+export {
+  HomePage,
+  Pricing,
+  Product,
+  PageNotFound,
+  Login,
+  Register,
+  Schedule,
+  Crop,
+  AllUsers,
+  Permission,
+  Profile,
+  FarmList,
+  FieldList
+};

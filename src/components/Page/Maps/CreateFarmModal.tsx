@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import * as turf from '@turf/turf';
 import { inputHelper, toastNotify } from '~/helper';
-import { useCreateFarmMutation } from '~/api/farmApi';
+import { useCreateFarmMutation, useGetAllFarmsQuery } from '~/api/farmApi';
 import { apiResponse, locationModel } from '~/interfaces';
 import { useCreateLocationMutation } from '~/api/locationApi';
 import { useCreateFieldMutation } from '~/api/fieldApi';
+import { SD_PlaceType } from '~/utils/SD';
+import farmModel from '~/interfaces/farmModel';
 
 interface CreateFarmModalProps {
   area?: number;
@@ -14,18 +16,30 @@ interface CreateFarmModalProps {
 
 export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [userInput, setUserInput] = useState({
+  const [userInputs, setUserInputs] = useState({
     name: '',
     placeType: '',
-    growLocation: ''
+    growLocation: '',
+    farmId: 0
   });
   const [createLocation] = useCreateLocationMutation();
   const [createFarm] = useCreateFarmMutation();
   const [createField] = useCreateFieldMutation();
+  const { data } = useGetAllFarmsQuery('');
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const tempData = inputHelper(e, userInput);
-    setUserInput(tempData);
+    const tempData = inputHelper(e, userInputs);
+    setUserInputs(tempData);
+  };
+
+  const createLocationAsync = async (locationData: locationModel) => {
+    try {
+      const newLocation: apiResponse = await createLocation(locationData);
+      const locationId = newLocation.data?.result.id ?? '';
+      return locationId;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,38 +48,51 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
 
     try {
       // Tạo location trước
-      const newLocation: apiResponse = await createLocation(location);
+      if (location) {
+        const locationId = await createLocationAsync(location);
+        if (locationId === '') {
+          setIsLoading(false);
+          toastNotify('Something wrong when create location', 'error');
+          return;
+        }
+        if (userInputs.placeType === 'Farm') {
+          const formData = new FormData();
+          formData.append('Name', userInputs.name);
+          formData.append('LocationId', locationId ?? '');
+          formData.append('Area', area!.toString());
+          const response: apiResponse = await createFarm(formData);
+
+          if (response.data && response.data.isSuccess) {
+            setIsLoading(false);
+            toastNotify(response.data?.successMessage || 'Farm created successfully');
+          } else {
+            setIsLoading(false);
+            toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create farm', 'error');
+          }
+        } else if (userInputs.placeType === 'Field') {
+          const formData = new FormData();
+          formData.append('Name', userInputs.name);
+          formData.append('LocationId', locationId ?? '');
+          formData.append('Area', area!.toString());
+          formData.append('FarmId', userInputs.farmId.toString());
+          const response: apiResponse = await createField(formData);
+
+          if (response.data && response.data.isSuccess) {
+            setIsLoading(false);
+            toastNotify(response.data?.successMessage || 'Field created successfully');
+          } else {
+            setIsLoading(false);
+            toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create field', 'error');
+          }
+        }
+      } else {
+        setIsLoading(false);
+        toastNotify('Location is required', 'error');
+      }
 
       // Tạo farm hoặc field
-      if (userInput.placeType == 'Farm') {
-        const formData = new FormData();
-        formData.append('Name', userInput.name);
-        formData.append('LocationId', newLocation.data?.result.id ?? '');
-        formData.append('Area', area!.toString());
-        const response: apiResponse = await createFarm(formData);
 
-        if (response.data && response.data.isSuccess) {
-          setIsLoading(false);
-          toastNotify(response.data?.successMessage || 'Farm created successfully');
-        } else {
-          setIsLoading(false);
-          toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create farm', 'error');
-        }
-      } else if (userInput.placeType == 'Field') {
-        const formData = new FormData();
-        formData.append('Name', userInput.name);
-        formData.append('LocationId', newLocation.data?.result.id ?? '');
-        formData.append('Area', area!.toString());
-        const response: apiResponse = await createField(formData);
-
-        if (response.data && response.data.isSuccess) {
-          setIsLoading(false);
-          toastNotify(response.data?.successMessage || 'Field created successfully');
-        } else {
-          setIsLoading(false);
-          toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create field', 'error');
-        }
-      }
+      (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
     } catch (error: any) {
       setIsLoading(false);
       toastNotify(error.message, 'error');
@@ -89,7 +116,7 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
                   placeholder='Type name here'
                   className='input input-bordered input-warning input-md w-full max-w-lg bg-white'
                   name='name'
-                  value={userInput.name}
+                  value={userInputs.name}
                   onChange={handleUserInput}
                   required
                 />
@@ -101,13 +128,19 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
                 <select
                   className='select select-bordered select-warning w-full max-w-lg bg-white'
                   name='placeType'
-                  value={userInput.placeType}
+                  value={userInputs.placeType}
                   onChange={handleUserInput}
                   required
                 >
-                  <option disabled>Place Type</option>
-                  <option value='Farm'>Farm</option>
-                  <option value='Field'>Field</option>
+                  <option disabled value=''>
+                    Select Place Type
+                  </option>
+                  <option key={SD_PlaceType.FARM} value={SD_PlaceType.FARM}>
+                    Farm
+                  </option>
+                  <option key={SD_PlaceType.FIELD} value={SD_PlaceType.FIELD}>
+                    Field
+                  </option>
                 </select>
               </div>
             </div>
@@ -125,6 +158,29 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
                 />
               </div>
             </div>
+            {userInputs.placeType === 'Field' && (
+              <div className='flex items-center justify-between gap-4 mt-2'>
+                <label className='text-sm flex-shrink-0 w-1/5 text-right'>Farm</label>
+                <div className='flex-grow'>
+                  <select
+                    className='select select-bordered select-warning w-full max-w-lg bg-white'
+                    name='farmId'
+                    value={userInputs.farmId}
+                    onChange={handleUserInput}
+                    required
+                  >
+                    <option disabled value=''>
+                      Select Existing Farm
+                    </option>
+                    {data?.result.map((farm: farmModel) => (
+                      <option key={farm.id} value={farm.id}>
+                        {farm.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
             <div className='divider divide-neutral-400'></div>
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>

@@ -56,9 +56,9 @@ export const AllUsers = () => {
           </svg>
         </label>
       </div>
-      <div className='overflow-x-auto overflow-y-hidden py-4'>
-        <table className='table table-sm'>
-          <thead className='text-black'>
+      <div className='overflow-x-auto overflow-y-hidden py-4 rounded-lg'>
+        <table className='table table-sm rounded-lg'>
+          <thead className='text-black text-sm'>
             <tr>
               <th></th>
               <th>Name</th>

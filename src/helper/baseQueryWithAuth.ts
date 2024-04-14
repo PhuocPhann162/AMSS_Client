@@ -6,7 +6,6 @@ export const baseQuery = fetchBaseQuery({
   baseUrl: 'https://localhost:7213/api/',
   prepareHeaders: (headers: Headers, api) => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
     accessToken && headers.append('Authorization', 'Bearer ' + accessToken);
   }
 });

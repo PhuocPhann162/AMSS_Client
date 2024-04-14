@@ -3,3 +3,8 @@ export enum SD_Roles {
   OWNER = 'OWNER',
   FARMER = 'FARMER'
 }
+
+export enum SD_PlaceType {
+  FARM = 'Farm',
+  FIELD = 'Field'
+}

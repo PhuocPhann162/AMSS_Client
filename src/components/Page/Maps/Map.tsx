@@ -8,6 +8,9 @@ import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '~/helper';
+import { useGetAllFarmsQuery } from '~/api/farmApi';
+import farmModel from '~/interfaces/farmModel';
+import { PopupFarm } from './PopupFarm';
 
 const style = {
   color: '#ee7219',
@@ -25,6 +28,8 @@ const Map: React.FC = () => {
   const [farmAddress, setFarmAddress] = useState<locationModel>({ address: '', lat: 0, lng: 0 });
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
+
+  const { data, isLoading } = useGetAllFarmsQuery('');
 
   useEffect(() => {
     if (geolocationPosition) {
@@ -44,14 +49,13 @@ const Map: React.FC = () => {
     }
   };
 
-  const create = (e: any) => {
-    console.log(e);
+  const handleCreated = (e: any) => {
     const layers = e.layer;
+    console.log(layers);
     setDrawnPolygon(layers);
 
     const drawnPolygon = layers.toGeoJSON();
     const area = turf.area(drawnPolygon);
-    console.log(area);
     setArea(area);
 
     const latLngs = layers.getLatLngs()[0];
@@ -104,7 +108,7 @@ const Map: React.FC = () => {
                 showArea: true
               }
             }}
-            onCreated={create}
+            onCreated={handleCreated}
             onDeleted={() => setArea(0)}
           ></EditControl>
           <Polygon
@@ -133,6 +137,15 @@ const Map: React.FC = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
         />
+
+        {data &&
+          data?.result.map((item: farmModel) => (
+            <Marker key={item.id} position={[item.location.lat, item.location.lng]}>
+              <Popup className='w-72'>
+                <PopupFarm farmInfo={item} />
+              </Popup>
+            </Marker>
+          ))}
 
         {geolocationPosition && (
           <Marker position={geolocationPosition}>
