@@ -7,10 +7,21 @@ const farmApi = createApi({
   tagTypes: ['Farms'],
   endpoints: (builder) => ({
     getAllFarms: builder.query({
-      query: () => ({
+      query: ({ searchString, pageNumber, pageSize }) => ({
         url: 'farm/getAll',
-        method: 'GET'
+        method: 'GET',
+        params: {
+          ...(searchString && { searchString }),
+          ...(pageNumber && { pageNumber }),
+          ...(pageSize && { pageSize })
+        }
       }),
+      transformResponse(apiResponse: { result: any }, meta: any) {
+        return {
+          apiResponse,
+          totalRecords: meta.response.headers.get('X-Pagination')
+        };
+      },
       providesTags: ['Farms']
     }),
     getFarmById: builder.query({

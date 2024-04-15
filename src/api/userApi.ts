@@ -18,7 +18,7 @@ const userApi = createApi({
       }),
       transformResponse(apiResponse: { result: any }, meta: any) {
         return {
-          apiResponse: apiResponse,
+          apiResponse,
           totalRecords: meta.response.headers.get('X-Pagination')
         };
       },
