@@ -185,7 +185,7 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
                 <h3 className='font-bold text-lg'>Total Area: </h3>
-                <h3 className='text-lg'>{area?.toFixed(2)} sqrt</h3>
+                <h3 className='text-lg'>{area?.toFixed(2)} m²</h3>
                 <h5 className='text-sm'>({turf.convertArea(area!, 'meters', 'acres').toFixed(2)} acres) </h5>
               </div>
               <div className='modal-action flex justify-end'>

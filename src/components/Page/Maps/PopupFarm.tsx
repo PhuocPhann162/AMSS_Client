@@ -21,8 +21,8 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
         >
           <path strokeLinecap='round' strokeLinejoin='round' d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
           <path
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z'
           />
         </svg>
@@ -33,7 +33,7 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
       <div className='flex items-center text-sm gap-2 mt-1'>
         <div className='font-bold'>Total area:</div>
         <div className='text-zinc-500'>
-          {farmInfo.area.toFixed(2)} sqrt ({turf.convertArea(farmInfo.area, 'meters', 'acres').toFixed(2)} acres)
+          {farmInfo.area.toFixed(2)} m² ({turf.convertArea(farmInfo.area, 'meters', 'acres').toFixed(2)} acres)
         </div>
       </div>
       <div className='text-sm'>

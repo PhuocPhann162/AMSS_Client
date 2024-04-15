@@ -11,6 +11,7 @@ import { toastNotify } from '~/helper';
 import { useGetAllFarmsQuery } from '~/api/farmApi';
 import farmModel from '~/interfaces/farmModel';
 import { PopupFarm } from './PopupFarm';
+import { useUrlPosition } from '~/hooks/useUrlPosition';
 
 const style = {
   color: '#ee7219',
@@ -21,11 +22,12 @@ const style = {
 };
 
 const Map: React.FC = () => {
-  const [mapPosition, setMapPosition] = useState({ lat: 51.5124, lng: -0.0661 });
+  const [mapPosition, setMapPosition] = useState([40, 0]);
   const [area, setArea] = useState<number>(0);
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
   const [farmAddress, setFarmAddress] = useState<locationModel>({ address: '', lat: 0, lng: 0 });
+  const [mapLat, mapLng] = useUrlPosition();
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
 
@@ -33,9 +35,15 @@ const Map: React.FC = () => {
 
   useEffect(() => {
     if (geolocationPosition) {
-      setMapPosition(geolocationPosition);
+      setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
     }
   }, [geolocationPosition]);
+
+  useEffect(() => {
+    if (mapLat && mapLng) {
+      setMapPosition([Number(mapLat), Number(mapLng)]);
+    }
+  }, []);
 
   const handleCancel = () => {
     if (isPolygonDrawn) {
@@ -89,7 +97,13 @@ const Map: React.FC = () => {
           {isLoadingPosition ? 'Loading...' : 'Use your location'}
         </button>
       )}
-      <MapContainer ref={mapRef} center={mapPosition} zoom={13} scrollWheelZoom={true} className='h-[38rem]'>
+      <MapContainer
+        ref={mapRef}
+        center={{ lat: mapPosition[0], lng: mapPosition[1] }}
+        zoom={20}
+        scrollWheelZoom={true}
+        className='h-[38rem]'
+      >
         <FeatureGroup>
           <EditControl
             position='topright'
@@ -154,7 +168,7 @@ const Map: React.FC = () => {
             </Popup>
           </Marker>
         )}
-        <ChangeCenter position={mapPosition} />
+        <ChangeCenter position={{ lat: mapPosition[0], lng: mapPosition[1] }} />
         <CreateFarmModal area={area} location={farmAddress} onCancel={handleCancel} />
       </MapContainer>
     </div>

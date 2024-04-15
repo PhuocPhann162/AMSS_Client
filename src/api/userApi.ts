@@ -7,10 +7,21 @@ const userApi = createApi({
   tagTypes: ['Users'],
   endpoints: (builder) => ({
     getAllUsers: builder.query({
-      query: () => ({
+      query: ({ searchString, pageNumber, pageSize }) => ({
         url: 'user/getAll',
-        method: 'GET'
+        method: 'GET',
+        params: {
+          ...(searchString && { searchString }),
+          ...(pageNumber && { pageNumber }),
+          ...(pageSize && { pageSize })
+        }
       }),
+      transformResponse(apiResponse: { result: any }, meta: any) {
+        return {
+          apiResponse: apiResponse,
+          totalRecords: meta.response.headers.get('X-Pagination')
+        };
+      },
       providesTags: ['Users']
     }),
     lockUnLockUser: builder.mutation({
