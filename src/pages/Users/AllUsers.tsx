@@ -77,25 +77,11 @@ export const AllUsers = () => {
       {!isLoading && (
         <>
           <Breadcrumb pageParent='Users' pageName='All Users' />
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between mb-2'>
             <NavLink to='/app/user/register' className='btn btn-primary text-whiten'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-5 h-5'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
-                />
-              </svg>
               New User
             </NavLink>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-3'>
               <label className='input input-bordered flex items-center gap-2 bg-whiter w-80'>
                 <input
                   type='text'

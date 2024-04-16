@@ -1,6 +1,6 @@
-import farmModel from '~/interfaces/farmModel';
 import * as turf from '@turf/turf';
 import { Link } from 'react-router-dom';
+import { farmModel } from '~/interfaces';
 
 interface PopupFarmProps {
   farmInfo: farmModel;
@@ -64,9 +64,9 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
             className='w-5 h-5 text-error'
           >
             <path
-              fill-rule='evenodd'
+              fillRule='evenodd'
               d='M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z'
-              clip-rule='evenodd'
+              clipRule='evenodd'
             />
           </svg>
           <div className='underline'>Delete</div>

@@ -2,19 +2,20 @@ import { useState } from 'react';
 import * as turf from '@turf/turf';
 import { inputHelper, toastNotify } from '~/helper';
 import { useCreateFarmMutation, useGetAllFarmsQuery } from '~/api/farmApi';
-import { apiResponse, locationModel } from '~/interfaces';
+import { apiResponse, farmModel, locationModel, pointModel, polygonModel } from '~/interfaces';
 import { useCreateLocationMutation } from '~/api/locationApi';
 import { useCreateFieldMutation } from '~/api/fieldApi';
 import { SD_PlaceType } from '~/utils/SD';
-import farmModel from '~/interfaces/farmModel';
+import { useCreatePolygonMutation } from '~/api/polygonApi';
 
 interface CreateFarmModalProps {
   area?: number;
   location?: locationModel;
+  points?: pointModel[];
   onCancel?: () => void;
 }
 
-export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalProps) => {
+export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarmModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
     name: '',
@@ -23,6 +24,7 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
     farmId: 0
   });
   const [createLocation] = useCreateLocationMutation();
+  const [createPolygon] = useCreatePolygonMutation();
   const [createFarm] = useCreateFarmMutation();
   const [createField] = useCreateFieldMutation();
   const { data } = useGetAllFarmsQuery('');
@@ -63,11 +65,25 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
           const response: apiResponse = await createFarm(formData);
 
           if (response.data && response.data.isSuccess) {
-            setIsLoading(false);
             toastNotify(response.data?.successMessage || 'Farm created successfully');
           } else {
             setIsLoading(false);
             toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create farm', 'error');
+          }
+
+          const responsePolygon: apiResponse = await createPolygon({
+            color: '#6741D9',
+            farmId: response.data?.result.id,
+            positions: points
+          });
+          console.log(responsePolygon);
+          if (responsePolygon?.data && responsePolygon?.data.isSuccess) {
+            console.log('checked true');
+            setIsLoading(false);
+            toastNotify(responsePolygon.data?.successMessage || 'Polygon created successfully');
+          } else {
+            setIsLoading(false);
+            toastNotify(responsePolygon.error?.data.errorMessages[0] ?? 'Something wrong when create polygon', 'error');
           }
         } else if (userInputs.placeType === 'Field') {
           const formData = new FormData();
@@ -172,7 +188,7 @@ export const CreateFarmModal = ({ area, location, onCancel }: CreateFarmModalPro
                     <option disabled value=''>
                       Select Existing Farm
                     </option>
-                    {data?.result.map((farm: farmModel) => (
+                    {data?.apiResponse.result.map((farm: farmModel) => (
                       <option key={farm.id} value={farm.id}>
                         {farm.name}
                       </option>

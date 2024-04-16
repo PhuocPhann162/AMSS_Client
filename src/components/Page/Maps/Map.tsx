@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useGeolocation } from '~/hooks/useGeolocation';
-import { locationModel, positionModel } from '~/interfaces';
+import { farmModel, locationModel, pointModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '~/helper';
 import { useGetAllFarmsQuery } from '~/api/farmApi';
-import farmModel from '~/interfaces/farmModel';
 import { PopupFarm } from './PopupFarm';
 import { useUrlPosition } from '~/hooks/useUrlPosition';
+import positionModel from '~/interfaces/positionModel';
+import { useGetAllPolygonsQuery } from '~/api/polygonApi';
 
 const style = {
   color: '#ee7219',
@@ -30,6 +31,7 @@ const Map: React.FC = () => {
   const [mapLat, mapLng] = useUrlPosition();
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
+  const [points, setPoints] = useState<pointModel[]>();
 
   const { data, isLoading } = useGetAllFarmsQuery('');
 
@@ -43,7 +45,15 @@ const Map: React.FC = () => {
     if (mapLat && mapLng) {
       setMapPosition([Number(mapLat), Number(mapLng)]);
     }
-  }, []);
+  }, [mapLat, mapLng]);
+
+  const getDrawPolygon = (farmData: farmModel) => {
+    console.log(farmData);
+    const positions: [number, number][] = farmData.polygonApp.positions.map((position: positionModel) => {
+      return [position.lat || 0, position.lng || 0];
+    });
+    return positions;
+  };
 
   const handleCancel = () => {
     if (isPolygonDrawn) {
@@ -59,7 +69,6 @@ const Map: React.FC = () => {
 
   const handleCreated = (e: any) => {
     const layers = e.layer;
-    console.log(layers);
     setDrawnPolygon(layers);
 
     const drawnPolygon = layers.toGeoJSON();
@@ -67,13 +76,15 @@ const Map: React.FC = () => {
     setArea(area);
 
     const latLngs = layers.getLatLngs()[0];
+    setPoints(latLngs);
+
     const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
     const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
     try {
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
         .then((response) => response.json())
-        .then((data) => {
-          const address = data.display_name;
+        .then((dataApi) => {
+          const address = dataApi.display_name;
           setFarmAddress({ address: address, lat: average[0], lng: average[1] });
         })
         .catch((error) => {
@@ -153,12 +164,19 @@ const Map: React.FC = () => {
         />
 
         {data &&
-          data?.result.map((item: farmModel) => (
-            <Marker key={item.id} position={[item.location.lat, item.location.lng]}>
-              <Popup className='w-72'>
-                <PopupFarm farmInfo={item} />
-              </Popup>
-            </Marker>
+          data?.apiResponse.result.map((item: farmModel) => (
+            <>
+              <Polygon positions={getDrawPolygon(item)}>
+                <Popup className='w-72'>
+                  <PopupFarm farmInfo={item} />
+                </Popup>
+              </Polygon>
+              <Marker key={item.id} position={[item.location.lat, item.location.lng]}>
+                <Popup className='w-72'>
+                  <PopupFarm farmInfo={item} />
+                </Popup>
+              </Marker>
+            </>
           ))}
 
         {geolocationPosition && (
@@ -168,16 +186,16 @@ const Map: React.FC = () => {
             </Popup>
           </Marker>
         )}
-        <ChangeCenter position={{ lat: mapPosition[0], lng: mapPosition[1] }} />
-        <CreateFarmModal area={area} location={farmAddress} onCancel={handleCancel} />
+        <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
+        <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} />
       </MapContainer>
     </div>
   );
 };
 
-const ChangeCenter = ({ position }: positionModel) => {
+const ChangeCenter = ({ point }: pointModel) => {
   const map = useMap();
-  map.flyTo(position, map.getZoom());
+  map.flyTo(point, map.getZoom());
   return null;
 };
 

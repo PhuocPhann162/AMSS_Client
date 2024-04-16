@@ -1,6 +1,9 @@
+import polygonModel from './polygonModel';
+
 export default interface positionModel {
-  position: {
-    lat: number;
-    lng: number;
-  };
+  id?: number;
+  lat?: number;
+  lng?: number;
+  polygonId?: number;
+  polygon?: polygonModel;
 }
