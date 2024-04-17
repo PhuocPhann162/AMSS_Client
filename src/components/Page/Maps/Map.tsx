@@ -22,6 +22,7 @@ const style = {
 };
 
 const Map: React.FC = () => {
+  const [mapKey, setMapKey] = useState(0);
   const [mapPosition, setMapPosition] = useState([40, 0]);
   const [area, setArea] = useState<number>(0);
   const [drawnPolygon, setDrawnPolygon] = useState(null);
@@ -79,6 +80,7 @@ const Map: React.FC = () => {
 
     const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
     const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
+    setMapPosition(average);
     try {
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
         .then((response) => response.json())
@@ -109,6 +111,7 @@ const Map: React.FC = () => {
       )}
       <MapContainer
         ref={mapRef}
+        key={mapKey}
         center={{ lat: mapPosition[0], lng: mapPosition[1] }}
         zoom={20}
         scrollWheelZoom={true}
@@ -158,8 +161,10 @@ const Map: React.FC = () => {
             <div key={item.id}>
               <Polygon
                 positions={getDrawPolygon(item)}
-                color={item.polygonApp?.color}
-                fillColor={item.polygonApp?.color}
+                pathOptions={{
+                  color: item.polygonApp?.color,
+                  fillColor: 'transparent'
+                }}
               >
                 <Popup className='w-72'>
                   <PopupFarm farmInfo={item} />
@@ -181,7 +186,7 @@ const Map: React.FC = () => {
           </Marker>
         )}
         <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-        <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} mapRef={mapRef} />
+        <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} />
       </MapContainer>
     </div>
   );

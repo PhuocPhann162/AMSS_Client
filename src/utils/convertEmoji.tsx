@@ -12,3 +12,11 @@ export function convertToEmoji(countryCode: string): string {
     .map((char: any) => 127397 + char.charCodeAt());
   return String.fromCodePoint(...codePoints);
 }
+
+// const getDrawPolygon = () => {
+//   if (points) {
+//     const pos: [number, number][] = points.map((point) => [point.point[0]!, point.point[1]!]);
+//     return pos;
+//   }
+//   return [];
+// };

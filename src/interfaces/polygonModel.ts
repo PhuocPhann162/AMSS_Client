@@ -1,4 +1,5 @@
 import farmModel from './farmModel';
+import fieldModel from './fieldModel';
 import positionModel from './positionModel';
 
 export default interface polygonModel {
@@ -6,5 +7,7 @@ export default interface polygonModel {
   color?: string;
   farmId?: number;
   farm?: farmModel;
+  fieldId?: number;
+  field?: fieldModel;
   positions?: positionModel[];
 }
