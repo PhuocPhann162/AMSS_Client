@@ -12,7 +12,6 @@ import { useGetAllFarmsQuery } from '~/api/farmApi';
 import { PopupFarm } from './PopupFarm';
 import { useUrlPosition } from '~/hooks/useUrlPosition';
 import positionModel from '~/interfaces/positionModel';
-import { useGetAllPolygonsQuery } from '~/api/polygonApi';
 
 const style = {
   color: '#ee7219',
@@ -48,11 +47,11 @@ const Map: React.FC = () => {
   }, [mapLat, mapLng]);
 
   const getDrawPolygon = (farmData: farmModel) => {
-    console.log(farmData);
-    const positions: [number, number][] = farmData.polygonApp.positions.map((position: positionModel) => {
-      return [position.lat || 0, position.lng || 0];
-    });
-    return positions;
+    const pos: [number, number][] =
+      farmData.polygonApp?.positions?.map((position: positionModel) => {
+        return [position.lat || 0, position.lng || 0];
+      }) ?? [];
+    return pos;
   };
 
   const handleCancel = () => {
@@ -136,15 +135,6 @@ const Map: React.FC = () => {
             onCreated={handleCreated}
             onDeleted={() => setArea(0)}
           ></EditControl>
-          <Polygon
-            positions={[
-              [51.51, -0.06],
-              [51.51, -0.05],
-              [51.52, -0.05],
-              [51.52, -0.06]
-            ]}
-            color='purple'
-          />
         </FeatureGroup>
         <SearchControl
           provider={new OpenStreetMapProvider()}
@@ -165,18 +155,22 @@ const Map: React.FC = () => {
 
         {data &&
           data?.apiResponse.result.map((item: farmModel) => (
-            <>
-              <Polygon positions={getDrawPolygon(item)}>
+            <div key={item.id}>
+              <Polygon
+                positions={getDrawPolygon(item)}
+                color={item.polygonApp?.color}
+                fillColor={item.polygonApp?.color}
+              >
                 <Popup className='w-72'>
                   <PopupFarm farmInfo={item} />
                 </Popup>
               </Polygon>
-              <Marker key={item.id} position={[item.location.lat, item.location.lng]}>
+              <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
                 <Popup className='w-72'>
                   <PopupFarm farmInfo={item} />
                 </Popup>
               </Marker>
-            </>
+            </div>
           ))}
 
         {geolocationPosition && (
@@ -187,7 +181,7 @@ const Map: React.FC = () => {
           </Marker>
         )}
         <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-        <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} />
+        <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} mapRef={mapRef} />
       </MapContainer>
     </div>
   );

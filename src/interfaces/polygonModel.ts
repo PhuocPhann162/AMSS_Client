@@ -2,9 +2,9 @@ import farmModel from './farmModel';
 import positionModel from './positionModel';
 
 export default interface polygonModel {
-  id: number;
+  id?: number;
   color?: string;
-  farmId: number;
-  farm: farmModel;
-  positions: positionModel[];
+  farmId?: number;
+  farm?: farmModel;
+  positions?: positionModel[];
 }

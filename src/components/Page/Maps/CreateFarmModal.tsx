@@ -7,20 +7,23 @@ import { useCreateLocationMutation } from '~/api/locationApi';
 import { useCreateFieldMutation } from '~/api/fieldApi';
 import { SD_PlaceType } from '~/utils/SD';
 import { useCreatePolygonMutation } from '~/api/polygonApi';
+import { Polygon } from 'react-leaflet';
 
 interface CreateFarmModalProps {
   area?: number;
   location?: locationModel;
   points?: pointModel[];
+  mapRef?: any;
   onCancel?: () => void;
 }
 
-export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarmModalProps) => {
+export const CreateFarmModal = ({ area, location, points, mapRef, onCancel }: CreateFarmModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
     name: '',
     placeType: '',
     growLocation: '',
+    color: '',
     farmId: 0
   });
   const [createLocation] = useCreateLocationMutation();
@@ -57,6 +60,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
           toastNotify('Something wrong when create location', 'error');
           return;
         }
+        // Tạo farm hoặc field
         if (userInputs.placeType === 'Farm') {
           const formData = new FormData();
           formData.append('Name', userInputs.name);
@@ -72,15 +76,12 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
           }
 
           const responsePolygon: apiResponse = await createPolygon({
-            color: '#6741D9',
+            color: userInputs.color,
             farmId: response.data?.result.id,
             positions: points
           });
-          console.log(responsePolygon);
           if (responsePolygon?.data && responsePolygon?.data.isSuccess) {
-            console.log('checked true');
             setIsLoading(false);
-            toastNotify(responsePolygon.data?.successMessage || 'Polygon created successfully');
           } else {
             setIsLoading(false);
             toastNotify(responsePolygon.error?.data.errorMessages[0] ?? 'Something wrong when create polygon', 'error');
@@ -95,7 +96,6 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
 
           if (response.data && response.data.isSuccess) {
             setIsLoading(false);
-            toastNotify(response.data?.successMessage || 'Field created successfully');
           } else {
             setIsLoading(false);
             toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create field', 'error');
@@ -106,8 +106,14 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
         toastNotify('Location is required', 'error');
       }
 
-      // Tạo farm hoặc field
-
+      // Sau khi tạo thêm vào map và đóng form modal
+      if (points !== undefined && mapRef.current !== undefined) {
+        const newPolygon = (
+          <Polygon positions={points.map((point) => [point.point[0]!, point.point[1]!])} color={userInputs.color} />
+        );
+        console.log(newPolygon);
+        mapRef.current.addLayer(newPolygon);
+      }
       (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
     } catch (error: any) {
       setIsLoading(false);
@@ -160,6 +166,57 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                 </select>
               </div>
             </div>
+            {userInputs.placeType === 'Farm' && (
+              <div className='flex items-center gap-4 py-4'>
+                <label className='text-sm flex-shrink-0 w-1/5 text-right'>Color</label>
+                <div className='flex items-center gap-3'>
+                  <div className='flex items-center'>
+                    <input
+                      type='radio'
+                      name='color'
+                      value='#ffb100'
+                      onChange={handleUserInput}
+                      className='radio radio-warning'
+                      checked={userInputs.color === '#ffb100'}
+                    />
+                    <label className='label'>Yellow</label>
+                  </div>
+                  <div className='flex items-center'>
+                    <input
+                      type='radio'
+                      name='color'
+                      value='#4bc552'
+                      onChange={handleUserInput}
+                      className='radio radio-success form-control'
+                      checked={userInputs.color === '#4bc552'}
+                    />
+                    <label className='label'>Green</label>
+                  </div>
+                </div>
+              </div>
+            )}{' '}
+            {userInputs.placeType == 'Field' && (
+              <div className='flex items-center justify-between gap-4 mt-2'>
+                <label className='text-sm flex-shrink-0 w-1/5 text-right'>Color</label>
+                <div className='flex-grow w-full'>
+                  <input
+                    type='radio'
+                    name='color'
+                    value='#ffb100'
+                    onChange={handleUserInput}
+                    className='radio radio-warning'
+                    checked
+                  />
+                  <input
+                    type='radio'
+                    name='color'
+                    value='#6741D9'
+                    onChange={handleUserInput}
+                    className='radio radio-base-100'
+                  />
+                </div>
+              </div>
+            )}
             <div className='flex items-center justify-between gap-4 mt-2'>
               <label className='text-sm flex-shrink-0 w-1/5 text-right'>Grow Location</label>
               <div className='flex-grow w-full'>
