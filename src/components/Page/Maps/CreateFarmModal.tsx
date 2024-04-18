@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as turf from '@turf/turf';
 import { inputHelper, toastNotify } from '~/helper';
 import { useCreateFarmMutation, useGetAllFarmsQuery } from '~/api/farmApi';
-import { apiResponse, farmModel, locationModel, pointModel, polygonModel } from '~/interfaces';
+import { apiResponse, farmModel, locationModel, pointModel } from '~/interfaces';
 import { useCreateLocationMutation } from '~/api/locationApi';
 import { useCreateFieldMutation } from '~/api/fieldApi';
 import { SD_PlaceType } from '~/utils/SD';
@@ -45,6 +45,20 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     }
   };
 
+  const createPolygonAsync = async () => {
+    try {
+      const newPolygon: apiResponse = await createPolygon({
+        color: userInputs.color,
+        type: userInputs.placeType === 'Farm' ? 1 : 0,
+        positions: points
+      });
+      const polygonId = newPolygon.data?.result.id ?? '';
+      return polygonId;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -58,6 +72,14 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
           toastNotify('Something wrong when create location', 'error');
           return;
         }
+
+        // Create Polygon
+        const polygonId = await createPolygonAsync();
+        if (polygonId === '') {
+          setIsLoading(false);
+          toastNotify('Something wrong when create polygon', 'error');
+          return;
+        }
         // Tạo farm hoặc field
         const formData = new FormData();
         if (userInputs.placeType === 'Farm') {
@@ -65,6 +87,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
           formData.append('Name', userInputs.name);
           formData.append('LocationId', locationId ?? '');
           formData.append('Area', area!.toString());
+          formData.append('PolygonAppId', polygonId);
           const response: apiResponse = await createFarm(formData);
 
           if (response.data && response.data.isSuccess) {
@@ -73,25 +96,13 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
             setIsLoading(false);
             toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create farm', 'error');
           }
-
-          // Create Polygon
-          const responsePolygon: apiResponse = await createPolygon({
-            color: userInputs.color,
-            farmId: response.data?.result.id,
-            positions: points
-          });
-          if (responsePolygon?.data && responsePolygon?.data.isSuccess) {
-            setIsLoading(false);
-          } else {
-            setIsLoading(false);
-            toastNotify(responsePolygon.error?.data.errorMessages[0] ?? 'Something wrong when create polygon', 'error');
-          }
         } else if (userInputs.placeType === 'Field') {
           // Create Field
           formData.append('Name', userInputs.name);
           formData.append('LocationId', locationId ?? '');
           formData.append('Area', area!.toString());
           formData.append('FarmId', userInputs.farmId.toString());
+          formData.append('PolygonAppId', polygonId);
           const response: apiResponse = await createField(formData);
 
           if (response.data && response.data.isSuccess) {
@@ -100,24 +111,19 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
             setIsLoading(false);
             toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create field', 'error');
           }
-          // Create Polygon
-          const responsePolygon: apiResponse = await createPolygon({
-            color: userInputs.color,
-            fieldId: response.data?.result.id,
-            positions: points
-          });
-          if (responsePolygon?.data && responsePolygon?.data.isSuccess) {
-            setIsLoading(false);
-          } else {
-            setIsLoading(false);
-            toastNotify(responsePolygon.error?.data.errorMessages[0] ?? 'Something wrong when create polygon', 'error');
-          }
         }
       } else {
         setIsLoading(false);
         toastNotify('Location is required', 'error');
       }
       // Sau khi tạo thêm vào map và đóng form modal
+      setUserInputs({
+        name: '',
+        placeType: '',
+        growLocation: '',
+        color: '',
+        farmId: 0
+      });
       (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
     } catch (error: any) {
       setIsLoading(false);
@@ -180,7 +186,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                       name='color'
                       value='#5D3D2E'
                       onChange={handleUserInput}
-                      className='radio radio-error'
+                      className='radio radio-accent'
                       checked={userInputs.color === '#5D3D2E'}
                     />
                     <label className='label'>Brown</label>
@@ -238,7 +244,9 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                       onChange={handleUserInput}
                       required
                     >
-                      <option disabled>Select Existing Farm</option>
+                      <option disabled value={0}>
+                        Select Existing Farm
+                      </option>
                       {data?.apiResponse.result.map((farm: farmModel) => (
                         <option key={farm.id} value={farm.id}>
                           {farm.name}
@@ -281,6 +289,13 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                   onClick={() => {
                     (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
                     if (onCancel) {
+                      setUserInputs({
+                        name: '',
+                        placeType: '',
+                        growLocation: '',
+                        color: '',
+                        farmId: 0
+                      });
                       onCancel();
                     }
                   }}

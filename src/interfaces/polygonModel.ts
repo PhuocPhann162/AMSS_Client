@@ -5,9 +5,8 @@ import positionModel from './positionModel';
 export default interface polygonModel {
   id?: number;
   color?: string;
-  farmId?: number;
+  type?: number;
   farm?: farmModel;
-  fieldId?: number;
   field?: fieldModel;
   positions?: positionModel[];
 }

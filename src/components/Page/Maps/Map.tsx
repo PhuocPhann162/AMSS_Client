@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useGeolocation } from '~/hooks/useGeolocation';
 import { farmModel, locationModel, pointModel } from '~/interfaces';
@@ -8,17 +8,12 @@ import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '~/helper';
-import { useGetAllFarmsQuery } from '~/api/farmApi';
-import { PopupFarm } from './PopupFarm';
 import { useUrlPosition } from '~/hooks/useUrlPosition';
 import positionModel from '~/interfaces/positionModel';
+import { ListMap } from './ListMap';
 
 const style = {
-  color: '#ee7219',
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 0.5,
-  fillColor: '#ee7219'
+  color: '#ee7219'
 };
 
 const Map: React.FC = () => {
@@ -32,8 +27,6 @@ const Map: React.FC = () => {
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
   const [points, setPoints] = useState<pointModel[]>();
-
-  const { data, isLoading } = useGetAllFarmsQuery('');
 
   useEffect(() => {
     if (geolocationPosition) {
@@ -156,27 +149,7 @@ const Map: React.FC = () => {
           url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
         />
 
-        {data &&
-          data?.apiResponse.result.map((item: farmModel) => (
-            <div key={item.id}>
-              <Polygon
-                positions={getDrawPolygon(item)}
-                pathOptions={{
-                  color: item.polygonApp?.color,
-                  fillColor: 'transparent'
-                }}
-              >
-                <Popup className='w-72'>
-                  <PopupFarm farmInfo={item} />
-                </Popup>
-              </Polygon>
-              <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
-                <Popup className='w-72'>
-                  <PopupFarm farmInfo={item} />
-                </Popup>
-              </Marker>
-            </div>
-          ))}
+        <ListMap />
 
         {geolocationPosition && (
           <Marker position={geolocationPosition}>
