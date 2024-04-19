@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -85,7 +86,9 @@ export const FarmList = () => {
             <div className='flex items-center gap-x-3'>
               <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Farms</h2>
 
-              <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full'>{totalRecords} lands</span>
+              <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
+                {totalRecords} lands
+              </span>
             </div>
 
             <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
@@ -96,7 +99,7 @@ export const FarmList = () => {
           <div className='flex items-center mt-4 gap-x-3'>
             <Link
               to='/app/map'
-              className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600'
+              className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -149,7 +152,7 @@ export const FarmList = () => {
 
             <input
               type='text'
-              placeholder='Search'
+              placeholder='Search Name, Location, Owner...'
               className='block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
               name='searchString'
               value={filters.searchString}
@@ -158,7 +161,7 @@ export const FarmList = () => {
           </div>
         </div>
 
-        <div className='flex flex-col mt-6'>
+        <div className='flex flex-col mt-6 shadow-lg'>
           <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
             <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
               <div className='overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg'>
@@ -215,6 +218,12 @@ export const FarmList = () => {
                       >
                         Owner
                       </th>
+                      <th
+                        scope='col'
+                        className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400'
+                      >
+                        Created At
+                      </th>
                       <th scope='col' className='relative py-3.5 px-4'>
                         <span className='sr-only'>Edit</span>
                       </th>
@@ -231,14 +240,14 @@ export const FarmList = () => {
                           </td>
                           <td className='px-8 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
-                              <h2 className='font-medium text-gray-800'>{farm.area.toFixed(2)} m²</h2>
+                              <h2 className='font-medium text-gray-800'>{farm.area!.toFixed(2)} m²</h2>
                             </div>
                           </td>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
                               <Link
-                                to={`/app/map?lat=${farm.location.lat}&lng=${farm.location.lng}`}
-                                className='font-medium text-gray-800 flex items-center underline text-primary gap-1'
+                                to={`/app/map?lat=${farm.location!.lat}&lng=${farm.location!.lng}`}
+                                className='font-medium text-gray-800 flex items-center underline text-green-500 gap-1 : hover:text-green-600'
                               >
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
@@ -269,6 +278,13 @@ export const FarmList = () => {
                             </div>
                           </td>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
+                            <div>
+                              <h2 className='font-medium text-gray-800'>
+                                {format(new Date(farm.createdAt!.toString()), 'dd/MM/yyyy')}
+                              </h2>
+                            </div>
+                          </td>
+                          <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                             <div className='flex items-center gap-2'>
                               <button className='btn btn-outline btn-accent btn-sm'>
                                 <svg
@@ -289,7 +305,7 @@ export const FarmList = () => {
                               <button
                                 className='btn btn-sm btn-outline btn-error'
                                 onClick={() => {
-                                  setFarmIdModal(farm.id);
+                                  setFarmIdModal(farm.id!);
                                   (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
                                 }}
                               >

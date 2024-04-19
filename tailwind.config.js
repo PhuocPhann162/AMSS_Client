@@ -54,7 +54,33 @@ export default {
         'meta-9': '#E5E7EB',
         success: '#219653',
         danger: '#D34053',
-        warning: '#FFA70B'
+        warning: '#FFA70B',
+        status: {
+          success: {
+            dark: '#86c988',
+            light: '#edf7ed'
+          },
+          white: {
+            dark: '#979dac',
+            light: '#f9fafc'
+          },
+          warning: {
+            dark: '#f9b567',
+            light: '#fef6ec'
+          },
+          info: {
+            dark: '#75a5ff',
+            light: '#ebf2ff'
+          },
+          accent: {
+            dark: '#5D3D2E',
+            light: '#FDF9F7'
+          },
+          danger: {
+            dark: '#f18b9d',
+            light: '#fef6f6'
+          }
+        }
       },
       fontSize: {
         'title-xxl': ['44px', '55px'],
