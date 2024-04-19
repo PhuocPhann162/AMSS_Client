@@ -33,8 +33,7 @@ export const ListMap = () => {
               positions={getDrawFarmPolygon(item)}
               pathOptions={{
                 color: item.polygonApp?.color,
-                fillColor: 'transparent',
-                zIndexOffset: 10
+                fillColor: 'transparent'
               }}
             >
               <Popup className='w-72'>
@@ -50,7 +49,7 @@ export const ListMap = () => {
         ))}
 
       {dataField &&
-        dataField?.apiResponse?.result.map((item: farmModel) => (
+        dataField?.apiResponse?.result.map((item: fieldModel) => (
           <div key={item.id}>
             <Polygon
               positions={getDrawFieldPolygon(item)}
@@ -63,11 +62,6 @@ export const ListMap = () => {
                 <PopupFarm farmInfo={item} />
               </Popup>
             </Polygon>
-            <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
-              <Popup className='w-72'>
-                <PopupFarm farmInfo={item} />
-              </Popup>
-            </Marker>
           </div>
         ))}
     </>

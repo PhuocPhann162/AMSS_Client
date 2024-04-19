@@ -1,4 +1,4 @@
 export default interface pageOptions {
-  pageNumber?: number;
-  pageSize?: number;
+  pageNumber: number;
+  pageSize: number;
 }

@@ -1,27 +1,38 @@
-import { useState } from 'react';
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useDebounce } from 'use-debounce';
+import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
 import { Modal, Pagination } from '~/common';
-import { pageOptions } from '~/interfaces';
+import { MainLoader } from '~/components/Page/common';
+import { Breadcrumb } from '~/components/UI';
+import { inputHelper, toastNotify } from '~/helper';
+import getStatusColor from '~/helper/getStatusColor';
+import { fieldModel, pageOptions } from '~/interfaces';
 
 export const FieldList = () => {
   // Start State
-  // const [farmList, setFarmList] = useState<[]>([]);
-  // const [farmIdModal, setFarmIdModal] = useState<number>(0);
-  // const [filters, setFilters] = useState({
-  //   searchString: ''
-  // });
-  // const [apiFilters, setApiFilters] = useState({
-  //   searchString: ''
-  // });
-  // const [pageOptions, setPageOptions] = useState<pageOptions>({
-  //   pageNumber: 1,
-  //   pageSize: 5
-  // });
-  // const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
-  // const [totalRecords, setTotalRecords] = useState(0);
-  // End State
-  /*const [debouncedFilter] = useDebounce(filters, 500);
+  const [fieldList, setfieldList] = useState<fieldModel[]>([]);
+  const [fieldIdModal, setfieldIdModal] = useState<number>(0);
 
-  const { data, isLoading } = useGetAllFarmsQuery({
+  const [filters, setFilters] = useState({
+    searchString: ''
+  });
+  const [apiFilters, setApiFilters] = useState({
+    searchString: ''
+  });
+  const [pageOptions, setPageOptions] = useState<pageOptions>({
+    pageNumber: 1,
+    pageSize: 5
+  });
+  const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
+  const [totalRecords, setTotalRecords] = useState(0);
+  // End State
+
+  const [debouncedFilter] = useDebounce(filters, 500);
+
+  const { data, isLoading } = useGetAllFieldsQuery({
     ...(apiFilters && {
       searchString: apiFilters.searchString,
       pageNumber: pageOptions.pageNumber,
@@ -29,7 +40,7 @@ export const FieldList = () => {
     })
   });
 
-  const [deleteFarm] = useDeleteFarmMutation();
+  const [deleteField] = useDeleteFieldMutation();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, filters);
     setFilters(tempData);
@@ -38,10 +49,10 @@ export const FieldList = () => {
   const handleDelete = async (id: number) => {
     try {
       toast.promise(
-        deleteFarm(id),
+        deleteField(id),
         {
           pending: 'Processing your request...',
-          success: 'Farm deleted successfully 👌',
+          success: 'field deleted successfully 👌',
           error: 'An unexpected error occured 🤯'
         },
         {
@@ -56,7 +67,7 @@ export const FieldList = () => {
 
   useEffect(() => {
     if (data) {
-      setFarmList(data.apiResponse.result);
+      setfieldList(data.apiResponse.result);
       const { TotalRecords } = JSON.parse(data.totalRecords);
       setTotalRecords(TotalRecords);
     }
@@ -69,25 +80,27 @@ export const FieldList = () => {
   return (
     <div>
       {isLoading && <MainLoader />}
-      <Breadcrumb pageParent='Land' pageName='All Farms' />
+      <Breadcrumb pageParent='Land' pageName='All fields' />
       <div className='container px-4 mx-auto'>
         <div className='sm:flex sm:items-center sm:justify-between'>
           <div>
             <div className='flex items-center gap-x-3'>
-              <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Farms</h2>
+              <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Fields</h2>
 
-              <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full'>{totalRecords} lands</span>
+              <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
+                {totalRecords} lands
+              </span>
             </div>
 
             <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
-              These farms have managed in the last 12 months.
+              These fields have managed in the last 12 months.
             </p>
           </div>
 
           <div className='flex items-center mt-4 gap-x-3'>
             <Link
               to='/app/map'
-              className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600'
+              className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -100,7 +113,7 @@ export const FieldList = () => {
                 <path strokeLinecap='round' strokeLinejoin='round' d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z' />
               </svg>
 
-              <span>Add farm</span>
+              <span>Add field</span>
             </Link>
           </div>
         </div>
@@ -149,7 +162,7 @@ export const FieldList = () => {
           </div>
         </div>
 
-        <div className='flex flex-col mt-6'>
+        <div className='flex flex-col mt-6 shadow-lg'>
           <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
             <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
               <div className='overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg'>
@@ -185,78 +198,67 @@ export const FieldList = () => {
                           </svg>
                         </button>
                       </th>
-
+                      <th
+                        scope='col'
+                        className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400'
+                      >
+                        Farm Name
+                      </th>
                       <th
                         scope='col'
                         className='px-8 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400'
                       >
                         Total Area
                       </th>
-
                       <th
                         scope='col'
                         className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400'
                       >
-                        Location
+                        Status
                       </th>
-
                       <th
                         scope='col'
                         className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400'
                       >
-                        Owner
+                        Created At
                       </th>
+
                       <th scope='col' className='relative py-3.5 px-4'>
                         <span className='sr-only'>Edit</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody className='bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900'>
-                    {farmList &&
-                      farmList.map((farm: farmModel) => (
-                        <tr key={farm.id}>
+                    {fieldList &&
+                      fieldList.map((field: fieldModel) => (
+                        <tr key={field.id}>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
-                              <h2 className='font-medium text-gray-800'>{farm.name}</h2>
+                              <h2 className='font-medium text-gray-800'>{field.name}</h2>
+                            </div>
+                          </td>
+                          <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
+                            <div>
+                              <h2 className='font-medium text-gray-800'>{field.farm?.name}</h2>
                             </div>
                           </td>
                           <td className='px-8 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
-                              <h2 className='font-medium text-gray-800'>{farm.area.toFixed(2)} m²</h2>
+                              <h2 className='font-medium text-gray-800'>{field.area!.toFixed(2)} m²</h2>
                             </div>
                           </td>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
-                            <div>
-                              <Link
-                                to={`/app/map?lat=${farm.location.lat}&lng=${farm.location.lng}`}
-                                className='font-medium text-gray-800 flex items-center underline text-primary gap-1'
-                              >
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  strokeWidth='1.5'
-                                  stroke='currentColor'
-                                  className='w-6 h-6'
-                                >
-                                  <path
-                                    strokeLinecap='round'
-                                    strokeLinejoin='round'
-                                    d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
-                                  />
-                                  <path
-                                    strokeLinecap='round'
-                                    strokeLinejoin='round'
-                                    d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z'
-                                  />
-                                </svg>
-                                See in map
-                              </Link>
-                            </div>
+                            <span
+                              className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-sm leading-none text-${getStatusColor(field.status!)}-dark bg-${getStatusColor(field.status!)}-light rounded-lg`}
+                            >
+                              {field.status!}
+                            </span>
                           </td>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
-                              <h2 className='font-medium text-gray-800'>Owner Name</h2>
+                              <h2 className='font-medium text-gray-800'>
+                                {format(new Date(field.createdAt!.toString()), 'dd/MM/yyyy')}
+                              </h2>
                             </div>
                           </td>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
@@ -280,7 +282,7 @@ export const FieldList = () => {
                               <button
                                 className='btn btn-sm btn-outline btn-error'
                                 onClick={() => {
-                                  setFarmIdModal(farm.id);
+                                  setfieldIdModal(field.id!);
                                   (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
                                 }}
                               >
@@ -319,8 +321,7 @@ export const FieldList = () => {
           totalRecords={totalRecords}
         />
       </div>
-      <Modal width='' title='delete this farm?' onConfirm={() => handleDelete(farmIdModal)} />
+      <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldIdModal)} />
     </div>
-  );*/
-  return <div>Field List</div>;
+  );
 };
