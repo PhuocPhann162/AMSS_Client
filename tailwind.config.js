@@ -299,7 +299,7 @@ export default {
 
           warning: '#ffb100',
 
-          error: '#cc1235',
+          error: '#dc2626',
 
           active: '#ffffff'
         }
