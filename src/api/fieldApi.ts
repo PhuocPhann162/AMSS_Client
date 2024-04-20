@@ -7,11 +7,12 @@ const fieldApi = createApi({
   tagTypes: ['Fields'],
   endpoints: (builder) => ({
     getAllFields: builder.query({
-      query: ({ searchString, pageNumber, pageSize }) => ({
+      query: ({ searchString, status, pageNumber, pageSize }) => ({
         url: 'field/getAll',
         method: 'GET',
         params: {
           ...(searchString && { searchString }),
+          ...(status && { status }),
           ...(pageNumber && { pageNumber }),
           ...(pageSize && { pageSize })
         }
