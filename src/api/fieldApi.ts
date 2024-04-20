@@ -8,6 +8,7 @@ const fieldApi = createApi({
   endpoints: (builder) => ({
     getAllFields: builder.query({
       query: ({ searchString, status, pageNumber, pageSize }) => ({
+
         url: 'field/getAll',
         method: 'GET',
         params: {

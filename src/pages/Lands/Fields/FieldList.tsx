@@ -7,6 +7,7 @@ import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
 import { Modal, Pagination } from '~/common';
 import { MainLoader } from '~/components/Page/common';
 import { Breadcrumb } from '~/components/UI';
+
 import { getStatusColor, inputHelper, toastNotify } from '~/helper';
 import { fieldModel, pageOptions } from '~/interfaces';
 import { SD_FieldStatus } from '~/utils/SD';
@@ -18,6 +19,7 @@ const filterOptions = [
   SD_FieldStatus.AWAITING_HARVEST,
   SD_FieldStatus.HARVESTING
 ];
+
 
 export const FieldList = () => {
   // Start State
@@ -64,6 +66,7 @@ export const FieldList = () => {
         {
           pending: 'Processing your request...',
           success: 'Field deleted successfully 👌',
+
           error: 'An unexpected error occured 🤯'
         },
         {
@@ -91,6 +94,7 @@ export const FieldList = () => {
   return (
     <div>
       {isLoading && <MainLoader />}
+
       {!isLoading && (
         <>
           <Breadcrumb pageParent='Land' pageName='All fields' />
@@ -129,7 +133,6 @@ export const FieldList = () => {
                       d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
                     />
                   </svg>
-
                   <span>Add field</span>
                 </Link>
               </div>

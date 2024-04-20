@@ -92,7 +92,6 @@ export const FarmList = () => {
                     {totalRecords} lands
                   </span>
                 </div>
-
                 <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
                   These farms have managed in the last 12 months.
                 </p>
@@ -128,6 +127,7 @@ export const FarmList = () => {
                 <button className='px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300'>
                   View all
                 </button>
+
 
                 <button className='px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100'>
                   Monitored
