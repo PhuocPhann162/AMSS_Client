@@ -231,13 +231,13 @@ export const FarmList = () => {
                           </td>
                           <td className='px-8 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
-                              <h2 className='font-medium text-gray-800'>{farm.area.toFixed(2)} m²</h2>
+                              <h2 className='font-medium text-gray-800'>{farm.area!.toFixed(2)} m²</h2>
                             </div>
                           </td>
                           <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                             <div>
                               <Link
-                                to={`/app/map?lat=${farm.location.lat}&lng=${farm.location.lng}`}
+                                to={`/app/map?lat=${farm.location!.lat}&lng=${farm.location!.lng}`}
                                 className='font-medium text-gray-800 flex items-center underline text-primary gap-1'
                               >
                                 <svg
@@ -289,7 +289,7 @@ export const FarmList = () => {
                               <button
                                 className='btn btn-sm btn-outline btn-error'
                                 onClick={() => {
-                                  setFarmIdModal(farm.id);
+                                  setFarmIdModal(farm.id!);
                                   (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
                                 }}
                               >
