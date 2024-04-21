@@ -78,7 +78,7 @@ export const AllUsers = () => {
         <>
           <Breadcrumb pageParent='Users' pageName='All Users' />
           <div className='flex items-center justify-between mb-2'>
-            <NavLink to='/app/user/register' className='btn btn-primary text-whiten'>
+            <NavLink to='/app/user/register' className='btn btn-primary text-whiten shadow-lg'>
               New User
             </NavLink>
             <div className='flex items-center gap-3'>
@@ -124,7 +124,7 @@ export const AllUsers = () => {
             </div>
           </div>
           <div className='overflow-x-auto overflow-y-hidden py-4 rounded-lg'>
-            <table className='table table-sm rounded-lg'>
+            <table className='table table-sm rounded-lg shadow-lg'>
               <thead className='text-black text-sm'>
                 <tr>
                   <th></th>
@@ -147,7 +147,7 @@ export const AllUsers = () => {
                     <td>{user.streetAddress}</td>
                     <td>{user.city}</td>
                     <td>{user.state}</td>
-                    <td>{flagemojiToPNG(convertToEmoji(user.country))}</td>
+                    <td>{flagemojiToPNG(convertToEmoji(user.country!))}</td>
                     <td>{user.role}</td>
                     <td className='flex items-center gap-2'>
                       {user.isActive ? (
@@ -155,7 +155,7 @@ export const AllUsers = () => {
                           className='btn btn-sm btn-outline btn-success tooltip tooltip-bottom'
                           data-tip='Lock user account'
                           onClick={() => {
-                            setUserIdModal(user.id);
+                            setUserIdModal(user.id!);
                             (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
                           }}
                         >
@@ -179,7 +179,7 @@ export const AllUsers = () => {
                           className='btn btn-sm btn-outline btn-warning tooltip tooltip-bottom'
                           data-tip='Unlock user account'
                           onClick={() => {
-                            setUserIdModal(user.id);
+                            setUserIdModal(user.id!);
                             (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
                           }}
                         >
@@ -231,7 +231,7 @@ export const AllUsers = () => {
           </div>
 
           <Pagination
-            currentPageSize={currentPageSize}
+            currentPageSize={currentPageSize!}
             setCurrentPageSize={setCurrentPageSize}
             pageOptions={pageOptions}
             setPageOptions={setPageOptions}

@@ -7,10 +7,23 @@ const fieldApi = createApi({
   tagTypes: ['Fields'],
   endpoints: (builder) => ({
     getAllFields: builder.query({
-      query: () => ({
+      query: ({ searchString, status, pageNumber, pageSize }) => ({
+
         url: 'field/getAll',
-        method: 'GET'
+        method: 'GET',
+        params: {
+          ...(searchString && { searchString }),
+          ...(status && { status }),
+          ...(pageNumber && { pageNumber }),
+          ...(pageSize && { pageSize })
+        }
       }),
+      transformResponse(apiResponse: { result: any }, meta: any) {
+        return {
+          apiResponse,
+          totalRecords: meta.response.headers.get('X-Pagination')
+        };
+      },
       providesTags: ['Fields']
     }),
     getFieldById: builder.query({

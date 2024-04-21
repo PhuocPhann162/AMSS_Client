@@ -50,9 +50,11 @@ const DropdownUser = () => {
     <div className='relative'>
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className='flex items-center gap-4' to='#'>
         <span className='hidden text-right lg:block'>
-          <span className='block text-sm font-medium text-black dark:text-white'>{userData.fullName}</span>
-          <span className='block flex gap-2 text-xs'>
-            {flagemojiToPNG(convertToEmoji(userData.country))} {userData.userName}
+          <span className='block text-sm font-medium text-black dark:text-white tracking-wide'>
+            {userData.fullName}
+          </span>
+          <span className='flex gap-2 text-xs'>
+            {flagemojiToPNG(convertToEmoji(userData.country!))} {userData.userName}
           </span>
         </span>
 

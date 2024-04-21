@@ -21,7 +21,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     placeType: '',
     growLocation: '',
     color: '',
-    farmId: 0
+    farmId: ''
   });
   const [createLocation] = useCreateLocationMutation();
   const [createPolygon] = useCreatePolygonMutation();
@@ -32,7 +32,6 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const tempData = inputHelper(e, userInputs);
     setUserInputs(tempData);
-    console.log(tempData);
   };
 
   const createLocationAsync = async (locationData: locationModel) => {
@@ -122,7 +121,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
         placeType: '',
         growLocation: '',
         color: '',
-        farmId: 0
+        farmId: ''
       });
       (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
     } catch (error: any) {
@@ -218,6 +217,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                         onChange={handleUserInput}
                         className='radio radio-warning'
                         checked={userInputs.color === '#ffb100'}
+                        required
                       />
                       <label className='label'>Yellow</label>
                     </div>
@@ -229,6 +229,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                         onChange={handleUserInput}
                         className='radio radio-info form-control'
                         checked={userInputs.color === '#00aeff'}
+                        required
                       />
                       <label className='label'>Blue</label>
                     </div>
@@ -244,14 +245,15 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                       onChange={handleUserInput}
                       required
                     >
-                      <option disabled value={0}>
+                      <option disabled value=''>
                         Select Existing Farm
                       </option>
-                      {data?.apiResponse.result.map((farm: farmModel) => (
-                        <option key={farm.id} value={farm.id}>
-                          {farm.name}
-                        </option>
-                      ))}
+                      {data &&
+                        data?.apiResponse?.result.map((farm: farmModel) => (
+                          <option key={farm.id} value={farm.id}>
+                            {farm.name}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 </div>
@@ -294,7 +296,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                         placeType: '',
                         growLocation: '',
                         color: '',
-                        farmId: 0
+                        farmId: ''
                       });
                       onCancel();
                     }

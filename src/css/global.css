@@ -272,3 +272,51 @@ span.flatpickr-weekday,
 [x-cloak] {
   display: none !important;
 }
+
+.text-status-success-dark {
+  color: #86c988 !important;
+}
+
+.bg-status-success-light {
+  background-color: #edf7ed !important;
+}
+
+.text-status-white-dark {
+  color: #979dac !important;
+}
+
+.bg-status-white-light {
+  background-color: #f9fafc !important;
+}
+
+.text-status-warning-dark {
+  color: #f9b567 !important;
+}
+
+.bg-status-warning-light {
+  background-color: #fef6ec !important;
+}
+
+.text-status-accent-dark {
+  color: #5d3d2e !important;
+}
+
+.bg-status-accent-light {
+  background-color: #fdf9f7 !important;
+}
+
+.text-status-info-dark {
+  color: #75a5ff !important;
+}
+
+.bg-status-info-light {
+  background-color: #ebf2ff !important;
+}
+
+.text-status-danger-dark {
+  color: #f18b9d !important;
+}
+
+.bg-status-danger-light {
+  background-color: #fef6f6 !important;
+}
