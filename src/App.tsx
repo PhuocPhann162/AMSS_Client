@@ -5,6 +5,7 @@ import { Map } from './components/Page/Maps';
 import {
   AllUsers,
   Crop,
+  CropTypeList,
   FarmList,
   FieldList,
   HomePage,
@@ -46,7 +47,7 @@ function App() {
         {/* Schedule Routes */}
         <Route path='schedule' element={<Schedule />} />
         {/* Crop Routes */}
-        <Route path='crop/myCrops' element={<Crop />} />
+        <Route path='crop/myCrops' element={<CropTypeList />} />
         <Route path='crop/growLocations' element={<Crop />} />
         {/* Map Routes */}
         <Route path='map' element={<Map />} />

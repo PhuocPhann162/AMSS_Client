@@ -7,6 +7,8 @@ import farmModel from './farmModel';
 import fieldModel from './fieldModel';
 import pointModel from './pointModel';
 import polygonModel from './polygonModel';
+import cropModel from './cropModel';
+import cropTypeModel from './cropTypeModel';
 
 export type {
   pointModel,
@@ -17,5 +19,7 @@ export type {
   pageOptions,
   farmModel,
   fieldModel,
-  polygonModel
+  polygonModel,
+  cropModel,
+  cropTypeModel
 };

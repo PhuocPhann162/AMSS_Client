@@ -20,7 +20,6 @@ const filterOptions = [
   SD_FieldStatus.HARVESTING
 ];
 
-
 export const FieldList = () => {
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
@@ -143,7 +142,7 @@ export const FieldList = () => {
                 {filterOptions.map((opt: string) => (
                   <button
                     key={opt}
-                    className={`px-5 py-2 text-xs font-medium sm:text-sm ${filters.status == opt ? 'bg-black text-white' : 'text-gray-600'} ${filters.status == '' && opt == 'View all' && 'bg-black text-white'} transition-all hover:bg-black hover:text-white`}
+                    className={`px-5 py-2 text-xs font-medium sm:text-sm ${filters.status == opt ? 'bg-black text-white' : 'text-gray-600'} ${filters.status == '' && opt == 'View all' && 'bg-black text-white'} transition-all hover:bg-slate-500 hover:text-white`}
                     onClick={() => setFilters({ ...filters, status: opt == 'View all' ? '' : opt })}
                   >
                     {opt}

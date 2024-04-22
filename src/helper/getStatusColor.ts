@@ -1,8 +1,6 @@
 import { SD_FieldStatus } from '~/utils/SD';
 
 const getStatusColor = (status: SD_FieldStatus) => {
-  console.log(status);
-
   switch (status) {
     case SD_FieldStatus.IDLE.toString():
       return 'status-white';

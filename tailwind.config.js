@@ -19,6 +19,9 @@ export default {
     extend: {
       colors: {
         primary: '#00c46a',
+        'type-1': '#e7efef',
+        'type-2': '#5e6b70',
+        pearl: '#1098ad',
         brown: '#5D3D2E',
         nav: '#242a2e',
         current: 'currentColor',

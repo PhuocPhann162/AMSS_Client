@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authApi, farmApi, locationApi, polygonApi, userApi } from '~/api';
+import { authApi, cropTypeApi, farmApi, locationApi, polygonApi, userApi } from '~/api';
 import { userAuthReducer } from './authSlice';
 import fieldApi from '~/api/fieldApi';
 
@@ -11,7 +11,8 @@ const store = configureStore({
     [locationApi.reducerPath]: locationApi.reducer,
     [farmApi.reducerPath]: farmApi.reducer,
     [fieldApi.reducerPath]: fieldApi.reducer,
-    [polygonApi.reducerPath]: polygonApi.reducer
+    [polygonApi.reducerPath]: polygonApi.reducer,
+    [cropTypeApi.reducerPath]: cropTypeApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -21,6 +22,7 @@ const store = configureStore({
       .concat(farmApi.middleware)
       .concat(fieldApi.middleware)
       .concat(polygonApi.middleware)
+      .concat(cropTypeApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

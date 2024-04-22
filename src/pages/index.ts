@@ -11,6 +11,7 @@ import { Permission } from './Users/Permission';
 import Profile from './Users/Profile';
 import { FarmList } from './Lands/Farms/FarmList';
 import { FieldList } from './Lands/Fields/FieldList';
+import { CropTypeList } from './Crops/CropTypeList';
 
 export {
   HomePage,
@@ -25,5 +26,6 @@ export {
   Permission,
   Profile,
   FarmList,
-  FieldList
+  FieldList,
+  CropTypeList
 };
