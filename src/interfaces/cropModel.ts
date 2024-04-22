@@ -1,9 +1,11 @@
 import cropTypeModel from './cropTypeModel';
+import fieldModel from './fieldModel';
 
 export default interface cropModel {
   id?: number;
   icon?: string;
   name?: string;
+  description?: string;
   quantity?: number;
   cultivatedArea?: number;
   plantedDate?: string;
@@ -11,6 +13,7 @@ export default interface cropModel {
   cropTypeId?: number;
   cropType?: cropTypeModel;
   fieldId?: number;
+  field?: fieldModel;
   createdAt?: string;
   updatedAt?: string;
 }

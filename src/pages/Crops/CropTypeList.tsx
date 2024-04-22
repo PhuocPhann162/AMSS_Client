@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
 import { Modal, Pagination } from '~/common';
@@ -22,6 +23,11 @@ export const CropTypeList = () => {
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const trigger = useRef<any>(null);
+  const dropdown = useRef<any>(null);
 
   // End State
   const [debouncedFilter] = useDebounce(filters, 500);
@@ -145,7 +151,7 @@ export const CropTypeList = () => {
                             scope='col'
                             className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'
                           >
-                            Plated
+                            Planted
                           </th>
 
                           <th
@@ -173,44 +179,89 @@ export const CropTypeList = () => {
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
                             </tr>
-                            {ct.crops.map((crop: cropModel) => (
+                            {ct.crops.map((crop: cropModel, index: number) => (
                               <tr key={crop.id} className='border-b border-type-1'>
                                 <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
                                   <img src={crop.icon} className='w-20 rounded-full' />
                                 </td>
                                 <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                  <div>
+                                    <div className='flex items-center gap-2'>
+                                      <h2 className='text-pearl font-bold'>{crop.name}</h2>
+                                      <span
+                                        className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
+                                      >
+                                        {ct.code}
+                                      </span>
+                                    </div>
+                                    <h4 className='w-40 text-wrap text-xs opacity-80'>{crop.description}</h4>
+                                  </div>
+                                </td>
+                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
                                   <div className='flex items-center gap-2'>
-                                    <h2 className='text-pearl font-bold'>{crop.name}</h2>
+                                    {crop.cultivatedArea?.toFixed(2)} sqft
                                     <span
-                                      className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
+                                      className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
                                     >
-                                      {ct.code}
+                                      {crop.field?.name}
                                     </span>
                                   </div>
                                 </td>
                                 <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  {crop.cultivatedArea?.toFixed(1)} sqft
-                                </td>
-                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
                                   <div>Expected {format(new Date(crop.expectedDate!), 'MMM. dd, yyyy')}</div>
                                 </td>
-                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <button>
-                                    <svg
-                                      xmlns='http://www.w3.org/2000/svg'
-                                      fill='none'
-                                      viewBox='0 0 24 24'
-                                      strokeWidth='1.5'
-                                      stroke='currentColor'
-                                      className='w-6 h-6'
+                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
+                                  {/* <!-- Dropdown Start --> */}
+                                  <div className='dropdown dropdown-left dropdown-bottom dropdown-hover'>
+                                    <div tabIndex={index} role='button' className=' m-1'>
+                                      <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        fill='none'
+                                        viewBox='0 0 24 24'
+                                        strokeWidth='1.5'
+                                        stroke='currentColor'
+                                        className='w-6 h-6'
+                                      >
+                                        <path
+                                          strokeLinecap='round'
+                                          strokeLinejoin='round'
+                                          d='M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z'
+                                        />
+                                      </svg>
+                                    </div>
+                                    <ul
+                                      tabIndex={index}
+                                      className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
                                     >
-                                      <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        d='M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z'
-                                      />
-                                    </svg>
-                                  </button>
+                                      <li>
+                                        <button>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            fill='none'
+                                            viewBox='0 0 24 24'
+                                            strokeWidth='1.5'
+                                            stroke='currentColor'
+                                            className='w-5 h-5'
+                                          >
+                                            <path
+                                              strokeLinecap='round'
+                                              strokeLinejoin='round'
+                                              d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125'
+                                            />
+                                          </svg>
+                                          Edit
+                                        </button>
+                                      </li>
+                                      <li>
+                                        <button>Current Planting</button>
+                                      </li>
+                                      <li>
+                                        <button>Delete</button>
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                  {/* <!-- Dropdown End --> */}
                                 </td>
                               </tr>
                             ))}
