@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
@@ -21,6 +21,7 @@ const filterOptions = [
 ];
 
 export const FieldList = () => {
+  const navigate = useNavigate();
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
   const [fieldIdModal, setfieldIdModal] = useState<number>(0);
@@ -251,7 +252,7 @@ export const FieldList = () => {
                               </td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'>
                                 <span
-                                  className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-sm text-${getStatusColor(field.status! as SD_FieldStatus)}-dark leading-none bg-${getStatusColor(field.status! as SD_FieldStatus)}-light rounded-lg`}
+                                  className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-sm text-status-${getStatusColor(field.status! as SD_FieldStatus)}-dark leading-none bg-status-${getStatusColor(field.status! as SD_FieldStatus)}-light rounded-lg`}
                                 >
                                   {field.status!}
                                 </span>
@@ -265,7 +266,14 @@ export const FieldList = () => {
                               </td>
                               <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                                 <div className='flex items-center gap-2'>
-                                  <button className='btn btn-accent btn-sm'>
+                                  <button
+                                    className='btn btn-accent btn-sm'
+                                    onClick={() =>
+                                      navigate(`/app/land/field/updateField/${field.id}`, {
+                                        state: { fieldData: field as fieldModel }
+                                      })
+                                    }
+                                  >
                                     <svg
                                       xmlns='http://www.w3.org/2000/svg'
                                       fill='none'

@@ -16,7 +16,8 @@ import {
   Product,
   Profile,
   Register,
-  Schedule
+  Schedule,
+  UpdateField
 } from './pages';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -53,7 +54,9 @@ function App() {
         <Route path='map' element={<Map />} />
         {/* Farm Routes  */}
         <Route path='land/farm/allFarms' element={<FarmList />} />
+        {/* Field Routes */}
         <Route path='land/field/allFields' element={<FieldList />} />
+        <Route path='land/field/updateField/:fieldId' element={<UpdateField />} />
       </Route>
       <Route path='*' element={<PageNotFound />} />
     </Routes>

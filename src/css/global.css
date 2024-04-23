@@ -47,6 +47,7 @@
 
 ::-webkit-scrollbar {
   overflow: hidden;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {

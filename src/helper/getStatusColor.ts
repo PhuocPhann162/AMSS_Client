@@ -3,17 +3,17 @@ import { SD_FieldStatus } from '~/utils/SD';
 const getStatusColor = (status: SD_FieldStatus) => {
   switch (status) {
     case SD_FieldStatus.IDLE.toString():
-      return 'status-white';
+      return 'white';
     case SD_FieldStatus.PLANTED.toString():
-      return 'status-success';
+      return 'success';
     case SD_FieldStatus.NEEDS_CARE.toString():
-      return 'status-info';
+      return 'info';
     case SD_FieldStatus.AWAITING_HARVEST.toString():
-      return 'status-warning';
+      return 'warning';
     case SD_FieldStatus.HARVESTING.toString():
-      return 'status-accent';
+      return 'accent';
     case SD_FieldStatus.RECOVERY_NEEDED.toString():
-      return 'status-danger';
+      return 'danger';
     default:
       // Mặc định trả về một màu nào đó khi trạng thái không khớp
       return { dark: '#000000', light: '#ffffff' };

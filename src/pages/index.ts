@@ -12,6 +12,7 @@ import Profile from './Users/Profile';
 import { FarmList } from './Lands/Farms/FarmList';
 import { FieldList } from './Lands/Fields/FieldList';
 import { CropTypeList } from './Crops/CropTypeList';
+import { UpdateField } from './Lands/Fields/UpdateField';
 
 export {
   HomePage,
@@ -27,5 +28,6 @@ export {
   Profile,
   FarmList,
   FieldList,
-  CropTypeList
+  CropTypeList,
+  UpdateField
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { useGeolocation } from '~/hooks/useGeolocation';
-import { farmModel, locationModel, pointModel } from '~/interfaces';
+import { farmModel, fieldModel, locationModel, pointModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
@@ -10,7 +10,10 @@ import * as turf from '@turf/turf';
 import { toastNotify } from '~/helper';
 import { useUrlPosition } from '~/hooks/useUrlPosition';
 import positionModel from '~/interfaces/positionModel';
-import { ListMap } from './ListMap';
+import { useGetAllFarmsQuery } from '~/api/farmApi';
+import { useGetAllFieldsQuery } from '~/api/fieldApi';
+import { PopupFarm } from './PopupFarm';
+import { MainLoader } from '../common';
 
 const style = {
   color: '#ee7219'
@@ -28,6 +31,9 @@ const Map: React.FC = () => {
   const mapRef = useRef<any>(null);
   const [points, setPoints] = useState<pointModel[]>();
 
+  const { data: dataFarm } = useGetAllFarmsQuery('');
+  const { data: dataField, isLoading } = useGetAllFieldsQuery('');
+
   useEffect(() => {
     if (geolocationPosition) {
       setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
@@ -40,9 +46,17 @@ const Map: React.FC = () => {
     }
   }, [mapLat, mapLng]);
 
-  const getDrawPolygon = (farmData: farmModel) => {
+  const getDrawFarmPolygon = (farmData: farmModel) => {
     const pos: [number, number][] =
       farmData.polygonApp?.positions?.map((position: positionModel) => {
+        return [position.lat || 0, position.lng || 0];
+      }) ?? [];
+    return pos;
+  };
+
+  const getDrawFieldPolygon = (fieldData: fieldModel) => {
+    const pos: [number, number][] =
+      fieldData.polygonApp?.positions?.map((position: positionModel) => {
         return [position.lat || 0, position.lng || 0];
       }) ?? [];
     return pos;
@@ -93,75 +107,117 @@ const Map: React.FC = () => {
   };
 
   return (
-    <div className='h-full relative flex-1'>
-      {!geolocationPosition.lat && (
-        <button
-          className='btn btn-secondary text-white uppercase absolute z-999 bottom-16 left-1/2 -translate-x-1/2'
-          onClick={getPosition}
-        >
-          {isLoadingPosition ? 'Loading...' : 'Use your location'}
-        </button>
+    <>
+      {isLoading && <MainLoader />}
+      {!isLoading && (
+        <div className='h-full relative flex-1 overflow-hidden'>
+          {!geolocationPosition.lat && (
+            <button
+              className='btn btn-secondary text-white uppercase absolute z-999 bottom-16 left-1/2 -translate-x-1/2'
+              onClick={getPosition}
+            >
+              {isLoadingPosition ? 'Loading...' : 'Use your location'}
+            </button>
+          )}
+          <MapContainer
+            ref={mapRef}
+            key={mapKey}
+            center={{ lat: mapPosition[0], lng: mapPosition[1] }}
+            zoom={20}
+            scrollWheelZoom={true}
+            className='h-[38rem]'
+          >
+            <FeatureGroup>
+              <EditControl
+                position='topright'
+                draw={{
+                  rectangle: false,
+                  circle: false,
+                  circlemarker: false,
+                  marker: false,
+                  polyline: false,
+                  polygon: {
+                    shapeOptions: style,
+                    edit: false,
+                    showLength: true,
+                    metric: true,
+                    feet: false,
+                    showArea: true
+                  }
+                }}
+                onCreated={handleCreated}
+                onDeleted={() => setArea(0)}
+              ></EditControl>
+            </FeatureGroup>
+            <SearchControl
+              provider={new OpenStreetMapProvider()}
+              showMarker={true}
+              showPopup={false}
+              popupFormat={({ query, result }: { query: any; result: any }) => result.label}
+              maxMarkers={3}
+              retainZoomLevel={false}
+              animateZoom={true}
+              autoClose={false}
+              searchLabel={'Enter address, please🌏'}
+              keepResult={true}
+            />
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+            />
+
+            {dataFarm &&
+              dataFarm?.apiResponse?.result.map((item: farmModel) => (
+                <div key={item.id}>
+                  <Polygon
+                    positions={getDrawFarmPolygon(item)}
+                    pathOptions={{
+                      color: item.polygonApp?.color,
+                      fillColor: 'transparent'
+                    }}
+                  >
+                    <Popup className='w-72'>
+                      <PopupFarm farmInfo={item} />
+                    </Popup>
+                  </Polygon>
+                  <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
+                    <Popup className='w-72'>
+                      <PopupFarm farmInfo={item} />
+                    </Popup>
+                  </Marker>
+                </div>
+              ))}
+
+            {dataField &&
+              dataField?.apiResponse?.result.map((item: fieldModel) => (
+                <div key={item.id}>
+                  <Polygon
+                    positions={getDrawFieldPolygon(item)}
+                    pathOptions={{
+                      color: item.polygonApp?.color,
+                      fillColor: item.polygonApp?.color
+                    }}
+                  >
+                    <Popup className='w-72'>
+                      <PopupFarm farmInfo={item} />
+                    </Popup>
+                  </Polygon>
+                </div>
+              ))}
+
+            {geolocationPosition && (
+              <Marker position={geolocationPosition}>
+                <Popup>
+                  <span>My Location</span>
+                </Popup>
+              </Marker>
+            )}
+            <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
+            <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} />
+          </MapContainer>
+        </div>
       )}
-      <MapContainer
-        ref={mapRef}
-        key={mapKey}
-        center={{ lat: mapPosition[0], lng: mapPosition[1] }}
-        zoom={20}
-        scrollWheelZoom={true}
-        className='h-[38rem]'
-      >
-        <FeatureGroup>
-          <EditControl
-            position='topright'
-            draw={{
-              rectangle: false,
-              circle: false,
-              circlemarker: false,
-              marker: false,
-              polyline: false,
-              polygon: {
-                shapeOptions: style,
-                edit: false,
-                showLength: true,
-                metric: true,
-                feet: false,
-                showArea: true
-              }
-            }}
-            onCreated={handleCreated}
-            onDeleted={() => setArea(0)}
-          ></EditControl>
-        </FeatureGroup>
-        <SearchControl
-          provider={new OpenStreetMapProvider()}
-          showMarker={true}
-          showPopup={false}
-          popupFormat={({ query, result }: { query: any; result: any }) => result.label}
-          maxMarkers={3}
-          retainZoomLevel={false}
-          animateZoom={true}
-          autoClose={false}
-          searchLabel={'Enter address, please🌏'}
-          keepResult={true}
-        />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
-        />
-
-        <ListMap />
-
-        {geolocationPosition && (
-          <Marker position={geolocationPosition}>
-            <Popup>
-              <span>My Location</span>
-            </Popup>
-          </Marker>
-        )}
-        <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-        <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} />
-      </MapContainer>
-    </div>
+    </>
   );
 };
 
