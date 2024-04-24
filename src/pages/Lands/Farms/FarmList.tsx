@@ -100,7 +100,7 @@ export const FarmList = () => {
               <div className='flex items-center mt-4 gap-x-3'>
                 <Link
                   to='/app/map'
-                  className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg'
+                  className='flex items-center justify-center w-1/2 px-4 py-2 text-sm tracking-wide shadow-lg text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 hover:shadow-green'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -158,7 +158,7 @@ export const FarmList = () => {
                 <input
                   type='text'
                   placeholder='Search Name, Location, Owner...'
-                  className='block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                  className='block w-full py-1.5 pr-5 text-gray-700 bg-white border border-bodydark rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
                   name='searchString'
                   value={filters.searchString}
                   onChange={handleChange}
@@ -169,8 +169,8 @@ export const FarmList = () => {
             <div className='flex flex-col mt-6 shadow-lg'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
-                  <div className='overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg'>
-                    <table className='min-w-full divide-y divide-gray-200 dark:divide-gray-700'>
+                  <div className='overflow-hidden border border-bodydark dark:border-gray-700 md:rounded-lg'>
+                    <table className='min-w-full divide-y divide-bodydark dark:divide-gray-700'>
                       <thead className='bg-status-white-light text-status-white-dark'>
                         <tr>
                           <th scope='col' className='py-3.5 px-4 text-sm font-normal text-left rtl:text-right'>
@@ -219,7 +219,7 @@ export const FarmList = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className='bg-white divide-y divide-gray-200'>
+                      <tbody className='bg-white divide-y divide-bodydark'>
                         {farmList &&
                           farmList.map((farm: farmModel) => (
                             <tr key={farm.id}>
@@ -264,7 +264,9 @@ export const FarmList = () => {
                               </td>
                               <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                                 <div>
-                                  <h2 className='font-medium text-gray-800'>Owner Name</h2>
+                                  <h2 className='font-medium text-gray-800'>
+                                    {farm.ownerName == '' ? 'No owner' : farm.ownerName}
+                                  </h2>
                                 </div>
                               </td>
                               <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>

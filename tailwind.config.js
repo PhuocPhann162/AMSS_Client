@@ -7,6 +7,17 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
+    boxShadow: {
+      sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+      md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+      xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      t: '0 -1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+      green: '0px 20px 20px -15px  rgba(0,196,106,0.81) ',
+      yellow: '0px 20px 20px -15px  rgba(255,183,0,0.81) ',
+      none: 'none'
+    },
     fontFamily: {
       satoshi: ['Satoshi', 'sans-serif']
     },
@@ -17,6 +28,9 @@ export default {
       ...defaultTheme.screens
     },
     extend: {
+      fontFamily: {
+        rubik: ['Rubik', 'sans-serif']
+      },
       colors: {
         primary: '#00c46a',
         'type-1': '#e7efef',
@@ -27,6 +41,7 @@ export default {
         current: 'currentColor',
         transparent: 'transparent',
         white: '#FFFFFF',
+        'white-300': '#F8F8F8',
         black: '#1C2434',
         'black-2': '#010101',
         body: '#64748B',

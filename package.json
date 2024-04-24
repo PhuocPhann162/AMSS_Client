@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^2.2.3",
     "@turf/turf": "^7.0.0-alpha.114",
     "date-fns": "^3.6.0",
+    "framer-motion": "^11.1.7",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",

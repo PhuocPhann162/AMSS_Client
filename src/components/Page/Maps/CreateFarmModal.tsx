@@ -18,6 +18,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
     name: '',
+    ownerName: '',
     placeType: '',
     growLocation: '',
     color: '',
@@ -84,12 +85,14 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
         if (userInputs.placeType === 'Farm') {
           // Create Farm
           formData.append('Name', userInputs.name);
-          formData.append('LocationId', locationId ?? '');
+          formData.append('LocationId', locationId);
+          formData.append('OwnerName', userInputs.ownerName);
           formData.append('Area', area!.toString());
           formData.append('PolygonAppId', polygonId);
           const response: apiResponse = await createFarm(formData);
 
           if (response.data && response.data.isSuccess) {
+            setIsLoading(false);
             toastNotify(response.data?.successMessage || 'Farm created successfully');
           } else {
             setIsLoading(false);
@@ -98,7 +101,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
         } else if (userInputs.placeType === 'Field') {
           // Create Field
           formData.append('Name', userInputs.name);
-          formData.append('LocationId', locationId ?? '');
+          formData.append('LocationId', locationId);
           formData.append('Area', area!.toString());
           formData.append('FarmId', userInputs.farmId.toString());
           formData.append('PolygonAppId', polygonId);
@@ -106,6 +109,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
 
           if (response.data && response.data.isSuccess) {
             setIsLoading(false);
+            toastNotify(response.data?.successMessage || 'Field created successfully');
           } else {
             setIsLoading(false);
             toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create field', 'error');
@@ -118,6 +122,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
       // Sau khi tạo thêm vào map và đóng form modal
       setUserInputs({
         name: '',
+        ownerName: '',
         placeType: '',
         growLocation: '',
         color: '',
@@ -176,33 +181,49 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
               </div>
             </div>
             {userInputs.placeType === 'Farm' && (
-              <div className='flex items-center gap-4 py-4'>
-                <label className='text-sm flex-shrink-0 w-1/5 text-right'>Color</label>
-                <div className='flex items-center gap-3'>
-                  <div className='flex items-center'>
+              <>
+                <div className='flex items-center justify-between gap-4 mt-2'>
+                  <label className='text-sm flex-shrink-0 w-1/5 text-right'>Owner name</label>
+                  <div className='flex-grow w-full'>
                     <input
-                      type='radio'
-                      name='color'
-                      value='#5D3D2E'
+                      type='text'
+                      placeholder='Type owner name here'
+                      className='input input-bordered input-warning input-md w-full max-w-lg bg-white'
+                      name='ownerName'
+                      value={userInputs.ownerName}
                       onChange={handleUserInput}
-                      className='radio radio-accent'
-                      checked={userInputs.color === '#5D3D2E'}
+                      required
                     />
-                    <label className='label'>Brown</label>
-                  </div>
-                  <div className='flex items-center'>
-                    <input
-                      type='radio'
-                      name='color'
-                      value='#4bc552'
-                      onChange={handleUserInput}
-                      className='radio radio-success form-control'
-                      checked={userInputs.color === '#4bc552'}
-                    />
-                    <label className='label'>Green</label>
                   </div>
                 </div>
-              </div>
+                <div className='flex items-center gap-4 py-4'>
+                  <label className='text-sm flex-shrink-0 w-1/5 text-right'>Color</label>
+                  <div className='flex items-center gap-3'>
+                    <div className='flex items-center'>
+                      <input
+                        type='radio'
+                        name='color'
+                        value='#5D3D2E'
+                        onChange={handleUserInput}
+                        className='radio radio-accent'
+                        checked={userInputs.color === '#5D3D2E'}
+                      />
+                      <label className='label'>Brown</label>
+                    </div>
+                    <div className='flex items-center'>
+                      <input
+                        type='radio'
+                        name='color'
+                        value='#4bc552'
+                        onChange={handleUserInput}
+                        className='radio radio-success form-control'
+                        checked={userInputs.color === '#4bc552'}
+                      />
+                      <label className='label'>Green</label>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}{' '}
             {userInputs.placeType == 'Field' && (
               <>
@@ -293,6 +314,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                     if (onCancel) {
                       setUserInputs({
                         name: '',
+                        ownerName: '',
                         placeType: '',
                         growLocation: '',
                         color: '',

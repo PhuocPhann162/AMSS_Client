@@ -31,7 +31,7 @@ export const UpdateField = () => {
           : fieldData.status! === SD_FieldStatus.AWAITING_HARVEST
             ? { color: 'accent', value: SD_FieldStatus.HARVESTING }
             : fieldData.status! === SD_FieldStatus.HARVESTING && {
-                color: 'danger',
+                color: 'error',
                 value: SD_FieldStatus.RECOVERY_NEEDED
               };
 

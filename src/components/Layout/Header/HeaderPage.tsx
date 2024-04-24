@@ -93,16 +93,19 @@ function HeaderPage() {
               <DropdownUser />
               {/* <!-- User Area --> */}
               <button
-                className='btn btn-warning text-base text-white px-6 py-2 font-medium rounded-full'
+                className='btn btn-warning text-base text-white px-8 py-2 font-medium rounded-full'
                 onClick={handleLogout}
               >
-                Log out
+                Sign out
               </button>
             </div>
           </>
         ) : (
-          <NavLink to='/login' className='btn btn-primary text-base text-white px-6 py-2 rounded-full font-medium'>
-            Log in
+          <NavLink
+            to='/login'
+            className='font-medium tracking-wide py-2 px-5 sm:px-8 border border-green-500 text-green-500 bg-white-500 outline-none rounded-l-full rounded-r-full capitalize hover:bg-green-500 hover:text-white transition-all hover:shadow-green'
+          >
+            Sign in
           </NavLink>
         )}
       </div>
