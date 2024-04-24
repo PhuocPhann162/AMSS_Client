@@ -5,9 +5,10 @@ interface ModalProps {
   isShow?: boolean;
   onClose?: () => void;
   onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
-export const Modal = ({ children, title, onConfirm }: ModalProps) => {
+export const Modal = ({ title, onConfirm, onCancel }: ModalProps) => {
   return (
     <>
       <dialog id='fuco_modal' className='modal modal-top sm:modal-middle'>
@@ -39,7 +40,10 @@ export const Modal = ({ children, title, onConfirm }: ModalProps) => {
               </button>
               <button
                 className='btn btn-danger text-white'
-                onClick={() => (document.getElementById('my_modal_5') as HTMLDialogElement)?.close()}
+                onClick={() => {
+                  onCancel && onCancel();
+                  (document.getElementById('my_modal_5') as HTMLDialogElement)?.close();
+                }}
               >
                 Cancel
               </button>

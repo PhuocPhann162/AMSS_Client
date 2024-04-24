@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import UserOne from '../../../../public/user-01.png';
+import Avatar from '../../../../public/avatar.png';
 import { userModel } from '~/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '~/storage/redux/store';
@@ -59,7 +59,7 @@ const DropdownUser = () => {
         </span>
 
         <span className='h-12 w-12 rounded-full'>
-          <img src={UserOne} alt='User' />
+          <img src={Avatar} alt='User' />
         </span>
 
         <svg

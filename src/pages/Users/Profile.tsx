@@ -1,9 +1,15 @@
 import { Breadcrumb } from '~/components/UI';
 import CoverOne from '../../../public/bg.jpg';
-import userSix from '../../../public/user-01.png';
+import Avatar from '../../../public/avatar.png';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/storage/redux/store';
+import { userModel } from '~/interfaces';
+import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
 
 const Profile = () => {
+  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+
   return (
     <div>
       <Breadcrumb pageParent='' pageName='Profile' />
@@ -51,7 +57,7 @@ const Profile = () => {
         <div className='px-4 pb-6 text-center lg:pb-8 xl:pb-11.5'>
           <div className='relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3'>
             <div className='relative drop-shadow-2'>
-              <img src={userSix} alt='profile' />
+              <img src={Avatar} alt='profile' />
               <label
                 htmlFor='profile'
                 className='absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2'
@@ -82,16 +88,41 @@ const Profile = () => {
             </div>
           </div>
           <div className='mt-4'>
-            <h3 className='mb-1.5 text-2xl font-semibold text-black dark:text-white'>Danish Heilium</h3>
-            <p className='font-medium'>Ui/Ux Designer</p>
-            <div className='mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]'>
+            <h3 className='mb-1.5 text-2xl font-semibold text-black dark:text-white'>{userData.fullName}</h3>
+            <p className='font-medium flex justify-center items-center gap-2'>
+              <span>{flagemojiToPNG(convertToEmoji(userData.country!))}</span> {userData.userName}
+            </p>
+            <div className='mx-auto mt-4.5 mb-5.5 grid grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]'>
               <div className='flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row'>
-                <span className='font-semibold text-black dark:text-white'>259</span>
-                <span className='text-sm'>Posts</span>
+                <span className='font-semibold text-black dark:text-white'>
+                  <svg xmlns='http://www.w3.org/2000/svg' className='w-5 h-5' viewBox='0 0 24 24'>
+                    <title>phone_call_fill</title>
+                    <g id='phone_call_fill' fill='none' fillRule='nonzero'>
+                      <path d='M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z' />
+                      <path
+                        fill='#09244BFF'
+                        d='M6.857 2.445C8 3.278 8.89 4.415 9.65 5.503l.442.644.417.615a1.504 1.504 0 0 1-.256 1.986l-1.951 1.449a.48.48 0 0 0-.142.616c.442.803 1.228 1.999 2.128 2.899.901.9 2.153 1.738 3.012 2.23a.483.483 0 0 0 .644-.162l1.27-1.933a1.503 1.503 0 0 1 2.056-.332l.663.459c1.239.86 2.57 1.837 3.588 3.14a1.47 1.47 0 0 1 .189 1.484c-.837 1.953-2.955 3.616-5.158 3.535l-.3-.017-.233-.02-.258-.03-.281-.038-.305-.05a11.66 11.66 0 0 1-.16-.03l-.336-.072a12.399 12.399 0 0 1-.176-.04l-.366-.094-.385-.11-.402-.13c-1.846-.626-4.189-1.856-6.593-4.26-2.403-2.403-3.633-4.746-4.259-6.592l-.13-.402-.11-.385-.094-.366-.078-.346a11.79 11.79 0 0 1-.063-.326l-.05-.305-.04-.281-.029-.258-.02-.233-.016-.3c-.081-2.196 1.6-4.329 3.544-5.162a1.47 1.47 0 0 1 1.445.159Zm8.135 3.595.116.013a3.5 3.5 0 0 1 2.858 2.96 1 1 0 0 1-1.958.393l-.023-.115a1.5 1.5 0 0 0-1.07-1.233l-.155-.035a1 1 0 0 1 .232-1.983ZM15 3a6 6 0 0 1 6 6 1 1 0 0 1-1.993.117L19 9a3.998 3.998 0 0 0-3.738-3.991L15 5a1 1 0 1 1 0-2Z'
+                      />
+                    </g>
+                  </svg>
+                </span>
+                <span className='text-sm'>+{userData.phoneNumber}</span>
               </div>
               <div className='flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row'>
-                <span className='font-semibold text-black dark:text-white'>129K</span>
-                <span className='text-sm'>Followers</span>
+                <span className='font-semibold text-black dark:text-white'>
+                  <svg xmlns='http://www.w3.org/2000/svg' className='w-5 h-5' viewBox='0 0 24 24'>
+                    <title>location_2_line</title>
+                    <g id='location_2_line' fill='none' fillRule='evenodd'>
+                      <path d='M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z' />
+                      <path
+                        fill='#09244BFF'
+                        fillRule='nonzero'
+                        d='M6.72 16.64a1 1 0 0 1 .56 1.92c-.5.146-.86.3-1.091.44.238.143.614.303 1.136.452C8.48 19.782 10.133 20 12 20s3.52-.218 4.675-.548c.523-.149.898-.309 1.136-.452-.23-.14-.59-.294-1.09-.44a1 1 0 0 1 .559-1.92c.668.195 1.28.445 1.75.766.435.299.97.82.97 1.594 0 .783-.548 1.308-.99 1.607-.478.322-1.103.573-1.786.768C15.846 21.77 14 22 12 22s-3.846-.23-5.224-.625c-.683-.195-1.308-.446-1.786-.768-.442-.3-.99-.824-.99-1.607 0-.774.535-1.295.97-1.594.47-.321 1.082-.571 1.75-.766ZM12 2a7.5 7.5 0 0 1 7.5 7.5c0 2.568-1.4 4.656-2.85 6.14-.615.628-1.26 1.169-1.853 1.615-.594.446-1.952 1.282-1.952 1.282a1.71 1.71 0 0 1-1.69 0 20.736 20.736 0 0 1-1.952-1.282A16.29 16.29 0 0 1 7.35 15.64C5.9 14.156 4.5 12.068 4.5 9.5A7.5 7.5 0 0 1 12 2Zm0 2a5.5 5.5 0 0 0-5.5 5.5c0 1.816.996 3.428 2.28 4.74.966.988 2.03 1.74 2.767 2.202l.453.274.453-.274c.736-.462 1.801-1.214 2.767-2.201 1.284-1.313 2.28-2.924 2.28-4.741A5.5 5.5 0 0 0 12 4Zm0 2.5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z'
+                      />
+                    </g>
+                  </svg>
+                </span>
+                <span className='text-sm'>{userData.streetAddress + ', ' + userData.state + ', ' + userData.city}</span>
               </div>
               <div className='flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row'>
                 <span className='font-semibold text-black dark:text-white'>2K</span>
