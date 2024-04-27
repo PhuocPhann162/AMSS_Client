@@ -237,7 +237,7 @@ export const FarmList = () => {
                                 <div>
                                   <Link
                                     to={`/app/map?lat=${farm.location!.lat}&lng=${farm.location!.lng}`}
-                                    className='font-medium text-gray-800 flex items-center underline text-green-500 gap-1 : hover:text-green-600'
+                                    className='font-medium text-gray-800 flex items-center underline text-green-500 gap-1 hover:text-green-400'
                                   >
                                     <svg
                                       xmlns='http://www.w3.org/2000/svg'

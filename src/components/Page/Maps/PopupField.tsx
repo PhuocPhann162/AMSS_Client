@@ -1,16 +1,16 @@
 import * as turf from '@turf/turf';
 import { Link } from 'react-router-dom';
-import { farmModel } from '~/interfaces';
+import { fieldModel } from '~/interfaces';
 
-interface PopupFarmProps {
-  farmInfo: farmModel;
+interface PopupFieldProps {
+  fieldInfo: fieldModel;
 }
 
-export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
+export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
   return (
     <div className='flex flex-col w-72 gap-1'>
       <div className='flex items-center font-bold text-lg text-brown gap-1'>
-        {farmInfo.name}
+        {fieldInfo.name}
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -28,12 +28,12 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
         </svg>
       </div>
       <Link to='/app/map' className='flex items-center font-bold underline text-sm text-brown gap-1'>
-        {farmInfo.name}
+        {fieldInfo.name}
       </Link>
       <div className='flex items-center text-sm gap-2 mt-1'>
         <div className='font-bold'>Total area:</div>
         <div className='text-zinc-500'>
-          {farmInfo.area!.toFixed(2)} m² ({turf.convertArea(farmInfo.area!, 'meters', 'acres').toFixed(2)} acres)
+          {fieldInfo.area!.toFixed(2)} m² ({turf.convertArea(fieldInfo.area!, 'meters', 'acres').toFixed(2)} acres)
         </div>
       </div>
       <div className='text-sm'>

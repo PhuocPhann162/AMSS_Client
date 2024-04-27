@@ -223,7 +223,7 @@ export const FieldList = () => {
                             Status
                           </th>
                           <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
-                            Created At
+                            Location
                           </th>
 
                           <th scope='col' className='relative py-3.5 px-4'>
@@ -260,7 +260,31 @@ export const FieldList = () => {
                               <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                                 <div>
                                   <h2 className='font-medium text-gray-800'>
-                                    {format(new Date(field.createdAt!.toString()), 'dd/MM/yyyy')}
+                                    <Link
+                                      to={`/app/map?lat=${field.location!.lat}&lng=${field.location!.lng}`}
+                                      className='font-medium flex items-center underline underline-offset-4 text-green-500 gap-1 hover:decoration-2 hover:text-green-400'
+                                    >
+                                      <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        fill='none'
+                                        viewBox='0 0 24 24'
+                                        strokeWidth='1.5'
+                                        stroke='currentColor'
+                                        className='w-6 h-6'
+                                      >
+                                        <path
+                                          strokeLinecap='round'
+                                          strokeLinejoin='round'
+                                          d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+                                        />
+                                        <path
+                                          strokeLinecap='round'
+                                          strokeLinejoin='round'
+                                          d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z'
+                                        />
+                                      </svg>
+                                      See in map
+                                    </Link>
                                   </h2>
                                 </div>
                               </td>

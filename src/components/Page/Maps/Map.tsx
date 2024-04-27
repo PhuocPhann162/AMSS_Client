@@ -11,9 +11,10 @@ import { toastNotify } from '~/helper';
 import { useUrlPosition } from '~/hooks/useUrlPosition';
 import positionModel from '~/interfaces/positionModel';
 import { useGetAllFarmsQuery } from '~/api/farmApi';
-import { useGetAllFieldsQuery } from '~/api/fieldApi';
+import { useGetAllFieldsQuery, useUpdateFieldMutation } from '~/api/fieldApi';
 import { PopupFarm } from './PopupFarm';
 import { MainLoader } from '../common';
+import { PopupField } from './PopupField';
 
 const style = {
   color: '#ee7219'
@@ -26,13 +27,16 @@ const Map: React.FC = () => {
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
   const [farmAddress, setFarmAddress] = useState<locationModel>({ address: '', lat: 0, lng: 0 });
-  const [mapLat, mapLng] = useUrlPosition();
+  const [points, setPoints] = useState<pointModel[]>();
+  const [idLand, setIdLand] = useState<string>('');
+  const [idPolygon, setIdPolygon] = useState<string>('');
+  const [fieldId, polygonId, mapLat, mapLng] = useUrlPosition();
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
-  const [points, setPoints] = useState<pointModel[]>();
 
   const { data: dataFarm } = useGetAllFarmsQuery('');
   const { data: dataField, isLoading } = useGetAllFieldsQuery('');
+  const [updateField] = useUpdateFieldMutation();
 
   useEffect(() => {
     if (geolocationPosition) {
@@ -41,10 +45,14 @@ const Map: React.FC = () => {
   }, [geolocationPosition]);
 
   useEffect(() => {
+    if (fieldId) {
+      setIdLand(fieldId);
+      setIdPolygon(polygonId || '');
+    }
     if (mapLat && mapLng) {
       setMapPosition([Number(mapLat), Number(mapLng)]);
     }
-  }, [mapLat, mapLng]);
+  }, [fieldId, polygonId, mapLat, mapLng]);
 
   const getDrawFarmPolygon = (farmData: farmModel) => {
     const pos: [number, number][] =
@@ -64,20 +72,16 @@ const Map: React.FC = () => {
 
   const handleCancel = () => {
     if (isPolygonDrawn) {
-      // Xóa polygon được vẽ khỏi bản đồ
       if (drawnPolygon) {
         mapRef.current.removeLayer(drawnPolygon);
       }
-      setDrawnPolygon(null); // Reset state của polygon được vẽ
-      setArea(0); // Reset area
-      setIsPolygonDrawn(false); // Reset trạng thái của polygon được vẽ
+      setDrawnPolygon(null);
+      setArea(0);
+      setIsPolygonDrawn(false);
     }
   };
 
-  const handleCreated = (e: any) => {
-    const layers = e.layer;
-    setDrawnPolygon(layers);
-
+  const getAreaAndPosition = (layers: any) => {
     const drawnPolygon = layers.toGeoJSON();
     const area = turf.area(drawnPolygon);
     setArea(area);
@@ -101,9 +105,25 @@ const Map: React.FC = () => {
     } catch (error) {
       toastNotify('Something error while get address', 'error');
     }
+  };
+
+  const handleCreated = (e: any) => {
+    const layers = e.layer;
+    setDrawnPolygon(layers);
+
+    getAreaAndPosition(layers);
 
     setIsPolygonDrawn(true);
     (document.getElementById('create_farm_modal') as HTMLDialogElement)?.showModal();
+  };
+
+  const handleEdited = (e: any) => {
+    const layers = e.layer;
+    setDrawnPolygon(layers);
+
+    getAreaAndPosition(layers);
+
+    (document.getElementById('update_farm_modal') as HTMLDialogElement)?.showModal();
   };
 
   return (
@@ -146,8 +166,46 @@ const Map: React.FC = () => {
                   }
                 }}
                 onCreated={handleCreated}
+                onEdited={handleEdited}
                 onDeleted={() => setArea(0)}
               ></EditControl>
+              {dataFarm &&
+                dataFarm?.apiResponse?.result.map((item: farmModel) => (
+                  <div key={item.id}>
+                    <Polygon
+                      positions={getDrawFarmPolygon(item)}
+                      pathOptions={{
+                        color: item.polygonApp?.color,
+                        fillColor: 'transparent'
+                      }}
+                    >
+                      <Popup className='w-72'>
+                        <PopupFarm farmInfo={item} />
+                      </Popup>
+                    </Polygon>
+                    <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
+                      <Popup className='w-72'>
+                        <PopupFarm farmInfo={item} />
+                      </Popup>
+                    </Marker>
+                  </div>
+                ))}
+              {dataField &&
+                dataField?.apiResponse?.result.map((item: fieldModel) => (
+                  <div key={item.id}>
+                    <Polygon
+                      positions={getDrawFieldPolygon(item)}
+                      pathOptions={{
+                        color: item.polygonApp?.color,
+                        fillColor: item.polygonApp?.color
+                      }}
+                    >
+                      <Popup className='w-72'>
+                        <PopupField fieldInfo={item} />
+                      </Popup>
+                    </Polygon>
+                  </div>
+                ))}
             </FeatureGroup>
             <SearchControl
               provider={new OpenStreetMapProvider()}
@@ -165,45 +223,6 @@ const Map: React.FC = () => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
             />
-
-            {dataFarm &&
-              dataFarm?.apiResponse?.result.map((item: farmModel) => (
-                <div key={item.id}>
-                  <Polygon
-                    positions={getDrawFarmPolygon(item)}
-                    pathOptions={{
-                      color: item.polygonApp?.color,
-                      fillColor: 'transparent'
-                    }}
-                  >
-                    <Popup className='w-72'>
-                      <PopupFarm farmInfo={item} />
-                    </Popup>
-                  </Polygon>
-                  <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
-                    <Popup className='w-72'>
-                      <PopupFarm farmInfo={item} />
-                    </Popup>
-                  </Marker>
-                </div>
-              ))}
-
-            {dataField &&
-              dataField?.apiResponse?.result.map((item: fieldModel) => (
-                <div key={item.id}>
-                  <Polygon
-                    positions={getDrawFieldPolygon(item)}
-                    pathOptions={{
-                      color: item.polygonApp?.color,
-                      fillColor: item.polygonApp?.color
-                    }}
-                  >
-                    <Popup className='w-72'>
-                      <PopupFarm farmInfo={item} />
-                    </Popup>
-                  </Polygon>
-                </div>
-              ))}
 
             {geolocationPosition && (
               <Marker position={geolocationPosition}>
