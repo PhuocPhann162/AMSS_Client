@@ -15,6 +15,7 @@ import { useGetAllFieldsQuery, useUpdateFieldMutation } from '~/api/fieldApi';
 import { PopupFarm } from './PopupFarm';
 import { MainLoader } from '../common';
 import { PopupField } from './PopupField';
+import { UpdateLandModal } from './UpdateLandModal';
 
 const style = {
   color: '#ee7219'
@@ -70,7 +71,7 @@ const Map: React.FC = () => {
     return pos;
   };
 
-  const handleCancel = () => {
+  const handleCreatedCancel = () => {
     if (isPolygonDrawn) {
       if (drawnPolygon) {
         mapRef.current.removeLayer(drawnPolygon);
@@ -81,7 +82,10 @@ const Map: React.FC = () => {
     }
   };
 
-  const getAreaAndPosition = (layers: any) => {
+  const handleCreated = (e: any) => {
+    const layers = e.layer;
+    setDrawnPolygon(layers);
+
     const drawnPolygon = layers.toGeoJSON();
     const area = turf.area(drawnPolygon);
     setArea(area);
@@ -105,25 +109,44 @@ const Map: React.FC = () => {
     } catch (error) {
       toastNotify('Something error while get address', 'error');
     }
-  };
-
-  const handleCreated = (e: any) => {
-    const layers = e.layer;
-    setDrawnPolygon(layers);
-
-    getAreaAndPosition(layers);
 
     setIsPolygonDrawn(true);
     (document.getElementById('create_farm_modal') as HTMLDialogElement)?.showModal();
   };
 
   const handleEdited = (e: any) => {
-    const layers = e.layer;
-    setDrawnPolygon(layers);
+    const layers = e.layers;
+    const area = turf.area(layers.toGeoJSON());
+    setArea(area);
+    let latLngs: any[] = [];
+    layers.eachLayer((layer: any) => {
+      latLngs = layer.getLatLngs()[0];
+      setPoints(layer.getLatLngs()[0]);
+    });
 
-    getAreaAndPosition(layers);
+    if (latLngs !== undefined) {
+      const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
+      const average = [sum[0] / latLngs!.length, sum[1] / latLngs!.length];
+      setMapPosition(average);
 
-    (document.getElementById('update_farm_modal') as HTMLDialogElement)?.showModal();
+      try {
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
+          .then((response) => response.json())
+          .then((dataApi) => {
+            const address = dataApi.display_name;
+            setFarmAddress({ address: address, lat: average[0], lng: average[1] });
+          })
+          .catch((error) => {
+            toastNotify('Something error while get address', 'error');
+          });
+      } catch (error) {
+        toastNotify('Something error while get address', 'error');
+      }
+    } else {
+      return;
+    }
+
+    (document.getElementById('update_land_modal') as HTMLDialogElement)?.showModal();
   };
 
   return (
@@ -158,16 +181,15 @@ const Map: React.FC = () => {
                   polyline: false,
                   polygon: {
                     shapeOptions: style,
-                    edit: false,
+                    edit: true,
                     showLength: true,
                     metric: true,
-                    feet: false,
+                    feet: true,
                     showArea: true
                   }
                 }}
                 onCreated={handleCreated}
                 onEdited={handleEdited}
-                onDeleted={() => setArea(0)}
               ></EditControl>
               {dataFarm &&
                 dataFarm?.apiResponse?.result.map((item: farmModel) => (
@@ -232,7 +254,8 @@ const Map: React.FC = () => {
               </Marker>
             )}
             <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-            <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCancel} />
+            <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCreatedCancel} />
+            <UpdateLandModal area={area} location={farmAddress} points={points!} />
           </MapContainer>
         </div>
       )}

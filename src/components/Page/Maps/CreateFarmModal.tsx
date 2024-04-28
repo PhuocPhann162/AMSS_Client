@@ -308,7 +308,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                 </button>
                 <button
                   type='button'
-                  className='btn btn-danger text-white'
+                  className='btn text-white'
                   onClick={() => {
                     (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
                     if (onCancel) {
