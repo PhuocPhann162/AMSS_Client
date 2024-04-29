@@ -41,13 +41,13 @@ const fieldApi = createApi({
       invalidatesTags: ['Fields']
     }),
     updateField: builder.mutation({
-      query: ({ id, status, data }) => ({
+      query: ({ id, data }) => ({
         url: `field/${id}`,
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
         },
-        body: JSON.stringify({ status, ...data })
+        body: JSON.stringify({ ...data })
       }),
       invalidatesTags: ['Fields']
     }),

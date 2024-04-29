@@ -20,22 +20,28 @@ export const UpdateLandModal = ({ area, location, points }: UpdateLandModalProps
   const [updateField] = useUpdateFieldMutation();
 
   const handleUpdate = async () => {
-    // update the field area
+    setIsLoading(true);
     try {
       const response: apiResponse = await updateField({
         id: fieldId,
-        data: { id: fieldId, area: area, location: location, positions: points }
+        data: {
+          id: parseInt(fieldId!),
+          area: area,
+          location: location,
+          positions: points
+        }
       });
 
       if (response && response.data?.isSuccess) {
-        toastNotify('Field name has been updated successfully', 'success');
+        toastNotify('Field location has been updated successfully', 'success');
         navigate(-1);
       } else {
-        toastNotify('Failed to update field name', 'error');
+        toastNotify('Failed to update field location', 'error');
       }
     } catch (error: any) {
       throw new Error(error.message);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -70,7 +76,12 @@ export const UpdateLandModal = ({ area, location, points }: UpdateLandModalProps
               </div>
               <div className='modal-action flex justify-end'>
                 {/* if there is a button in form, it will close the modal */}
-                <button type='button' className='btn btn-primary text-white' onClick={() => handleUpdate()}>
+                <button
+                  type='button'
+                  disabled={isLoading}
+                  className='btn btn-primary text-white'
+                  onClick={handleUpdate}
+                >
                   {!isLoading ? 'Update Field' : <MiniLoader />}
                 </button>
                 <button
