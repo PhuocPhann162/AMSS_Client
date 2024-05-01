@@ -5,7 +5,7 @@ import { toastNotify } from '~/helper';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { MiniLoader } from '../common';
-import { useUrlPosition } from '~/hooks/useUrlPosition';
+import { useUrlPosition } from '~/hooks';
 
 interface UpdateLandModalProps {
   area?: number;
@@ -34,7 +34,7 @@ export const UpdateLandModal = ({ area, location, points }: UpdateLandModalProps
 
       if (response && response.data?.isSuccess) {
         toastNotify('Field location has been updated successfully', 'success');
-        navigate(-1);
+        (document.getElementById('update_land_modal') as HTMLDialogElement)?.close();
       } else {
         toastNotify('Failed to update field location', 'error');
       }

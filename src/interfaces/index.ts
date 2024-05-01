@@ -9,6 +9,8 @@ import pointModel from './pointModel';
 import polygonModel from './polygonModel';
 import cropModel from './cropModel';
 import cropTypeModel from './cropTypeModel';
+import { forecastType } from './forecastModel';
+import { optionType } from './forecastModel';
 
 export type {
   pointModel,
@@ -21,5 +23,7 @@ export type {
   fieldModel,
   polygonModel,
   cropModel,
-  cropTypeModel
+  cropTypeModel,
+  forecastType,
+  optionType
 };

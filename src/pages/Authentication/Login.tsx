@@ -45,7 +45,7 @@ function Login() {
         dispatch(setLoggedInUser(user));
         setLoading(false);
         toastNotify(response?.data.successMessage || '');
-        navigate('/app');
+        navigate('/app/dashBoard');
       } else if (response?.error) {
         setLoading(false);
         const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';

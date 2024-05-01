@@ -34,7 +34,7 @@ export default function HomePage() {
                 agriculture methods. Increase efficiency, optimize resources, and promote environmental sustainability.
               </h2>
               {userData.id ? (
-                <Link to='/app' className='btn btn-warning hover:shadow-yellow px-8 py-4 hover:text-white'>
+                <Link to='/app/dashBoard' className='btn btn-warning hover:shadow-yellow px-8 py-4 hover:text-white'>
                   Manage Farm Now
                 </Link>
               ) : (

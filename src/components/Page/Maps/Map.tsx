@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { useGeolocation } from '~/hooks/useGeolocation';
 import { farmModel, fieldModel, locationModel, pointModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '~/helper';
-import { useUrlPosition } from '~/hooks/useUrlPosition';
 import positionModel from '~/interfaces/positionModel';
 import { useGetAllFarmsQuery } from '~/api/farmApi';
-import { useGetAllFieldsQuery, useUpdateFieldMutation } from '~/api/fieldApi';
+import { useGetAllFieldsQuery } from '~/api/fieldApi';
 import { PopupFarm } from './PopupFarm';
 import { MainLoader } from '../common';
 import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
+import { useGeolocation, useUrlPosition } from '~/hooks';
 
 const style = {
   color: '#ee7219'
@@ -37,7 +36,6 @@ const Map: React.FC = () => {
 
   const { data: dataFarm } = useGetAllFarmsQuery('');
   const { data: dataField, isLoading } = useGetAllFieldsQuery('');
-  const [updateField] = useUpdateFieldMutation();
 
   useEffect(() => {
     if (geolocationPosition) {
@@ -48,7 +46,7 @@ const Map: React.FC = () => {
   useEffect(() => {
     if (fieldId) {
       setIdLand(fieldId);
-      setIdPolygon(polygonId || '');
+      setIdPolygon(polygonId!);
     }
     if (mapLat && mapLng) {
       setMapPosition([Number(mapLat), Number(mapLng)]);
@@ -115,8 +113,11 @@ const Map: React.FC = () => {
   };
 
   const handleEdited = (e: any) => {
+    console.log(e);
     const layers = e.layers;
+    console.log(layers);
     const area = turf.area(layers.toGeoJSON());
+    console.log(area);
     setArea(area);
     let latLngs: any[] = [];
     layers.eachLayer((layer: any) => {

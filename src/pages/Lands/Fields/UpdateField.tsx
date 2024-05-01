@@ -151,7 +151,7 @@ export const UpdateField = () => {
                 type='text'
                 className='grow opacity-90 cursor-not-allowed'
                 placeholder='daisy@site.com'
-                defaultValue={`${fieldData.area} m²`}
+                defaultValue={`${fieldData.area.toFixed(2)} m²`}
                 readOnly
               />
               <Link

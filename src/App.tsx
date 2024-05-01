@@ -6,6 +6,7 @@ import {
   AllUsers,
   Crop,
   CropTypeList,
+  DashBoard,
   FarmList,
   FieldList,
   HomePage,
@@ -40,6 +41,8 @@ function App() {
       <Route path='product' element={<Product />} />
       <Route path='pricing' element={<Pricing />} />
       <Route path='app' element={<DefaultAppLayout />}>
+        {/* DashBoard */}
+        <Route path='dashBoard' element={<DashBoard />} />
         {/* User Routes */}
         <Route path='user/profile' element={<Profile />} />
         <Route path='user/register' element={<Register />} />

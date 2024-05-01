@@ -13,6 +13,7 @@ import { FarmList } from './Lands/Farms/FarmList';
 import { FieldList } from './Lands/Fields/FieldList';
 import { CropTypeList } from './Crops/CropTypeList';
 import { UpdateField } from './Lands/Fields/UpdateField';
+import { DashBoard } from './DashBoard/DashBoard';
 
 export {
   HomePage,
@@ -29,5 +30,6 @@ export {
   FarmList,
   FieldList,
   CropTypeList,
-  UpdateField
+  UpdateField,
+  DashBoard
 };
