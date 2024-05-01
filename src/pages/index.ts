@@ -14,6 +14,7 @@ import { FieldList } from './Lands/Fields/FieldList';
 import { CropTypeList } from './Crops/CropTypeList';
 import { UpdateField } from './Lands/Fields/UpdateField';
 import { DashBoard } from './DashBoard/DashBoard';
+import { WeatherSearch } from './Weather/WeatherSearch';
 
 export {
   HomePage,
@@ -31,5 +32,6 @@ export {
   FieldList,
   CropTypeList,
   UpdateField,
-  DashBoard
+  DashBoard,
+  WeatherSearch
 };

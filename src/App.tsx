@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import DefaultAppLayout from './layout/DefaultAppLayout';
-import { Map } from './components/Page/Maps';
+import { Map, WeatherMap } from './components/Page/Maps';
 import {
   AllUsers,
   Crop,
@@ -18,7 +18,8 @@ import {
   Profile,
   Register,
   Schedule,
-  UpdateField
+  UpdateField,
+  WeatherSearch
 } from './pages';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -55,11 +56,14 @@ function App() {
         <Route path='crop/growLocations' element={<Crop />} />
         {/* Map Routes */}
         <Route path='map' element={<Map />} />
+        <Route path='map/weather' element={<WeatherMap />} />
         {/* Farm Routes  */}
         <Route path='land/farm/allFarms' element={<FarmList />} />
         {/* Field Routes */}
         <Route path='land/field/allFields' element={<FieldList />} />
         <Route path='land/field/updateField/:fieldId' element={<UpdateField />} />
+        {/* Weather */}
+        <Route path='weatherSearch' element={<WeatherSearch />} />
       </Route>
       <Route path='*' element={<PageNotFound />} />
     </Routes>

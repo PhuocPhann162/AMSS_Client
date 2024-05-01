@@ -1,22 +1,21 @@
-import { Forecast, Search } from '~/components/Page/Weather';
-import { useForecast } from '~/hooks';
+import { useEffect, useState } from 'react';
+import { useGeolocation } from '~/hooks';
 
 export const DashBoard = () => {
-  const { forecast, options, term, onOptionSelect, onSubmit, onInputChange } = useForecast();
+  const [userPosition, setUserPosition] = useState<[number, number]>();
+  const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
 
-  return (
-    <main className='flex justify-center items-center bg-gradient-to-br from-sky-400 via-rose-400 to-lime-400 h-full w-full'>
-      {forecast ? (
-        <Forecast data={forecast} />
-      ) : (
-        <Search
-          term={term}
-          options={options}
-          onInputChange={onInputChange}
-          onOptionSelect={onOptionSelect}
-          onSubmit={onSubmit}
-        />
-      )}
-    </main>
-  );
+  useEffect(() => {
+    if (!geolocationPosition || geolocationPosition.lat === 0 || geolocationPosition.lng === 0) {
+      getPosition();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (geolocationPosition) {
+      setUserPosition([geolocationPosition.lat, geolocationPosition.lng]);
+    }
+  }, [geolocationPosition]);
+
+  return <div>{userPosition}</div>;
 };

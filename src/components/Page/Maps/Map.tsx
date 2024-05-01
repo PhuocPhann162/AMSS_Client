@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { farmModel, fieldModel, locationModel, pointModel } from '~/interfaces';
+import { farmModel, fieldModel, locationModel, pointModel, positionModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '~/helper';
-import positionModel from '~/interfaces/positionModel';
 import { useGetAllFarmsQuery } from '~/api/farmApi';
 import { useGetAllFieldsQuery } from '~/api/fieldApi';
 import { PopupFarm } from './PopupFarm';
@@ -27,6 +26,7 @@ const Map: React.FC = () => {
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
   const [farmAddress, setFarmAddress] = useState<locationModel>({ address: '', lat: 0, lng: 0 });
+  const [cityLocation, setCityLocation] = useState<string>('');
   const [points, setPoints] = useState<pointModel[]>();
   const [idLand, setIdLand] = useState<string>('');
   const [idPolygon, setIdPolygon] = useState<string>('');
@@ -98,6 +98,8 @@ const Map: React.FC = () => {
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
         .then((response) => response.json())
         .then((dataApi) => {
+          const city = dataApi.address.city;
+          setCityLocation(city);
           const address = dataApi.display_name;
           setFarmAddress({ address: address, lat: average[0], lng: average[1] });
         })

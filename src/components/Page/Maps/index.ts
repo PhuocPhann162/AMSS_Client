@@ -4,5 +4,6 @@ import { SearchControl } from './SearchControl';
 import { PopupFarm } from './PopupFarm';
 import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
+import WeatherMap from './WeatherMap';
 
-export { Map, CreateFarmModal, SearchControl, PopupFarm, PopupField, UpdateLandModal };
+export { Map, CreateFarmModal, SearchControl, PopupFarm, PopupField, UpdateLandModal, WeatherMap };

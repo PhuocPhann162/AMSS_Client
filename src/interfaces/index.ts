@@ -11,6 +11,7 @@ import cropModel from './cropModel';
 import cropTypeModel from './cropTypeModel';
 import { forecastType } from './forecastModel';
 import { optionType } from './forecastModel';
+import positionModel from './positionModel';
 
 export type {
   pointModel,
@@ -18,6 +19,7 @@ export type {
   apiResponse,
   tokenModel,
   locationModel,
+  positionModel,
   pageOptions,
   farmModel,
   fieldModel,
