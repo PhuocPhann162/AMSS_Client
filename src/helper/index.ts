@@ -4,6 +4,7 @@ import { baseQuery, baseQueryWithReauth } from './baseQueryWithAuth';
 import getStatusColor from './getStatusColor';
 import getScrollAnimation from './getScrollAnimation';
 import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, getPop } from './getWeatherStatus';
+import getForecast from './getForecast';
 
 export {
   inputHelper,
@@ -16,5 +17,6 @@ export {
   getHumidityValue,
   getVisibilityValue,
   getSunTime,
-  getPop
+  getPop,
+  getForecast
 };

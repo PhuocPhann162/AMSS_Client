@@ -38,7 +38,6 @@ export const CropTypeList = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, filters);
     setFilters(tempData);
-    console.log(tempData);
   };
 
   useEffect(() => {

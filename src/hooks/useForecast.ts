@@ -3,9 +3,10 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import { forecastType, optionType } from '~/interfaces';
 
 const BASE_URL = 'http://api.openweathermap.org';
+const DEFAULT_CITY: optionType = { name: 'Ho Chi Minh', country: 'VN', lat: 10.762622, lon: 106.660172 };
 
 const useForecast = () => {
-  const [city, setCity] = useState<optionType | null>(null);
+  const [city, setCity] = useState<optionType>(DEFAULT_CITY);
   const [term, setTerm] = useState<string>('');
   const [options, setOptions] = useState<[]>([]);
   const [forecast, setForecast] = useState<forecastType | null>(null);
@@ -32,7 +33,7 @@ const useForecast = () => {
         console.log(data);
         const forecastData = {
           ...data.city,
-          list: data.list.slice(0, 16)
+          list: data.list
         };
 
         setForecast(forecastData);
@@ -57,6 +58,7 @@ const useForecast = () => {
     if (city) {
       setTerm(city.name);
       setOptions([]);
+      onSubmit();
     }
   }, [city]);
 
@@ -66,7 +68,9 @@ const useForecast = () => {
     term,
     onOptionSelect,
     onSubmit,
-    onInputChange
+    onInputChange,
+    setCity,
+    getForecast
   };
 };
 

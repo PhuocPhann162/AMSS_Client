@@ -115,11 +115,8 @@ const Map: React.FC = () => {
   };
 
   const handleEdited = (e: any) => {
-    console.log(e);
     const layers = e.layers;
-    console.log(layers);
     const area = turf.area(layers.toGeoJSON());
-    console.log(area);
     setArea(area);
     let latLngs: any[] = [];
     layers.eachLayer((layer: any) => {
