@@ -61,7 +61,7 @@ function App() {
         <Route path='land/farm/allFarms' element={<FarmList />} />
         {/* Field Routes */}
         <Route path='land/field/allFields' element={<FieldList />} />
-        <Route path='land/field/updateField/:fieldId' element={<UpdateField />} />
+        <Route path='land/field/updateField/:id' element={<UpdateField />} />
         {/* Weather */}
         <Route path='weatherSearch' element={<WeatherSearch />} />
       </Route>

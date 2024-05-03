@@ -8,7 +8,7 @@ interface PopupFieldProps {
 
 export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
   return (
-    <div className='flex flex-col w-72 gap-1'>
+    <div className='flex flex-col w-72 gap-1 '>
       <div className='flex items-center font-bold text-lg text-brown gap-1'>
         {fieldInfo.name}
         <svg
@@ -37,7 +37,7 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
         </div>
       </div>
       <div className='text-sm'>
-        <Link to='/app/map' className='flex items-center gap-1'>
+        <Link to={`/app/land/field/updateField/${fieldInfo.id}`} className='flex items-center gap-1'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'

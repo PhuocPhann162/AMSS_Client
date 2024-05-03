@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 
 import { optionType } from '~/interfaces';
 import { Suggestions } from '../Weather';
+import { motion } from 'framer-motion';
 
 type Props = {
   term: string;
@@ -13,7 +14,7 @@ type Props = {
 
 const SearchWeather = ({ term, options, onInputChange, onOptionSelect, onSubmit }: Props) => (
   <section>
-    <div className='relative flex mt-10 md:mt-4'>
+    <div className='relative flex mt-10 md:mt-6'>
       <input
         type='text'
         value={term}
@@ -23,12 +24,14 @@ const SearchWeather = ({ term, options, onInputChange, onOptionSelect, onSubmit 
 
       <Suggestions options={options} onSelect={onOptionSelect} />
 
-      <button
-        className='rounded-r-md border-2 border-zinc-100 hover:bg-green-400 bg-primary text-white px-2 py-1 cursor-pointer'
+      <motion.div
+        className='box rounded-r-md border-2 border-zinc-100 bg-primary text-white px-2 py-1 cursor-pointer'
         onClick={onSubmit}
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 10 }}
       >
         Search City
-      </button>
+      </motion.div>
     </div>
   </section>
 );

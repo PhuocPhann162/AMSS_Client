@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
 import { Modal, Pagination } from '~/common';
+import { DeleteIcon, EditExpandIcon, ExpandIcon, SearchIcon, SortIcon } from '~/components/Icon';
 import { MainLoader } from '~/components/Page/common';
 import { inputHelper } from '~/helper';
 import { cropModel, cropTypeModel, pageOptions } from '~/interfaces';
@@ -76,20 +76,7 @@ export const CropTypeList = () => {
 
                 <div className='relative flex items-center mt-4 md:mt-0'>
                   <span className='absolute'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth='1.5'
-                      stroke='currentColor'
-                      className='w-5 h-5 mx-3 text-gray-400 dark:text-gray-600'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-                      />
-                    </svg>
+                    <SearchIcon />
                   </span>
 
                   <input
@@ -118,27 +105,7 @@ export const CropTypeList = () => {
                           >
                             <button className='flex items-center gap-x-3 focus:outline-none'>
                               <span>CropType</span>
-
-                              <svg className='h-3' viewBox='0 0 10 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                                <path
-                                  d='M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z'
-                                  fill='currentColor'
-                                  stroke='currentColor'
-                                  strokeWidth='0.1'
-                                />
-                                <path
-                                  d='M0.722656 9.60832L3.09974 6.78633H0.811638V5.87109H4.35819V6.78633L2.01925 9.60832H4.43446V10.5617H0.722656V9.60832Z'
-                                  fill='currentColor'
-                                  stroke='currentColor'
-                                  strokeWidth='0.1'
-                                />
-                                <path
-                                  d='M8.45558 7.25664V7.40664H8.60558H9.66065C9.72481 7.40664 9.74667 7.42274 9.75141 7.42691C9.75148 7.42808 9.75146 7.42993 9.75116 7.43262C9.75001 7.44265 9.74458 7.46304 9.72525 7.49314C9.72522 7.4932 9.72518 7.49326 9.72514 7.49332L7.86959 10.3529L7.86924 10.3534C7.83227 10.4109 7.79863 10.418 7.78568 10.418C7.77272 10.418 7.73908 10.4109 7.70211 10.3534L7.70177 10.3529L5.84621 7.49332C5.84617 7.49325 5.84612 7.49318 5.84608 7.49311C5.82677 7.46302 5.82135 7.44264 5.8202 7.43262C5.81989 7.42993 5.81987 7.42808 5.81994 7.42691C5.82469 7.42274 5.84655 7.40664 5.91071 7.40664H6.96578H7.11578V7.25664V0.633865C7.11578 0.42434 7.29014 0.249976 7.49967 0.249976H8.07169C8.28121 0.249976 8.45558 0.42434 8.45558 0.633865V7.25664Z'
-                                  fill='currentColor'
-                                  stroke='currentColor'
-                                  strokeWidth='0.3'
-                                />
-                              </svg>
+                              <SortIcon />
                             </button>
                           </th>
 
@@ -174,105 +141,68 @@ export const CropTypeList = () => {
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
                             </tr>
-                            {ct.crops.map((crop: cropModel, index: number) => (
-                              <tr key={crop.id} className='border-b border-type-1'>
-                                <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <img src={crop.icon} className='w-20 rounded-full' />
-                                </td>
-                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <div>
+                            <span key={ct.id}>
+                              {ct.crops.map((crop: cropModel, index: number) => (
+                                <tr key={crop.id} className='border-b border-type-1'>
+                                  <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                    <img src={crop.icon} className='w-20 rounded-full' />
+                                  </td>
+                                  <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                    <div>
+                                      <div className='flex items-center gap-2'>
+                                        <h2 className='text-pearl font-bold'>{crop.name}</h2>
+                                        <span
+                                          className={`text-center align-baseline inline-flex px-3 py-2 mr-auto items-center text-xs text-type-2 leading-none bg-type-1 rounded-lg`}
+                                        >
+                                          {ct.code}
+                                        </span>
+                                      </div>
+                                      <h4 className='w-40 text-wrap text-xs opacity-80'>{crop.description}</h4>
+                                    </div>
+                                  </td>
+                                  <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
                                     <div className='flex items-center gap-2'>
-                                      <h2 className='text-pearl font-bold'>{crop.name}</h2>
+                                      {crop.cultivatedArea?.toFixed(2)} sqft
                                       <span
-                                        className={`text-center align-baseline inline-flex px-3 py-2 mr-auto items-center text-xs text-type-2 leading-none bg-type-1 rounded-lg`}
+                                        className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
                                       >
-                                        {ct.code}
+                                        {crop.field?.name}
                                       </span>
                                     </div>
-                                    <h4 className='w-40 text-wrap text-xs opacity-80'>{crop.description}</h4>
-                                  </div>
-                                </td>
-                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
-                                  <div className='flex items-center gap-2'>
-                                    {crop.cultivatedArea?.toFixed(2)} sqft
-                                    <span
-                                      className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
-                                    >
-                                      {crop.field?.name}
-                                    </span>
-                                  </div>
-                                </td>
-                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <div>Expected {format(new Date(crop.expectedDate!), 'MMM. dd, yyyy')}</div>
-                                </td>
-                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
-                                  {/* <!-- Dropdown Start --> */}
-                                  <div className='dropdown dropdown-left dropdown-bottom dropdown-hover'>
-                                    <div tabIndex={index} role='button' className=' m-1'>
-                                      <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        fill='none'
-                                        viewBox='0 0 24 24'
-                                        strokeWidth='1.5'
-                                        stroke='currentColor'
-                                        className='w-6 h-6'
+                                  </td>
+                                  <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                    <div>Expected {format(new Date(crop.expectedDate!), 'MMM. dd, yyyy')}</div>
+                                  </td>
+                                  <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
+                                    {/* <!-- Dropdown Start --> */}
+                                    <div className='dropdown dropdown-left dropdown-bottom dropdown-hover'>
+                                      <div tabIndex={index} role='button' className=' m-1'>
+                                        <ExpandIcon />
+                                      </div>
+                                      <ul
+                                        tabIndex={index}
+                                        className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
                                       >
-                                        <path
-                                          strokeLinecap='round'
-                                          strokeLinejoin='round'
-                                          d='M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z'
-                                        />
-                                      </svg>
+                                        <li>
+                                          <button className='text-accent'>
+                                            <EditExpandIcon />
+                                            Edit
+                                          </button>
+                                        </li>
+                                        <li>
+                                          <button className='text-danger'>
+                                            <DeleteIcon />
+                                            Delete
+                                          </button>
+                                        </li>
+                                      </ul>
                                     </div>
-                                    <ul
-                                      tabIndex={index}
-                                      className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
-                                    >
-                                      <li>
-                                        <button className='text-accent'>
-                                          <svg
-                                            xmlns='http://www.w3.org/2000/svg'
-                                            fill='none'
-                                            viewBox='0 0 24 24'
-                                            strokeWidth='1.5'
-                                            stroke='currentColor'
-                                            className='w-5 h-5'
-                                          >
-                                            <path
-                                              strokeLinecap='round'
-                                              strokeLinejoin='round'
-                                              d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125'
-                                            />
-                                          </svg>
-                                          Edit
-                                        </button>
-                                      </li>
-                                      <li>
-                                        <button className='text-danger'>
-                                          <svg
-                                            xmlns='http://www.w3.org/2000/svg'
-                                            fill='none'
-                                            viewBox='0 0 24 24'
-                                            strokeWidth='1.5'
-                                            stroke='currentColor'
-                                            className='w-5 h-5'
-                                          >
-                                            <path
-                                              strokeLinecap='round'
-                                              strokeLinejoin='round'
-                                              d='m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0'
-                                            />
-                                          </svg>
-                                          Delete
-                                        </button>
-                                      </li>
-                                    </ul>
-                                  </div>
 
-                                  {/* <!-- Dropdown End --> */}
-                                </td>
-                              </tr>
-                            ))}
+                                    {/* <!-- Dropdown End --> */}
+                                  </td>
+                                </tr>
+                              ))}
+                            </span>
                           </>
                         ))}
                       </tbody>
