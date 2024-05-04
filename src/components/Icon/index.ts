@@ -8,5 +8,16 @@ import {
   DeleteIcon,
   MarkerIcon
 } from './TableListIcon';
+import { ForecastIcon } from './WeatherIcon';
 
-export { SortIcon, SearchIcon, ExpandIcon, CreateIcon, EditTableIcon, EditExpandIcon, DeleteIcon, MarkerIcon };
+export {
+  SortIcon,
+  SearchIcon,
+  ExpandIcon,
+  CreateIcon,
+  EditTableIcon,
+  EditExpandIcon,
+  DeleteIcon,
+  MarkerIcon,
+  ForecastIcon
+};

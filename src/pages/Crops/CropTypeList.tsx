@@ -141,68 +141,66 @@ export const CropTypeList = () => {
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
                             </tr>
-                            <span key={ct.id}>
-                              {ct.crops.map((crop: cropModel, index: number) => (
-                                <tr key={crop.id} className='border-b border-type-1'>
-                                  <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                    <img src={crop.icon} className='w-20 rounded-full' />
-                                  </td>
-                                  <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                    <div>
-                                      <div className='flex items-center gap-2'>
-                                        <h2 className='text-pearl font-bold'>{crop.name}</h2>
-                                        <span
-                                          className={`text-center align-baseline inline-flex px-3 py-2 mr-auto items-center text-xs text-type-2 leading-none bg-type-1 rounded-lg`}
-                                        >
-                                          {ct.code}
-                                        </span>
-                                      </div>
-                                      <h4 className='w-40 text-wrap text-xs opacity-80'>{crop.description}</h4>
-                                    </div>
-                                  </td>
-                                  <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
+                            {ct.crops.map((crop: cropModel, index: number) => (
+                              <tr key={crop.id} className='border-b border-type-1'>
+                                <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                  <img src={crop.icon} className='w-20 rounded-full' />
+                                </td>
+                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                  <div>
                                     <div className='flex items-center gap-2'>
-                                      {crop.cultivatedArea?.toFixed(2)} sqft
+                                      <h2 className='text-pearl font-bold'>{crop.name}</h2>
                                       <span
-                                        className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
+                                        className={`text-center align-baseline inline-flex px-3 py-2 mr-auto items-center text-xs text-type-2 leading-none bg-type-1 rounded-lg`}
                                       >
-                                        {crop.field?.name}
+                                        {ct.code}
                                       </span>
                                     </div>
-                                  </td>
-                                  <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                    <div>Expected {format(new Date(crop.expectedDate!), 'MMM. dd, yyyy')}</div>
-                                  </td>
-                                  <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
-                                    {/* <!-- Dropdown Start --> */}
-                                    <div className='dropdown dropdown-left dropdown-bottom dropdown-hover'>
-                                      <div tabIndex={index} role='button' className=' m-1'>
-                                        <ExpandIcon />
-                                      </div>
-                                      <ul
-                                        tabIndex={index}
-                                        className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
-                                      >
-                                        <li>
-                                          <button className='text-accent'>
-                                            <EditExpandIcon />
-                                            Edit
-                                          </button>
-                                        </li>
-                                        <li>
-                                          <button className='text-danger'>
-                                            <DeleteIcon />
-                                            Delete
-                                          </button>
-                                        </li>
-                                      </ul>
+                                    <h4 className='w-40 text-wrap text-xs opacity-80'>{crop.description}</h4>
+                                  </div>
+                                </td>
+                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
+                                  <div className='flex items-center gap-2'>
+                                    {crop.cultivatedArea?.toFixed(2)} sqft
+                                    <span
+                                      className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
+                                    >
+                                      {crop.field?.name}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                  <div>Expected {format(new Date(crop.expectedDate!), 'MMM. dd, yyyy')}</div>
+                                </td>
+                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
+                                  {/* <!-- Dropdown Start --> */}
+                                  <div className='dropdown dropdown-left dropdown-bottom dropdown-hover'>
+                                    <div tabIndex={index} role='button' className=' m-1'>
+                                      <ExpandIcon />
                                     </div>
+                                    <ul
+                                      tabIndex={index}
+                                      className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
+                                    >
+                                      <li>
+                                        <button className='text-accent'>
+                                          <EditExpandIcon />
+                                          Edit
+                                        </button>
+                                      </li>
+                                      <li>
+                                        <button className='text-danger'>
+                                          <DeleteIcon />
+                                          Delete
+                                        </button>
+                                      </li>
+                                    </ul>
+                                  </div>
 
-                                    {/* <!-- Dropdown End --> */}
-                                  </td>
-                                </tr>
-                              ))}
-                            </span>
+                                  {/* <!-- Dropdown End --> */}
+                                </td>
+                              </tr>
+                            ))}
                           </>
                         ))}
                       </tbody>
