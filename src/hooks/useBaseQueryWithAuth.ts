@@ -4,6 +4,7 @@ import { emptyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
 import { Mutex } from 'async-mutex';
 import { MaybePromise } from 'node_modules/@reduxjs/toolkit/dist/query/tsHelpers';
 import { QueryReturnValue } from 'node_modules/@reduxjs/toolkit/dist/query/baseQueryTypes';
+import { jwtDecode } from 'jwt-decode';
 
 const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
@@ -20,6 +21,16 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   extraOptions
 ) => {
   const refreshTokenValue = localStorage.getItem('refreshToken');
+  const decodeRefreshToken = jwtDecode(refreshTokenValue as string);
+  const refreshTokenExpiration = decodeRefreshToken.exp;
+
+  if (refreshTokenExpiration! < Math.floor(Date.now() / 1000)) {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    api.dispatch(setLoggedInUser({ ...emptyUserState }));
+    window.location.replace('/login');
+  }
 
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();

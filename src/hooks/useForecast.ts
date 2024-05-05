@@ -1,8 +1,8 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 
 import { forecastType, optionType } from '~/interfaces';
+import { SD_BASE_WEATHER_URL } from '~/utils/SD';
 
-const BASE_URL = 'http://api.openweathermap.org';
 const DEFAULT_CITY: optionType = { name: 'Ho Chi Minh', country: 'VN', lat: 10.762622, lon: 106.660172 };
 
 const useForecast = () => {
@@ -12,7 +12,9 @@ const useForecast = () => {
   const [forecast, setForecast] = useState<forecastType | null>(null);
 
   const getSearchOptions = async (term: string) => {
-    fetch(`${BASE_URL}/geo/1.0/direct?q=${term.trim()}&limit=5&lang=en&appid=${import.meta.env.VITE_APP_NAME}`)
+    fetch(
+      `${SD_BASE_WEATHER_URL}/geo/1.0/direct?q=${term.trim()}&limit=5&lang=en&appid=${import.meta.env.VITE_APP_NAME}`
+    )
       .then((res) => res.json())
       .then((data) => setOptions(data))
       .catch((e) => console.log({ e }));
@@ -26,7 +28,7 @@ const useForecast = () => {
 
   const getForecast = (data: optionType) => {
     fetch(
-      `${BASE_URL}/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&lang=en&appid=${import.meta.env.VITE_APP_NAME}`
+      `${SD_BASE_WEATHER_URL}/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&lang=en&appid=${import.meta.env.VITE_APP_NAME}`
     )
       .then((res) => res.json())
       .then((data) => {

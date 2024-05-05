@@ -2,20 +2,22 @@ import { useState } from 'react';
 import * as turf from '@turf/turf';
 import { inputHelper, toastNotify } from '~/helper';
 import { useCreateFarmMutation, useGetAllFarmsQuery } from '~/api/farmApi';
-import { apiResponse, farmModel, locationModel, pointModel } from '~/interfaces';
+import { apiResponse, createPolygonAgroModel, farmModel, locationModel, pointModel } from '~/interfaces';
 import { useCreateLocationMutation } from '~/api/locationApi';
 import { useCreateFieldMutation } from '~/api/fieldApi';
 import { SD_PlaceType } from '~/utils/SD';
 import { useCreatePolygonMutation } from '~/api/polygonApi';
+import { useCreateAgroPolygonMutation } from '~/api/polygonAgroApi';
 interface CreateFarmModalProps {
   area?: number;
   location?: locationModel;
-  points?: pointModel[];
+  points: pointModel[];
   onCancel?: () => void;
 }
 
 export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarmModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [polygonAgroIdState, setPolygonAgroIdState] = useState<string>('');
   const [userInputs, setUserInputs] = useState({
     name: '',
     ownerName: '',
@@ -28,6 +30,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
   const [createPolygon] = useCreatePolygonMutation();
   const [createFarm] = useCreateFarmMutation();
   const [createField] = useCreateFieldMutation();
+  const [createAgroPolygon] = useCreateAgroPolygonMutation();
   const { data } = useGetAllFarmsQuery('');
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -45,15 +48,42 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     }
   };
 
-  const createPolygonAsync = async () => {
+  const createPolygonAsync = async (polygonAgroId: string) => {
     try {
       const newPolygon: apiResponse = await createPolygon({
         color: userInputs.color,
         type: userInputs.placeType === 'Farm' ? 1 : 0,
+        polygonAgroId: polygonAgroId,
         positions: points
       });
       const polygonId = newPolygon.data?.result.id ?? '';
       return polygonId;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  };
+
+  const createPolygonAgroAsync = async () => {
+    try {
+      console.log('Start Agro');
+      console.log(userInputs.name);
+
+      const responseCreateAgro: apiResponse = await createAgroPolygon({
+        name: `Polygon ${userInputs.name}`,
+        geo_json: {
+          type: 'Feature',
+          properties: {
+            name: `Polygon ${userInputs.name}`
+          },
+          geometry: {
+            type: 'Polygon',
+            coordinates: [points.map((point) => [point.point[0], point.point[1]])]
+          }
+        }
+      });
+      console.log(responseCreateAgro);
+      const polygonAgroId = responseCreateAgro?.data?.result.id;
+      return polygonAgroId;
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -73,13 +103,20 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
           return;
         }
 
+        // Create Polygon Agro
+        let polygonAgroId;
+        if (userInputs.placeType === 'Field') {
+          polygonAgroId = await createPolygonAgroAsync();
+        }
+
         // Create Polygon
-        const polygonId = await createPolygonAsync();
+        const polygonId = await createPolygonAsync(polygonAgroId ?? '');
         if (polygonId === '') {
           setIsLoading(false);
           toastNotify('Something wrong when create polygon', 'error');
           return;
         }
+
         // Tạo farm hoặc field
         const formData = new FormData();
         if (userInputs.placeType === 'Farm') {

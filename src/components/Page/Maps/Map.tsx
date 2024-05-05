@@ -254,7 +254,7 @@ const Map: React.FC = () => {
               </Marker>
             )}
             <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-            <CreateFarmModal area={area} location={farmAddress} points={points} onCancel={handleCreatedCancel} />
+            <CreateFarmModal area={area} location={farmAddress} points={points || []} onCancel={handleCreatedCancel} />
             <UpdateLandModal area={area} location={farmAddress} points={points!} />
           </MapContainer>
         </div>

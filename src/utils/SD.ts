@@ -18,4 +18,5 @@ export enum SD_FieldStatus {
   RECOVERY_NEEDED = 'Recovery Needed'
 }
 
-export const SD_Base_Weather_URL = 'http://api.openweathermap.org';
+export const SD_BASE_WEATHER_URL = 'http://api.openweathermap.org';
+export const SD_Agro_API_URL = 'https://api.agromonitoring.com/agro/1.0';
