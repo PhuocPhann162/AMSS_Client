@@ -4,7 +4,7 @@ import getStatusColor from './getStatusColor';
 import getScrollAnimation from './getScrollAnimation';
 import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, getPop } from './getWeatherStatus';
 import getForecast from './getForecast';
-
+import { findNearestRiver } from './findNearestRiverMountain';
 export {
   inputHelper,
   toastNotify,
@@ -15,5 +15,6 @@ export {
   getVisibilityValue,
   getSunTime,
   getPop,
-  getForecast
+  getForecast,
+  findNearestRiver
 };

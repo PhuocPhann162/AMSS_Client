@@ -22,9 +22,10 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
 ) => {
   const refreshTokenValue = localStorage.getItem('refreshToken');
   const decodeRefreshToken = jwtDecode(refreshTokenValue as string);
-  const refreshTokenExpiration = decodeRefreshToken.exp;
+  console.log(decodeRefreshToken);
+  console.log(Math.floor(Date.now() / 1000));
 
-  if (refreshTokenExpiration! < Math.floor(Date.now() / 1000)) {
+  if (decodeRefreshToken.exp! < Math.floor(Date.now() / 1000)) {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
@@ -61,12 +62,12 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
         console.log(refreshResult);
 
         if (refreshResult.data) {
+          console.log('refresh success');
           // store the new token in the store or wherever you keep it
           localStorage.setItem('accessToken', (refreshResult.data as { result: string }).result);
           // retry the initial query
           result = await baseQuery(args, api, extraOptions);
         } else {
-          console.log('refresh failed1***');
           // refresh failed - do something like redirect to login or show a "retry" button
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');

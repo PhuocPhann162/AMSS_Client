@@ -12,7 +12,6 @@ import cropTypeModel from './cropTypeModel';
 import { forecastType } from './forecastModel';
 import { optionType } from './forecastModel';
 import positionModel from './positionModel';
-import createPolygonAgroModel from './createPolygonAgroModel';
 
 export type {
   pointModel,
@@ -28,6 +27,5 @@ export type {
   cropModel,
   cropTypeModel,
   forecastType,
-  optionType,
-  createPolygonAgroModel
+  optionType
 };

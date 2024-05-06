@@ -1,6 +1,11 @@
 import * as turf from '@turf/turf';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useDeleteFieldMutation } from '~/api/fieldApi';
+import { Modal } from '~/common';
 import { EditTableIcon, ForecastIcon } from '~/components/Icon';
+import { findNearestRiver } from '~/helper';
 import { fieldModel } from '~/interfaces';
 
 interface PopupFieldProps {
@@ -8,6 +13,39 @@ interface PopupFieldProps {
 }
 
 export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
+  const [nearestRiver, setNearestRiver] = useState<string>('');
+  const [deleteField] = useDeleteFieldMutation();
+
+  const handleDelete = async (id: number) => {
+    try {
+      toast.promise(
+        deleteField(id),
+        {
+          pending: 'Processing your request...',
+          success: 'Field deleted successfully 👌',
+
+          error: 'An unexpected error occured 🤯'
+        },
+        {
+          theme: 'colored'
+        }
+      );
+      (document.getElementById('fuco_modal') as HTMLDialogElement)?.close();
+    } catch (error: any) {
+      console.log(error.message, 'error');
+    }
+  };
+
+  useEffect(() => {
+    async function findNearestRiverAsync() {
+      if (fieldInfo) {
+        const river = await findNearestRiver(fieldInfo.location?.lat ?? 0, fieldInfo.location?.lng ?? 0);
+        setNearestRiver(river);
+      }
+    }
+    findNearestRiverAsync();
+  }, [fieldInfo]);
+
   return (
     <div className='flex flex-col w-72 gap-1 '>
       <div className='flex items-center font-bold text-lg text-brown gap-1'>
@@ -37,20 +75,29 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
           {fieldInfo.area!.toFixed(2)} m² ({turf.convertArea(fieldInfo.area!, 'meters', 'acres').toFixed(2)} acres)
         </div>
       </div>
+      <div className='flex items-center text-sm gap-2'>
+        <div className='font-bold'>Neareast River:</div>
+        <div className='text-zinc-500'>{nearestRiver ? nearestRiver : 'No river found nearby'}</div>
+      </div>
       <div className='text-sm'>
-        <Link to={`/app/land/field/updateField/${fieldInfo.id}`} className='flex items-center gap-1'>
+        <Link to={`/app/land/field/weather/${fieldInfo.id}`} className='flex items-center gap-1'>
           <ForecastIcon />
           <div className='underline'>Weather Forecast</div>
         </Link>
       </div>
-      <div className='text-sm'>
+      <div className='text-sm flex items-center gap-1'>
+        <EditTableIcon />
         <Link to={`/app/land/field/updateField/${fieldInfo.id}`} className='flex items-center gap-1'>
-          <EditTableIcon />
           <div className='underline'>Edit Detail</div>
         </Link>
       </div>
       <div className='text-sm'>
-        <Link to='/app/map' className='flex items-center gap-1'>
+        <button
+          className='flex items-center gap-1'
+          onClick={() => {
+            (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+          }}
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'
@@ -64,8 +111,9 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
             />
           </svg>
           <div className='underline'>Delete</div>
-        </Link>
+        </button>
       </div>
+      <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldInfo.id ?? 0)} />
     </div>
   );
 };

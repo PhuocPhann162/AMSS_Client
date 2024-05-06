@@ -4,7 +4,7 @@ import { CardWeather, DailyWeather, SearchWeather } from '~/components/Page/Dash
 import { getScrollAnimation } from '~/helper';
 import { useForecast } from '~/hooks';
 import { motion } from 'framer-motion';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export const DashBoard = () => {
   const [activeLink, setActiveLink] = useState('hourly');

@@ -32,7 +32,6 @@ const useForecast = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const forecastData = {
           ...data.city,
           list: data.list
