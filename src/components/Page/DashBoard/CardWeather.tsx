@@ -26,7 +26,7 @@ const CardWeather: React.FC<CardWeatherProps> = ({ forecast }) => {
           />
         </h1>
         <div className='flex items-center justify-between pb-1'>
-          <p className='text-sm'>
+          <p className='text-base font-semibold'>
             {forecast.list[0].weather[0].main} ({forecast.list[0].weather[0].description})
           </p>
           <p className='text-sm'>

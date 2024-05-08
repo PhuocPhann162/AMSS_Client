@@ -22,8 +22,6 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
 ) => {
   const refreshTokenValue = localStorage.getItem('refreshToken');
   const decodeRefreshToken = jwtDecode(refreshTokenValue as string);
-  console.log(decodeRefreshToken);
-  console.log(Math.floor(Date.now() / 1000));
 
   if (decodeRefreshToken.exp! < Math.floor(Date.now() / 1000)) {
     localStorage.removeItem('accessToken');

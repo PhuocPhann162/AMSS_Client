@@ -9,8 +9,7 @@ import pointModel from './pointModel';
 import polygonModel from './polygonModel';
 import cropModel from './cropModel';
 import cropTypeModel from './cropTypeModel';
-import { forecastType } from './forecastModel';
-import { optionType } from './forecastModel';
+import { forecastType, optionType, airPollutionType } from './forecastModel';
 import positionModel from './positionModel';
 
 export type {
@@ -27,5 +26,6 @@ export type {
   cropModel,
   cropTypeModel,
   forecastType,
-  optionType
+  optionType,
+  airPollutionType
 };

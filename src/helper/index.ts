@@ -5,6 +5,7 @@ import getScrollAnimation from './getScrollAnimation';
 import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, getPop } from './getWeatherStatus';
 import getForecast from './getForecast';
 import { findNearestRiver } from './findNearestRiverMountain';
+import { getAirPollution, evaluatePollutantLevelDescription } from './getAirPollution';
 export {
   inputHelper,
   toastNotify,
@@ -16,5 +17,7 @@ export {
   getSunTime,
   getPop,
   getForecast,
-  findNearestRiver
+  findNearestRiver,
+  getAirPollution,
+  evaluatePollutantLevelDescription
 };

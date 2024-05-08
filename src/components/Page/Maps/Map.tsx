@@ -166,7 +166,7 @@ const Map: React.FC = () => {
             ref={mapRef}
             key={mapKey}
             center={{ lat: mapPosition[0], lng: mapPosition[1] }}
-            zoom={20}
+            zoom={4}
             scrollWheelZoom={true}
             className='h-[38rem]'
           >
