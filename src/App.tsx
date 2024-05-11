@@ -9,6 +9,7 @@ import {
   DashBoard,
   FarmList,
   FieldList,
+  FieldSuggestion,
   FieldWeather,
   HomePage,
   Login,
@@ -62,6 +63,7 @@ function App() {
         <Route path='land/farm/allFarms' element={<FarmList />} />
         {/* Field Routes */}
         <Route path='land/field/allFields' element={<FieldList />} />
+        <Route path='land/field/suggestion/:id' element={<FieldSuggestion />} />
         <Route path='land/field/updateField/:id' element={<UpdateField />} />
         <Route path='land/field/weather/:id' element={<FieldWeather />} />
         {/* Weather */}

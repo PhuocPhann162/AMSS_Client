@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import { useDeleteFieldMutation } from '~/api/fieldApi';
 import { Modal } from '~/common';
 import { EditTableIcon, ForecastIcon } from '~/components/Icon';
-import { findNearestRiver } from '~/helper';
-import { fieldModel } from '~/interfaces';
+import { findNearestRiver, getPlantSuggest } from '~/helper';
+import { fieldModel, plantSuggestModel } from '~/interfaces';
 
 interface PopupFieldProps {
   fieldInfo: fieldModel;
@@ -14,6 +14,7 @@ interface PopupFieldProps {
 
 export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
   const [nearestRiver, setNearestRiver] = useState<string>('');
+  const [platnSuggest, setPlantSuggest] = useState<plantSuggestModel | null>(null);
   const [deleteField] = useDeleteFieldMutation();
 
   const handleDelete = async (id: number) => {
@@ -41,6 +42,9 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
       if (fieldInfo) {
         const river = await findNearestRiver(fieldInfo.location?.lat ?? 0, fieldInfo.location?.lng ?? 0);
         setNearestRiver(river);
+        const plant = await getPlantSuggest();
+        console.log(plant);
+        setPlantSuggest(plant);
       }
     }
     findNearestRiverAsync();
@@ -66,10 +70,23 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
         </svg>
         {fieldInfo.name}
       </div>
-      <Link to='/app/map' className='flex items-center font-bold underline text-sm text-brown gap-1'>
-        {fieldInfo.name}
+      <Link
+        to={`/app/land/field/suggestion/${fieldInfo.id}`}
+        className='flex items-center font-bold underline text-sm text-brown gap-1'
+      >
+        {fieldInfo.name}{' '}
+        <svg xmlns='http://www.w3.org/2000/svg' className='w-5 h-5' viewBox='0 0 24 24'>
+          <title>light_line</title>
+          <g id='light_line' fill='none' fillRule='evenodd'>
+            <path d='M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z' />
+            <path
+              fill='#09244BFF'
+              d='M12 19a1 1 0 0 1 .993.883L13 20v1a1 1 0 0 1-1.993.117L11 21v-1a1 1 0 0 1 1-1Zm-4.95-2.05a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0Zm11.314 0 .707.707a1 1 0 0 1-1.414 1.414l-.707-.707a1 1 0 0 1 1.414-1.414ZM12.617 2a2 2 0 0 1 1.985 1.752l.38 3.04a6 6 0 1 1-5.964 0l.38-3.04A2 2 0 0 1 11.383 2h1.234ZM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-8 3a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h1Zm17 0a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2h1ZM19.071 4.93a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0Zm-12.728 0 .707.707A1 1 0 0 1 5.636 7.05l-.707-.707A1 1 0 0 1 6.343 4.93ZM12.617 4h-1.234l-.25 2h1.734l-.25-2Z'
+            />
+          </g>
+        </svg>
       </Link>
-      <div className='flex items-center text-sm gap-2 mt-1'>
+      <div className='flex items-center text-sm gap-2 mt-4'>
         <div className='font-bold'>Total area:</div>
         <div className='text-zinc-500'>
           {fieldInfo.area!.toFixed(2)} m² ({turf.convertArea(fieldInfo.area!, 'meters', 'acres').toFixed(2)} acres)

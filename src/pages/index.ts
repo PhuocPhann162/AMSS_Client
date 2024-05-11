@@ -16,6 +16,7 @@ import { UpdateField } from './Lands/Fields/UpdateField';
 import { DashBoard } from './DashBoard/DashBoard';
 import { WeatherSearch } from './Weather/WeatherSearch';
 import { FieldWeather } from './Lands/Fields/FieldWeather';
+import { FieldSuggestion } from './Lands/Fields/FieldSuggestion';
 
 export {
   HomePage,
@@ -35,5 +36,6 @@ export {
   UpdateField,
   DashBoard,
   WeatherSearch,
-  FieldWeather
+  FieldWeather,
+  FieldSuggestion
 };

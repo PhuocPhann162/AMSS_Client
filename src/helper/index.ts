@@ -6,6 +6,8 @@ import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, get
 import getForecast from './getForecast';
 import { findNearestRiver } from './findNearestRiverMountain';
 import { getAirPollution, evaluatePollutantLevelDescription } from './getAirPollution';
+import { getPlanListSuggest, getPlantSuggest } from './getPlantSuggest';
+
 export {
   inputHelper,
   toastNotify,
@@ -19,5 +21,7 @@ export {
   getForecast,
   findNearestRiver,
   getAirPollution,
-  evaluatePollutantLevelDescription
+  evaluatePollutantLevelDescription,
+  getPlanListSuggest,
+  getPlantSuggest
 };

@@ -11,6 +11,7 @@ import cropModel from './cropModel';
 import cropTypeModel from './cropTypeModel';
 import { forecastType, optionType, airPollutionType } from './forecastModel';
 import positionModel from './positionModel';
+import plantSuggestModel from './plantSuggestModel';
 
 export type {
   pointModel,
@@ -27,5 +28,6 @@ export type {
   cropTypeModel,
   forecastType,
   optionType,
-  airPollutionType
+  airPollutionType,
+  plantSuggestModel
 };
