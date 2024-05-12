@@ -20,6 +20,7 @@ import {
   Profile,
   Register,
   Schedule,
+  Settings,
   UpdateField,
   WeatherSearch
 } from './pages';
@@ -48,6 +49,7 @@ function App() {
         <Route path='dashBoard' element={<DashBoard />} />
         {/* User Routes */}
         <Route path='user/profile' element={<Profile />} />
+        <Route path='user/settings' element={<Settings />} />
         <Route path='user/register' element={<Register />} />
         <Route path='user/allUsers' element={<AllUsers />} />
         <Route path='user/allUsers/updateRole/:userId' element={<Permission />} />

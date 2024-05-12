@@ -9,6 +9,7 @@ import { Crop } from './Crops/Crop';
 import { AllUsers } from './Users/AllUsers';
 import { Permission } from './Users/Permission';
 import Profile from './Users/Profile';
+import Settings from './Users/Settings';
 import { FarmList } from './Lands/Farms/FarmList';
 import { FieldList } from './Lands/Fields/FieldList';
 import { CropTypeList } from './Crops/CropTypeList';
@@ -37,5 +38,6 @@ export {
   DashBoard,
   WeatherSearch,
   FieldWeather,
-  FieldSuggestion
+  FieldSuggestion,
+  Settings
 };

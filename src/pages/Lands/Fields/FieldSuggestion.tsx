@@ -6,14 +6,20 @@ import { Link, NavLink, useParams } from 'react-router-dom';
 import { useGetFieldByIdQuery } from '~/api/fieldApi';
 import { fieldModel, plantSuggestModel } from '~/interfaces';
 import LandImage from '../../../../public/LandTemp.jpg';
-import { CycleIcon, EditTableIcon, SunIcon, WateringIcon } from '~/components/Icon';
+import { PlantSugesstion } from '~/components/Page/Fields';
 
 export const FieldSuggestion = () => {
   const [fieldData, setFieldData] = useState<fieldModel>();
   const [plantList, setPlantList] = useState<plantSuggestModel[]>();
   const { id } = useParams();
-  // const { data, isLoading } = useGetFieldByIdQuery(id);
+  const { data, isLoading } = useGetFieldByIdQuery(id);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
+
+  useEffect(() => {
+    if (data) {
+      setFieldData(data.result);
+    }
+  }, [data]);
 
   useEffect(() => {
     async function fetchPlantSuggest() {
@@ -36,79 +42,95 @@ export const FieldSuggestion = () => {
           <motion.div variants={scrollAnimation} className='grid grid-cols-1'>
             <div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default w-full'>
               <div>Soil Quality</div>
-              <div className='grid grid-cols-2 py-4'>
-                <img src={LandImage} />
-                <div>Soil Information</div>
+              <div className='grid grid-cols-3 py-4 px-6'>
+                <img src={LandImage} className='h-full col-span-1' />
+                <div className='bg-be grid grid-cols-2 col-span-2'>
+                  <div className='px-16 py-4'>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Chlorophyll:</p>
+                      <p>{fieldData?.soilQuality?.chlorophyll} µg/L</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Iron:</p>
+                      <p>{fieldData?.soilQuality?.iron} mol/L</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Nitrate:</p>
+                      <p>{fieldData?.soilQuality?.nitrate} mol/L</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Phyto:</p>
+                      <p>{fieldData?.soilQuality?.phyto} g C/m³L</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Oxygen:</p>
+                      <p>{fieldData?.soilQuality?.oxygen} mol/L</p>
+                    </div>
+
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Phytoplankton:</p>
+                      <p>{fieldData?.soilQuality?.phytoplankton} g C/m³</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Silicate:</p>
+                      <p>{fieldData?.soilQuality?.silicate} mol/L</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>Salinity:</p>
+                      <p>{fieldData?.soilQuality?.salinity} per mille</p>
+                    </div>
+
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>pH:</p>
+                      <p>{fieldData?.soilQuality?.pH}</p>
+                    </div>
+                  </div>
+                  <div className='px-12 py-4'>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>SoilTemperature:</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+0-10cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilTemperature}°C</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+10-40cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilTemperature10cm}°C</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+40-100cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilTemperature40cm}°C</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+100-200cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilTemperature100cm}°C</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='text-black font-medium'>SoilMoisture:</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+0-10cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilMoisture}%</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+10-40cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilMoisture10cm}%</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+40-100cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilMoisture40cm}%</p>
+                    </div>
+                    <div className='flex items-center gap-1'>
+                      <p className='font-medium'>+100-200cm below surface:</p>
+                      <p>{fieldData?.soilQuality?.soilMoisture100cm}%</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
         </ScrollAnimationWrapper>
-        <ScrollAnimationWrapper>
-          <motion.div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default w-full'>
-            <div>Plant Suggesstion</div>
-            <table className='min-w-full'>
-              <thead className='bg-white text-type-2 font-bold'>
-                <tr>
-                  <th scope='col' className='px-4 py-4 text-sm border-r border-type-1'></th>
-                  <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'>
-                    <button className='flex items-center gap-x-1 focus:outline-none'>
-                      <CycleIcon /> Cycle
-                    </button>
-                  </th>
-
-                  <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'>
-                    <button className='flex items-center gap-x-1 focus:outline-none'>
-                      <WateringIcon /> Watering
-                    </button>
-                  </th>
-
-                  <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'>
-                    <button className='flex items-center gap-x-1 focus:outline-none'>
-                      <SunIcon /> Sunlight
-                    </button>
-                  </th>
-                  <th scope='col' className='relative py-3.5 px-4'>
-                    <span className='sr-only'>Detail</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className='bg-white'>
-                {plantList &&
-                  plantList.map((plant: plantSuggestModel) => (
-                    <tr key={plant.id}>
-                      <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                        <NavLink to='#' className='flex items-center gap-2'>
-                          <motion.img
-                            src={plant?.default_image?.original_url}
-                            className='w-20 h-20 rounded-full'
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                          />
-                          <span className='flex flex-col gap-1'>
-                            <h1 className='text-accent'>{plant.common_name}</h1>
-                            <p className='text-body text-sm'>{plant.scientific_name}</p>
-                          </span>
-                        </NavLink>
-                      </td>
-                      <td className='px-4 py-4 text-sm text-body border-r border-type-1'>{plant.cycle}</td>
-                      <td className='px-4 py-4 text-sm text-body border-r border-type-1'>{plant.watering}</td>
-                      <td className='px-4 py-4 text-sm text-body border-r border-type-1'>
-                        {plant.sunlight.map((s) => s + ', ')}
-                      </td>
-                      <td className='px-4 py-4 text-sm text-body'>
-                        <Link to='#' className='text-primary underline flex items-center gap-1'>
-                          <EditTableIcon /> Detail
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </motion.div>
-        </ScrollAnimationWrapper>
+        <PlantSugesstion plantList={plantList ?? []} />
       </div>
     </>
   );
