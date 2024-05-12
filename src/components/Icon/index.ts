@@ -9,6 +9,7 @@ import {
   MarkerIcon
 } from './TableListIcon';
 import { ForecastIcon } from './WeatherIcon';
+import { CycleIcon, WateringIcon, SunIcon } from './SoilQualityIcon';
 
 export {
   SortIcon,
@@ -19,5 +20,8 @@ export {
   EditExpandIcon,
   DeleteIcon,
   MarkerIcon,
-  ForecastIcon
+  ForecastIcon,
+  CycleIcon,
+  WateringIcon,
+  SunIcon
 };
