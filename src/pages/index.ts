@@ -18,6 +18,7 @@ import { DashBoard } from './DashBoard/DashBoard';
 import { WeatherSearch } from './Weather/WeatherSearch';
 import { FieldWeather } from './Lands/Fields/FieldWeather';
 import { FieldSuggestion } from './Lands/Fields/FieldSuggestion';
+import { PlantDetail } from './Lands/Fields/PlantDetail';
 
 export {
   HomePage,
@@ -39,5 +40,6 @@ export {
   WeatherSearch,
   FieldWeather,
   FieldSuggestion,
-  Settings
+  Settings,
+  PlantDetail
 };

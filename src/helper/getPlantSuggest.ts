@@ -1,9 +1,9 @@
 import { plantSuggestModel } from '~/interfaces';
 
-const getPlantSuggest = async (): Promise<plantSuggestModel> => {
+const getPlantSuggest = async (id: string): Promise<plantSuggestModel> => {
   try {
     const response = await fetch(
-      `https://perenual.com/api/species/details/1?key=${import.meta.env.VITE_PLANT_API_KEY}`
+      `https://perenual.com/api/species/details/${id}?key=${import.meta.env.VITE_PLANT_API_KEY}`
     );
 
     if (!response.ok) {

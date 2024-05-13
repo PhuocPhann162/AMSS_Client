@@ -5,6 +5,7 @@ export const emptyUserState: userModel = {
   id: '',
   fullName: '',
   userName: '',
+  email: '',
   phoneNumber: '',
   streetAddress: '',
   city: '',
@@ -20,12 +21,13 @@ export const emptyUserState: userModel = {
 
 export const userAuthSlice = createSlice({
   name: 'userAuth',
-  initialState: emptyUserState,
+  initialState: (JSON.parse(localStorage.getItem('user')!) as userModel) || emptyUserState,
   reducers: {
     setLoggedInUser: (state, action) => {
       state.id = action.payload.id;
       state.fullName = action.payload.fullName;
       state.userName = action.payload.userName;
+      state.email = action.payload.email;
       state.phoneNumber = action.payload.phoneNumber;
       state.streetAddress = action.payload.streetAddress;
       state.city = action.payload.city;

@@ -33,7 +33,6 @@ export const FieldSuggestion = () => {
     }
     fetchPlantSuggest();
   }, []);
-  console.log(plantList);
 
   return (
     <>

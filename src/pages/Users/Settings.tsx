@@ -1,7 +1,82 @@
 import { Breadcrumb } from '~/components/UI';
-import userOne from '../../../public/user-01.png';
+import userOne from '../../../public/avatar.png';
+import { useUpdateInfoMutation } from '~/api/userApi';
+import React, { useState } from 'react';
+import { apiResponse, userModel } from '~/interfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/storage/redux/store';
+import { inputHelper, toastNotify } from '~/helper';
+import { MiniLoader } from '~/components/Page/common';
+import { Modal } from '~/common';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
+  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInputs, setUserInputs] = useState({
+    fullName: userData.fullName,
+    phoneNumber: userData.phoneNumber,
+    userName: userData.userName,
+    email: userData.email
+  });
+  const [updateInfo] = useUpdateInfoMutation();
+
+  const handleUserInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const temp = inputHelper(e, userInputs);
+    setUserInputs(temp);
+  };
+
+  const handleCancel = () => {
+    setUserInputs({
+      fullName: userData.fullName,
+      phoneNumber: userData.phoneNumber,
+      userName: userData.userName,
+      email: userData.email
+    });
+  };
+
+  const handleUpdateInfo = async () => {
+    setIsLoading(true);
+
+    try {
+      const response: apiResponse = await updateInfo({
+        userId: userData.id,
+        data: {
+          fullName: userInputs.fullName,
+          phoneNumber: userInputs.phoneNumber,
+          userName: userInputs.userName,
+          email: userInputs.email
+        }
+      });
+      if (response.data?.isSuccess) {
+        setIsLoading(false);
+        const user: userModel = {
+          ...userData,
+          fullName: userInputs.fullName,
+          phoneNumber: userInputs.phoneNumber,
+          userName: userInputs.userName,
+          email: userInputs.email
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+
+        toastNotify(response.data.successMessage || 'User information updated successfully');
+        navigate('/app/user/settings');
+      } else {
+        setIsLoading(false);
+        console.log(response.error?.data.errorMessages[0] ?? 'Something wrong when updating user info', 'error');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error in Settings.tsx:', error);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+  };
+
   return (
     <div className='mx-auto max-w-270'>
       <Breadcrumb pageParent='Account' pageName='Settings' />
@@ -13,7 +88,7 @@ const Settings = () => {
               <h3 className='font-medium text-black dark:text-white'>Personal Information</h3>
             </div>
             <div className='p-7'>
-              <form action='#'>
+              <form method='PUT' onSubmit={handleSubmit}>
                 <div className='mb-5.5 flex flex-col gap-5.5 sm:flex-row'>
                   <div className='w-full sm:w-1/2'>
                     <label className='mb-3 block text-sm font-medium text-black dark:text-white' htmlFor='fullName'>
@@ -48,10 +123,12 @@ const Settings = () => {
                       <input
                         className='w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                         type='text'
-                        name='fullName'
                         id='fullName'
                         placeholder='Devid Jhon'
-                        defaultValue='Devid Jhon'
+                        name='fullName'
+                        value={userInputs.fullName}
+                        onChange={handleUserInputs}
+                        required
                       />
                     </div>
                   </div>
@@ -62,11 +139,14 @@ const Settings = () => {
                     </label>
                     <input
                       className='w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
-                      type='text'
-                      name='phoneNumber'
+                      type='tel'
+                      pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
                       id='phoneNumber'
                       placeholder='+990 3343 7865'
-                      defaultValue='+990 3343 7865'
+                      name='phoneNumber'
+                      value={userInputs.phoneNumber}
+                      onChange={handleUserInputs}
+                      required
                     />
                   </div>
                 </div>
@@ -104,10 +184,12 @@ const Settings = () => {
                     <input
                       className='w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       type='email'
-                      name='emailAddress'
-                      id='emailAddress'
+                      id='email'
                       placeholder='devidjond45@gmail.com'
-                      defaultValue='devidjond45@gmail.com'
+                      name='email'
+                      value={userInputs.email}
+                      onChange={handleUserInputs}
+                      required
                     />
                   </div>
                 </div>
@@ -118,11 +200,13 @@ const Settings = () => {
                   </label>
                   <input
                     className='w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
-                    type='text'
-                    name='Username'
+                    type='email'
                     id='Username'
-                    placeholder='devidjhon24'
-                    defaultValue='devidjhon24'
+                    placeholder='sample@fuco.com'
+                    name='userName'
+                    value={userInputs.userName}
+                    onChange={handleUserInputs}
+                    required
                   />
                 </div>
 
@@ -176,15 +260,17 @@ const Settings = () => {
                 <div className='flex justify-end gap-4.5'>
                   <button
                     className='flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white'
-                    type='submit'
+                    type='button'
+                    onClick={handleCancel}
                   >
                     Cancel
                   </button>
                   <button
                     className='flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90'
                     type='submit'
+                    disabled={isLoading}
                   >
-                    Save
+                    {isLoading ? <MiniLoader /> : 'Save'}
                   </button>
                 </div>
               </form>
@@ -270,6 +356,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
+      <Modal width='' title='update your information?' onConfirm={handleUpdateInfo} onCancel={handleCancel} />
     </div>
   );
 };

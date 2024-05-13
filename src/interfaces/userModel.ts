@@ -2,6 +2,7 @@ export default interface userModel {
   id?: string;
   fullName?: string;
   userName?: string;
+  email?: string;
   phoneNumber?: string;
   streetAddress?: string;
   city?: string;

@@ -9,7 +9,25 @@ import {
   MarkerIcon
 } from './TableListIcon';
 import { ForecastIcon } from './WeatherIcon';
-import { CycleIcon, WateringIcon, SunIcon } from './SoilQualityIcon';
+import {
+  CycleIcon,
+  WateringIcon,
+  SunIcon,
+  TropicalIcon,
+  CareLevelIcon,
+  SoilIcon,
+  SaltIcon,
+  EdibleIcon,
+  DroughtIcon,
+  FruitsIcon,
+  FlowersIcon,
+  LeafIcon,
+  MaintenanceIcon,
+  GrowthRateIcon,
+  HardinessZoneIcon,
+  LeafColorIcon,
+  PropogationIcon
+} from './SoilQualityIcon';
 
 export {
   SortIcon,
@@ -23,5 +41,19 @@ export {
   ForecastIcon,
   CycleIcon,
   WateringIcon,
-  SunIcon
+  SunIcon,
+  TropicalIcon,
+  CareLevelIcon,
+  SoilIcon,
+  SaltIcon,
+  EdibleIcon,
+  DroughtIcon,
+  FruitsIcon,
+  FlowersIcon,
+  LeafIcon,
+  MaintenanceIcon,
+  GrowthRateIcon,
+  HardinessZoneIcon,
+  LeafColorIcon,
+  PropogationIcon
 };

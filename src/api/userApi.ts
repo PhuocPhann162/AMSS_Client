@@ -39,10 +39,22 @@ const userApi = createApi({
         body: role
       }),
       invalidatesTags: ['Users']
+    }),
+    updateInfo: builder.mutation({
+      query: ({ userId, data }) => ({
+        url: `user/updateInfo/${userId}`,
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ ...data })
+      }),
+      invalidatesTags: ['Users']
     })
   }),
   refetchOnReconnect: true
 });
 
 export default userApi;
-export const { useGetAllUsersQuery, useLockUnLockUserMutation, useRoleManagementMutation } = userApi;
+export const { useGetAllUsersQuery, useLockUnLockUserMutation, useRoleManagementMutation, useUpdateInfoMutation } =
+  userApi;

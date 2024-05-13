@@ -15,6 +15,7 @@ import {
   Login,
   PageNotFound,
   Permission,
+  PlantDetail,
   Pricing,
   Product,
   Profile,
@@ -68,6 +69,7 @@ function App() {
         <Route path='land/field/suggestion/:id' element={<FieldSuggestion />} />
         <Route path='land/field/updateField/:id' element={<UpdateField />} />
         <Route path='land/field/weather/:id' element={<FieldWeather />} />
+        <Route path='land/field/suggestion/plantDetail/:id' element={<PlantDetail />} />
         {/* Weather */}
         <Route path='weatherSearch' element={<WeatherSearch />} />
       </Route>

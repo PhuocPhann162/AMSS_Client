@@ -11,6 +11,7 @@ interface PlantSugesstionProps {
 }
 
 export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
+  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   return (
     <ScrollAnimationWrapper>
       <motion.div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default w-full'>
@@ -46,8 +47,12 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
               plantList.map((plant: plantSuggestModel) => (
                 <tr key={plant.id}>
                   <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                    <NavLink to='#' className='flex items-center gap-2'>
+                    <NavLink
+                      to={`/app/land/field/suggestion/plantDetail/${plant.id}`}
+                      className='flex items-center gap-2'
+                    >
                       <motion.img
+                        variants={scrollAnimation}
                         src={plant?.default_image?.original_url}
                         className='w-20 h-20 rounded-full'
                         initial={{ opacity: 0 }}
