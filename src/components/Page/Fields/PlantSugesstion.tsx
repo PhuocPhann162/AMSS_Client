@@ -69,11 +69,12 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
                   </td>
                   <td className='px-4 py-4 text-sm text-body border-r border-type-1'>{plant.cycle}</td>
                   <td className='px-4 py-4 text-sm text-body border-r border-type-1'>{plant.watering}</td>
-                  <td className='px-4 py-4 text-sm text-body border-r border-type-1'>
-                    {plant.sunlight.map((s) => s + ', ')}
-                  </td>
+                  <td className='px-4 py-4 text-sm text-body border-r border-type-1'>{plant.sunlight[0]}</td>
                   <td className='px-4 py-4 text-sm text-body'>
-                    <Link to='#' className='text-primary underline flex items-center gap-1'>
+                    <Link
+                      to={`/app/land/field/suggestion/plantDetail/${plant.id}`}
+                      className='text-primary underline flex items-center gap-1'
+                    >
                       <EditTableIcon /> Detail
                     </Link>
                   </td>

@@ -8,6 +8,7 @@ import { useGetFieldByIdQuery } from '~/api/fieldApi';
 import { airPollutionType, forecastType, optionType } from '~/interfaces';
 import { MainLoader } from '~/components/Page/common';
 import { AirPollutionCard, Forecast } from '~/components/Page/Weather';
+import { MyDoughnut } from '~/components/UI';
 
 export const FieldWeather = () => {
   const [activeLink, setActiveLink] = useState('currently');
@@ -73,7 +74,11 @@ export const FieldWeather = () => {
             </div>
             <div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default w-full col-span-2'>
               <h3 className='mb-7 mt-3'>Air Quality</h3>
-              {airPollution && <AirPollutionCard airPollution={airPollution} />}
+              {airPollution && (
+                <div className='flex flex-col gap-8'>
+                  <MyDoughnut airPollution={airPollution} /> <AirPollutionCard airPollution={airPollution} />
+                </div>
+              )}
             </div>
           </motion.div>
         </ScrollAnimationWrapper>

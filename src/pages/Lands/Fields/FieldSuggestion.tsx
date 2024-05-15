@@ -24,7 +24,8 @@ export const FieldSuggestion = () => {
   useEffect(() => {
     async function fetchPlantSuggest() {
       try {
-        const response = await getPlanListSuggest(1);
+        const randomPageIndex = Math.floor(Math.random() * 25) + 1;
+        const response = await getPlanListSuggest(randomPageIndex);
         setPlantList(response.data);
       } catch (error) {
         console.error('Error fetching forecast data:', error);
