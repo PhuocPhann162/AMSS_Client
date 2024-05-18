@@ -38,7 +38,10 @@ export const Register = () => {
     setIsLoading(true);
 
     try {
-      const response: apiResponse = await registerUser(userInputs);
+      const response: apiResponse = await registerUser({
+        ...userInputs,
+        avatar: `https://ui-avatars.com/api/?name=${userInputs.fullName}&background=00c46a&color=fff`
+      });
       console.log(response);
       if (response.data && response.data.isSuccess) {
         setIsLoading(false);

@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
 import { Modal, Pagination } from '~/common';
@@ -162,11 +163,19 @@ export const CropTypeList = () => {
                                 <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
                                   <div className='flex items-center gap-2'>
                                     {crop.cultivatedArea?.toFixed(2)} sqft
-                                    <span
-                                      className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg`}
-                                    >
-                                      {crop.field?.name}
-                                    </span>
+                                    <div className='flex items-center gap-1'>
+                                      {crop.fieldCrops &&
+                                        crop?.fieldCrops.length >= 1 &&
+                                        crop.fieldCrops?.map((fieldCrop) => (
+                                          <Link
+                                            key={fieldCrop.id}
+                                            to={`/app/map?lat=${fieldCrop.field.location?.lat}&lng=${fieldCrop.field.location?.lng}`}
+                                            className={`text-center underline align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg hover:text-primary`}
+                                          >
+                                            {fieldCrop.field?.name}
+                                          </Link>
+                                        ))}
+                                    </div>
                                   </div>
                                 </td>
                                 <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>

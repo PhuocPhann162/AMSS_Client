@@ -55,7 +55,7 @@ export const PlantDetail = () => {
               </div>
               <div className='flex items-center gap-1'>
                 <PropogationIcon /> Propagation:
-                <span>{plantDetail?.propagation}</span>
+                <span>{plantDetail?.propagation.map((s) => s + ', ')}</span>
               </div>
               <div className='flex items-center gap-1'>
                 <FlowersIcon /> Flowers:
@@ -117,6 +117,7 @@ export const PlantDetail = () => {
               </div>
             </div>
           </div>
+          <button className='btn btn-accent mt-2 text-white'>Leave your experience</button>
         </div>
       </div>
     </div>
