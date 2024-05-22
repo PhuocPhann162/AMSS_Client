@@ -6,7 +6,8 @@ import {
   EditTableIcon,
   EditExpandIcon,
   DeleteIcon,
-  MarkerIcon
+  MarkerIcon,
+  DetailIcon
 } from './TableListIcon';
 import { ForecastIcon } from './WeatherIcon';
 import {
@@ -55,5 +56,6 @@ export {
   GrowthRateIcon,
   HardinessZoneIcon,
   LeafColorIcon,
-  PropogationIcon
+  PropogationIcon,
+  DetailIcon
 };

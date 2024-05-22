@@ -1,4 +1,5 @@
 import farmModel from './farmModel';
+import fieldCropModel from './fieldCropModel';
 import locationModel from './locationModel';
 import polygonModel from './polygonModel';
 import soilQualityModel from './soilQualityModel';
@@ -14,6 +15,7 @@ export default interface fieldModel {
   location?: locationModel;
   polygonApp?: polygonModel;
   soilQuality?: soilQualityModel;
+  fieldCrops?: fieldCropModel[];
   createdAt?: string;
   updatedAt?: string;
 }

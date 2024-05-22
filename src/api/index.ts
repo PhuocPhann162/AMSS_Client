@@ -6,5 +6,6 @@ import fieldApi from './fieldApi';
 import polygonApi from './polygonApi';
 import cropTypeApi from './cropTypeApi';
 import polygonAgroApi from './polygonAgroApi';
+import cropApi from './cropApi';
 
-export { authApi, userApi, locationApi, farmApi, fieldApi, polygonApi, cropTypeApi, polygonAgroApi };
+export { authApi, userApi, locationApi, farmApi, fieldApi, polygonApi, cropTypeApi, polygonAgroApi, cropApi };

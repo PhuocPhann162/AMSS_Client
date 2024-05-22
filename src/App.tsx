@@ -5,6 +5,7 @@ import { Map, WeatherMap } from './components/Page/Maps';
 import {
   AllUsers,
   Crop,
+  CropDetail,
   CropTypeList,
   DashBoard,
   FarmList,
@@ -58,6 +59,7 @@ function App() {
         <Route path='schedule' element={<Schedule />} />
         {/* Crop Routes */}
         <Route path='crop/myCrops' element={<CropTypeList />} />
+        <Route path='crop/myCrops/cropDetail/:id' element={<CropDetail />} />
         <Route path='crop/growLocations' element={<Crop />} />
         {/* Map Routes */}
         <Route path='map' element={<Map />} />

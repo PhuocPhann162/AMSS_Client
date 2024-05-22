@@ -1,15 +1,24 @@
 import { format } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
 import { Modal, Pagination } from '~/common';
-import { DeleteIcon, EditExpandIcon, ExpandIcon, SearchIcon, SortIcon } from '~/components/Icon';
+import {
+  CreateIcon,
+  DeleteIcon,
+  DetailIcon,
+  EditExpandIcon,
+  ExpandIcon,
+  SearchIcon,
+  SortIcon
+} from '~/components/Icon';
 import { MainLoader } from '~/components/Page/common';
 import { inputHelper } from '~/helper';
 import { cropModel, cropTypeModel, pageOptions } from '~/interfaces';
 
 export const CropTypeList = () => {
+  const navigate = useNavigate();
   // Start State
   const [cropTypeList, setCropTypeList] = useState<cropTypeModel[]>([]);
   const [filters, setFilters] = useState({
@@ -71,11 +80,7 @@ export const CropTypeList = () => {
                 <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
                   These farms have managed in the last 12 months.
                 </p>
-              </div>
-              <div className='mt-6 md:flex md:items-center md:justify-between'>
-                <div className='inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700'></div>
-
-                <div className='relative flex items-center mt-4 md:mt-0'>
+                <div className='relative flex items-center md:mt-4'>
                   <span className='absolute'>
                     <SearchIcon />
                   </span>
@@ -88,6 +93,18 @@ export const CropTypeList = () => {
                     value={filters.searchString}
                     onChange={handleChange}
                   />
+                </div>
+              </div>
+
+              <div className='mt-6 md:flex md: flex-col md:items-center gap-4'>
+                <div className='flex items-center mt-4 md:mt-0'>
+                  <Link
+                    to='/app/map'
+                    className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
+                  >
+                    <CreateIcon />
+                    <span>Add Crop</span>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -192,6 +209,13 @@ export const CropTypeList = () => {
                                       className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
                                     >
                                       <li>
+                                        <button
+                                          className='text-accent'
+                                          onClick={() => navigate(`/app/crop/myCrops/cropDetail/${crop.id}`)}
+                                        >
+                                          <DetailIcon />
+                                          Detail
+                                        </button>
                                         <button className='text-accent'>
                                           <EditExpandIcon />
                                           Edit
