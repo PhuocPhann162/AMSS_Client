@@ -11,6 +11,7 @@ import { Breadcrumb } from '~/components/UI';
 import { getStatusColor, inputHelper, toastNotify } from '~/helper';
 import { fieldModel, pageOptions } from '~/interfaces';
 import { SD_FieldStatus } from '~/utils/SD';
+import { PopupCrop } from '../Crop';
 
 const filterOptions = [
   'View all',
@@ -20,7 +21,7 @@ const filterOptions = [
   SD_FieldStatus.HARVESTING
 ];
 
-export const FieldList = () => {
+export const FieldStatusList = () => {
   const navigate = useNavigate();
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
@@ -97,60 +98,17 @@ export const FieldList = () => {
 
       {!isLoading && (
         <>
-          <Breadcrumb pageParent='Land' pageName='All fields' />
           <div className='container px-4 mx-auto'>
-            <div className='sm:flex sm:items-center sm:justify-between'>
-              <div>
-                <div className='flex items-center gap-x-3'>
-                  <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Fields</h2>
-
-                  <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
-                    {totalRecords} lands
-                  </span>
-                </div>
-
-                <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
-                  These fields have managed in the last 12 months.
-                </p>
-              </div>
-
-              <div className='flex items-center mt-4 gap-x-3'>
-                <Link
-                  to='/app/map'
-                  className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
-                >
-                  <CreateIcon />
-                  <span>New field</span>
-                </Link>
-              </div>
-            </div>
-
             <div className='mt-6 md:flex md:items-center md:justify-between'>
-              <div className='inline-flex overflow-hidden bg-white border border-bodydark divide-x rounded-lg rtl:flex-row-reverse '>
-                {filterOptions.map((opt: string) => (
-                  <button
-                    key={opt}
-                    className={`px-5 py-2 text-xs font-medium sm:text-sm ${filters.status == opt ? 'bg-black text-white' : 'text-gray-600'} ${filters.status == '' && opt == 'View all' && 'bg-black text-white'} transition-all hover:bg-slate-500 hover:text-white`}
-                    onClick={() => setFilters({ ...filters, status: opt == 'View all' ? '' : opt })}
-                  >
-                    {opt}
-                  </button>
-                ))}
+              <div>
+                <h1 className='font-bold text-black-2 text-xl'>Fields</h1>
+                <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>This is list of latest field.</p>
               </div>
 
               <div className='relative flex items-center mt-4 md:mt-0'>
-                <span className='absolute'>
-                  <SearchIcon />
-                </span>
-
-                <input
-                  type='text'
-                  placeholder='Search Name, Farm Name,...'
-                  className='block w-full py-1.5 pr-5 text-gray-700 bg-white border border-bodydark rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
-                  name='searchString'
-                  value={filters.searchString}
-                  onChange={handleChange}
-                />
+                <Link to='/app/land/field/allFields' className='text-primary underline hover:text-green-400'>
+                  View All
+                </Link>
               </div>
             </div>
 
@@ -180,9 +138,8 @@ export const FieldList = () => {
                           <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
                             Location
                           </th>
-
-                          <th scope='col' className='relative py-3.5 px-4'>
-                            <span className='sr-only'>Edit</span>
+                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                            Planted Crop
                           </th>
                         </tr>
                       </thead>
@@ -225,24 +182,8 @@ export const FieldList = () => {
                                   </h2>
                                 </div>
                               </td>
-                              <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
-                                <div className='flex items-center gap-2'>
-                                  <button
-                                    className='btn btn-accent btn-sm'
-                                    onClick={() => navigate(`/app/land/field/updateField/${field.id}`)}
-                                  >
-                                    <EditTableIcon />
-                                  </button>
-                                  <button
-                                    className='btn btn-sm btn-error'
-                                    onClick={() => {
-                                      setfieldIdModal(field.id!);
-                                      (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
-                                    }}
-                                  >
-                                    <DeleteIcon />
-                                  </button>
-                                </div>
+                              <td className='px-4 py-4 text-sm whitespace-nowrap'>
+                                <PopupCrop fieldId={field.id!} />
                               </td>
                             </tr>
                           ))}
@@ -253,16 +194,6 @@ export const FieldList = () => {
               </div>
             </div>
           </div>
-          <div className='m-4'>
-            <Pagination
-              currentPageSize={currentPageSize}
-              setCurrentPageSize={setCurrentPageSize}
-              pageOptions={pageOptions}
-              setPageOptions={setPageOptions}
-              totalRecords={totalRecords}
-            />
-          </div>
-          <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldIdModal)} />
         </>
       )}
     </div>

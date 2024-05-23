@@ -104,7 +104,7 @@ export const FarmList = () => {
                   className='flex items-center justify-center w-1/2 px-4 py-2 text-sm tracking-wide shadow-lg text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 hover:shadow-green'
                 >
                   <CreateIcon />
-                  <span>Add farm</span>
+                  <span>New farm</span>
                 </Link>
               </div>
             </div>

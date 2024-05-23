@@ -6,5 +6,5 @@ export default interface fieldCropModel {
   fieldId: number;
   field: fieldModel;
   cropId: number;
-  cropModel: cropModel;
+  crop: cropModel;
 }

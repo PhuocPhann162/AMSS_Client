@@ -103,7 +103,7 @@ export const CropTypeList = () => {
                     className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
                   >
                     <CreateIcon />
-                    <span>Add Crop</span>
+                    <span>New Crop</span>
                   </Link>
                 </div>
               </div>
@@ -152,7 +152,9 @@ export const CropTypeList = () => {
                               <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'></td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'>
                                 <div>
-                                  <h2 className='text-type-2'>{ct.name}</h2>
+                                  <h2 className='text-type-2'>
+                                    {ct.name} ({ct.type})
+                                  </h2>
                                 </div>
                               </td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
@@ -162,7 +164,7 @@ export const CropTypeList = () => {
                             {ct.crops.map((crop: cropModel, index: number) => (
                               <tr key={crop.id} className='border-b border-type-1'>
                                 <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <img src={crop.icon} className='w-20 rounded-full' />
+                                  <img src={crop.icon} className='w-16 h-16 rounded-full' />
                                 </td>
                                 <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
                                   <div>

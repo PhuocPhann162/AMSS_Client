@@ -12,9 +12,16 @@ const cropApi = createApi({
         method: 'GET'
       }),
       providesTags: ['Crops']
+    }),
+    getCropsByFieldId: builder.query({
+      query: (fieldId) => ({
+        url: 'crop/getAllByFieldId/' + fieldId,
+        method: 'GET'
+      }),
+      providesTags: ['Crops']
     })
   })
 });
 
 export default cropApi;
-export const { useGetCropByIdQuery } = cropApi;
+export const { useGetCropByIdQuery, useGetCropsByFieldIdQuery } = cropApi;

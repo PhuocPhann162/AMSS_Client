@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { ScrollAnimationWrapper } from '~/components/Animation';
-import { CardWeather, DailyWeather, SearchWeather } from '~/components/Page/DashBoard';
+import { CardDataStats, CardWeather, DailyWeather, FieldStatusList, SearchWeather } from '~/components/Page/DashBoard';
 import { getScrollAnimation } from '~/helper';
 import { useForecast } from '~/hooks';
 import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import { FieldList } from '../Lands/Fields/FieldList';
 
 export const DashBoard = () => {
   const [activeLink, setActiveLink] = useState('hourly');
@@ -56,6 +57,11 @@ export const DashBoard = () => {
               {activeLink === 'hourly' && forecast && <DailyWeather forecast={forecast} />}
             </div>
           </div>
+        </motion.div>
+      </ScrollAnimationWrapper>
+      <ScrollAnimationWrapper>
+        <motion.div variants={scrollAnimation}>
+          <FieldStatusList />
         </motion.div>
       </ScrollAnimationWrapper>
     </>
