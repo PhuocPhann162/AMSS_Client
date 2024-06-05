@@ -23,9 +23,17 @@ const cropTypeApi = createApi({
         };
       },
       providesTags: ['CropTypes']
+    }),
+    createCropType: builder.mutation({
+      query: (cropType) => ({
+        url: 'cropType',
+        method: 'POST',
+        body: cropType
+      }),
+      invalidatesTags: ['CropTypes']
     })
   })
 });
 
 export default cropTypeApi;
-export const { useGetAllCropTypesQuery } = cropTypeApi;
+export const { useGetAllCropTypesQuery, useCreateCropTypeMutation } = cropTypeApi;

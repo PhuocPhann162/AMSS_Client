@@ -19,9 +19,17 @@ const cropApi = createApi({
         method: 'GET'
       }),
       providesTags: ['Crops']
+    }),
+    createCrop: builder.mutation({
+      query: (crop) => ({
+        url: 'crop',
+        method: 'POST',
+        body: crop
+      }),
+      invalidatesTags: ['Crops']
     })
   })
 });
 
 export default cropApi;
-export const { useGetCropByIdQuery, useGetCropsByFieldIdQuery } = cropApi;
+export const { useGetCropByIdQuery, useGetCropsByFieldIdQuery, useCreateCropMutation } = cropApi;

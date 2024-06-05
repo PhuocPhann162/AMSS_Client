@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCropByIdQuery } from '~/api/cropApi';
 import {
   CareLevelIcon,
@@ -16,6 +16,7 @@ import { MainLoader } from '~/components/Page/common';
 import { cropModel } from '~/interfaces';
 
 export const CropDetail = () => {
+  const navigate = useNavigate();
   const [cropDetail, setCropDetail] = useState<cropModel>();
   const { id } = useParams();
   const { data, isLoading } = useGetCropByIdQuery(id);
@@ -81,7 +82,12 @@ export const CropDetail = () => {
                   </div>
                 </div>
               </div>
-              <button className='btn btn-accent mt-2 text-white'>Leave your experience</button>
+              <div className='flex items-center gap-2'>
+                <button className='btn btn-accent mt-2 text-white'>Leave your experience</button>
+                <button className='btn mt-2 text-white' onClick={() => navigate(-1)}>
+                  Back to list
+                </button>
+              </div>
             </div>
           </div>
         </div>

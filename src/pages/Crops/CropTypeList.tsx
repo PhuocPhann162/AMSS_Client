@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
-import { Modal, Pagination } from '~/common';
+import { Pagination } from '~/common';
 import {
   CreateIcon,
   DeleteIcon,
@@ -16,6 +16,7 @@ import {
 import { MainLoader } from '~/components/Page/common';
 import { inputHelper } from '~/helper';
 import { cropModel, cropTypeModel, pageOptions } from '~/interfaces';
+import { CropUpsertModal } from './CropUpsertModal';
 
 export const CropTypeList = () => {
   const navigate = useNavigate();
@@ -98,13 +99,13 @@ export const CropTypeList = () => {
 
               <div className='mt-6 md:flex md: flex-col md:items-center gap-4'>
                 <div className='flex items-center mt-4 md:mt-0'>
-                  <Link
-                    to='/app/map'
+                  <button
+                    onClick={() => (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.showModal()}
                     className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
                   >
                     <CreateIcon />
                     <span>New Crop</span>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -218,7 +219,15 @@ export const CropTypeList = () => {
                                           <DetailIcon />
                                           Detail
                                         </button>
-                                        <button className='text-accent'>
+                                        <button
+                                          onClick={() => {
+                                            navigate(`/app/crop/myCrops/cropDetail/${crop.id}`);
+                                            (
+                                              document.getElementById('crop_upsert_modal') as HTMLDialogElement
+                                            )?.showModal();
+                                          }}
+                                          className='text-accent'
+                                        >
                                           <EditExpandIcon />
                                           Edit
                                         </button>
@@ -254,7 +263,7 @@ export const CropTypeList = () => {
               totalRecords={totalRecords}
             />
           </div>
-          {/* <Modal width='' title='delete this farm?' onConfirm={() => handleDelete(farmIdModal)} /> */}
+          <CropUpsertModal />
         </>
       )}
     </div>

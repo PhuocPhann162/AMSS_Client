@@ -20,6 +20,7 @@ import { FieldWeather } from './Lands/Fields/FieldWeather';
 import { FieldSuggestion } from './Lands/Fields/FieldSuggestion';
 import { PlantDetail } from './Lands/Fields/PlantDetail';
 import { CropDetail } from './Crops/CropDetail';
+import { CropUpsertModal } from './Crops/CropUpsertModal';
 
 export {
   HomePage,
@@ -43,5 +44,6 @@ export {
   FieldSuggestion,
   Settings,
   PlantDetail,
-  CropDetail
+  CropDetail,
+  CropUpsertModal
 };
