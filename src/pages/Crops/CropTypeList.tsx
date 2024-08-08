@@ -34,6 +34,7 @@ export const CropTypeList = () => {
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [selectedCropId, setSelectedCropId] = useState<number>();
 
   // End State
   const [debouncedFilter] = useDebounce(filters, 500);
@@ -221,7 +222,7 @@ export const CropTypeList = () => {
                                         </button>
                                         <button
                                           onClick={() => {
-                                            navigate(`/app/crop/myCrops/cropDetail/${crop.id}`);
+                                            setSelectedCropId(crop.id);
                                             (
                                               document.getElementById('crop_upsert_modal') as HTMLDialogElement
                                             )?.showModal();
@@ -263,7 +264,7 @@ export const CropTypeList = () => {
               totalRecords={totalRecords}
             />
           </div>
-          <CropUpsertModal />
+          <CropUpsertModal id={selectedCropId} />
         </>
       )}
     </div>

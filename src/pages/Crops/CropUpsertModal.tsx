@@ -1,40 +1,49 @@
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
-import { useCreateCropMutation } from '~/api/cropApi';
+import { useCreateCropMutation, useGetCropByIdQuery, useUpdateCropMutation } from '~/api/cropApi';
 import { useCreateCropTypeMutation } from '~/api/cropTypeApi';
 import { MiniLoader } from '~/components/Page/common';
 import { inputHelper, toastNotify } from '~/helper';
 import { apiResponse } from '~/interfaces';
 
-export const CropUpsertModal = () => {
+interface CropUpsertModalProps {
+  id?: number;
+}
+
+const cropData = {
+  name: 'Mango',
+  cycle: 'Annual',
+  edible: 'true',
+  soil: 'Clay',
+  watering: 'Heavy',
+  maintenance: 'Low',
+  hardinessZone: 8,
+  indoor: 'false',
+  propogation: 'Seed',
+  careLevel: 'Easy',
+  growthRate: 'Fast',
+  cultivatedArea: 894.0,
+  plantedDate: new Date(2023, 8, 23),
+  expectedDate: new Date(2024, 4, 28),
+  quantity: 420,
+  cropType: 'Cereal',
+  description: 'Maize crop known for its versatility and use in various food products.'
+};
+
+export const CropUpsertModal = (id: CropUpsertModalProps) => {
+  console.log(id);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [imageToStore, setImageToStore] = useState<any>();
   const [imageToDisplay, setImageToDisplay] = useState<any>('');
-  const [userInputs, setUserInputs] = useState({
-    name: 'Mango',
-    cycle: 'Annual',
-    edible: 'true',
-    soil: 'Clay',
-    watering: 'Heavy',
-    maintenance: 'Low',
-    hardinessZone: 8,
-    indoor: 'false',
-    propogation: 'Seed',
-    careLevel: 'Easy',
-    growthRate: 'Fast',
-    cultivatedArea: 894.0,
-    plantedDate: new Date(2023, 8, 23),
-    expectedDate: new Date(2024, 4, 28),
-    quantity: 420,
-    cropType: 'Cereal',
-    description: 'Maize crop known for its versatility and use in various food products.'
-  });
+  const [userInputs, setUserInputs] = useState(cropData);
   const [createCrop] = useCreateCropMutation();
+  const [updateCrop] = useUpdateCropMutation();
   const [createCropType] = useCreateCropTypeMutation();
+  const { data } = useGetCropByIdQuery(id ?? 1);
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const tempData = inputHelper(e, userInputs);
@@ -132,12 +141,23 @@ export const CropUpsertModal = () => {
         formData.append('File', imageToStore);
       }
 
-      const response: apiResponse = await createCrop(formData);
-      console.log(response);
-      if (response.data && response.data?.isSuccess) {
-        (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
-        toastNotify(response.data.successMessage ?? 'Crop created successfully!', 'success');
-        navigate('/app/crop/myCrops');
+      let response: apiResponse;
+      if (!id) {
+        response = await createCrop(formData);
+        console.log(response);
+        if (response.data && response.data?.isSuccess) {
+          (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
+          toastNotify(response.data.successMessage ?? 'Crop created successfully!', 'success');
+          navigate('/app/crop/myCrops');
+        }
+      } else {
+        response = await updateCrop(formData);
+        console.log(response);
+        if (response.data && response.data?.isSuccess) {
+          (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
+          toastNotify(response.data.successMessage ?? 'Crop updated successfully!', 'success');
+          navigate('/app/crop/myCrops');
+        }
       }
     } catch (error: any) {
       console.error(error.message);
@@ -146,12 +166,39 @@ export const CropUpsertModal = () => {
     }
   };
 
+  useEffect(() => {
+    if (data && data.result) {
+      const tempData = {
+        name: data.result.name,
+        cycle: data.result.cycle,
+        edible: data.result.edible.toString(),
+        soil: data.result.soil,
+        watering: data.result.watering,
+        maintenance: data.result.maintenance,
+        hardinessZone: data.result.hardinessZone,
+        indoor: data.result.indoor.toString(),
+        propogation: data.result.propogation,
+        careLevel: data.result.careLevel,
+        growthRate: data.result.growthRate,
+        cultivatedArea: data.result.cultivatedArea,
+        plantedDate: new Date(data.result.plantedDate),
+        expectedDate: new Date(data.result.expectedDate),
+        quantity: data.result.quantity,
+        cropType: data.result.cropType.type,
+        description: data.result.description
+      };
+      console.log(data);
+      setUserInputs(tempData);
+      setImageToDisplay(data.result.icon);
+    }
+  }, [data]);
+
   return (
     <>
       <dialog id='crop_upsert_modal' className='modal modal-top sm:modal-top w-3/5 mx-auto mt-6 border rounded-lg'>
         <div className='modal-box bg-white'>
           <div className='flex items-center gap-1'>
-            <h3 className='font-bold text-lg text-black tracking-wide'>Create New Crop</h3>
+            <h3 className='font-bold text-lg text-black tracking-wide'>{id ? 'Update' : 'Create'} New Crop</h3>
             <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
               <title>tree_3_fill</title>
               <g id='tree_3_fill' fill='none' fillRule='evenodd'>
@@ -166,7 +213,7 @@ export const CropUpsertModal = () => {
           <div className='divider divide-neutral-400'></div>
           <div className='px-6 mb-6 space-y-6'>
             <form action='#' method='post' encType='multipart/form-data' onSubmit={handleSubmit}>
-              <div className='overflow-auto h-96 px-6 mb-6 space-y-6'>
+              <div className='overflow-auto h-100 px-6 mb-6 space-y-6'>
                 <div className='grid grid-cols-6 gap-6'>
                   <div
                     id='FileUpload'

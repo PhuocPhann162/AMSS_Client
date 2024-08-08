@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { ScrollAnimationWrapper } from '~/components/Animation';
 
 import { motion } from 'framer-motion';
-import HeroImage from '../../../../public/bg.jpg';
+import HeroImage from '../../../../public/AdvertiseImage.png';
 import { Link } from 'react-router-dom';
 import { getScrollAnimation } from '~/helper';
 
