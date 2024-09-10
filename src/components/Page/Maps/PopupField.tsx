@@ -18,7 +18,7 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
   // const [platnSuggest, setPlantSuggest] = useState<plantSuggestModel | null>(null);
   const [deleteField] = useDeleteFieldMutation();
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id?: string) => {
     try {
       toast.promise(
         deleteField(id),
@@ -150,7 +150,7 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
             <div className='underline'>Delete</div>
           </button>
         </div>
-        <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldInfo.id ?? 0)} />
+        <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldInfo.id ?? '')} />
       </div>
     </>
   );

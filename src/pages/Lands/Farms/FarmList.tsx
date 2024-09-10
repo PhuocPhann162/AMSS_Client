@@ -14,7 +14,7 @@ import { farmModel, pageOptions } from '~/interfaces';
 export const FarmList = () => {
   // Start State
   const [farmList, setFarmList] = useState<farmModel[]>([]);
-  const [farmIdModal, setFarmIdModal] = useState<number>(0);
+  const [farmIdModal, setFarmIdModal] = useState<string>('');
 
   const [filters, setFilters] = useState({
     searchString: ''
@@ -46,7 +46,7 @@ export const FarmList = () => {
     setFilters(tempData);
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id?: string) => {
     try {
       toast.promise(
         deleteFarm(id),

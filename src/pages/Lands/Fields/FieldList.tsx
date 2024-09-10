@@ -24,7 +24,7 @@ export const FieldList = () => {
   const navigate = useNavigate();
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
-  const [fieldIdModal, setfieldIdModal] = useState<number>(0);
+  const [fieldIdModal, setfieldIdModal] = useState<string>('');
 
   const [filters, setFilters] = useState({
     searchString: '',
@@ -59,7 +59,7 @@ export const FieldList = () => {
     setFilters(tempData);
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id?: string) => {
     try {
       toast.promise(
         deleteField(id),

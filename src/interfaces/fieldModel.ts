@@ -5,7 +5,7 @@ import polygonModel from './polygonModel';
 import soilQualityModel from './soilQualityModel';
 
 export default interface fieldModel {
-  id?: number;
+  id?: string;
   name?: string;
   area?: number;
   status?: string;

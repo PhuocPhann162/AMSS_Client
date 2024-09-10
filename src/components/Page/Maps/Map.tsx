@@ -98,10 +98,20 @@ const Map: React.FC = () => {
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
         .then((response) => response.json())
         .then((dataApi) => {
-          const city = dataApi.address.city;
-          setCityLocation(city);
+          setCityLocation(dataApi.address.city);
           const address = dataApi.display_name;
-          setFarmAddress({ address: address, lat: average[0], lng: average[1] });
+          setFarmAddress({
+            address: address,
+            lat: average[0],
+            lng: average[1],
+            city: dataApi.address.city,
+            country: dataApi.address.country,
+            countryCode: dataApi.address.country_code,
+            postCode: dataApi.address.postcode,
+            state: dataApi.address.quarter,
+            road: dataApi.address.road,
+            district: dataApi.address.suburb
+          });
         })
         .catch((error) => {
           toastNotify('Something error while get address', 'error');
@@ -134,7 +144,18 @@ const Map: React.FC = () => {
           .then((response) => response.json())
           .then((dataApi) => {
             const address = dataApi.display_name;
-            setFarmAddress({ address: address, lat: average[0], lng: average[1] });
+            setFarmAddress({
+              address: address,
+              lat: average[0],
+              lng: average[1],
+              city: dataApi.address.city,
+              country: dataApi.address.country,
+              countryCode: dataApi.address.country_code,
+              postCode: dataApi.address.postcode,
+              state: dataApi.address.quarter,
+              road: dataApi.address.road,
+              district: dataApi.address.suburb
+            });
           })
           .catch((error) => {
             toastNotify('Something error while get address', 'error');

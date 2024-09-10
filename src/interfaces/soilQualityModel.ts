@@ -1,7 +1,7 @@
 import fieldModel from './fieldModel';
 
 export default interface soilQualityModel {
-  id?: number;
+  id?: string;
   infoTime?: Date;
   chlorophyll?: number;
   iron?: number;

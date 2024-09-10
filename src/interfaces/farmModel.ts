@@ -2,7 +2,7 @@ import locationModel from './locationModel';
 import polygonModel from './polygonModel';
 
 export default interface farmModel {
-  id?: number;
+  id?: string;
   name?: string;
   ownerName?: string;
   locationId?: string;

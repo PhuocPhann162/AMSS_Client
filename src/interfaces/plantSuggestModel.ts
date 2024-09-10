@@ -1,5 +1,5 @@
 interface plantSuggestModel {
-  id: number;
+  id: string;
   common_name: string;
   scientific_name: string[];
   other_name: string[];

@@ -10,7 +10,7 @@ import { inputHelper, toastNotify } from '~/helper';
 import { apiResponse } from '~/interfaces';
 
 interface CropUpsertModalProps {
-  id?: number;
+  id?: string;
 }
 
 const cropData = {

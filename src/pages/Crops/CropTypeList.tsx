@@ -34,7 +34,7 @@ export const CropTypeList = () => {
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [selectedCropId, setSelectedCropId] = useState<number>();
+  const [selectedCropId, setSelectedCropId] = useState<string>();
 
   // End State
   const [debouncedFilter] = useDebounce(filters, 500);

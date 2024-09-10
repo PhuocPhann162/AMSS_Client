@@ -36,6 +36,8 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     setUserInputs(tempData);
   };
 
+  console.log(location);
+
   const createLocationAsync = async (locationData: locationModel) => {
     try {
       const newLocation: apiResponse = await createLocation(locationData);
@@ -65,7 +67,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     setIsLoading(true);
 
     try {
-      // Tạo location trước
+      // Create location first
       if (location) {
         const locationId = await createLocationAsync(location);
         if (locationId === '') {
@@ -82,7 +84,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
           return;
         }
 
-        // Tạo farm hoặc field
+        // Create farm or field
         const formData = new FormData();
         if (userInputs.placeType === 'Farm') {
           // Create Farm
@@ -121,7 +123,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
         setIsLoading(false);
         toastNotify('Location is required', 'error');
       }
-      // Sau khi tạo thêm vào map và đóng form modal
+      // Close Create Form Modal
       setUserInputs({
         name: '',
         ownerName: '',

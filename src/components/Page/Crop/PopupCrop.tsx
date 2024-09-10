@@ -7,7 +7,7 @@ import { MainLoader, MiniLoader } from '../common';
 import { fieldCropModel } from '~/interfaces';
 
 interface PopupCropProps {
-  fieldId: number;
+  fieldId: string;
 }
 
 export const PopupCrop = ({ fieldId }: PopupCropProps) => {
@@ -18,7 +18,6 @@ export const PopupCrop = ({ fieldId }: PopupCropProps) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setFieldCrop(data.result);
     }
   }, [data]);
@@ -29,7 +28,7 @@ export const PopupCrop = ({ fieldId }: PopupCropProps) => {
       {!isLoading && (
         <div className='flex items-center gap-1'>
           {fieldCrop?.map((fc) => (
-            <Link to={`/app/crop/myCrops/cropDetail/${fc.cropId}`}>
+            <Link key={fc.cropId} to={`/app/crop/myCrops/cropDetail/${fc.cropId}`}>
               <motion.img
                 variants={scrollAnimation}
                 src={fc.crop?.icon}

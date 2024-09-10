@@ -1,7 +1,7 @@
 import cropModel from './cropModel';
 
 export default interface cropTypeModel {
-  id?: number;
+  id?: string;
   name?: string;
   code?: string;
   type?: string;

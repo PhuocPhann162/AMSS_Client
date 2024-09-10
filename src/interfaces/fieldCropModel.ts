@@ -2,7 +2,7 @@ import cropModel from './cropModel';
 import fieldModel from './fieldModel';
 
 export default interface fieldCropModel {
-  id: number;
+  id: string;
   fieldId: number;
   field: fieldModel;
   cropId: number;
