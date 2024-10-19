@@ -34,7 +34,6 @@ const cropData = {
 };
 
 export const CropUpsertModal = (id: CropUpsertModalProps) => {
-  console.log(id);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [imageToStore, setImageToStore] = useState<any>();
@@ -47,14 +46,12 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const tempData = inputHelper(e, userInputs);
-    console.log(tempData);
     setUserInputs(tempData);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
-      console.log(file);
       const imgType = file.type.split('/')[1];
       const validImgTypes = ['jpeg', 'jpg', 'png'];
 

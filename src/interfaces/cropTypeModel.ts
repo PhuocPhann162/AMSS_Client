@@ -8,4 +8,5 @@ export default interface cropTypeModel {
   crops: cropModel[];
   createdAt?: string;
   updatedAt?: string;
+  deletedAt?: string;
 }

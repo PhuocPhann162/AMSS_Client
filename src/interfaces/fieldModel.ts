@@ -9,7 +9,7 @@ export default interface fieldModel {
   name?: string;
   area?: number;
   status?: string;
-  farmId?: number;
+  farmId?: string;
   farm?: farmModel;
   locationId?: string;
   location?: locationModel;

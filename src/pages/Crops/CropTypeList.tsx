@@ -46,6 +46,7 @@ export const CropTypeList = () => {
       pageSize: pageOptions.pageSize
     })
   });
+  console.log(data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, filters);

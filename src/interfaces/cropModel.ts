@@ -20,7 +20,7 @@ export default interface cropModel {
   cultivatedArea?: number;
   plantedDate?: string;
   expectedDate?: string;
-  cropTypeId?: number;
+  cropTypeId?: string;
   cropType?: cropTypeModel;
   fieldCrops?: fieldCropModel[];
   createdAt?: string;

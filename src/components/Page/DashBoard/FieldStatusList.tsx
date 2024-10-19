@@ -3,29 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
-import { Modal, Pagination } from '~/common';
-import { CreateIcon, DeleteIcon, EditTableIcon, MarkerIcon, SearchIcon, SortIcon } from '~/components/Icon';
+import { MarkerIcon, SortIcon } from '~/components/Icon';
 import { MainLoader } from '~/components/Page/common';
-import { Breadcrumb } from '~/components/UI';
 
 import { getStatusColor, inputHelper, toastNotify } from '~/helper';
 import { fieldModel, pageOptions } from '~/interfaces';
 import { SD_FieldStatus } from '~/utils/SD';
 import { PopupCrop } from '../Crop';
 
-const filterOptions = [
-  'View all',
-  SD_FieldStatus.PLANTED,
-  SD_FieldStatus.NEEDS_CARE,
-  SD_FieldStatus.AWAITING_HARVEST,
-  SD_FieldStatus.HARVESTING
-];
-
 export const FieldStatusList = () => {
-  const navigate = useNavigate();
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
-  const [fieldIdModal, setfieldIdModal] = useState<number>(0);
 
   const [filters, setFilters] = useState({
     searchString: '',

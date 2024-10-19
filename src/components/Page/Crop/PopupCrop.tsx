@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getScrollAnimation } from '~/helper';
 import { motion } from 'framer-motion';
 import { useGetCropsByFieldIdQuery } from '~/api/cropApi';
-import { MainLoader, MiniLoader } from '../common';
+import { MiniLoader } from '../common';
 import { fieldCropModel } from '~/interfaces';
 
 interface PopupCropProps {

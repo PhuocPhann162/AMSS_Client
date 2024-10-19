@@ -98,19 +98,19 @@ const Map: React.FC = () => {
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
         .then((response) => response.json())
         .then((dataApi) => {
-          setCityLocation(dataApi.address.city);
-          const address = dataApi.display_name;
+          setCityLocation(dataApi.address?.city);
+          const address = dataApi?.display_name;
           setFarmAddress({
             address: address,
             lat: average[0],
             lng: average[1],
-            city: dataApi.address.city,
-            country: dataApi.address.country,
-            countryCode: dataApi.address.country_code,
-            postCode: dataApi.address.postcode,
-            state: dataApi.address.quarter,
-            road: dataApi.address.road,
-            district: dataApi.address.suburb
+            city: dataApi.address?.city,
+            country: dataApi.address?.country,
+            countryCode: dataApi.address?.country_code,
+            postCode: dataApi.address?.postcode,
+            state: dataApi.address?.quarter || dataApi.address?.state,
+            road: dataApi.address?.road,
+            district: dataApi.address?.suburb
           });
         })
         .catch((error) => {

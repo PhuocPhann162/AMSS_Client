@@ -8,6 +8,7 @@ export default interface farmModel {
   locationId?: string;
   location?: locationModel;
   area?: number;
+  polygonAppId?: string;
   polygonApp?: polygonModel;
   createdAt?: string;
   updatedAt?: string;

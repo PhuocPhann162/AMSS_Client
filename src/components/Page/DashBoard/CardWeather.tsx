@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { forecastType } from '~/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
 import { Degree } from '../Weather';

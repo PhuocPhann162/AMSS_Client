@@ -3,8 +3,8 @@ import fieldModel from './fieldModel';
 
 export default interface fieldCropModel {
   id: string;
-  fieldId: number;
+  fieldId: string;
   field: fieldModel;
-  cropId: number;
+  cropId: string;
   crop: cropModel;
 }

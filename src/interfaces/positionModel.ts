@@ -4,6 +4,6 @@ export default interface positionModel {
   id?: string;
   lat?: number;
   lng?: number;
-  polygonId?: number;
+  polygonId?: string;
   polygon?: polygonModel;
 }

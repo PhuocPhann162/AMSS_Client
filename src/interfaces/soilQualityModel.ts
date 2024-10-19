@@ -20,6 +20,6 @@ export default interface soilQualityModel {
   soilTemperature10cm?: number;
   soilTemperature40cm?: number;
   soilTemperature100cm?: number;
-  fieldId?: number | null;
+  fieldId?: string | null;
   field?: fieldModel;
 }

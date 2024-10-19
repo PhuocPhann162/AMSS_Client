@@ -9,6 +9,7 @@ export default interface apiResponse {
       // this will not give suggestions
       [key: string]: string;
     };
+    pagination?: any;
   };
   error?: any;
 }

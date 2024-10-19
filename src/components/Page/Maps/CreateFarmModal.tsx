@@ -36,8 +36,6 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     setUserInputs(tempData);
   };
 
-  console.log(location);
-
   const createLocationAsync = async (locationData: locationModel) => {
     try {
       const newLocation: apiResponse = await createLocation(locationData);
@@ -78,6 +76,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
 
         // Create Polygon
         const polygonId = await createPolygonAsync();
+
         if (polygonId === '') {
           setIsLoading(false);
           toastNotify('Something wrong when create polygon', 'error');
@@ -144,7 +143,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
       <dialog id='create_farm_modal' className='modal modal-top sm:modal-top w-3/5 mx-auto mt-6 border rounded-lg'>
         <div className='modal-box bg-white'>
           <div className=''>
-            <h3 className='font-bold text-lg w-100 tracking-wide'>Create Farm</h3>
+            <h3 className='font-bold text-lg w-100 tracking-wide'>Create Land</h3>
           </div>
           <div className='divider divide-neutral-400'></div>
           <form method='post' onSubmit={handleSubmit}>
