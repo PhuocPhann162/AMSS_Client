@@ -38,6 +38,7 @@ export const PopupCrop = ({ fieldId }: PopupCropProps) => {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                loading='lazy'
               />
             </Link>
           ))}

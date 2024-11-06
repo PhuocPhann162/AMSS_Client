@@ -14,6 +14,7 @@ import positionModel from './positionModel';
 import plantSuggestModel from './plantSuggestModel';
 import soilQualityModel from './soilQualityModel';
 import fieldCropModel from './fieldCropModel';
+import OptionType from './optionSelectType';
 
 export type {
   pointModel,
@@ -33,5 +34,6 @@ export type {
   airPollutionType,
   plantSuggestModel,
   soilQualityModel,
-  fieldCropModel
+  fieldCropModel,
+  OptionType
 };

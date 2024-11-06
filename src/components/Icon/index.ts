@@ -30,6 +30,16 @@ import {
   PropogationIcon
 } from './SoilQualityIcon';
 
+import {
+  GPAHomeIcon,
+  ImportIcon,
+  FileIcon,
+  DownloadIcon,
+  DeleteFileIcon,
+  UploadIcon,
+  FileBackgroundIcon
+} from './GPASearchIcon';
+
 export {
   SortIcon,
   SearchIcon,
@@ -57,5 +67,12 @@ export {
   HardinessZoneIcon,
   LeafColorIcon,
   PropogationIcon,
-  DetailIcon
+  DetailIcon,
+  GPAHomeIcon,
+  ImportIcon,
+  FileIcon,
+  DownloadIcon,
+  DeleteFileIcon,
+  UploadIcon,
+  FileBackgroundIcon
 };

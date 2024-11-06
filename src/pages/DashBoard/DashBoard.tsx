@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
 import { ScrollAnimationWrapper } from '~/components/Animation';
-import { CardDataStats, CardWeather, DailyWeather, FieldStatusList, SearchWeather } from '~/components/Page/DashBoard';
+import { CardWeather, DailyWeather, FieldStatusList, SearchWeather } from '~/components/Page/DashBoard';
 import { getScrollAnimation } from '~/helper';
 import { useForecast } from '~/hooks';
 import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
-import { FieldList } from '../Lands/Fields/FieldList';
 
 export const DashBoard = () => {
   const [activeLink, setActiveLink] = useState('hourly');

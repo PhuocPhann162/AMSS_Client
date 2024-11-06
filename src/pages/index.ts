@@ -21,6 +21,8 @@ import { FieldSuggestion } from './Lands/Fields/FieldSuggestion';
 import { PlantDetail } from './Lands/Fields/PlantDetail';
 import { CropDetail } from './Crops/CropDetail';
 import { CropUpsertModal } from './Crops/CropUpsertModal';
+import { GPASearch } from './GPASearch/GPASearch';
+import { ImportData } from './GPASearch/ImportData';
 
 export {
   HomePage,
@@ -45,5 +47,7 @@ export {
   Settings,
   PlantDetail,
   CropDetail,
-  CropUpsertModal
+  CropUpsertModal,
+  GPASearch,
+  ImportData
 };

@@ -1,12 +1,16 @@
 import { forecastType } from '~/interfaces';
 import { Degree } from '../Weather';
 import { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { getScrollAnimation } from '~/helper';
 
 interface DailyWeatherProps {
   forecast: forecastType;
 }
 
 export const DailyWeather = ({ forecast }: DailyWeatherProps) => {
+  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
+
   const renderedItems = useMemo(() => {
     return forecast.list.map((item, index) => {
       const currentDate = new Date(item.dt * 1000).toLocaleDateString();
@@ -26,10 +30,16 @@ export const DailyWeather = ({ forecast }: DailyWeatherProps) => {
           <p className='font-bold'>{showDate ? currentDate : '-'}</p>
           <p className='w-20 text-sm text-center'>{formattedHours}</p>
           <div className='flex flex-col items-center'>
-            <img
+            <motion.img
+              variants={scrollAnimation}
               className='w-15'
-              alt={`weather-icon-${item.weather[0].description}`}
               src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              loading='lazy'
             />
             <div className='font-semibold'>
               <Degree temp={Math.round(item.main.temp)} />C

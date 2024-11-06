@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
@@ -14,9 +14,10 @@ import {
   SortIcon
 } from '~/components/Icon';
 import { MainLoader } from '~/components/Page/common';
-import { inputHelper } from '~/helper';
+import { getScrollAnimation, inputHelper } from '~/helper';
 import { cropModel, cropTypeModel, pageOptions } from '~/interfaces';
 import { CropUpsertModal } from './CropUpsertModal';
+import { motion } from 'framer-motion';
 
 export const CropTypeList = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export const CropTypeList = () => {
       pageSize: pageOptions.pageSize
     })
   });
-  console.log(data);
+  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, filters);
@@ -83,7 +84,7 @@ export const CropTypeList = () => {
                 <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
                   These farms have managed in the last 12 months.
                 </p>
-                <div className='relative flex items-center md:mt-4'>
+                <div className='relative flex items-center md:mt-4 border-none shadow-md rounded-md'>
                   <span className='absolute'>
                     <SearchIcon />
                   </span>
@@ -91,7 +92,7 @@ export const CropTypeList = () => {
                   <input
                     type='text'
                     placeholder='Search...'
-                    className='block w-full py-1.5 pr-5 text-gray-700 bg-white border border-bodydark rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                    className='block w-full py-1.5 pr-5 text-gray-700 bg-white border-none rounded-md md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
                     name='searchString'
                     value={filters.searchString}
                     onChange={handleChange}
@@ -167,7 +168,17 @@ export const CropTypeList = () => {
                             {ct.crops.map((crop: cropModel, index: number) => (
                               <tr key={crop.id} className='border-b border-type-1'>
                                 <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <img src={crop.icon} className='w-16 h-16 rounded-full' />
+                                  <motion.img
+                                    variants={scrollAnimation}
+                                    src={crop.icon}
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    loading='lazy'
+                                    className='w-16 h-16 rounded-full'
+                                  />
                                 </td>
                                 <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
                                   <div>

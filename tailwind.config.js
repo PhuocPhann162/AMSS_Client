@@ -16,6 +16,7 @@ export default {
       t: '0 -1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
       green: '0px 20px 20px -15px  rgba(0,196,106,0.81) ',
       yellow: '0px 20px 20px -15px  rgba(255,183,0,0.81) ',
+      brown: '0px 20px 20px -15px rgba(150,75,0,0.81)',
       none: 'none'
     },
     fontFamily: {
@@ -38,6 +39,7 @@ export default {
         be: '#f3f4f6',
         pearl: '#1098ad',
         brown: '#5D3D2E',
+        file: '#24A9E1',
         nav: '#242a2e',
         current: 'currentColor',
         transparent: 'transparent',
@@ -99,6 +101,12 @@ export default {
             dark: '#f18b9d',
             light: '#fef6f6'
           }
+        },
+        clr: {
+          1: '#2E291D',
+          2: '#795E28',
+          3: '#B68931',
+          4: '#FFB859'
         }
       },
       fontSize: {

@@ -12,7 +12,9 @@ import {
   FieldList,
   FieldSuggestion,
   FieldWeather,
+  GPASearch,
   HomePage,
+  ImportData,
   Login,
   PageNotFound,
   Permission,
@@ -74,6 +76,11 @@ function App() {
         <Route path='land/field/suggestion/plantDetail/:id' element={<PlantDetail />} />
         {/* Weather */}
         <Route path='weatherSearch' element={<WeatherSearch />} />
+        {/* GPA Routes */}
+        <Route path='gpa-search'>
+          <Route path='home' element={<GPASearch />} />
+          <Route path='import-data' element={<ImportData />} />
+        </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />
     </Routes>

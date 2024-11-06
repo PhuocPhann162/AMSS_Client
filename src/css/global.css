@@ -337,3 +337,14 @@ span.flatpickr-weekday,
 .animation-hover:hover:after {
   @apply left-0 w-full;
 }
+
+.custom-zebra tbody tr:nth-child(odd) {
+  @apply bg-status-danger-light;
+}
+.custom-zebra tbody tr:nth-child(even) {
+  @apply bg-white;
+}
+
+.custom-zebra tbody tr:hover {
+  @apply bg-status-danger-light;
+}
