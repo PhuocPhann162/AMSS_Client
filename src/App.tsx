@@ -77,9 +77,9 @@ function App() {
         {/* Weather */}
         <Route path='weatherSearch' element={<WeatherSearch />} />
         {/* GPA Routes */}
-        <Route path='gpa-search'>
+        <Route path='gpaSearch'>
           <Route path='home' element={<GPASearch />} />
-          <Route path='import-data' element={<ImportData />} />
+          <Route path='importData' element={<ImportData />} />
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />

@@ -34,7 +34,7 @@ export const GPASearch = () => {
         <div className='flex justify-end items-center gap-4 w-full'>
           <button
             className='flex items-center justify-center px-4 py-2 text-sm tracking-wide shadow-lg text-white transition-colors duration-200 bg-brown rounded-lg shrink-0 sm:w-auto hover:bg-yellow-800 hover:shadow-brown max-w-40'
-            onClick={() => navigate(`/app/gpa-search/import-data`)}
+            onClick={() => navigate(`/app/gpaSearch/importData`)}
           >
             <span>Import Data</span>
             <ImportIcon />
