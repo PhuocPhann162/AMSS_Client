@@ -73,7 +73,7 @@ export const FieldWeather = () => {
               </div>
             </div>
             <div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default w-full col-span-2'>
-              <h3 className='mb-7 mt-3'>Air Quality</h3>
+              <h3 className='mb-7 mt-3 text-black font-bold'>Air Quality</h3>
               {airPollution && (
                 <div className='flex flex-col gap-8'>
                   <MyDoughnut airPollution={airPollution} /> <AirPollutionCard airPollution={airPollution} />

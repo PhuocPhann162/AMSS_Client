@@ -48,11 +48,13 @@ export const ImportData: React.FC = () => {
       const response: apiResponse = await importDataSocialMetric(formData);
       if (response.data && response.data?.isSuccess) {
         toastNotify('Import Social Metric Data Successfully');
-        setSelectedFile(null);
         if (tempDownloadUrl) {
           URL.revokeObjectURL(tempDownloadUrl);
-          setTempDownloadUrl(null);
         }
+        setSelectedFile(null);
+        setTempDownloadUrl(null);
+        const inputFile = document.getElementById('chooseFile') as HTMLInputElement;
+        if (inputFile) inputFile.value = '';
       }
     } catch (error: any) {
       console.error(Error(error.message));
@@ -62,9 +64,11 @@ export const ImportData: React.FC = () => {
   const handleDelete = () => {
     if (tempDownloadUrl) {
       URL.revokeObjectURL(tempDownloadUrl);
-      setTempDownloadUrl(null);
     }
     setSelectedFile(null);
+    setTempDownloadUrl(null);
+    const inputFile = document.getElementById('chooseFile') as HTMLInputElement;
+    if (inputFile) inputFile.value = '';
   };
 
   // Hủy URL tạm khi component unmount
@@ -87,17 +91,26 @@ export const ImportData: React.FC = () => {
           >
             <div className='p-4 min-h-[300px] flex items-center justify-center cursor-pointer text-gray-600 '>
               <div className='flex flex-col items-center'>
-                <UploadIcon />
+                <label className='flex flex-col items-center cursor-pointer' htmlFor='chooseFile'>
+                  <UploadIcon />
 
-                <h4 className='text-base font-semibold text-gray-600 mt-5'>Drag & Drop file here</h4>
-                <h4 className='text-base font-semibold text-gray-600 py-6'>OR</h4>
-                <label
-                  htmlFor='chooseFile'
-                  className='text-black bg-clr-4 px-8 py-2 hover:bg-yellow-600 text-base font-semibold cursor-pointer rounded-md shadow-lg'
-                >
-                  Browser
+                  <h4 className='text-base font-semibold text-gray-600 mt-5'>Drag & Drop file here</h4>
+                  <h4 className='text-base font-semibold text-gray-600 py-6'>OR</h4>
+                  <label
+                    htmlFor='chooseFile'
+                    className='text-white bg-clr-4 px-8 py-2 hover:bg-yellow-600 text-base font-semibold cursor-pointer rounded-md shadow-lg'
+                  >
+                    Browser
+                  </label>
                 </label>
                 <input type='file' id='chooseFile' className='hidden' onChange={handleFileChange} />
+                <a
+                  href='/template/SocialMetricData.csv'
+                  download='SocialMetricDataTemplate.csv'
+                  className='mt-6 text-aqua font-bold underline underline-offset-8 hover:decoration-2'
+                >
+                  Download Template
+                </a>
               </div>
             </div>
           </motion.div>
@@ -120,12 +133,12 @@ export const ImportData: React.FC = () => {
                         <DownloadIcon />
                       </a>
                     </div>
-                    <div
+                    <button
                       className='mt-1 shadow-md rounded-md w-8 h-8 px-2 py-2 flex items-center justify-center text-danger cursor-pointer'
                       onClick={handleDelete}
                     >
                       <DeleteFileIcon />
-                    </div>
+                    </button>
                   </div>
                 )}
               </div>

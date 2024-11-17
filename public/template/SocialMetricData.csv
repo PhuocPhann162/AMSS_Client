@@ -1,0 +1,54 @@
+Country Name,Country Code,Province Name,Province Code,Series Name,Series Code,1990,2000,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Population, total",SP.POP.TOTL,66912613,79001142,91235504,92191398,93126529,94033048,94914330,95776716,96648685,97468029,98186856,98858950
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Population growth (annual %),SP.POP.GROW,2.185104629,1.116867374,1.066398765,1.042270946,1.009226633,0.968719959,0.932840032,0.904491215,0.906299235,0.844181677,0.734794058,0.682172963
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Surface area (sq. km),AG.SRF.TOTL.K2,331030,329240,331230,331230,331230,331230,331240,331310,331340,331340,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Population density (people per sq. km of land area),EN.POP.DNST,205.5750192,253.9739664,291.1421414,294.1812351,297.1614298,300.0387616,302.825616,305.5770717,308.3591021,310.9732316,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Poverty headcount ratio at national poverty lines (% of population),SI.POV.NAHC,..,..,..,..,9.2,7.9,6.8,5.7,4.8,..,4.3,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Poverty headcount ratio at $2.15 a day (2017 PPP) (% of population),SI.POV.DDAY,..,..,1.9,..,1.3,..,1.2,..,0.7,..,1,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"GNI, Atlas method (current US$)",NY.GNP.ATLS.CD,8528434791,30203568807,2.19E+11,2.28E+11,2.40E+11,2.55E+11,2.91E+11,3.20E+11,3.34E+11,3.50E+11,3.95E+11,4.13E+11
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"GNI per capita, Atlas method (current US$)",NY.GNP.PCAP.CD,130,380,2400,2480,2580,2720,3060,3340,3450,3590,4020,4180
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"GNI, PPP (current international $)",NY.GNP.MKTP.PP.CD,75266904220,1.99E+11,6.44E+11,6.76E+11,7.44E+11,8.20E+11,9.14E+11,1.02E+12,1.09E+12,1.13E+12,1.31E+12,1.42E+12
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"GNI per capita, PPP (current international $)",NY.GNP.PCAP.PP.CD,1120,2520,7050,7330,7990,8720,9630,10630,11280,11600,13370,14400
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Income share held by lowest 20%,SI.DST.FRST.20,..,..,7.1,..,6.9,..,6.7,..,6.6,..,6.8,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Life expectancy at birth, total (years)",SP.DYN.LE00.IN,69.213,72.462,73.855,73.876,73.938,73.963,73.976,74.093,75.378,73.618,74.58,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Fertility rate, total (births per woman)",SP.DYN.TFRT.IN,3.596,2.072,1.95,1.951,1.938,1.93,1.937,1.948,1.955,1.944,1.941,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Adolescent fertility rate (births per 1,000 women ages 15-19)",SP.ADO.TFRT,43.715,27.968,36.25,35.761,34.813,34.291,34.514,34.703,34.709,34.6,34.992,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Contraceptive prevalence, any method (% of married women ages 15-49)",SP.DYN.CONU.ZS,..,74.2,75.7,75.7,77.6,..,76.4,76.5,..,72.8,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Births attended by skilled health staff (% of total),SH.STA.BRTC.ZS,..,58.8,93.8,..,..,..,..,..,..,96.1,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Mortality rate, under-5 (per 1,000 live births)",SH.DYN.MORT,51.6,30,22.1,21.9,21.7,21.5,21.3,21.1,20.9,20.6,20.3,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Prevalence of underweight, weight for age (% of children under 5)",SH.STA.MALN.ZS,..,26.6,14.5,14.1,13.8,13.4,12.8,12.2,11.6,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Immunization, measles (% of children ages 12-23 months)",SH.IMM.MEAS,88,97,97,97,99,97,97,95,97,89,88,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Primary completion rate, total (% of relevant age group)",SE.PRM.CMPT.ZS,..,101.0508728,99.08108521,97.21360016,100.9222183,..,109.5708771,..,..,..,115.8542557,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"School enrollment, primary (% gross)",SE.PRM.ENRR,101.2309265,112.7373276,105.519125,106.8207619,110.2237738,109.9422299,112.2193693,117.4233503,119.0240535,120.0233861,123.1337238,122.4941519
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"School enrollment, secondary (% gross)",SE.SEC.ENRR,35.3092804,..,..,88.19828302,88.63878817,88.95685295,90.63531095,93.15377844,93.78994768,96.06674285,97.24947611,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"School enrollment, primary and secondary (gross), gender parity index (GPI)",SE.ENR.PRSC.FM.ZS,..,..,..,..,..,..,..,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Prevalence of HIV, total (% of population ages 15-49)",SH.DYN.AIDS.ZS,0.1,0.3,0.4,0.4,0.4,0.4,0.4,0.4,0.3,0.3,0.3,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Forest area (sq. km),AG.LND.FRST.K2,93759.6,117841,139271,140618.6,143776.8,144153.9,144912.9,145671.9,146430.9,147189.9,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Terrestrial and marine protected areas (% of total territorial area),ER.PTD.TOTL.ZS,..,..,..,..,2.929447435,2.929506921,2.929506921,2.929506551,2.929506551,2.92950655,2.92950655,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Annual freshwater withdrawals, total (% of internal resources)",ER.H2O.FWTL.ZS,14.33364866,19.98052418,22.77613934,22.77613934,22.77613934,22.77613934,22.77613934,22.77613934,22.77613934,22.77613934,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Urban population growth (annual %),SP.URB.GROW,4.008407961,3.428601973,3.159725318,3.116340974,3.061435126,2.98533942,2.917947127,2.859150286,2.831514259,2.733031277,2.593789028,2.507234801
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Energy use (kg of oil equivalent per capita),EG.USE.PCAP.KG.OE,267.0056092,363.7421975,..,..,..,..,..,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Electric power consumption (kWh per capita),EG.USE.ELEC.KH.PC,96.78294883,289.9198596,1431.164341,..,..,..,..,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,GDP (current US$),NY.GDP.MKTP.CD,6471740806,31172518403,2.33E+11,2.39E+11,2.57E+11,2.81E+11,3.10E+11,3.34E+11,3.47E+11,3.66E+11,4.10E+11,4.30E+11
+Viet Nam,VN,Ho Chi Minh City,VN-SG,GDP growth (annual %),NY.GDP.MKTP.KD.ZG,5.100918139,6.787316405,6.422243121,6.987154306,6.690008927,6.940190374,7.465006856,7.359262701,2.865413209,2.553728526,8.123514468,5.046430736
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Inflation, GDP deflator (annual %)",NY.GDP.DEFL.KD.ZG,42.09509813,3.408827665,3.698137968,-1.716511707,1.819535928,4.362920148,3.6266473,2.423226942,1.467478148,2.880767929,4.051242317,1.906231302
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Agriculture, forestry, and fishing, value added (% of GDP)",NV.AGR.TOTL.ZS,38.73674175,24.534582,14.88034893,14.47472618,13.81825537,12.92987949,12.30666843,11.78452855,12.65540357,12.60309956,11.9555292,11.96048582
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Industry (including construction), value added (% of GDP)",NV.IND.TOTL.ZS,22.67429389,36.73077533,35.29856849,34.26654664,34.11522886,35.39036407,36.54243341,36.8031369,36.74371329,37.39151922,38.17537622,37.12009669
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Exports of goods and services (% of GDP),NE.EXP.GNFS.ZS,36.03861364,53.92149701,69.59857507,72.92285161,74.10728551,81.76252212,84.42345602,85.1575871,84.38159802,93.85020712,93.81163846,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Imports of goods and services (% of GDP),NE.IMP.GNFS.ZS,45.2770843,57.49559741,65.81194553,71.99137627,71.30222164,79.21756138,80.24048073,79.54662743,78.86426475,92.82562568,89.9779027,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Gross capital formation (% of GDP),NE.GDI.TOTL.ZS,..,29.60991382,30.28902683,32.10891589,31.72453901,32.30530085,32.01950293,31.97996065,31.91568836,32.89560232,32.56809515,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Revenue, excluding grants (% of GDP)",GC.REV.XGRT.GD.ZS,..,..,..,..,..,..,..,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Time required to start a business (days),IC.REG.DURS,..,..,34,20,24,22,17,16,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Domestic credit provided by financial sector (% of GDP),FS.AST.DOMS.GD.ZS,..,..,..,..,..,..,..,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Tax revenue (% of GDP),GC.TAX.TOTL.GD.ZS,..,..,..,..,..,..,..,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Military expenditure (% of GDP),MS.MIL.XPND.GD.ZS,7.91085687,..,2.285507647,2.361155697,2.442960753,2.267969776,2.28456986,..,..,..,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Mobile cellular subscriptions (per 100 people),IT.CEL.SETS.P2,0,0.99816152,149.2271298,130.5154869,129.5014832,127.6319162,148.1748225,142.2374996,143.7522156,138.8654955,139.9496874,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,High-technology exports (% of manufactured exports),TX.VAL.TECH.MF.ZS,..,..,32.0548542,36.36831241,38.05574646,41.73806712,40.75012108,40.4333961,41.74007736,41.53960795,38.63280709,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Merchandise trade (% of GDP),TG.VAL.TOTL.GD.ZS,79.66944528,96.6267775,127.6779283,136.9544802,136.6746268,152.0979262,154.9664497,154.8190095,157.3298438,182.3953751,178.0144346,158.1408343
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Net barter terms of trade index (2015 = 100),TT.PRI.MRCH.XD.WD,..,76.07336859,97.89003217,100,103.8457475,104.2102251,102.5841634,105.0521391,104.2807071,101.6808563,..,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"External debt stocks, total (DOD, current US$)",DT.DOD.DECT.CD,23270062150,12841178044,74733824699,81824874002,90484088512,1.10E+11,1.13E+11,1.22E+11,1.29E+11,1.40E+11,1.47E+11,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Total debt service (% of exports of goods, services and primary income)",DT.TDS.DECT.EX.ZS,..,7.471825151,4.23766383,3.930030604,4.068683186,6.285826775,7.265674502,6.093787448,5.867213971,6.068832747,6.782516306,..
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Net migration,SM.POP.NETM,-10252,-150955,-4875,-4761,-4432,-3847,-3080,-4028,-2016,-992,-82700,-82700
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Personal remittances, received (current US$)",BX.TRF.PWKR.CD.DT,..,1340000000,9794000000,8050696859,8556092341,9405606825,10191360839,10885224766,10714571746,12722088864,13200000000,14000000000
+Viet Nam,VN,Ho Chi Minh City,VN-SG,"Foreign direct investment, net inflows (BoP, current US$)",BX.KLT.DINV.CD.WD,180000000,1298000000,9200000000,11800000000,12600000000,14100000000,15500000000,16120000000,15800000000,15660000000,17900000000,18500000000
+Viet Nam,VN,Ho Chi Minh City,VN-SG,Net official development assistance and official aid received (current US$),DT.ODA.ALLD.CD,180550003.1,1485270020,4215620117,3167389893,2906070068,2407489990,1644829956,1088040039,1171109985,526520019.5,48919998.17,..

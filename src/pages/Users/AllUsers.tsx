@@ -125,7 +125,7 @@ export const AllUsers = () => {
             </div>
           </div>
           <div className='overflow-x-auto overflow-y-hidden py-4 rounded-lg'>
-            <table className='table table-sm rounded-lg shadow-lg'>
+            <table className='table table-sm rounded-md shadow-lg bg-white'>
               <thead className='text-black text-sm'>
                 <tr>
                   <th></th>

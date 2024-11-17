@@ -40,6 +40,7 @@ export default {
         pearl: '#1098ad',
         brown: '#5D3D2E',
         file: '#24A9E1',
+        aqua: '#38bdf8',
         nav: '#242a2e',
         current: 'currentColor',
         transparent: 'transparent',
@@ -101,6 +102,14 @@ export default {
             dark: '#f18b9d',
             light: '#fef6f6'
           }
+        },
+        res: {
+          draft: '#D9D9D9',
+          inprogress: '#BFDFED',
+          pending: '#F7F8C5',
+          approved: '#D2EBE2',
+          rejected: '#F2CDCD',
+          refunded: '#F7DFA4'
         },
         clr: {
           1: '#2E291D',
