@@ -15,6 +15,11 @@ import plantSuggestModel from './plantSuggestModel';
 import soilQualityModel from './soilQualityModel';
 import fieldCropModel from './fieldCropModel';
 import OptionType from './optionSelectType';
+import countryContinentModel from './countryContinentModel';
+import provinceModel from './provinceModel';
+import seriesMetricModel from './seriesMetricModel';
+import socialMetricModel from './socialMetricModel';
+import socialYearModel from './socialYearModel';
 
 export type {
   pointModel,
@@ -35,5 +40,10 @@ export type {
   plantSuggestModel,
   soilQualityModel,
   fieldCropModel,
-  OptionType
+  OptionType,
+  countryContinentModel,
+  provinceModel,
+  seriesMetricModel,
+  socialMetricModel,
+  socialYearModel
 };

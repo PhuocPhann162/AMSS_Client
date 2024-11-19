@@ -7,9 +7,10 @@ const socialMetricApi = createApi({
   tagTypes: ['SocialMetrics'],
   endpoints: (builder) => ({
     getAllSocialMetrics: builder.query({
-      query: () => ({
+      query: (request) => ({
         url: 'socialMetric/getByCode',
-        method: 'GET'
+        method: 'GET',
+        params: request
       }),
       providesTags: ['SocialMetrics']
     }),
