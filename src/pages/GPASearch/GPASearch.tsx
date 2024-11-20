@@ -118,7 +118,7 @@ export const GPASearch = () => {
               </div>
             </motion.div>
             <motion.div variants={scrollAnimation} className='w-full'>
-              <SocialMetricLineChart socialYears={socialYearData} seriesName={socialMetric?.seriesMetric?.name} />
+              <SocialMetricLineChart socialYears={socialYearData} socialMetric={socialMetric} />
             </motion.div>
           </ScrollAnimationWrapper>
         </div>

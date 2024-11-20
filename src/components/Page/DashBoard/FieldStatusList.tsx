@@ -102,36 +102,36 @@ export const FieldStatusList = () => {
 
             <div className='flex flex-col mt-6 shadow-lg'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
-                <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
-                  <div className='overflow-hidden border border-bodydark dark:border-gray-700 md:rounded-lg'>
-                    <table className='min-w-full divide-y divide-bodydark dark:divide-gray-700'>
-                      <thead className='bg-status-white-light text-status-white-dark'>
-                        <tr>
-                          <th scope='col' className='py-3.5 px-4 text-sm font-semibold text-left rtl:text-right '>
+                <div className='inline-block min-w-full py-2 align-middle md:px-6 '>
+                  <div className='overflow-hidden md:rounded-lg'>
+                    <table className='min-w-full'>
+                      <thead className='bg-status-white-light text-status-white-dark '>
+                        <tr className='font-bold'>
+                          <th scope='col' className='py-3.5 px-4 text-sm text-left rtl:text-right '>
                             <button className='flex items-center gap-x-3 focus:outline-none'>
                               <span>Name</span>
 
                               <SortIcon />
                             </button>
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right'>
                             Farm Name
                           </th>
-                          <th scope='col' className='px-8 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th scope='col' className='px-8 py-3.5 text-sm text-left rtl:text-right'>
                             Total Area
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right'>
                             Status
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right'>
                             Location
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th scope='col' className='px-4 py-3.5 text-sm text-left rtl:text-right'>
                             Planted Crop
                           </th>
                         </tr>
                       </thead>
-                      <tbody className='bg-white divide-y divide-bodydark'>
+                      <tbody className='bg-white'>
                         {fieldList &&
                           fieldList.map((field: fieldModel) => (
                             <tr key={field.id}>

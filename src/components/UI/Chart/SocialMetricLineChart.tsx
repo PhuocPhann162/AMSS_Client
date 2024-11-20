@@ -1,21 +1,22 @@
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { socialMetricModel } from '~/interfaces';
 import { SocialMetricDataChart } from '~/models';
 
 Chart.register(...registerables);
 
 interface SocialMetricLineChartProps {
   socialYears: SocialMetricDataChart[];
-  seriesName?: string;
+  socialMetric?: socialMetricModel;
 }
 
-export const SocialMetricLineChart = ({ socialYears, seriesName }: SocialMetricLineChartProps) => {
+export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetricLineChartProps) => {
   // Prepare data for the chart
   const data: ChartData<'line'> = {
     labels: socialYears.map((sy) => sy.year?.toString()),
     datasets: [
       {
-        label: 'Social Metric Data', // Chart label
+        label: socialMetric?.province?.name + ' ,VN', // Chart label
         data: socialYears.map((sy) => sy.value ?? null), // Extract values
         borderColor: 'rgba(75, 192, 192, 1)', // Line color
         backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill under the line
@@ -59,7 +60,7 @@ export const SocialMetricLineChart = ({ socialYears, seriesName }: SocialMetricL
 
   return (
     <div className='w-full'>
-      <h3 className='font-bold text-brown'>{seriesName}</h3>
+      <h3 className='font-bold text-brown'>{socialMetric?.seriesMetric?.name}</h3>
       <Line data={data} options={options} />
     </div>
   );
