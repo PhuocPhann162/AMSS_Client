@@ -29,7 +29,7 @@ export const Hero = () => {
           </div>
           <div className='flex w-full'>
             <motion.div className='h-full w-full' variants={scrollAnimation}>
-              <div className='mockup-window border bg-gradient-to-r from-white to-green-100 shadow-xl'>
+              <div className='mockup-window bg-gradient-to-r from-white to-green-100 shadow-xl rounded-md'>
                 <div className='flex justify-center px-4 py-4 bg-white'>
                   <img src={HeroImage} alt='AMSS Illustrasi' width={612} height={383} />
                 </div>

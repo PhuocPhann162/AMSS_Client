@@ -16,6 +16,7 @@ import { SocialMetricLineChart } from '~/components/UI/Chart/SocialMetricLineCha
 import { useGetAllSocialMetricsQuery } from '~/api/socialMetricApi';
 import { findProvinceCode } from '~/helper/findProvinceCodeWithVnlp';
 import { SocialMetricDataChart } from '~/models';
+import { MapBox } from '~/components/Page/Maps';
 
 interface ArrayObjectSelectState {
   selectedOption: OptionType | null;
@@ -69,7 +70,20 @@ export const GPASearch = () => {
       <Breadcrumb pageParent='GPA' pageName='Social Metrics' />
       <div className='bg-white min-h-screen'>
         <Banner />
-        <div className='w-full'>
+        <div>
+          <div className='max-w-6xl py-10 mx-auto'>
+            <ScrollAnimationWrapper>
+              <motion.div variants={scrollAnimation}>
+                <div className='mockup-window bg-gradient-to-r from-white to-brown shadow-xl rounded-md'>
+                  <div className='flex justify-center px-4 py-4 bg-white'>
+                    <MapBox />
+                  </div>
+                </div>
+              </motion.div>
+            </ScrollAnimationWrapper>
+          </div>
+        </div>
+        <div className='w-full py-20'>
           <ScrollAnimationWrapper className='flex w-full gap-8'>
             <motion.div variants={scrollAnimation} className='flex flex-col w-full max-w-md gap-4 ml-4'>
               <div className='flex flex-col gap-4 w-full'>

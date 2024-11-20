@@ -14,6 +14,7 @@ import { MainLoader } from '../common';
 import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
 import { useGeolocation, useUrlPosition } from '~/hooks';
+import 'leaflet/dist/leaflet.css';
 
 const style = {
   color: '#ee7219'
@@ -263,8 +264,8 @@ const Map: React.FC = () => {
               keepResult={true}
             />
             <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url='https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+              attribution={`&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>, <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors`}
+              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${import.meta.env.VITE_MAPBOX_ACESS_TOKEN}`}
             />
 
             {geolocationPosition && (

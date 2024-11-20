@@ -16,7 +16,7 @@ export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetri
     labels: socialYears.map((sy) => sy.year?.toString()),
     datasets: [
       {
-        label: socialMetric?.province?.name + ' ,VN', // Chart label
+        label: socialMetric ? socialMetric?.province?.name + ' ,VN' : 'Social Metric Data', // Chart label
         data: socialYears.map((sy) => sy.value ?? null), // Extract values
         borderColor: 'rgba(75, 192, 192, 1)', // Line color
         backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill under the line

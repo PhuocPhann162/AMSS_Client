@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
@@ -27,7 +27,6 @@ export const FieldStatusList = () => {
     pageNumber: 1,
     pageSize: 5
   });
-  const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
   // End State
 
@@ -100,7 +99,7 @@ export const FieldStatusList = () => {
               </div>
             </div>
 
-            <div className='flex flex-col mt-6 shadow-lg'>
+            <div className='flex flex-col mt-6 shadow-default'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6 '>
                   <div className='overflow-hidden md:rounded-lg'>
