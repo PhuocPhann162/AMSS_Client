@@ -13,6 +13,7 @@
     "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\""
   },
   "dependencies": {
+    "@mapbox/search-js-react": "^1.0.0-beta.24",
     "@reduxjs/toolkit": "^2.2.3",
     "@turf/turf": "^7.0.0-alpha.114",
     "@types/react-datepicker": "^6.2.0",
