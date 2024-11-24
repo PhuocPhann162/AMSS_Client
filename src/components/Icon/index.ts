@@ -40,6 +40,21 @@ import {
   FileBackgroundIcon
 } from './GPASearchIcon';
 
+import {
+  DashBoardIcon,
+  CropIcon,
+  FarmMapIcon,
+  LandIcon,
+  ScheduleIcon,
+  ExpandSidebarIcon,
+  UsersIcon,
+  TaskIcon,
+  ReportIcon,
+  ResourcesIcon
+} from './SideBarIcon';
+
+import { MarkerPopupIcon, RiverIcon, LightIcon, DeletePopupIcon, SearchWorldIcon } from './PopupIcon';
+
 export {
   SortIcon,
   SearchIcon,
@@ -74,5 +89,20 @@ export {
   DownloadIcon,
   DeleteFileIcon,
   UploadIcon,
-  FileBackgroundIcon
+  FileBackgroundIcon,
+  DashBoardIcon,
+  CropIcon,
+  FarmMapIcon,
+  LandIcon,
+  ScheduleIcon,
+  ExpandSidebarIcon,
+  UsersIcon,
+  TaskIcon,
+  ReportIcon,
+  ResourcesIcon,
+  DeletePopupIcon,
+  RiverIcon,
+  LightIcon,
+  MarkerPopupIcon,
+  SearchWorldIcon
 };

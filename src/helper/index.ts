@@ -7,6 +7,7 @@ import getForecast from './getForecast';
 import { findNearestRiver } from './findNearestRiverMountain';
 import { getAirPollution, evaluatePollutantLevelDescription } from './getAirPollution';
 import { getPlanListSuggest, getPlantSuggest } from './getPlantSuggest';
+import { farmDescriptionItems, fieldDescriptionItems, locationDescriptionItems } from './descriptionItems';
 
 export {
   inputHelper,
@@ -23,5 +24,8 @@ export {
   getAirPollution,
   evaluatePollutantLevelDescription,
   getPlanListSuggest,
-  getPlantSuggest
+  getPlantSuggest,
+  farmDescriptionItems,
+  fieldDescriptionItems,
+  locationDescriptionItems
 };

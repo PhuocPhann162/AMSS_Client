@@ -7,7 +7,7 @@ import { Breadcrumb } from '~/components/UI';
 import { apiResponse, pageOptions, userModel } from '~/interfaces';
 import { inputHelper, toastNotify } from '~/helper';
 import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
-import { EditTableIcon } from '~/components/Icon';
+import { CreateIcon, EditTableIcon, SearchIcon } from '~/components/Icon';
 
 export const AllUsers = () => {
   let cnt: number = 1;
@@ -79,56 +79,73 @@ export const AllUsers = () => {
         <>
           <Breadcrumb pageParent='Users' pageName='All Users' />
           <div className='flex items-center justify-between mb-2'>
-            <NavLink to='/app/user/register' className='btn btn-primary text-whiten shadow-lg'>
-              New User
-            </NavLink>
-            <div className='flex items-center gap-3'>
-              <label className='input input-bordered flex items-center gap-2 bg-whiter w-80'>
-                <input
-                  type='text'
-                  className='grow w-full'
-                  placeholder='Search Name, Phone or Role'
-                  name='searchString'
-                  value={filters.searchString}
-                  onChange={handleChange}
-                />
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 16 16'
-                  fill='currentColor'
-                  className='w-4 h-4 opacity-70'
+            <div className='flex flex-col gap-4'>
+              <div>
+                <div className='flex items-center gap-x-3'>
+                  <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Users</h2>
+
+                  <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
+                    {totalRecords} accounts
+                  </span>
+                </div>
+
+                <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
+                  These accounts have managed in the last 12 months.
+                </p>
+              </div>
+            </div>
+
+            <div className='flex flex-col items-end gap-2'>
+              <div className='flex items-center mt-4 gap-x-3'>
+                <NavLink
+                  to='/app/user/register'
+                  className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
                 >
-                  <path
-                    fillRule='evenodd'
-                    d='M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z'
-                    clipRule='evenodd'
+                  <CreateIcon />
+                  <span>New User</span>
+                </NavLink>
+              </div>
+              <div className='flex items-center gap-3'>
+                <div className='relative flex items-center mt-4 md:mt-0'>
+                  <span className='absolute'>
+                    <SearchIcon />
+                  </span>
+
+                  <input
+                    type='text'
+                    placeholder='Search Name, Phone or Role'
+                    className='block w-full py-1.5 pr-5 text-gray-700 bg-white shadow-md rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                    name='searchString'
+                    value={filters.searchString}
+                    onChange={handleChange}
                   />
-                </svg>
-              </label>
-              <button className='btn btn-accent text-whiten' onClick={handleFilters}>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth='1.5'
-                  stroke='currentColor'
-                  className='w-5 h-5'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z'
-                  />
-                </svg>
-                Filter
-              </button>
+                </div>
+                <div className='tooltip tooltip-bottom' data-tip='Enter to Search'>
+                  <button className='btn btn-accent btn-sm text-whiten' onClick={handleFilters}>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth='1.5'
+                      stroke='currentColor'
+                      className='w-5 h-5'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z'
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div className='overflow-x-auto overflow-y-hidden py-4 rounded-lg'>
             <table className='table table-sm rounded-md shadow-lg bg-white'>
-              <thead className='text-black text-sm'>
-                <tr>
-                  <th></th>
+              <thead className='bg-status-white-light text-status-white-dark text-md'>
+                <tr className='border-b border-res-draft'>
+                  <th>No</th>
                   <th>Name</th>
                   <th>Phone</th>
                   <th>Street Address</th>
@@ -141,8 +158,8 @@ export const AllUsers = () => {
               </thead>
               <tbody>
                 {userList.map((user: userModel) => (
-                  <tr key={user.id} className=''>
-                    <th>{cnt++}</th>
+                  <tr key={user.id} className='border-b border-res-draft'>
+                    <th className='font-medium'>{cnt++}</th>
                     <td>{user.fullName}</td>
                     <td>{user.phoneNumber}</td>
                     <td>{user.streetAddress}</td>

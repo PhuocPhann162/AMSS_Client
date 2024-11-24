@@ -1,16 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { SearchIcon } from '~/components/Icon';
 import { Breadcrumb } from '~/components/UI';
 import { inputWordTypeAnalysis } from '~/helper/vnlpServerAnalysis';
 import Select from 'react-select';
 import vnlpAnalysisModel from '~/interfaces/vnlpAnalysisModel';
 import { SENTENCE_LIST } from '~/constants/sentenceInput';
-import { OptionType, socialMetricModel, socialYearModel } from '~/interfaces';
-import { useNavigate } from 'react-router-dom';
+import { farmModel, fieldModel, OptionType, socialMetricModel, socialYearModel } from '~/interfaces';
 import Banner from '~/components/Page/GPASearch/Banner';
 import { ScrollAnimationWrapper } from '~/components/Animation';
 import { motion } from 'framer-motion';
-import { getScrollAnimation } from '~/helper';
+import { farmDescriptionItems, fieldDescriptionItems, getScrollAnimation, locationDescriptionItems } from '~/helper';
 import { LANGUAGE } from '~/constants/languages';
 import { SocialMetricLineChart } from '~/components/UI/Chart/SocialMetricLineChart';
 import { useGetAllSocialMetricsQuery } from '~/api/socialMetricApi';
@@ -18,13 +17,21 @@ import { findProvinceCode } from '~/helper/findProvinceCodeWithVnlp';
 import { SocialMetricDataChart } from '~/models';
 import { MapBox } from '~/components/Page/Maps';
 import { SocialMetricBarChart } from '~/components/UI/Chart/SocialMetricBarChart';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useGetFieldByIdQuery } from '~/api/fieldApi';
+import { useGetFarmByIdQuery } from '~/api/farmApi';
+import {} from '~/common';
+import { ACard, ADescriptions } from '~/common/ui-common';
 
 interface ArrayObjectSelectState {
   selectedOption: OptionType | null;
 }
 
 export const GPASearch = () => {
-  const navigate = useNavigate();
+  const searchSectionRef = useRef(null);
+  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get('type');
   const [filters, setFilters] = useState<ArrayObjectSelectState>({
     selectedOption: null
   });
@@ -33,6 +40,7 @@ export const GPASearch = () => {
   const [socialMetric, setSocialMetric] = useState<socialMetricModel>();
   const [socialYearData, setSocialYearData] = useState<SocialMetricDataChart[]>([]);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [landValue, setLandValue] = useState<(farmModel & fieldModel) | null>(null);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   const { data, isLoading } = useGetAllSocialMetricsQuery(
@@ -41,6 +49,14 @@ export const GPASearch = () => {
       skip: !provinceAnalysis || !filters.selectedOption?.value || !isSearchClicked
     }
   );
+
+  const { data: dataFarm, isLoading: isLoadingFarm } = useGetFarmByIdQuery(id, {
+    skip: !type || type === '1'
+  });
+
+  const { data: dataField, isLoading: isLoadingField } = useGetFieldByIdQuery(id, {
+    skip: !type || type === '0'
+  });
 
   const handleSearch = async () => {
     setIsSearchClicked(true);
@@ -51,6 +67,20 @@ export const GPASearch = () => {
       setProvinceAnalysis(code ?? '');
     }
   };
+
+  const landItems = useMemo(() => {
+    if (!landValue) return [];
+    if (type === '0') {
+      return farmDescriptionItems(landValue);
+    } else {
+      return fieldDescriptionItems(landValue);
+    }
+  }, [landValue, type]);
+
+  const locationItems = useMemo(() => {
+    if (!landValue) return [];
+    return landValue.location ? locationDescriptionItems(landValue.location) : [];
+  }, [landValue]);
 
   useEffect(() => {
     if (data) {
@@ -69,13 +99,23 @@ export const GPASearch = () => {
     }
   }, [socialMetric]);
 
+  useEffect(() => {
+    if (dataFarm) {
+      setLandValue(dataFarm.result);
+    }
+    if (dataField) {
+      console.log(dataField.result);
+      setLandValue(dataField.result);
+    }
+  }, [dataFarm, dataField]);
+
   return (
     <div>
       <Breadcrumb pageParent='GPA' pageName='Social Metrics' />
-      <div className='bg-white min-h-screen'>
-        <Banner />
+      <div className='min-h-screen pb-10'>
+        <Banner searchSectionRef={searchSectionRef} />
         <div>
-          <div className='max-w-6xl py-10 mx-auto'>
+          <div className='max-w-6xl py-10 my-10 mx-auto'>
             <ScrollAnimationWrapper>
               <motion.div variants={scrollAnimation}>
                 <div className='mockup-window bg-gradient-to-r from-white to-brown shadow-xl rounded-md'>
@@ -87,6 +127,19 @@ export const GPASearch = () => {
             </ScrollAnimationWrapper>
           </div>
         </div>
+        <div className='flex gap-3' ref={searchSectionRef}>
+          <div className='w-1/2'>
+            <ACard className='h-full' title={`${type === '0' ? 'Farm' : 'Field'} Information`}>
+              <ADescriptions colon items={landItems} />
+            </ACard>
+          </div>
+          <div className='w-1/2'>
+            <ACard className='h-full' title='Location Infomation'>
+              <ADescriptions colon items={locationItems} />
+            </ACard>
+          </div>
+        </div>
+
         <div className='w-full py-20'>
           <ScrollAnimationWrapper className='flex w-full gap-8'>
             <motion.div variants={scrollAnimation} className='flex flex-col w-full max-w-md gap-4 ml-4'>
@@ -135,16 +188,15 @@ export const GPASearch = () => {
                 </div>
               </div>
             </motion.div>
-            <motion.div variants={scrollAnimation} className='w-full'>
+            <motion.div variants={scrollAnimation} className='w-full bg-white px-2 py-2 rounded-md shadow-lg'>
               <SocialMetricLineChart socialYears={socialYearData} socialMetric={socialMetric} />
             </motion.div>
           </ScrollAnimationWrapper>
         </div>
-        <ScrollAnimationWrapper>
-          <motion.div variants={scrollAnimation} className='mx-4'>
-            <SocialMetricBarChart socialYears={socialYearData} socialMetric={socialMetric} />
-          </motion.div>
-        </ScrollAnimationWrapper>
+
+        <div className='mx-auto max-w-4xl shadow-lg bg-white px-2 py-8'>
+          <SocialMetricBarChart socialYears={socialYearData} socialMetric={socialMetric} />
+        </div>
       </div>
     </div>
   );

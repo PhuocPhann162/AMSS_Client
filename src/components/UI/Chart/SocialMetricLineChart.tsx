@@ -11,34 +11,42 @@ interface SocialMetricLineChartProps {
 }
 
 export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetricLineChartProps) => {
-  // Prepare data for the chart
   const data: ChartData<'line'> = {
     labels: socialYears.map((sy) => sy.year?.toString()),
     datasets: [
       {
-        label: socialMetric ? socialMetric?.province?.name + ' ,VN' : 'Social Metric Data', // Chart label
-        data: socialYears.map((sy) => sy.value ?? null), // Extract values
-        borderColor: 'rgba(75, 192, 192, 1)', // Line color
-        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill under the line
+        label: socialMetric ? `${socialMetric?.province?.name}, VN` : 'Social Metric Data',
+        data: socialYears.map((sy) => sy.value ?? null),
+        borderColor: '#9333ea',
+        backgroundColor: 'rgba(147, 51, 234, 0.1)',
         borderWidth: 2,
-        tension: 0.3, // Smooth curves
-        pointRadius: 4, // Size of the points
-        pointHoverRadius: 10 // Size when hovering
+        tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        fill: true
       }
     ]
   };
 
-  // Chart options
   const options: ChartOptions<'line'> = {
     responsive: true,
     plugins: {
       legend: {
         display: true,
-        position: 'top'
+        position: 'top',
+        labels: {
+          font: {
+            size: 14
+          },
+          color: '#1f2937'
+        }
       },
       tooltip: {
         callbacks: {
-          label: (context) => `${context.label}: ${context.raw}` // Customize tooltip
+          label: (context) => {
+            const value = context.raw as number;
+            return `${context.label}: ${value >= 1000 ? `${value / 1000}k` : value.toFixed(2)}`;
+          }
         }
       }
     },
@@ -46,13 +54,29 @@ export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetri
       x: {
         title: {
           display: true,
-          text: 'Year' // X-axis title
+          font: { size: 14 },
+          color: '#9ca3af'
+        },
+
+        grid: {
+          drawOnChartArea: false,
+          drawTicks: true,
+          color: '#e5e7eb',
+          lineWidth: 1
         }
       },
       y: {
         title: {
           display: true,
-          text: 'Value' // Y-axis title
+          font: { size: 14 },
+          color: '#9ca3af'
+        },
+
+        grid: {
+          drawOnChartArea: false,
+          drawTicks: true,
+          color: '#e5e7eb',
+          lineWidth: 1
         }
       }
     }
@@ -60,7 +84,7 @@ export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetri
 
   return (
     <div className='w-full'>
-      <h3 className='font-bold text-brown'>{socialMetric?.seriesMetric?.name}</h3>
+      <h3 className='font-bold text-gray-700 mb-4'>{socialMetric?.seriesMetric?.name}</h3>
       <Line data={data} options={options} />
     </div>
   );

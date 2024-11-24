@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf';
 import { Link } from 'react-router-dom';
-import { EditTableIcon, ForecastIcon } from '~/components/Icon';
+import { EditTableIcon, ForecastIcon, SearchWorldIcon } from '~/components/Icon';
 import { farmModel } from '~/interfaces';
 
 interface PopupFarmProps {
@@ -36,6 +36,12 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
         <div className='text-zinc-500'>
           {farmInfo.area!.toFixed(2)} m² ({turf.convertArea(farmInfo.area!, 'meters', 'acres').toFixed(2)} acres)
         </div>
+      </div>
+      <div className='text-sm mt-2'>
+        <Link to={`/app/gpaSearch/home/${farmInfo.id}?type=0`} className='flex items-center gap-1'>
+          <SearchWorldIcon />
+          <div className='underline'>Search Social Indicators</div>
+        </Link>
       </div>
       <div className='text-sm'>
         <Link to={`/app/land/field/updateField/${farmInfo.id}`} className='flex items-center gap-1'>

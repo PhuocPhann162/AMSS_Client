@@ -79,6 +79,7 @@ function App() {
         {/* GPA Routes */}
         <Route path='gpaSearch'>
           <Route path='home' element={<GPASearch />} />
+          <Route path='home/:id' element={<GPASearch />} />
           <Route path='importData' element={<ImportData />} />
         </Route>
       </Route>

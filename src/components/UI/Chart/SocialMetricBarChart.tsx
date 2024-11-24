@@ -16,13 +16,14 @@ export const SocialMetricBarChart = ({ socialYears, socialMetric }: SocialMetric
     labels: socialYears.map((sy) => sy.year?.toString()),
     datasets: [
       {
-        label: socialMetric ? socialMetric?.province?.name + ' ,VN' : 'Social Metric Data', // Chart label
-        data: socialYears.map((sy) => sy.value ?? null), // Extract values
-        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar color
-        borderColor: 'rgba(75, 192, 192, 1)', // Border color for bars
+        label: socialMetric ? socialMetric?.province?.name + ' ,VN' : 'Social Metric Data',
+        data: socialYears.map((sy) => sy.value ?? null),
+        backgroundColor: 'rgba(150, 75, 0, 0.2)',
+        borderColor: 'rgba(150, 75, 0, 1)',
         borderWidth: 2,
-        hoverBackgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar hover color
-        hoverBorderColor: 'rgba(75, 192, 192, 1)' // Border hover color
+        barThickness: 20,
+        hoverBackgroundColor: 'rgba(150, 75, 0, 0.6)',
+        hoverBorderColor: 'rgba(150, 75, 0, 1)'
       }
     ]
   };
@@ -37,30 +38,37 @@ export const SocialMetricBarChart = ({ socialYears, socialMetric }: SocialMetric
       },
       tooltip: {
         callbacks: {
-          label: (context) => `${context.label}: ${context.raw}` // Customize tooltip
+          label: (context) => {
+            const value = context.raw as number;
+            return `${context.label}: ${value >= 1000 ? `${value / 1000}k` : value.toFixed(2)}`;
+          }
         }
       }
     },
     scales: {
       x: {
         title: {
-          display: true,
-          text: 'Year' // X-axis title
+          display: true
+        },
+        grid: {
+          drawOnChartArea: false,
+          drawTicks: true,
+          color: '#e5e7eb',
+          lineWidth: 1
         }
       },
       y: {
         title: {
-          display: true,
-          text: 'Value' // Y-axis title
+          display: true
         },
-        beginAtZero: true // Ensures y-axis starts at 0
+        beginAtZero: true
       }
     }
   };
 
   return (
-    <div className='w-full'>
-      <h3 className='font-bold text-brown'>{socialMetric?.seriesMetric?.name}</h3>
+    <div className='w-full max-w-4xl'>
+      <h3 className='font-bold text-brown px-6'>{socialMetric?.seriesMetric?.name}</h3>
       <Bar data={data} options={options} />
     </div>
   );

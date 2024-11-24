@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon, useMapEvents } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import { farmModel, fieldModel, locationModel, pointModel, positionModel } from '~/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
@@ -15,12 +15,14 @@ import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
 import { useGeolocation, useUrlPosition } from '~/hooks';
 import 'leaflet/dist/leaflet.css';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   color: '#ee7219'
 };
 
 const Map: React.FC = () => {
+  const navigate = useNavigate();
   const [mapKey, setMapKey] = useState(0);
   const [mapPosition, setMapPosition] = useState([40, 0]);
   const [area, setArea] = useState<number>(0);
@@ -34,6 +36,7 @@ const Map: React.FC = () => {
   const [fieldId, polygonId, mapLat, mapLng] = useUrlPosition();
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
   const mapRef = useRef<any>(null);
+  const polygonRef = useRef<L.Polygon>(null);
 
   const { data: dataFarm } = useGetAllFarmsQuery('');
   const { data: dataField, isLoading } = useGetAllFieldsQuery('');
@@ -290,5 +293,15 @@ const ChangeCenter = ({ point }: pointModel) => {
   map.flyTo(point, map.getZoom());
   return null;
 };
+
+// const DetectClick = () => {
+//   const navigate = useNavigate();
+//   useMapEvents({
+//     click: (e) => {
+//       navigate(`/app/map?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+//     }
+//   });
+//   return null;
+// };
 
 export default Map;

@@ -126,7 +126,7 @@ export const FieldList = () => {
             </div>
 
             <div className='mt-6 md:flex md:items-center md:justify-between'>
-              <div className='inline-flex overflow-hidden bg-white border border-bodydark divide-x rounded-lg rtl:flex-row-reverse '>
+              <div className='inline-flex overflow-hidden bg-white  shadow-md divide-x divide-res-draft rounded-lg rtl:flex-row-reverse '>
                 {filterOptions.map((opt: string) => (
                   <button
                     key={opt}
@@ -146,7 +146,7 @@ export const FieldList = () => {
                 <input
                   type='text'
                   placeholder='Search Name, Farm Name,...'
-                  className='block w-full py-1.5 pr-5 text-gray-700 bg-white border border-bodydark rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                  className='block w-full py-1.5 pr-5 text-gray-700 bg-white shadow-md rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
                   name='searchString'
                   value={filters.searchString}
                   onChange={handleChange}
@@ -157,8 +157,8 @@ export const FieldList = () => {
             <div className='flex flex-col mt-6 shadow-lg'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
-                  <div className='overflow-hidden border border-bodydark dark:border-gray-700 md:rounded-lg'>
-                    <table className='min-w-full divide-y divide-bodydark dark:divide-gray-700'>
+                  <div className='overflow-hidden shadow-md md:rounded-lg'>
+                    <table className='min-w-full divide-y divide-res-draft dark:divide-gray-700'>
                       <thead className='bg-status-white-light text-status-white-dark'>
                         <tr>
                           <th scope='col' className='py-3.5 px-4 text-sm font-semibold text-left rtl:text-right '>
@@ -186,7 +186,7 @@ export const FieldList = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className='bg-white divide-y divide-bodydark'>
+                      <tbody className='bg-white divide-y divide-res-draft'>
                         {fieldList &&
                           fieldList.map((field: fieldModel) => (
                             <tr key={field.id}>

@@ -5,7 +5,11 @@ import { motion } from 'framer-motion';
 import { ImportIcon } from '~/components/Icon';
 import { useNavigate } from 'react-router-dom';
 
-const Banner = () => {
+interface BannerInterface {
+  searchSectionRef: any;
+}
+
+const Banner = ({ searchSectionRef }: BannerInterface) => {
   const navigate = useNavigate();
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
@@ -25,7 +29,14 @@ const Banner = () => {
             </p>
 
             <div className='space-y-4 sm:flex sm:space-y-0 sm:space-x-4 text-black'>
-              <button className='flex items-center justify-center px-4 py-2 text-sm tracking-wide shadow-lg text-white transition-colors duration-200 bg-brown rounded-lg shrink-0 sm:w-auto hover:bg-yellow-800 hover:shadow-brown max-w-80'>
+              <button
+                onClick={() => {
+                  if (searchSectionRef.current) {
+                    searchSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className='flex items-center justify-center px-4 py-2 text-sm tracking-wide shadow-lg text-white transition-colors duration-200 bg-brown rounded-lg shrink-0 sm:w-auto hover:bg-yellow-800 hover:shadow-brown max-w-80'
+              >
                 <svg
                   className='w-4 h-4 mr-2 text-gray-500 dark:text-gray-200'
                   fill='currentColor'
