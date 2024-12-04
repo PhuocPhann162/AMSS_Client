@@ -14,7 +14,8 @@ import {
   FarmMapIcon,
   ReportIcon,
   UsersIcon,
-  ExpandSidebarIcon
+  ExpandSidebarIcon,
+  MarketIcon
 } from '~/components/Icon/SideBarIcon';
 
 interface SidebarProps {
@@ -447,8 +448,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           sidebarExpanded ? handleClick() : setSidebarExpanded(true);
                         }}
                       >
-                        <ReportIcon />
-                        Reports
+                        <MarketIcon />
+                        Market
                         {ExpandSidebarIcon(open)}
                       </NavLink>
                       {/* <!-- Dropdown Menu Start --> */}
@@ -462,7 +463,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Alerts
+                              Dashboard
                             </NavLink>
                           </li>
                           <li>
@@ -473,7 +474,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Buttons
+                              Online Store
                             </NavLink>
                           </li>
                         </ul>

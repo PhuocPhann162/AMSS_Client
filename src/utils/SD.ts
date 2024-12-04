@@ -1,7 +1,8 @@
 export enum SD_Roles {
   ADMIN = 'ADMIN',
   OWNER = 'OWNER',
-  FARMER = 'FARMER'
+  FARMER = 'FARMER',
+  CLIENT = 'CLIENT'
 }
 
 export enum SD_PlaceType {

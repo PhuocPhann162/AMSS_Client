@@ -50,7 +50,8 @@ import {
   UsersIcon,
   TaskIcon,
   ReportIcon,
-  ResourcesIcon
+  ResourcesIcon,
+  MarketIcon
 } from './SideBarIcon';
 
 import { MarkerPopupIcon, RiverIcon, LightIcon, DeletePopupIcon, SearchWorldIcon } from './PopupIcon';
@@ -104,5 +105,6 @@ export {
   RiverIcon,
   LightIcon,
   MarkerPopupIcon,
-  SearchWorldIcon
+  SearchWorldIcon,
+  MarketIcon
 };

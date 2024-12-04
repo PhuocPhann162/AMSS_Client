@@ -2,51 +2,49 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { SearchIcon } from '~/components/Icon';
 import { Breadcrumb } from '~/components/UI';
 import { inputWordTypeAnalysis } from '~/helper/vnlpServerAnalysis';
-import Select from 'react-select';
+import Select, { MultiValue } from 'react-select';
 import vnlpAnalysisModel from '~/interfaces/vnlpAnalysisModel';
 import { SENTENCE_LIST } from '~/constants/sentenceInput';
-import { farmModel, fieldModel, OptionType, socialMetricModel, socialYearModel } from '~/interfaces';
+import { farmModel, fieldModel, OptionType, socialMetricModel } from '~/interfaces';
 import Banner from '~/components/Page/GPASearch/Banner';
 import { ScrollAnimationWrapper } from '~/components/Animation';
 import { motion } from 'framer-motion';
-import { farmDescriptionItems, fieldDescriptionItems, getScrollAnimation, locationDescriptionItems } from '~/helper';
+import {
+  farmDescriptionItems,
+  fieldDescriptionItems,
+  getScrollAnimation,
+  locationDescriptionItems,
+  toastNotify
+} from '~/helper';
 import { LANGUAGE } from '~/constants/languages';
 import { SocialMetricLineChart } from '~/components/UI/Chart/SocialMetricLineChart';
 import { useGetAllSocialMetricsQuery } from '~/api/socialMetricApi';
 import { findProvinceCode } from '~/helper/findProvinceCodeWithVnlp';
-import { SocialMetricDataChart } from '~/models';
 import { MapBox } from '~/components/Page/Maps';
-import { SocialMetricBarChart } from '~/components/UI/Chart/SocialMetricBarChart';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useGetFieldByIdQuery } from '~/api/fieldApi';
 import { useGetFarmByIdQuery } from '~/api/farmApi';
 import {} from '~/common';
 import { ACard, ADescriptions } from '~/common/ui-common';
-
-interface ArrayObjectSelectState {
-  selectedOption: OptionType | null;
-}
+import { SocialMetricBarChart } from '~/components/UI/Chart/SocialMetricBarChart';
 
 export const GPASearch = () => {
   const searchSectionRef = useRef(null);
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const type = searchParams.get('type');
-  const [filters, setFilters] = useState<ArrayObjectSelectState>({
-    selectedOption: null
-  });
+  const [sentenceFilters, setFilters] = useState<OptionType[]>([]);
   const [provinceAnalysis, setProvinceAnalysis] = useState('');
   const [vnlpList, setVnlpList] = useState<vnlpAnalysisModel[]>();
-  const [socialMetric, setSocialMetric] = useState<socialMetricModel>();
-  const [socialYearData, setSocialYearData] = useState<SocialMetricDataChart[]>([]);
+  const [socialMetrics, setSocialMetrics] = useState<socialMetricModel[]>([]);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [landValue, setLandValue] = useState<(farmModel & fieldModel) | null>(null);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   const { data, isLoading } = useGetAllSocialMetricsQuery(
-    { ProvinceCode: provinceAnalysis, SeriesCode: filters.selectedOption?.value },
+    { ProvinceCode: provinceAnalysis, SeriesCodes: sentenceFilters.map((s) => s.value) },
     {
-      skip: !provinceAnalysis || !filters.selectedOption?.value || !isSearchClicked
+      skip: !provinceAnalysis || sentenceFilters.length == 0 || !isSearchClicked
     }
   );
 
@@ -59,8 +57,14 @@ export const GPASearch = () => {
   });
 
   const handleSearch = async () => {
+    if (!sentenceFilters.length) {
+      toastNotify('Please select at least one filter', 'info');
+      return;
+    }
+
     setIsSearchClicked(true);
-    const response: vnlpAnalysisModel[] = await inputWordTypeAnalysis(filters.selectedOption!.label, LANGUAGE.EN);
+    const response: vnlpAnalysisModel[] = await inputWordTypeAnalysis(sentenceFilters[0].label, LANGUAGE.EN);
+    console.log(response);
     if (response) {
       setVnlpList(response);
       const code = findProvinceCode(response);
@@ -82,29 +86,25 @@ export const GPASearch = () => {
     return landValue.location ? locationDescriptionItems(landValue.location) : [];
   }, [landValue]);
 
+  const handleMultiSelectChange = (selectedOptions: MultiValue<OptionType>) => {
+    const mutableOptions = [...selectedOptions];
+    console.log(mutableOptions);
+    setFilters(mutableOptions);
+  };
+
   useEffect(() => {
     if (data) {
-      setSocialMetric(data.result);
+      console.log(data.result);
+      setSocialMetrics(data.result);
       setIsSearchClicked(false);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (socialMetric?.socialYears && Array.isArray(socialMetric.socialYears)) {
-      const yearData = socialMetric.socialYears.map(({ year, value }: socialYearModel) => ({
-        year,
-        value
-      }));
-      setSocialYearData(yearData);
-    }
-  }, [socialMetric]);
 
   useEffect(() => {
     if (dataFarm) {
       setLandValue(dataFarm.result);
     }
     if (dataField) {
-      console.log(dataField.result);
       setLandValue(dataField.result);
     }
   }, [dataFarm, dataField]);
@@ -152,10 +152,9 @@ export const GPASearch = () => {
                   <SearchIcon />
                 </button>
                 <Select
-                  value={filters.selectedOption}
-                  onChange={(option: OptionType | null) => {
-                    setFilters({ selectedOption: option ?? null });
-                  }}
+                  isMulti
+                  value={sentenceFilters}
+                  onChange={handleMultiSelectChange}
                   placeholder='Select your sentence...'
                   getOptionLabel={(option: OptionType) => option.label}
                   getOptionValue={(option: OptionType) => option.value}
@@ -166,7 +165,7 @@ export const GPASearch = () => {
               </div>
               <div className='bg-white shadow-md rounded-lg max-w-md'>
                 <div className='overflow-y-auto max-h-80 overflow-x-hidden'>
-                  <table className='table table-zebra custom-zebra text-center'>
+                  <table className='table table-zebra custom-zebra text-center '>
                     {/* head */}
                     <thead>
                       <tr>
@@ -177,7 +176,7 @@ export const GPASearch = () => {
                     </thead>
                     <tbody>
                       {vnlpList?.map((item: vnlpAnalysisModel, index: number) => (
-                        <tr key={item.word}>
+                        <tr key={index}>
                           <th>{index}</th>
                           <td>{item.pos}</td>
                           <td>{item.word}</td>
@@ -188,14 +187,14 @@ export const GPASearch = () => {
                 </div>
               </div>
             </motion.div>
-            <motion.div variants={scrollAnimation} className='w-full bg-white px-2 py-2 rounded-md shadow-lg'>
-              <SocialMetricLineChart socialYears={socialYearData} socialMetric={socialMetric} />
+            <motion.div variants={scrollAnimation} className='w-full'>
+              <SocialMetricLineChart socialMetrics={socialMetrics} />
             </motion.div>
           </ScrollAnimationWrapper>
         </div>
 
-        <div className='mx-auto max-w-4xl shadow-lg bg-white px-2 py-8'>
-          <SocialMetricBarChart socialYears={socialYearData} socialMetric={socialMetric} />
+        <div className='mx-auto max-w-4xl px-2 py-8'>
+          <SocialMetricBarChart socialMetrics={socialMetrics} />
         </div>
       </div>
     </div>

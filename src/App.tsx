@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import DefaultAppLayout from './layout/DefaultAppLayout';
 import { Map, WeatherMap } from './components/Page/Maps';
 import {
+  AccessDenied,
   AllUsers,
   Crop,
   CropDetail,
@@ -46,8 +47,9 @@ function App() {
     <Routes>
       <Route index element={<HomePage />} />
       <Route path='login' element={<Login />} />
+      <Route path='about' element={<Pricing />} />
       <Route path='product' element={<Product />} />
-      <Route path='pricing' element={<Pricing />} />
+      <Route path='accessDenied' element={<AccessDenied />} />
       <Route path='app' element={<DefaultAppLayout />}>
         {/* DashBoard */}
         <Route path='dashBoard' element={<DashBoard />} />

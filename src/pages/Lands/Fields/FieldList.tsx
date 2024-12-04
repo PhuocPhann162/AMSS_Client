@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
 import { Modal, Pagination } from '~/common';
+import { ATag } from '~/common/ui-common';
 import { CreateIcon, DeleteIcon, EditTableIcon, MarkerIcon, SearchIcon, SortIcon } from '~/components/Icon';
 import { MainLoader } from '~/components/Page/common';
 import { Breadcrumb } from '~/components/UI';
@@ -206,11 +207,7 @@ export const FieldList = () => {
                                 </div>
                               </td>
                               <td className='px-4 py-4 text-sm whitespace-nowrap'>
-                                <span
-                                  className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-sm text-status-${getStatusColor(field.status! as SD_FieldStatus)}-dark leading-none bg-status-${getStatusColor(field.status! as SD_FieldStatus)}-light rounded-lg`}
-                                >
-                                  {field.status!}
-                                </span>
+                                <ATag color={getStatusColor(field.status!)}>{field.status!}</ATag>
                               </td>
                               <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
                                 <div>

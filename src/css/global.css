@@ -338,6 +338,22 @@ span.flatpickr-weekday,
   @apply left-0 w-full;
 }
 
+.animation-home-hover:after {
+  background: none repeat scroll 0 0 transparent;
+  content: '';
+  height: 2px;
+  transition:
+    width 0.3s ease 0s,
+    left 0.3s ease 0s;
+  @apply w-0 bg-res-pending left-1/2 block bottom-0 absolute;
+}
+.animation-home-active:after {
+  @apply left-0 w-full;
+}
+.animation-home-hover:hover:after {
+  @apply left-0 w-full;
+}
+
 .custom-zebra tbody tr:nth-child(odd) {
   @apply bg-status-danger-light;
 }

@@ -1,49 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { VesselFeature, vessels } from '~/constants/realTimeObject';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACESS_TOKEN;
-
-interface Vessel {
-  id: number;
-  name: string;
-  coordinates: number[];
-  path: VesselFeature[];
-}
-interface VesselFeatureProperties {
-  name: string;
-}
-
-interface VesselFeature extends GeoJSON.Feature<GeoJSON.Point, VesselFeatureProperties> {}
 
 const MapBox: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map>();
-  const [searchValue, setSearchValue] = useState('');
-  const vessels: Vessel[] = [
-    {
-      id: 1,
-      name: 'Vessel 1',
-      coordinates: [-74.0060152, 40.7127281],
-      path: []
-    },
-    { id: 2, name: 'Vessel 2', coordinates: [-74.1, 40.8], path: [] },
-    { id: 3, name: 'Vessel 3', coordinates: [-73.9, 40.6], path: [] },
-    { id: 4, name: 'Vessel 4', coordinates: [-73.5, 40.4], path: [] }
-
-    // Add more vessels as needed
-  ];
-
-  const handleSearchChange = (result: any) => {
-    setSearchValue(result);
-    if (result?.features?.[0]) {
-      const { center } = result.features[0];
-      if (map.current) {
-        // Di chuyển bản đồ đến kết quả tìm kiếm
-        map.current.flyTo({ center, zoom: 14 });
-      }
-    }
-  };
 
   useEffect(() => {
     if (map.current) return;

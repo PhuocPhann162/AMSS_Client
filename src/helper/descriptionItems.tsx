@@ -1,7 +1,9 @@
 import { DescriptionsProps } from 'antd';
+import { format } from 'date-fns';
 import { ATag } from '~/common/ui-common';
 import { farmModel, fieldModel, locationModel } from '~/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
+import getStatusColor from './getStatusColor';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {
   return [
@@ -24,7 +26,7 @@ export const farmDescriptionItems = (farmValue: farmModel) => {
     {
       key: '4',
       label: 'Created Date',
-      children: farmValue.createdAt
+      children: format(new Date(farmValue.createdAt!.toString()), 'dd/MM/yyyy')
     }
   ];
 };
@@ -49,12 +51,12 @@ export const fieldDescriptionItems = (fieldValue: fieldModel) => {
     {
       key: '4',
       label: 'Status',
-      children: <ATag color='green'>{fieldValue.status}</ATag>
+      children: <ATag color={getStatusColor(fieldValue.status!)}>{fieldValue.status}</ATag>
     },
     {
       key: '5',
       label: 'Created Date',
-      children: fieldValue.createdAt
+      children: format(new Date(fieldValue.createdAt!.toString()), 'hh:mm a - dd/MM/yyyy')
     }
   ];
   return items;

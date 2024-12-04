@@ -1,31 +1,40 @@
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { ACard } from '~/common/ui-common';
 import { socialMetricModel } from '~/interfaces';
-import { SocialMetricDataChart } from '~/models';
 
 Chart.register(...registerables);
 
 interface SocialMetricLineChartProps {
-  socialYears: SocialMetricDataChart[];
-  socialMetric?: socialMetricModel;
+  socialMetrics: socialMetricModel[];
 }
 
-export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetricLineChartProps) => {
+export const SocialMetricLineChart = ({ socialMetrics }: SocialMetricLineChartProps) => {
+  const validSocialMetrics = Array.isArray(socialMetrics) ? socialMetrics : [];
+  const labels = Array.from(
+    new Set(
+      validSocialMetrics
+        .filter((metric) => metric.socialYears)
+        .flatMap((metric) => metric.socialYears?.map((sy) => sy.year?.toString()))
+    )
+  ).sort();
+
+  const datasets = socialMetrics.map((metric, index) => ({
+    label: metric.seriesMetric?.name ? `${metric.seriesMetric.name}` : `Social Metric Data ${index + 1}`,
+    data: labels.map((label) => metric.socialYears?.find((sy) => sy.year?.toString() === label)?.value ?? null),
+    borderColor: index === 0 ? '#9333ea' : '#f59e0b', // Màu sắc khác nhau cho từng dataset
+    backgroundColor: index === 0 ? 'rgba(147, 51, 234, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+    borderWidth: 2,
+    tension: 0.4,
+    pointRadius: 5,
+    pointHoverRadius: 8,
+    fill: true,
+    yAxisID: index === 0 ? 'y-axis-1' : 'y-axis-2' // Gắn dataset với trục y tương ứng
+  }));
+
   const data: ChartData<'line'> = {
-    labels: socialYears.map((sy) => sy.year?.toString()),
-    datasets: [
-      {
-        label: socialMetric ? `${socialMetric?.province?.name}, VN` : 'Social Metric Data',
-        data: socialYears.map((sy) => sy.value ?? null),
-        borderColor: '#9333ea',
-        backgroundColor: 'rgba(147, 51, 234, 0.1)',
-        borderWidth: 2,
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 8,
-        fill: true
-      }
-    ]
+    labels,
+    datasets
   };
 
   const options: ChartOptions<'line'> = {
@@ -54,10 +63,10 @@ export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetri
       x: {
         title: {
           display: true,
+          text: 'Years',
           font: { size: 14 },
           color: '#9ca3af'
         },
-
         grid: {
           drawOnChartArea: false,
           drawTicks: true,
@@ -65,27 +74,47 @@ export const SocialMetricLineChart = ({ socialYears, socialMetric }: SocialMetri
           lineWidth: 1
         }
       },
-      y: {
+      'y-axis-1': {
         title: {
           display: true,
+          text: 'Values (Left Axis)',
           font: { size: 14 },
-          color: '#9ca3af'
+          color: '#9333ea'
         },
-
+        grid: {
+          drawOnChartArea: true,
+          drawTicks: true,
+          color: '#e5e7eb',
+          lineWidth: 1
+        },
+        position: 'left' // Trục y bên trái
+      },
+      'y-axis-2': {
+        title: {
+          display: true,
+          text: 'Values (Right Axis)',
+          font: { size: 14 },
+          color: '#f59e0b'
+        },
         grid: {
           drawOnChartArea: false,
           drawTicks: true,
           color: '#e5e7eb',
           lineWidth: 1
-        }
+        },
+        position: 'right' // Trục y bên phải
       }
     }
   };
 
   return (
-    <div className='w-full'>
-      <h3 className='font-bold text-gray-700 mb-4'>{socialMetric?.seriesMetric?.name}</h3>
+    <ACard
+      className='w-full bg-white px-2 py-2 rounded-md shadow-lg'
+      title={
+        socialMetrics[0]?.province?.name ? socialMetrics[0]?.province?.name + ', VN' : 'Social Indicators Line Chart'
+      }
+    >
       <Line data={data} options={options} />
-    </div>
+    </ACard>
   );
 };

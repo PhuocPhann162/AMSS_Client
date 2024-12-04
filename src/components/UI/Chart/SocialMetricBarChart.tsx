@@ -1,31 +1,42 @@
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { ACard } from '~/common/ui-common';
 import { socialMetricModel } from '~/interfaces';
-import { SocialMetricDataChart } from '~/models';
 
 Chart.register(...registerables);
 
 interface SocialMetricBarChartProps {
-  socialYears: SocialMetricDataChart[];
-  socialMetric?: socialMetricModel;
+  socialMetrics: socialMetricModel[];
 }
 
-export const SocialMetricBarChart = ({ socialYears, socialMetric }: SocialMetricBarChartProps) => {
+export const SocialMetricBarChart = ({ socialMetrics }: SocialMetricBarChartProps) => {
+  // Generate unique colors for each dataset
+  const generateColors = (count: number) =>
+    Array.from({ length: count }, (_, i) => {
+      const hue = (i * 360) / count; // Evenly distribute hues
+      return `hsl(${hue}, 70%, 50%)`; // Bright color palette
+    });
+
+  const colors = generateColors(socialMetrics.length);
+
   // Prepare data for the chart
+  const labels = Array.from(
+    new Set(socialMetrics.flatMap((metric) => metric.socialYears?.map((sy) => sy.year?.toString()) || []))
+  ).sort();
+
+  const datasets = socialMetrics.map((metric, index) => ({
+    label: metric.seriesMetric?.name ? `${metric.seriesMetric.name}` : `Social Metric Data ${index + 1}`,
+    data: labels.map((label) => metric.socialYears?.find((sy) => sy.year?.toString() === label)?.value ?? null),
+    backgroundColor: colors[index],
+    borderColor: colors[index],
+    borderWidth: 1,
+    barThickness: 20,
+    yAxisID: index === 0 ? 'y' : 'y1' // Assign different Y-axis for the second dataset
+  }));
+
   const data: ChartData<'bar'> = {
-    labels: socialYears.map((sy) => sy.year?.toString()),
-    datasets: [
-      {
-        label: socialMetric ? socialMetric?.province?.name + ' ,VN' : 'Social Metric Data',
-        data: socialYears.map((sy) => sy.value ?? null),
-        backgroundColor: 'rgba(150, 75, 0, 0.2)',
-        borderColor: 'rgba(150, 75, 0, 1)',
-        borderWidth: 2,
-        barThickness: 20,
-        hoverBackgroundColor: 'rgba(150, 75, 0, 0.6)',
-        hoverBorderColor: 'rgba(150, 75, 0, 1)'
-      }
-    ]
+    labels,
+    datasets
   };
 
   // Chart options
@@ -48,7 +59,10 @@ export const SocialMetricBarChart = ({ socialYears, socialMetric }: SocialMetric
     scales: {
       x: {
         title: {
-          display: true
+          display: true,
+          text: 'Years',
+          font: { size: 14 },
+          color: '#9ca3af'
         },
         grid: {
           drawOnChartArea: false,
@@ -59,17 +73,48 @@ export const SocialMetricBarChart = ({ socialYears, socialMetric }: SocialMetric
       },
       y: {
         title: {
-          display: true
+          display: true,
+          text: 'Values (Primary)',
+          font: { size: 14 },
+          color: colors[0]
         },
-        beginAtZero: true
+        grid: {
+          drawOnChartArea: true,
+          drawTicks: true,
+          color: '#e5e7eb',
+          lineWidth: 1
+        },
+        position: 'left'
+      },
+      y1: {
+        title: {
+          display: true,
+          text: 'Values (Secondary)',
+          font: { size: 14 },
+          color: colors[1]
+        },
+        grid: {
+          drawOnChartArea: false,
+          drawTicks: true,
+          color: '#e5e7eb',
+          lineWidth: 1
+        },
+        position: 'right',
+        ticks: {
+          callback: (value) => `${value}` // Format tick labels if needed
+        }
       }
     }
   };
 
   return (
-    <div className='w-full max-w-4xl'>
-      <h3 className='font-bold text-brown px-6'>{socialMetric?.seriesMetric?.name}</h3>
+    <ACard
+      className='w-full max-w-4xl bg-white px-2 py-2 rounded-md shadow-lg'
+      title={
+        socialMetrics[0]?.province?.name ? socialMetrics[0]?.province?.name + ', VN' : 'Social Indicators Bar Chart'
+      }
+    >
       <Bar data={data} options={options} />
-    </div>
+    </ACard>
   );
 };

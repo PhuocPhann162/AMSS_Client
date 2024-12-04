@@ -23,6 +23,7 @@ import { CropDetail } from './Crops/CropDetail';
 import { CropUpsertModal } from './Crops/CropUpsertModal';
 import { GPASearch } from './GPASearch/GPASearch';
 import { ImportData } from './GPASearch/ImportData';
+import AccessDenied from './Authentication/AccessDenied';
 
 export {
   HomePage,
@@ -49,5 +50,6 @@ export {
   CropDetail,
   CropUpsertModal,
   GPASearch,
-  ImportData
+  ImportData,
+  AccessDenied
 };
