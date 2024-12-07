@@ -24,6 +24,7 @@ import { CropUpsertModal } from './Crops/CropUpsertModal';
 import { GPASearch } from './GPASearch/GPASearch';
 import { ImportData } from './GPASearch/ImportData';
 import AccessDenied from './Authentication/AccessDenied';
+import { OnlineStore } from './Markets/OnlineStore';
 
 export {
   HomePage,
@@ -51,5 +52,6 @@ export {
   CropUpsertModal,
   GPASearch,
   ImportData,
-  AccessDenied
+  AccessDenied,
+  OnlineStore
 };

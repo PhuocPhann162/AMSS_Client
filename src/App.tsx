@@ -17,6 +17,7 @@ import {
   HomePage,
   ImportData,
   Login,
+  OnlineStore,
   PageNotFound,
   Permission,
   PlantDetail,
@@ -83,6 +84,11 @@ function App() {
           <Route path='home' element={<GPASearch />} />
           <Route path='home/:id' element={<GPASearch />} />
           <Route path='importData' element={<ImportData />} />
+        </Route>
+        {/* Market Routes */}
+        <Route path='market'>
+          <Route path='dashboard' element={<GPASearch />} />
+          <Route path='onlineStore' element={<OnlineStore />} />
         </Route>
       </Route>
       <Route path='*' element={<PageNotFound />} />
