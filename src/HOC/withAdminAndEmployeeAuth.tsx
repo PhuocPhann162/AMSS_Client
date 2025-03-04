@@ -8,7 +8,7 @@ const withAdminAndEmployeeAuth = (WrappedComponent: any) => {
       const decode: {
         role: string;
       } = jwtDecode(accessToken);
-      if (decode.role !== SD_Roles.CLIENT && decode.role !== SD_Roles.ADMIN) {
+      if (decode.role !== SD_Roles.CLIENT.toLowerCase() && decode.role !== SD_Roles.ADMIN.toLowerCase()) {
         window.location.replace('/accessDenied');
         return null;
       }

@@ -1,16 +1,16 @@
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import { useCreateCropMutation, useGetCropByIdQuery, useUpdateCropMutation } from '~/api/cropApi';
-import { useCreateCropTypeMutation } from '~/api/cropTypeApi';
 import { MiniLoader } from '~/components/Page/common';
 import { inputHelper, toastNotify } from '~/helper';
 import { apiResponse } from '~/interfaces';
 
 interface CropUpsertModalProps {
   id?: string;
+  setSelectedCropId?: (id: string) => void;
 }
 
 const cropData = {
@@ -33,7 +33,7 @@ const cropData = {
   description: 'Maize crop known for its versatility and use in various food products.'
 };
 
-export const CropUpsertModal = (id: CropUpsertModalProps) => {
+export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [imageToStore, setImageToStore] = useState<any>();
@@ -41,7 +41,6 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
   const [userInputs, setUserInputs] = useState(cropData);
   const [createCrop] = useCreateCropMutation();
   const [updateCrop] = useUpdateCropMutation();
-  const [createCropType] = useCreateCropTypeMutation();
   const { data } = useGetCropByIdQuery(id ?? 1);
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -79,25 +78,6 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
     }
   };
 
-  const createCropTypeAsync = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('Name', userInputs.name);
-      formData.append('Code', 'MG');
-      formData.append('Type', userInputs.cropType);
-      const response: apiResponse = await createCropType(formData);
-      if (response.data && response.data?.isSuccess) {
-        console.log(response.data.successMessage ?? 'Crop Type created successfully!');
-        return response.data.result.id;
-      } else {
-        console.error('Failed to create Crop Type');
-      }
-      return '';
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -107,8 +87,6 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
         setIsLoading(false);
         return;
       }
-      const cropTypeId = await createCropTypeAsync();
-
       const formattedPlantedDate = userInputs.plantedDate
         ? format(userInputs.plantedDate, "yyyy-MM-dd'T'HH:mm:ss")
         : null;
@@ -133,15 +111,17 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
       formData.append('CultivatedArea', userInputs.cultivatedArea.toString());
       formData.append('PlantedDate', formattedPlantedDate ?? '');
       formData.append('ExpectedDate', formattedExpectedDate ?? '');
-      formData.append('CropTypeId', cropTypeId?.toString() ?? '');
+      formData.append('CropTypeName', userInputs?.cropType.toString() ?? '');
+      console.log('userInputs', userInputs);
+      console.log('formData', formData.values);
       if (imageToDisplay) {
         formData.append('File', imageToStore);
       }
 
       let response: apiResponse;
+      console.log(id);
       if (!id) {
         response = await createCrop(formData);
-        console.log(response);
         if (response.data && response.data?.isSuccess) {
           (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
           toastNotify(response.data.successMessage ?? 'Crop created successfully!', 'success');
@@ -149,7 +129,6 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
         }
       } else {
         response = await updateCrop(formData);
-        console.log(response);
         if (response.data && response.data?.isSuccess) {
           (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
           toastNotify(response.data.successMessage ?? 'Crop updated successfully!', 'success');
@@ -181,10 +160,9 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
         plantedDate: new Date(data.result.plantedDate),
         expectedDate: new Date(data.result.expectedDate),
         quantity: data.result.quantity,
-        cropType: data.result.cropType.type,
+        cropType: data.result.cropType?.type,
         description: data.result.description
       };
-      console.log(data);
       setUserInputs(tempData);
       setImageToDisplay(data.result.icon);
     }
@@ -569,7 +547,10 @@ export const CropUpsertModal = (id: CropUpsertModalProps) => {
                 <button
                   type='button'
                   className='text-white bg-body hover:bg-graydark focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-                  onClick={() => (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.close()}
+                  onClick={() => {
+                    setSelectedCropId && setSelectedCropId('');
+                    (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.close();
+                  }}
                 >
                   Cancel
                 </button>

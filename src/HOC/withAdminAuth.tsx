@@ -8,7 +8,7 @@ const withAdminAuth = (WrappedComponent: any) => {
       const decode: {
         role: string;
       } = jwtDecode(accessToken);
-      if (decode.role !== SD_Roles.ADMIN) {
+      if (decode.role !== SD_Roles.ADMIN.toLowerCase()) {
         window.location.replace('/accessDenied');
         return null;
       }

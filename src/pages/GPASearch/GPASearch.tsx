@@ -64,7 +64,6 @@ export const GPASearch = () => {
 
     setIsSearchClicked(true);
     const response: vnlpAnalysisModel[] = await inputWordTypeAnalysis(sentenceFilters[0].label, LANGUAGE.EN);
-    console.log(response);
     if (response) {
       setVnlpList(response);
       const code = findProvinceCode(response);
@@ -88,13 +87,11 @@ export const GPASearch = () => {
 
   const handleMultiSelectChange = (selectedOptions: MultiValue<OptionType>) => {
     const mutableOptions = [...selectedOptions];
-    console.log(mutableOptions);
     setFilters(mutableOptions);
   };
 
   useEffect(() => {
     if (data) {
-      console.log(data.result);
       setSocialMetrics(data.result);
       setIsSearchClicked(false);
     }

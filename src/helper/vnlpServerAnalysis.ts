@@ -3,7 +3,6 @@ import toastNotify from './toastNotify';
 
 export const inputWordTypeAnalysis = async (input: string, language?: string) => {
   try {
-    console.log(import.meta.env.VITE_VNLP_CORE_URL);
     const response = await fetch(`${import.meta.env.VITE_VNLP_CORE_URL}/analyze`, {
       method: 'POST',
       headers: {
