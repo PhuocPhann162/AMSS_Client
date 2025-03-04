@@ -276,7 +276,7 @@ export const CropTypeList = () => {
               totalRecords={totalRecords}
             />
           </div>
-          <CropUpsertModal id={selectedCropId} />
+          <CropUpsertModal id={selectedCropId} setSelectedCropId={setSelectedCropId} />
         </>
       )}
     </div>

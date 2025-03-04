@@ -121,11 +121,12 @@ function Login() {
               >
                 Sign in
               </button>
-              <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
-                Don’t have an account yet?{' '}
+              <p className='text-sm font-light text-gray-500 dark:text-gray-400 w-full'>
+                Don’t have an account yet? Please contact our admin{' '}
                 <a href='#' className='font-medium text-primary-600 hover:underline dark:text-primary-500'>
-                  Sign up
-                </a>
+                  admin@fuco.com
+                </a>{' '}
+                to create an account.
               </p>
             </form>
           </div>

@@ -22,7 +22,6 @@ export const CropDetail = () => {
   const { data, isLoading } = useGetCropByIdQuery(id);
   useEffect(() => {
     if (data) {
-      console.log(data);
       setCropDetail(data.result);
     }
   }, [data]);

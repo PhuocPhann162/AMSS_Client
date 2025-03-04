@@ -52,7 +52,6 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
         const river = await findNearestRiver(fieldInfo.location?.lat ?? 0, fieldInfo.location?.lng ?? 0);
         setNearestRiver(river);
         // const plant = await getPlantSuggest();
-        // console.log(plant);
         // setPlantSuggest(plant);
       }
     }

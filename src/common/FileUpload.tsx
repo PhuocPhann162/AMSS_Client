@@ -26,8 +26,7 @@ const FileUpload: React.FC = () => {
       body: formData
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log('File uploaded successfully:', data);
+      .then(() => {
         setSelectedFile(null); // Reset lại sau khi upload thành công
       })
       .catch((error) => {

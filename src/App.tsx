@@ -1,6 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-
-import DefaultAppLayout from './layout/DefaultAppLayout';
 import { Map, WeatherMap } from './components/Page/Maps';
 import {
   AccessDenied,
@@ -33,6 +31,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setLoggedInUser } from './storage/redux/authSlice';
+import EnhancedDefaultAppLayout from './layout/DefaultAppLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -51,7 +50,7 @@ function App() {
       <Route path='about' element={<Pricing />} />
       <Route path='product' element={<Product />} />
       <Route path='accessDenied' element={<AccessDenied />} />
-      <Route path='app' element={<DefaultAppLayout />}>
+      <Route path='app' element={<EnhancedDefaultAppLayout />}>
         {/* DashBoard */}
         <Route path='dashBoard' element={<DashBoard />} />
         {/* User Routes */}

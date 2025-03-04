@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { HeaderApp } from '~/components/Layout/Header';
 import { Sidebar } from '~/components/Layout/SideBar';
+import { withAdminAuth } from '~/HOC';
 
-const DefaultAppLayout: React.FC = () => {
+function DefaultAppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className='dark:bg-boxdark-2 dark:text-bodydark'>
@@ -32,6 +33,7 @@ const DefaultAppLayout: React.FC = () => {
       {/* <!-- ===== Page Wrapper End ===== --> */}
     </div>
   );
-};
+}
 
-export default DefaultAppLayout;
+const EnhancedDefaultAppLayout = withAdminAuth(DefaultAppLayout);
+export default EnhancedDefaultAppLayout;

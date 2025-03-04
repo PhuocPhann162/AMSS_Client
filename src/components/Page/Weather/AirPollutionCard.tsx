@@ -6,7 +6,6 @@ interface AirPollutionCardProps {
 }
 
 const AirPollutionCard = ({ airPollution }: AirPollutionCardProps) => {
-  console.log(airPollution);
   return (
     <section className='flex flex-col text-black'>
       <div>
