@@ -31,7 +31,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setLoggedInUser } from './storage/redux/authSlice';
-import EnhancedDefaultAppLayout from './layout/DefaultAppLayout';
+import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
 
 function App() {
   const dispatch = useDispatch();
