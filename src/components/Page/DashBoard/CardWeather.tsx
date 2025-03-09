@@ -1,10 +1,10 @@
 import React from 'react';
-import { forecastType } from '~/interfaces';
-import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
+import { forecastType } from '@/interfaces';
+import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { Degree } from '../Weather';
 import Sunrise from '../Weather/Icons/Sunrise';
 import Sunset from '../Weather/Icons/Sunset';
-import { getSunTime } from '~/helper';
+import { getSunTime } from '@/helper';
 
 interface CardWeatherProps {
   forecast: forecastType;

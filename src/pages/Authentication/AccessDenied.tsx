@@ -1,6 +1,6 @@
 import { Result } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { AButton } from '~/common/ui-common';
+import { AButton } from '@/common/ui-common';
 
 const AccessDenied = () => {
   const navigate = useNavigate();

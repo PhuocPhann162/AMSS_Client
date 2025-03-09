@@ -1,5 +1,5 @@
-import { forecastType, optionType } from '~/interfaces';
-import { SD_BASE_WEATHER_URL } from '~/utils/SD';
+import { forecastType, optionType } from '@/interfaces';
+import { SD_BASE_WEATHER_URL } from '@/utils/SD';
 
 const getForecast = async (data: optionType): Promise<forecastType> => {
   try {

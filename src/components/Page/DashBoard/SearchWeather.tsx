@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { optionType } from '~/interfaces';
+import { optionType } from '@/interfaces';
 import { Suggestions } from '../Weather';
 import { motion } from 'framer-motion';
 

@@ -1,4 +1,4 @@
-import { HeaderPage } from '~/components/Layout/Header';
+import { HeaderPage } from '@/components/Layout/Header';
 
 export default function Pricing() {
   return (

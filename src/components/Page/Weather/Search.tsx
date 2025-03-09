@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 
 import Header from './Header';
 import Suggestions from './Suggestions';
-import { optionType } from '~/interfaces';
+import { optionType } from '@/interfaces';
 
 type Props = {
   term: string;

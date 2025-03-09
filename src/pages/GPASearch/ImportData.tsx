@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ScrollAnimationWrapper } from '~/components/Animation';
-import { DeleteFileIcon, DownloadIcon, FileBackgroundIcon, FileIcon, UploadIcon } from '~/components/Icon';
-import { Breadcrumb } from '~/components/UI';
+import { ScrollAnimationWrapper } from '@/components/Animation';
+import { DeleteFileIcon, DownloadIcon, FileBackgroundIcon, FileIcon, UploadIcon } from '@/components/Icon';
+import { Breadcrumb } from '@/components/UI';
 import { motion } from 'framer-motion';
-import { getScrollAnimation, toastNotify } from '~/helper';
-import { useImportDataSocialMetricMutation } from '~/api/socialMetricApi';
-import { apiResponse } from '~/interfaces';
+import { getScrollAnimation, toastNotify } from '@/helper';
+import { useImportDataSocialMetricMutation } from '@/api/socialMetricApi';
+import { apiResponse } from '@/interfaces';
 
 export const ImportData: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

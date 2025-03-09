@@ -1,9 +1,9 @@
-import { forecastType } from '~/interfaces';
+import { forecastType } from '@/interfaces';
 import Degree from './Degree';
 import Sunrise from './Icons/Sunrise';
 import Sunset from './Icons/Sunset';
 import Tile from './Tile';
-import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, getPop } from '~/helper';
+import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, getPop } from '@/helper';
 
 type Props = {
   data: forecastType;

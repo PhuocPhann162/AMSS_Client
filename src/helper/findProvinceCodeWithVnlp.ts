@@ -1,5 +1,5 @@
-import { PROVINCE_CODES } from '~/constants/provinceTemplate';
-import vnlpAnalysisModel from '~/interfaces/vnlpAnalysisModel';
+import { PROVINCE_CODES } from '@/constants/provinceTemplate';
+import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
 
 export const findProvinceCode = (analysis: vnlpAnalysisModel[]): string | null => {
   const propnWords: string[] = [];

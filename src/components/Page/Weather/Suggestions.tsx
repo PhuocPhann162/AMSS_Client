@@ -1,4 +1,4 @@
-import { optionType } from '~/interfaces';
+import { optionType } from '@/interfaces';
 
 type componentProps = {
   options: [];

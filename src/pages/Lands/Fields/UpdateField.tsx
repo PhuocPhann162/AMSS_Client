@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery, useUpdateFieldMutation } from '~/api/fieldApi';
-import { Modal } from '~/common';
-import { MainLoader, MiniLoader } from '~/components/Page/common';
-import { Breadcrumb } from '~/components/UI';
-import { getStatusColor, inputHelper, toastNotify } from '~/helper';
-import { apiResponse, fieldModel } from '~/interfaces';
-import { SD_FieldStatus } from '~/utils/SD';
+import { useGetFieldByIdQuery, useUpdateFieldMutation } from '@/api/fieldApi';
+import { Modal } from '@/common';
+import { MainLoader, MiniLoader } from '@/components/Page/common';
+import { Breadcrumb } from '@/components/UI';
+import { getStatusColor, inputHelper, toastNotify } from '@/helper';
+import { apiResponse, fieldModel } from '@/interfaces';
+import { SD_FieldStatus } from '@/utils/SD';
 
 export const UpdateField = () => {
   const navigate = useNavigate();

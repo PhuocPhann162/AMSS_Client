@@ -1,6 +1,6 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
-import { emptyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
+import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
 import { Mutex } from 'async-mutex';
 import { MaybePromise } from 'node_modules/@reduxjs/toolkit/dist/query/tsHelpers';
 import { QueryReturnValue } from 'node_modules/@reduxjs/toolkit/dist/query/baseQueryTypes';

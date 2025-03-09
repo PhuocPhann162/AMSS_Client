@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
-import { Logo } from '~/common';
-import { GPAHomeIcon } from '~/components/Icon';
+import { Logo } from '@/common';
+import { GPAHomeIcon } from '@/components/Icon';
 import {
   ClimateIcon,
   CropIcon,
@@ -15,7 +15,7 @@ import {
   UsersIcon,
   ExpandSidebarIcon,
   MarketIcon
-} from '~/components/Icon/SideBarIcon';
+} from '@/components/Icon/SideBarIcon';
 
 interface SidebarProps {
   sidebarOpen: boolean;

@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Footer } from '~/components/Layout/Footer';
-import { HeaderPage } from '~/components/Layout/Header';
-import { Hero, OurService } from '~/components/Page/HomePage';
-import { userModel } from '~/interfaces';
-import { RootState } from '~/storage/redux/store';
+import { Footer } from '@/components/Layout/Footer';
+import { HeaderPage } from '@/components/Layout/Header';
+import { Hero, OurService } from '@/components/Page/HomePage';
+import { userModel } from '@/interfaces';
+import { RootState } from '@/storage/redux/store';
 import { motion } from 'framer-motion';
-import { ScrollAnimationWrapper } from '~/components/Animation';
+import { ScrollAnimationWrapper } from '@/components/Animation';
 import { useMemo } from 'react';
-import { getScrollAnimation } from '~/helper';
+import { getScrollAnimation } from '@/helper';
 
 export default function HomePage() {
   const userData: userModel = useSelector((state: RootState) => state.userAuthStore);

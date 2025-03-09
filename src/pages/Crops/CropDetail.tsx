@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetCropByIdQuery } from '~/api/cropApi';
+import { useGetCropByIdQuery } from '@/api/cropApi';
 import {
   CareLevelIcon,
   CycleIcon,
@@ -11,9 +11,9 @@ import {
   PropogationIcon,
   SoilIcon,
   WateringIcon
-} from '~/components/Icon';
-import { MainLoader } from '~/components/Page/common';
-import { cropModel } from '~/interfaces';
+} from '@/components/Icon';
+import { MainLoader } from '@/components/Page/common';
+import { cropModel } from '@/interfaces';
 
 export const CropDetail = () => {
   const navigate = useNavigate();

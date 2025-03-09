@@ -1,5 +1,5 @@
-import { Forecast, Search } from '~/components/Page/Weather';
-import { useForecast } from '~/hooks';
+import { Forecast, Search } from '@/components/Page/Weather';
+import { useForecast } from '@/hooks';
 
 export const WeatherSearch = () => {
   const { forecast, options, term, onOptionSelect, onSubmit, onInputChange } = useForecast();

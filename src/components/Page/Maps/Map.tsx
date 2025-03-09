@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon, useMapEvents } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { farmModel, fieldModel, locationModel, pointModel, positionModel } from '~/interfaces';
+import { farmModel, fieldModel, locationModel, pointModel, positionModel } from '@/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
-import { toastNotify } from '~/helper';
-import { useGetAllFarmsQuery } from '~/api/farmApi';
-import { useGetAllFieldsQuery } from '~/api/fieldApi';
+import { toastNotify } from '@/helper';
+import { useGetAllFarmsQuery } from '@/api/farmApi';
+import { useGetAllFieldsQuery } from '@/api/fieldApi';
 import { PopupFarm } from './PopupFarm';
 import { MainLoader } from '../common';
 import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
-import { useGeolocation, useUrlPosition } from '~/hooks';
+import { useGeolocation, useUrlPosition } from '@/hooks';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
 

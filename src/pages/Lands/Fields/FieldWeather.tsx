@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ScrollAnimationWrapper } from '~/components/Animation';
-import { DailyWeather } from '~/components/Page/DashBoard';
-import { getAirPollution, getForecast, getScrollAnimation } from '~/helper';
+import { ScrollAnimationWrapper } from '@/components/Animation';
+import { DailyWeather } from '@/components/Page/DashBoard';
+import { getAirPollution, getForecast, getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
 import { NavLink, useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '~/api/fieldApi';
-import { airPollutionType, forecastType, optionType } from '~/interfaces';
-import { MainLoader } from '~/components/Page/common';
-import { AirPollutionCard, Forecast } from '~/components/Page/Weather';
-import { MyDoughnut } from '~/components/UI';
+import { useGetFieldByIdQuery } from '@/api/fieldApi';
+import { airPollutionType, forecastType, optionType } from '@/interfaces';
+import { MainLoader } from '@/components/Page/common';
+import { AirPollutionCard, Forecast } from '@/components/Page/Weather';
+import { MyDoughnut } from '@/components/UI';
 
 export const FieldWeather = () => {
   const [activeLink, setActiveLink] = useState('currently');

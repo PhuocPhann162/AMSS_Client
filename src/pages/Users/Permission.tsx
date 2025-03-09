@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRoleManagementMutation } from '~/api/userApi';
-import { MiniLoader } from '~/components/Page/common';
-import { Breadcrumb } from '~/components/UI';
-import { apiResponse } from '~/interfaces';
-import { inputHelper, toastNotify } from '~/helper';
-import { SD_Roles } from '~/utils/SD';
+import { useRoleManagementMutation } from '@/api/userApi';
+import { MiniLoader } from '@/components/Page/common';
+import { Breadcrumb } from '@/components/UI';
+import { apiResponse } from '@/interfaces';
+import { inputHelper, toastNotify } from '@/helper';
+import { SD_Roles } from '@/utils/SD';
 
 export const Permission = () => {
   const navigate = useNavigate();

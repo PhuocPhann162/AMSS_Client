@@ -2,8 +2,8 @@ import { format } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
-import { useGetAllCropTypesQuery } from '~/api/cropTypeApi';
-import { Pagination } from '~/common';
+import { useGetAllCropTypesQuery } from '@/api/cropTypeApi';
+import { Pagination } from '@/common';
 import {
   CreateIcon,
   DeleteIcon,
@@ -12,10 +12,10 @@ import {
   ExpandIcon,
   SearchIcon,
   SortIcon
-} from '~/components/Icon';
-import { MainLoader } from '~/components/Page/common';
-import { getScrollAnimation, inputHelper } from '~/helper';
-import { cropModel, cropTypeModel, pageOptions } from '~/interfaces';
+} from '@/components/Icon';
+import { MainLoader } from '@/components/Page/common';
+import { getScrollAnimation, inputHelper } from '@/helper';
+import { cropModel, cropTypeModel, pageOptions } from '@/interfaces';
 import { CropUpsertModal } from './CropUpsertModal';
 import { motion } from 'framer-motion';
 

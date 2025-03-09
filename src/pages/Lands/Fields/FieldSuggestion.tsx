@@ -1,12 +1,12 @@
-import { ScrollAnimationWrapper } from '~/components/Animation';
+import { ScrollAnimationWrapper } from '@/components/Animation';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
-import { getPlanListSuggest, getScrollAnimation } from '~/helper';
+import { getPlanListSuggest, getScrollAnimation } from '@/helper';
 import { Link, NavLink, useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '~/api/fieldApi';
-import { fieldModel, plantSuggestModel } from '~/interfaces';
+import { useGetFieldByIdQuery } from '@/api/fieldApi';
+import { fieldModel, plantSuggestModel } from '@/interfaces';
 import LandImage from '../../../../public/LandTemp.jpg';
-import { PlantSugesstion } from '~/components/Page/Fields';
+import { PlantSugesstion } from '@/components/Page/Fields';
 
 export const FieldSuggestion = () => {
   const [fieldData, setFieldData] = useState<fieldModel>();

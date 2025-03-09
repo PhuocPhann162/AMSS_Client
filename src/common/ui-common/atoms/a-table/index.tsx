@@ -1,6 +1,6 @@
 import { Table, TableProps } from 'antd';
 import { APagination } from './a-pagination';
-import { TablePaginationConfig, TableParams } from '~/utils/models/Tables';
+import { TablePaginationConfig, TableParams } from '@/utils/models/Tables';
 
 type ATableProps = Omit<TableProps, 'onChange'> & {
   onChange?: (params: TableParams) => void;

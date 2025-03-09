@@ -1,4 +1,4 @@
-import { Logo } from '~/common';
+import { Logo } from '@/common';
 import { DropdownUser } from '.';
 
 const HeaderApp = (props: { sidebarOpen: string | boolean | undefined; setSidebarOpen: (arg0: boolean) => void }) => {

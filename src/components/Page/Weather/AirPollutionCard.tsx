@@ -1,5 +1,5 @@
-import { evaluatePollutantLevelDescription } from '~/helper';
-import { airPollutionType } from '~/interfaces';
+import { evaluatePollutantLevelDescription } from '@/helper';
+import { airPollutionType } from '@/interfaces';
 
 interface AirPollutionCardProps {
   airPollution: airPollutionType;

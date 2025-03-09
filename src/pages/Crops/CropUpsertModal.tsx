@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
-import { useCreateCropMutation, useGetCropByIdQuery, useUpdateCropMutation } from '~/api/cropApi';
-import { MiniLoader } from '~/components/Page/common';
-import { inputHelper, toastNotify } from '~/helper';
-import { apiResponse } from '~/interfaces';
+import { useCreateCropMutation, useGetCropByIdQuery, useUpdateCropMutation } from '@/api/cropApi';
+import { MiniLoader } from '@/components/Page/common';
+import { inputHelper, toastNotify } from '@/helper';
+import { apiResponse } from '@/interfaces';
 
 interface CropUpsertModalProps {
   id?: string;

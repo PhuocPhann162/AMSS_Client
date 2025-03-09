@@ -1,13 +1,13 @@
-import { Breadcrumb } from '~/components/UI';
+import { Breadcrumb } from '@/components/UI';
 import userOne from '../../../public/avatar.png';
-import { useUpdateInfoMutation } from '~/api/userApi';
+import { useUpdateInfoMutation } from '@/api/userApi';
 import React, { useState } from 'react';
-import { apiResponse, userModel } from '~/interfaces';
+import { apiResponse, userModel } from '@/interfaces';
 import { useSelector } from 'react-redux';
-import { RootState } from '~/storage/redux/store';
-import { inputHelper, toastNotify } from '~/helper';
-import { MiniLoader } from '~/components/Page/common';
-import { Modal } from '~/common';
+import { RootState } from '@/storage/redux/store';
+import { inputHelper, toastNotify } from '@/helper';
+import { MiniLoader } from '@/components/Page/common';
+import { Modal } from '@/common';
 import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {

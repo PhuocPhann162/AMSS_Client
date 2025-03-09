@@ -1,4 +1,4 @@
-import { plantSuggestModel } from '~/interfaces';
+import { plantSuggestModel } from '@/interfaces';
 
 const getPlantSuggest = async (id: string): Promise<plantSuggestModel> => {
   try {

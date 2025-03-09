@@ -1,6 +1,6 @@
 import { Pagination } from 'antd';
 import { useMemo } from 'react';
-import { TablePaginationConfig } from '~/utils/models/Tables';
+import { TablePaginationConfig } from '@/utils/models/Tables';
 import { ASelect } from '../a-select';
 
 type APaginationProps = {

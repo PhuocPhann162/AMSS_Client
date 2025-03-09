@@ -1,4 +1,4 @@
-import { airPollutionType } from '~/interfaces';
+import { airPollutionType } from '@/interfaces';
 
 export const getAirPollution = async (lat: number, lon: number) => {
   try {

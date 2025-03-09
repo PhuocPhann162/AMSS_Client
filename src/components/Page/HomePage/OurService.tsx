@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ScrollAnimationWrapper } from '~/components/Animation';
-import { getScrollAnimation } from '~/helper';
+import { ScrollAnimationWrapper } from '@/components/Animation';
+import { getScrollAnimation } from '@/helper';
 
 export const OurService = () => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);

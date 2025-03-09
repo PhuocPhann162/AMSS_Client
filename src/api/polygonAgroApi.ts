@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { SD_Agro_API_URL } from '~/utils/SD';
+import { SD_Agro_API_URL } from '@/utils/SD';
 
 const polygonAgroApi = createApi({
   reducerPath: 'polygonAgroApi',

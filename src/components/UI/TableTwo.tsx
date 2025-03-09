@@ -1,4 +1,4 @@
-import { Product } from '~/interfaces/product';
+import { Product } from '@/interfaces/product';
 import imgTemp from '../../../public/img-1.jpg';
 const productData: Product[] = [
   {

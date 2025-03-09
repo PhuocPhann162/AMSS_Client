@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { HeaderApp } from '~/components/Layout/Header';
-import { Sidebar } from '~/components/Layout/SideBar';
-import { withAdminAuth } from '~/HOC';
+import { HeaderApp } from '@/components/Layout/Header';
+import { Sidebar } from '@/components/Layout/SideBar';
+import { withAdminAuth } from '@/HOC';
 
 function DefaultAppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

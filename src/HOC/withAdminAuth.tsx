@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import { SD_Roles } from '~/utils/SD';
+import { SD_Roles } from '@/utils/SD';
 
 const withAdminAuth = (WrappedComponent: any) => {
   return (props: any) => {

@@ -1,4 +1,4 @@
-import vnlpAnalysisModel from '~/interfaces/vnlpAnalysisModel';
+import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
 import toastNotify from './toastNotify';
 
 export const inputWordTypeAnalysis = async (input: string, language?: string) => {

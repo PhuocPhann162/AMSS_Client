@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useGetAllUsersQuery, useLockUnLockUserMutation } from '~/api/userApi';
-import { Modal, Pagination } from '~/common';
-import { MainLoader } from '~/components/Page/common';
-import { Breadcrumb } from '~/components/UI';
-import { apiResponse, pageOptions, userModel } from '~/interfaces';
-import { inputHelper, toastNotify } from '~/helper';
-import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
-import { CreateIcon, EditTableIcon, SearchIcon } from '~/components/Icon';
+import { useGetAllUsersQuery, useLockUnLockUserMutation } from '@/api/userApi';
+import { Modal, Pagination } from '@/common';
+import { MainLoader } from '@/components/Page/common';
+import { Breadcrumb } from '@/components/UI';
+import { apiResponse, pageOptions, userModel } from '@/interfaces';
+import { inputHelper, toastNotify } from '@/helper';
+import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
+import { CreateIcon, EditTableIcon, SearchIcon } from '@/components/Icon';
 
 export const AllUsers = () => {
   let cnt: number = 1;

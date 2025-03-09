@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Avatar from '../../../../public/avatar.png';
-import { userModel } from '~/interfaces';
+import { userModel } from '@/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '~/storage/redux/store';
-import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
-import { emptyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
+import { RootState } from '@/storage/redux/store';
+import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
+import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
 
 const DropdownUser = () => {
   const dispatch = useDispatch();

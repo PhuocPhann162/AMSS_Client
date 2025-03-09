@@ -1,7 +1,7 @@
 import * as turf from '@turf/turf';
 import { Link } from 'react-router-dom';
-import { EditTableIcon, ForecastIcon, SearchWorldIcon } from '~/components/Icon';
-import { farmModel } from '~/interfaces';
+import { EditTableIcon, ForecastIcon, SearchWorldIcon } from '@/components/Icon';
+import { farmModel } from '@/interfaces';
 
 interface PopupFarmProps {
   farmInfo: farmModel;
