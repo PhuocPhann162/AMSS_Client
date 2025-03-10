@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import './css/global.css';
-import './css/satoshi.css';
+import '@/styles/globals.css';
+import '@/styles/satoshi.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './storage/index.ts';
