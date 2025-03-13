@@ -4,8 +4,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import { useCreateCropMutation, useGetCropByIdQuery, useUpdateCropMutation } from '~/api/cropApi';
+import { AButton } from '~/common/ui-common';
+import { EditTableIcon } from '~/components/Icon';
 import { MiniLoader } from '~/components/Page/common';
-import { inputHelper, toastNotify } from '~/helper';
+import { inputHelper, LabelHelper, toastNotify } from '~/helper';
 import { apiResponse } from '~/interfaces';
 
 interface CropUpsertModalProps {
@@ -33,6 +35,8 @@ const cropData = {
   description: 'Maize crop known for its versatility and use in various food products.'
 };
 
+const idCropDefault = '8D667686-F7C8-4D65-BB1C-EBBDF4D98B79';
+
 export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +45,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
   const [userInputs, setUserInputs] = useState(cropData);
   const [createCrop] = useCreateCropMutation();
   const [updateCrop] = useUpdateCropMutation();
-  const { data } = useGetCropByIdQuery(id ?? 1);
+  const { data } = useGetCropByIdQuery(id ?? idCropDefault);
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const tempData = inputHelper(e, userInputs);
@@ -119,7 +123,6 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
       }
 
       let response: apiResponse;
-      console.log(id);
       if (!id) {
         response = await createCrop(formData);
         if (response.data && response.data?.isSuccess) {
@@ -139,6 +142,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
       console.error(error.message);
     } finally {
       setIsLoading(false);
+      (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.close();
     }
   };
 
@@ -170,8 +174,11 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
 
   return (
     <>
-      <dialog id='crop_upsert_modal' className='modal modal-top sm:modal-top w-3/5 mx-auto mt-6 border rounded-lg'>
-        <div className='modal-box bg-white'>
+      <dialog
+        id='crop_upsert_modal'
+        className='modal modal-top sm:modal-top w-3/5 mx-auto mt-6 border rounded-lg h-screen'
+      >
+        <div className='modal-box bg-white h-full'>
           <div className='flex items-center gap-1'>
             <h3 className='font-bold text-lg text-black tracking-wide'>{id ? 'Update' : 'Create'} New Crop</h3>
             <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -188,7 +195,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
           <div className='divider divide-neutral-400'></div>
           <div className='px-6 mb-6 space-y-6'>
             <form action='#' method='post' encType='multipart/form-data' onSubmit={handleSubmit}>
-              <div className='overflow-auto h-100 px-6 mb-6 space-y-6'>
+              <div className='overflow-auto h-full px-6 mb-6 space-y-6'>
                 <div className='grid grid-cols-6 gap-6'>
                   <div
                     id='FileUpload'
@@ -238,20 +245,16 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         </div>
                       </>
                     ) : (
-                      <div className='flex items-center'>
-                        <div className='col-span-3 sm:col-span-3'>
-                          <img src={imageToDisplay} style={{ width: '40%', borderRadius: '30px' }} alt='Upload Here' />
-                        </div>
-                        <div className='col-span-3 sm:col-span-3'>
-                          <button className='btn btn-outline btn-primary' onClick={() => setImageToDisplay('')}>
-                            Change Image
-                          </button>
-                        </div>
+                      <div className='flex items-center justify-center gap-10'>
+                        <img src={imageToDisplay} className='w-40 h-50 rounded-md' alt='Upload Here' />
+                        <AButton className='btn btn-outline btn-primary' onClick={() => setImageToDisplay('')}>
+                          <EditTableIcon />
+                        </AButton>
                       </div>
                     )}
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Crop Name</label>
+                    <LabelHelper text='Crop Name' required={true} />
                     <input
                       type='text'
                       name='name'
@@ -263,7 +266,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Cycle</label>
+                    <LabelHelper text='Cycle' required={true} />
                     <input
                       type='text'
                       name='cycle'
@@ -275,7 +278,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Edible</label>
+                    <LabelHelper text='Edible' required={true} />
                     <div className='flex items-center mx-2 my-3'>
                       <input
                         type='radio'
@@ -304,7 +307,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     </div>
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Indoor</label>
+                    <LabelHelper text='Indoor' required={true} />
                     <div className='flex items-center mx-2 my-3'>
                       <input
                         type='radio'
@@ -333,7 +336,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     </div>
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Soil</label>
+                    <LabelHelper text='Soil' required={true} />
                     <input
                       type='text'
                       name='soil'
@@ -345,7 +348,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Watering</label>
+                    <LabelHelper text='Watering' required={true} />
                     <input
                       type='text'
                       name='watering'
@@ -357,7 +360,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Maintenance</label>
+                    <LabelHelper text='Maintenance' required={true} />
                     <input
                       type='text'
                       name='maintenance'
@@ -369,7 +372,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Hardiness Zone</label>
+                    <LabelHelper text='Hardiness Zone' required={true} />
                     <input
                       type='number'
                       name='hardinessZone'
@@ -382,7 +385,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                   </div>
 
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Propogation</label>
+                    <LabelHelper text='Propogation' required={true} />
                     <input
                       type='text'
                       name='propogation'
@@ -394,7 +397,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Care Level</label>
+                    <LabelHelper text='Care Level' required={true} />
                     <input
                       type='text'
                       name='careLevel'
@@ -406,7 +409,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Growth Rate</label>
+                    <LabelHelper text='Growth Rate' required={true} />
                     <input
                       type='text'
                       name='growthRate'
@@ -418,7 +421,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Cultivated Area</label>
+                    <LabelHelper text='Cultivated Area' required={true} />
                     <div className='flex items-end gap-2'>
                       <input
                         type='number'
@@ -433,7 +436,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     </div>
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Quantity</label>
+                    <LabelHelper text='Quantity' required={true} />
                     <input
                       type='number'
                       name='quantity'
@@ -445,7 +448,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Crop Type</label>
+                    <LabelHelper text='Crop Type' required={true} />
                     <select
                       name='cropType'
                       className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
@@ -475,7 +478,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     </select>
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Planted Date</label>
+                    <LabelHelper text='Planted Date' required={true} />
                     <DatePicker
                       showIcon
                       selected={userInputs.plantedDate}
@@ -499,7 +502,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     />
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Expected Date</label>
+                    <LabelHelper text='Expected Date' required={true} />
                     <DatePicker
                       showIcon
                       selected={userInputs.expectedDate}
@@ -524,7 +527,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                   </div>
 
                   <div className='col-span-full'>
-                    <label className='text-sm font-medium text-gray-900 block mb-2'>Description</label>
+                    <LabelHelper text='Description' required={true} />
                     <textarea
                       name='description'
                       className='bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4'
