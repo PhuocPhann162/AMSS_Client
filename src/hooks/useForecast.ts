@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 
-import { forecastType, optionType } from '~/interfaces';
-import { SD_BASE_WEATHER_URL } from '~/utils/SD';
+import { forecastType, optionType } from '@/interfaces';
+import { SD_BASE_WEATHER_URL } from '@/utils/SD';
 
 const DEFAULT_CITY: optionType = { name: 'Ho Chi Minh', country: 'VN', lat: 10.762622, lon: 106.660172 };
 

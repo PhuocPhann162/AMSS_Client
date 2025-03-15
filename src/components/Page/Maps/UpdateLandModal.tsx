@@ -1,11 +1,11 @@
-import { apiResponse, locationModel, pointModel } from '~/interfaces';
+import { apiResponse, locationModel, pointModel } from '@/interfaces';
 import * as turf from '@turf/turf';
-import { useUpdateFieldMutation } from '~/api/fieldApi';
-import { toastNotify } from '~/helper';
+import { useUpdateFieldMutation } from '@/api/fieldApi';
+import { toastNotify } from '@/helper';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { MiniLoader } from '../common';
-import { useUrlPosition } from '~/hooks';
+import { useUrlPosition } from '@/hooks';
 
 interface UpdateLandModalProps {
   area?: number;

@@ -3,12 +3,16 @@ import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
-import { useCreateCropMutation, useGetCropByIdQuery, useUpdateCropMutation } from '~/api/cropApi';
-import { AButton } from '~/common/ui-common';
-import { EditTableIcon } from '~/components/Icon';
-import { MiniLoader } from '~/components/Page/common';
-import { inputHelper, LabelHelper, toastNotify } from '~/helper';
-import { apiResponse } from '~/interfaces';
+import {
+  useCreateCropMutation,
+  useGetCropByIdQuery,
+  useUpdateCropMutation,
+} from '@/api/cropApi';
+import { AButton } from '@/common/ui-common';
+import { EditTableIcon } from '@/components/Icon';
+import { MiniLoader } from '@/components/Page/common';
+import { inputHelper, LabelHelper, toastNotify } from '@/helper';
+import { apiResponse } from '@/interfaces';
 
 interface CropUpsertModalProps {
   id?: string;
@@ -32,12 +36,16 @@ const cropData = {
   expectedDate: new Date(2024, 4, 28),
   quantity: 420,
   cropType: 'Cereal',
-  description: 'Maize crop known for its versatility and use in various food products.'
+  description:
+    'Maize crop known for its versatility and use in various food products.',
 };
 
 const idCropDefault = '8D667686-F7C8-4D65-BB1C-EBBDF4D98B79';
 
-export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps) => {
+export const CropUpsertModal = ({
+  id,
+  setSelectedCropId,
+}: CropUpsertModalProps) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [imageToStore, setImageToStore] = useState<any>();
@@ -47,7 +55,11 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
   const [updateCrop] = useUpdateCropMutation();
   const { data } = useGetCropByIdQuery(id ?? idCropDefault);
 
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleUserInput = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const tempData = inputHelper(e, userInputs);
     setUserInputs(tempData);
   };
@@ -126,15 +138,25 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
       if (!id) {
         response = await createCrop(formData);
         if (response.data && response.data?.isSuccess) {
-          (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
-          toastNotify(response.data.successMessage ?? 'Crop created successfully!', 'success');
+          (
+            document.querySelector('crop_upsert_modal') as HTMLDialogElement
+          )?.close();
+          toastNotify(
+            response.data.successMessage ?? 'Crop created successfully!',
+            'success',
+          );
           navigate('/app/crop/myCrops');
         }
       } else {
         response = await updateCrop(formData);
         if (response.data && response.data?.isSuccess) {
-          (document.querySelector('crop_upsert_modal') as HTMLDialogElement)?.close();
-          toastNotify(response.data.successMessage ?? 'Crop updated successfully!', 'success');
+          (
+            document.querySelector('crop_upsert_modal') as HTMLDialogElement
+          )?.close();
+          toastNotify(
+            response.data.successMessage ?? 'Crop updated successfully!',
+            'success',
+          );
           navigate('/app/crop/myCrops');
         }
       }
@@ -142,7 +164,9 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
       console.error(error.message);
     } finally {
       setIsLoading(false);
-      (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.close();
+      (
+        document.getElementById('crop_upsert_modal') as HTMLDialogElement
+      )?.close();
     }
   };
 
@@ -165,7 +189,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
         expectedDate: new Date(data.result.expectedDate),
         quantity: data.result.quantity,
         cropType: data.result.cropType?.type,
-        description: data.result.description
+        description: data.result.description,
       };
       setUserInputs(tempData);
       setImageToDisplay(data.result.icon);
@@ -180,8 +204,15 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
       >
         <div className='modal-box bg-white h-full'>
           <div className='flex items-center gap-1'>
-            <h3 className='font-bold text-lg text-black tracking-wide'>{id ? 'Update' : 'Create'} New Crop</h3>
-            <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+            <h3 className='font-bold text-lg text-black tracking-wide'>
+              {id ? 'Update' : 'Create'} New Crop
+            </h3>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+            >
               <title>tree_3_fill</title>
               <g id='tree_3_fill' fill='none' fillRule='evenodd'>
                 <path d='M24 0v24H0V0h24ZM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019 0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01-.184-.092Z' />
@@ -194,7 +225,12 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
           </div>
           <div className='divider divide-neutral-400'></div>
           <div className='px-6 mb-6 space-y-6'>
-            <form action='#' method='post' encType='multipart/form-data' onSubmit={handleSubmit}>
+            <form
+              action='#'
+              method='post'
+              encType='multipart/form-data'
+              onSubmit={handleSubmit}
+            >
               <div className='overflow-auto h-full px-6 mb-6 space-y-6'>
                 <div className='grid grid-cols-6 gap-6'>
                   <div
@@ -238,7 +274,10 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                             </svg>
                           </span>
                           <p>
-                            <span className='text-primary'>Click to upload</span> or drag and drop
+                            <span className='text-primary'>
+                              Click to upload
+                            </span>{' '}
+                            or drag and drop
                           </p>
                           <p className='mt-1.5'>SVG, PNG, JPG or GIF</p>
                           <p>(max, 800 X 800px)</p>
@@ -246,8 +285,15 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                       </>
                     ) : (
                       <div className='flex items-center justify-center gap-10'>
-                        <img src={imageToDisplay} className='w-40 h-50 rounded-md' alt='Upload Here' />
-                        <AButton className='btn btn-outline btn-primary' onClick={() => setImageToDisplay('')}>
+                        <img
+                          src={imageToDisplay}
+                          className='w-40 h-50 rounded-md'
+                          alt='Upload Here'
+                        />
+                        <AButton
+                          className='btn btn-outline btn-primary'
+                          onClick={() => setImageToDisplay('')}
+                        >
                           <EditTableIcon />
                         </AButton>
                       </div>
@@ -289,7 +335,10 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         required
                         onChange={handleUserInput}
                       />
-                      <label htmlFor='edible-true' className='text-sm font-medium text-black mr-4'>
+                      <label
+                        htmlFor='edible-true'
+                        className='text-sm font-medium text-black mr-4'
+                      >
                         True
                       </label>
                       <input
@@ -301,7 +350,10 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         required
                         onChange={handleUserInput}
                       />
-                      <label htmlFor='edible-false' className='text-sm font-medium text-black'>
+                      <label
+                        htmlFor='edible-false'
+                        className='text-sm font-medium text-black'
+                      >
                         False
                       </label>
                     </div>
@@ -318,7 +370,10 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         required
                         onChange={handleUserInput}
                       />
-                      <label htmlFor='indoor-true' className='text-sm font-medium text-black mr-4'>
+                      <label
+                        htmlFor='indoor-true'
+                        className='text-sm font-medium text-black mr-4'
+                      >
                         True
                       </label>
                       <input
@@ -330,7 +385,10 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         required
                         onChange={handleUserInput}
                       />
-                      <label htmlFor='indoor-false' className='text-sm font-medium text-black'>
+                      <label
+                        htmlFor='indoor-false'
+                        className='text-sm font-medium text-black'
+                      >
                         False
                       </label>
                     </div>
@@ -432,7 +490,9 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         onChange={handleUserInput}
                         required={true}
                       />
-                      <label className='text-sm font-medium text-gray-900 block mb-2'>m²</label>
+                      <label className='text-sm font-medium text-gray-900 block mb-2'>
+                        m²
+                      </label>
                     </div>
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
@@ -469,7 +529,7 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                         'Legume',
                         'Nut',
                         'Pulse',
-                        'Spice'
+                        'Spice',
                       ].map((ct) => (
                         <option key={ct} value={ct}>
                           {ct}
@@ -482,21 +542,40 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     <DatePicker
                       showIcon
                       selected={userInputs.plantedDate}
-                      onChange={(date: Date) => setUserInputs({ ...userInputs, plantedDate: date })}
+                      onChange={(date: Date) =>
+                        setUserInputs({ ...userInputs, plantedDate: date })
+                      }
                       dateFormat='dd/MM/yyyy'
                       className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
                       icon={
-                        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 48 48'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          width='1em'
+                          height='1em'
+                          viewBox='0 0 48 48'
+                        >
                           <mask id='ipSApplication0'>
-                            <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
-                              <path strokeLinecap='round' d='M40.04 22v20h-32V22'></path>
+                            <g
+                              fill='none'
+                              stroke='#fff'
+                              strokeLinejoin='round'
+                              strokeWidth='4'
+                            >
+                              <path
+                                strokeLinecap='round'
+                                d='M40.04 22v20h-32V22'
+                              ></path>
                               <path
                                 fill='#fff'
                                 d='M5.842 13.777C4.312 17.737 7.263 22 11.51 22c3.314 0 6.019-2.686 6.019-6a6 6 0 0 0 6 6h1.018a6 6 0 0 0 6-6c0 3.314 2.706 6 6.02 6c4.248 0 7.201-4.265 5.67-8.228L39.234 6H8.845l-3.003 7.777Z'
                               ></path>
                             </g>
                           </mask>
-                          <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipSApplication0)'></path>
+                          <path
+                            fill='currentColor'
+                            d='M0 0h48v48H0z'
+                            mask='url(#ipSApplication0)'
+                          ></path>
                         </svg>
                       }
                     />
@@ -506,21 +585,40 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                     <DatePicker
                       showIcon
                       selected={userInputs.expectedDate}
-                      onChange={(date: Date) => setUserInputs({ ...userInputs, expectedDate: date })}
+                      onChange={(date: Date) =>
+                        setUserInputs({ ...userInputs, expectedDate: date })
+                      }
                       dateFormat='dd/MM/yyyy'
                       className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
                       icon={
-                        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 48 48'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          width='1em'
+                          height='1em'
+                          viewBox='0 0 48 48'
+                        >
                           <mask id='ipSApplication0'>
-                            <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
-                              <path strokeLinecap='round' d='M40.04 22v20h-32V22'></path>
+                            <g
+                              fill='none'
+                              stroke='#fff'
+                              strokeLinejoin='round'
+                              strokeWidth='4'
+                            >
+                              <path
+                                strokeLinecap='round'
+                                d='M40.04 22v20h-32V22'
+                              ></path>
                               <path
                                 fill='#fff'
                                 d='M5.842 13.777C4.312 17.737 7.263 22 11.51 22c3.314 0 6.019-2.686 6.019-6a6 6 0 0 0 6 6h1.018a6 6 0 0 0 6-6c0 3.314 2.706 6 6.02 6c4.248 0 7.201-4.265 5.67-8.228L39.234 6H8.845l-3.003 7.777Z'
                               ></path>
                             </g>
                           </mask>
-                          <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipSApplication0)'></path>
+                          <path
+                            fill='currentColor'
+                            d='M0 0h48v48H0z'
+                            mask='url(#ipSApplication0)'
+                          ></path>
                         </svg>
                       }
                     />
@@ -552,7 +650,11 @@ export const CropUpsertModal = ({ id, setSelectedCropId }: CropUpsertModalProps)
                   className='text-white bg-body hover:bg-graydark focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
                   onClick={() => {
                     setSelectedCropId && setSelectedCropId('');
-                    (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.close();
+                    (
+                      document.getElementById(
+                        'crop_upsert_modal',
+                      ) as HTMLDialogElement
+                    )?.close();
                   }}
                 >
                   Cancel

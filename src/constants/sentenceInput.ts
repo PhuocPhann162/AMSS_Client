@@ -1,4 +1,4 @@
-import { OptionType } from '~/interfaces';
+import { OptionType } from '@/interfaces';
 
 export const SENTENCE_LIST: OptionType[] = [
   { value: 'SP.POP.TOTL', label: 'What is the total population of Ho Chi Minh City?' },

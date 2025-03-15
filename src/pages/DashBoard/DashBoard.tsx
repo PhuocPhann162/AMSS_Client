@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { ScrollAnimationWrapper } from '~/components/Animation';
-import { CardWeather, DailyWeather, FieldStatusList, SearchWeather } from '~/components/Page/DashBoard';
-import { getScrollAnimation } from '~/helper';
-import { useForecast } from '~/hooks';
+import { ScrollAnimationWrapper } from '@/components/Animation';
+import { CardWeather, DailyWeather, FieldStatusList, SearchWeather } from '@/components/Page/DashBoard';
+import { getScrollAnimation } from '@/helper';
+import { useForecast } from '@/hooks';
 import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 

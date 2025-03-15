@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import { ACard } from '~/common/ui-common';
+import { ACard } from '@/common/ui-common';
 
 const { Meta } = Card;
 

@@ -18,9 +18,9 @@ import {
   SunIcon,
   TropicalIcon,
   WateringIcon
-} from '~/components/Icon';
-import { getPlantSuggest } from '~/helper';
-import { plantSuggestModel } from '~/interfaces';
+} from '@/components/Icon';
+import { getPlantSuggest } from '@/helper';
+import { plantSuggestModel } from '@/interfaces';
 
 export const PlantDetail = () => {
   const [plantDetail, setPlantDetail] = useState<plantSuggestModel | null>(null);

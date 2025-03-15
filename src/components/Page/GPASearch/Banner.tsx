@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { ScrollAnimationWrapper } from '~/components/Animation';
-import { getScrollAnimation } from '~/helper';
+import { ScrollAnimationWrapper } from '@/components/Animation';
+import { getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
-import { ImportIcon } from '~/components/Icon';
+import { ImportIcon } from '@/components/Icon';
 import { useNavigate } from 'react-router-dom';
 
 interface BannerInterface {

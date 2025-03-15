@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { SearchIcon } from '~/components/Icon';
-import { Breadcrumb } from '~/components/UI';
-import { inputWordTypeAnalysis } from '~/helper/vnlpServerAnalysis';
+import { SearchIcon } from '@/components/Icon';
+import { Breadcrumb } from '@/components/UI';
+import { inputWordTypeAnalysis } from '@/helper/vnlpServerAnalysis';
 import Select, { MultiValue } from 'react-select';
-import vnlpAnalysisModel from '~/interfaces/vnlpAnalysisModel';
-import { SENTENCE_LIST } from '~/constants/sentenceInput';
-import { farmModel, fieldModel, OptionType, socialMetricModel } from '~/interfaces';
-import Banner from '~/components/Page/GPASearch/Banner';
-import { ScrollAnimationWrapper } from '~/components/Animation';
+import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
+import { SENTENCE_LIST } from '@/constants/sentenceInput';
+import { farmModel, fieldModel, OptionType, socialMetricModel } from '@/interfaces';
+import Banner from '@/components/Page/GPASearch/Banner';
+import { ScrollAnimationWrapper } from '@/components/Animation';
 import { motion } from 'framer-motion';
 import {
   farmDescriptionItems,
@@ -15,18 +15,18 @@ import {
   getScrollAnimation,
   locationDescriptionItems,
   toastNotify
-} from '~/helper';
-import { LANGUAGE } from '~/constants/languages';
-import { SocialMetricLineChart } from '~/components/UI/Chart/SocialMetricLineChart';
-import { useGetAllSocialMetricsQuery } from '~/api/socialMetricApi';
-import { findProvinceCode } from '~/helper/findProvinceCodeWithVnlp';
-import { MapBox } from '~/components/Page/Maps';
+} from '@/helper';
+import { LANGUAGE } from '@/constants/languages';
+import { SocialMetricLineChart } from '@/components/UI/Chart/SocialMetricLineChart';
+import { useGetAllSocialMetricsQuery } from '@/api/socialMetricApi';
+import { findProvinceCode } from '@/helper/findProvinceCodeWithVnlp';
+import { MapBox } from '@/components/Page/Maps';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '~/api/fieldApi';
-import { useGetFarmByIdQuery } from '~/api/farmApi';
-import {} from '~/common';
-import { ACard, ADescriptions } from '~/common/ui-common';
-import { SocialMetricBarChart } from '~/components/UI/Chart/SocialMetricBarChart';
+import { useGetFieldByIdQuery } from '@/api/fieldApi';
+import { useGetFarmByIdQuery } from '@/api/farmApi';
+import {} from '@/common';
+import { ACard, ADescriptions } from '@/common/ui-common';
+import { SocialMetricBarChart } from '@/components/UI/Chart/SocialMetricBarChart';
 
 export const GPASearch = () => {
   const searchSectionRef = useRef(null);

@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
-import { useDeleteFarmMutation, useGetAllFarmsQuery } from '~/api/farmApi';
-import { Modal, Pagination } from '~/common';
-import { CreateIcon, DeleteIcon, EditTableIcon, MarkerIcon, SearchIcon, SortIcon } from '~/components/Icon';
-import { MainLoader } from '~/components/Page/common';
-import { Breadcrumb } from '~/components/UI';
-import { inputHelper, toastNotify } from '~/helper';
-import { farmModel, pageOptions } from '~/interfaces';
+import { useDeleteFarmMutation, useGetAllFarmsQuery } from '@/api/farmApi';
+import { Modal, Pagination } from '@/common';
+import { CreateIcon, DeleteIcon, EditTableIcon, MarkerIcon, SearchIcon, SortIcon } from '@/components/Icon';
+import { MainLoader } from '@/components/Page/common';
+import { Breadcrumb } from '@/components/UI';
+import { inputHelper, toastNotify } from '@/helper';
+import { farmModel, pageOptions } from '@/interfaces';
 
 export const FarmList = () => {
   // Start State

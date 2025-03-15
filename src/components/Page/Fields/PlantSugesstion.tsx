@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { ScrollAnimationWrapper } from '~/components/Animation';
-import { getScrollAnimation } from '~/helper';
+import { ScrollAnimationWrapper } from '@/components/Animation';
+import { getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
-import { CycleIcon, EditTableIcon, SunIcon, WateringIcon } from '~/components/Icon';
-import { plantSuggestModel } from '~/interfaces';
+import { CycleIcon, EditTableIcon, SunIcon, WateringIcon } from '@/components/Icon';
+import { plantSuggestModel } from '@/interfaces';
 import { Link, NavLink } from 'react-router-dom';
 
 interface PlantSugesstionProps {

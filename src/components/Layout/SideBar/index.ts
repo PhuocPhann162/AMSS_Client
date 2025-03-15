@@ -1,4 +1,4 @@
-import Sidebar from './SideBar';
+import AppSidebar from './SideBar';
 import SidebarLinkGroup from './SidebarLinkGroup';
 
-export { Sidebar, SidebarLinkGroup };
+export { AppSidebar, SidebarLinkGroup };

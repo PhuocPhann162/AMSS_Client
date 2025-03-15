@@ -2,8 +2,8 @@ import * as turf from '@turf/turf';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useDeleteFieldMutation } from '~/api/fieldApi';
-import { Modal } from '~/common';
+import { useDeleteFieldMutation } from '@/api/fieldApi';
+import { Modal } from '@/common';
 import {
   DeletePopupIcon,
   EditTableIcon,
@@ -12,9 +12,9 @@ import {
   MarkerPopupIcon,
   RiverIcon,
   SearchWorldIcon
-} from '~/components/Icon';
-import { findNearestRiver } from '~/helper';
-import { fieldModel } from '~/interfaces';
+} from '@/components/Icon';
+import { findNearestRiver } from '@/helper';
+import { fieldModel } from '@/interfaces';
 import { PopupCrop } from '../Crop';
 
 interface PopupFieldProps {

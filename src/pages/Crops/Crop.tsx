@@ -1,4 +1,4 @@
-import { Breadcrumb, TableTwo } from '~/components/UI';
+import { Breadcrumb, TableTwo } from '@/components/UI';
 
 export const Crop = () => {
   return (

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { ScrollAnimationWrapper } from '~/components/Animation';
+import { ScrollAnimationWrapper } from '@/components/Animation';
 
 import { motion } from 'framer-motion';
 import HeroImage from '../../../../public/AdvertiseImage.png';
 import { Link } from 'react-router-dom';
-import { getScrollAnimation } from '~/helper';
+import { getScrollAnimation } from '@/helper';
 
 export const Hero = () => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);

@@ -1,8 +1,8 @@
-import { forecastType } from '~/interfaces';
+import { forecastType } from '@/interfaces';
 import { Degree } from '../Weather';
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { getScrollAnimation } from '~/helper';
+import { getScrollAnimation } from '@/helper';
 
 interface DailyWeatherProps {
   forecast: forecastType;

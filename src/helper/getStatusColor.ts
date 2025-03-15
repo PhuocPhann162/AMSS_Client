@@ -1,4 +1,4 @@
-import { SD_FieldStatus } from '~/utils/SD';
+import { SD_FieldStatus } from '@/utils/SD';
 
 const getStatusColor = (status: string) => {
   switch (status) {

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Logo } from '~/common';
-import { userModel } from '~/interfaces';
-import { emptyUserState, setLoggedInUser } from '~/storage/redux/authSlice';
-import { RootState } from '~/storage/redux/store';
+import { Logo } from '@/common';
+import { userModel } from '@/interfaces';
+import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
+import { RootState } from '@/storage/redux/store';
 import DropdownUser from './DropdownUser';
-import { AButton } from '~/common/ui-common';
+import { AButton } from '@/common/ui-common';
 
 function HeaderPage() {
   const dispatch = useDispatch();

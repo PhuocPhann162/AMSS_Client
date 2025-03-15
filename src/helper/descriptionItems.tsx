@@ -1,8 +1,8 @@
 import { DescriptionsProps } from 'antd';
 import { format } from 'date-fns';
-import { ATag } from '~/common/ui-common';
-import { farmModel, fieldModel, locationModel } from '~/interfaces';
-import { convertToEmoji, flagemojiToPNG } from '~/utils/convertEmoji';
+import { ATag } from '@/common/ui-common';
+import { farmModel, fieldModel, locationModel } from '@/interfaces';
+import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import getStatusColor from './getStatusColor';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {

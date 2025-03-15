@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '~/hooks';
+import { baseQueryWithReauth } from '@/hooks';
 
 const locationApi = createApi({
   reducerPath: 'locationApi',

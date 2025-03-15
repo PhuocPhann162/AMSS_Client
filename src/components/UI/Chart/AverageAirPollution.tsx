@@ -1,7 +1,7 @@
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { ReactNode } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import { airPollutionType } from '~/interfaces';
+import { airPollutionType } from '@/interfaces';
 
 Chart.register(...registerables);
 

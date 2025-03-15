@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
-import { useDeleteFieldMutation, useGetAllFieldsQuery } from '~/api/fieldApi';
-import { MarkerIcon, SortIcon } from '~/components/Icon';
-import { MainLoader } from '~/components/Page/common';
+import { useDeleteFieldMutation, useGetAllFieldsQuery } from '@/api/fieldApi';
+import { MarkerIcon, SortIcon } from '@/components/Icon';
+import { MainLoader } from '@/components/Page/common';
 
-import { getStatusColor, inputHelper, toastNotify } from '~/helper';
-import { fieldModel, pageOptions } from '~/interfaces';
-import { SD_FieldStatus } from '~/utils/SD';
+import { getStatusColor, inputHelper, toastNotify } from '@/helper';
+import { fieldModel, pageOptions } from '@/interfaces';
+import { SD_FieldStatus } from '@/utils/SD';
 import { PopupCrop } from '../Crop';
 
 export const FieldStatusList = () => {

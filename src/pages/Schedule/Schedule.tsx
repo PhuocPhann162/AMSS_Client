@@ -1,4 +1,4 @@
-import { Breadcrumb } from '~/components/UI';
+import { Breadcrumb } from '@/components/UI';
 
 const Schedule = () => {
   return (

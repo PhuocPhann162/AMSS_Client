@@ -1,15 +1,15 @@
-/** @type {import('tailwindcss').Config} */
-
 import daisyui from 'daisyui';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'class',
+  darkMode: ['class'],
   theme: {
     boxShadow: {
       sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-      DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+      DEFAULT:
+        '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
       md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
@@ -17,23 +17,26 @@ export default {
       green: '0px 20px 20px -15px  rgba(0,196,106,0.81) ',
       yellow: '0px 20px 20px -15px  rgba(255,183,0,0.81) ',
       brown: '0px 20px 20px -15px rgba(150,75,0,0.81)',
-      none: 'none'
+      none: 'none',
     },
     fontFamily: {
-      satoshi: ['Satoshi', 'sans-serif']
+      satoshi: ['Satoshi', 'sans-serif'],
     },
     screens: {
       '2xsm': '375px',
       xsm: '425px',
       '3xl': '2000px',
-      ...defaultTheme.screens
+      ...defaultTheme.screens,
     },
     extend: {
       fontFamily: {
-        rubik: ['Rubik', 'sans-serif']
+        rubik: ['Rubik', 'sans-serif'],
       },
       colors: {
-        primary: '#00c46a',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
         'type-1': '#e7efef',
         'type-2': '#5e6b70',
         be: '#f3f4f6',
@@ -52,7 +55,10 @@ export default {
         bodydark: '#AEB7C0',
         bodydark1: '#DEE4EE',
         bodydark2: '#8A99AF',
-        secondary: '#80CAEE',
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
         stroke: '#E2E8F0',
         gray: '#EFF4FB',
         graydark: '#333A48',
@@ -80,28 +86,28 @@ export default {
         status: {
           success: {
             dark: '#86c988',
-            light: '#edf7ed'
+            light: '#edf7ed',
           },
           white: {
             dark: '#979dac',
-            light: '#f9fafc'
+            light: '#f9fafc',
           },
           warning: {
             dark: '#f9b567',
-            light: '#fef6ec'
+            light: '#fef6ec',
           },
           info: {
             dark: '#75a5ff',
-            light: '#ebf2ff'
+            light: '#ebf2ff',
           },
           accent: {
             dark: '#5D3D2E',
-            light: '#FDF9F7'
+            light: '#FDF9F7',
           },
           danger: {
             dark: '#f18b9d',
-            light: '#fef6f6'
-          }
+            light: '#fef6f6',
+          },
         },
         res: {
           draft: '#D9D9D9',
@@ -109,15 +115,57 @@ export default {
           pending: '#F7F8C5',
           approved: '#D2EBE2',
           rejected: '#F2CDCD',
-          refunded: '#F7DFA4'
+          refunded: '#F7DFA4',
         },
         clr: {
           1: '#2E291D',
           2: '#795E28',
           3: '#B68931',
           4: '#FFB859',
-          5: '#F7C35F'
-        }
+          5: '#F7C35F',
+        },
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        chart: {
+          1: 'hsl(var(--chart-1))',
+          2: 'hsl(var(--chart-2))',
+          3: 'hsl(var(--chart-3))',
+          4: 'hsl(var(--chart-4))',
+          5: 'hsl(var(--chart-5))',
+        },
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
+        },
       },
       fontSize: {
         'title-xxl': ['44px', '55px'],
@@ -127,77 +175,42 @@ export default {
         'title-md': ['24px', '30px'],
         'title-md2': ['26px', '30px'],
         'title-sm': ['20px', '26px'],
-        'title-xsm': ['18px', '24px']
+        'title-xsm': ['18px', '24px'],
       },
       spacing: {
-        4.5: '1.125rem',
-        5.5: '1.375rem',
-        6.5: '1.625rem',
-        7.5: '1.875rem',
-        8.5: '2.125rem',
-        9.5: '2.375rem',
-        10.5: '2.625rem',
         11: '2.75rem',
-        11.5: '2.875rem',
-        12.5: '3.125rem',
         13: '3.25rem',
-        13.5: '3.375rem',
         14: '3.5rem',
-        14.5: '3.625rem',
         15: '3.75rem',
-        15.5: '3.875rem',
         16: '4rem',
-        16.5: '4.125rem',
         17: '4.25rem',
-        17.5: '4.375rem',
         18: '4.5rem',
-        18.5: '4.625rem',
         19: '4.75rem',
-        19.5: '4.875rem',
         21: '5.25rem',
-        21.5: '5.375rem',
         22: '5.5rem',
-        22.5: '5.625rem',
-        24.5: '6.125rem',
         25: '6.25rem',
-        25.5: '6.375rem',
         26: '6.5rem',
         27: '6.75rem',
-        27.5: '6.875rem',
         29: '7.25rem',
-        29.5: '7.375rem',
         30: '7.5rem',
         31: '7.75rem',
-        32.5: '8.125rem',
         34: '8.5rem',
-        34.5: '8.625rem',
         35: '8.75rem',
-        36.5: '9.125rem',
-        37.5: '9.375rem',
         39: '9.75rem',
-        39.5: '9.875rem',
         40: '10rem',
-        42.5: '10.625rem',
         44: '11rem',
         45: '11.25rem',
         46: '11.5rem',
-        47.5: '11.875rem',
         49: '12.25rem',
         50: '12.5rem',
         52: '13rem',
-        52.5: '13.125rem',
         54: '13.5rem',
-        54.5: '13.625rem',
         55: '13.75rem',
-        55.5: '13.875rem',
         59: '14.75rem',
         60: '15rem',
-        62.5: '15.625rem',
         65: '16.25rem',
         67: '16.75rem',
-        67.5: '16.875rem',
         70: '17.5rem',
-        72.5: '18.125rem',
         73: '18.25rem',
         75: '18.75rem',
         90: '22.5rem',
@@ -206,88 +219,121 @@ export default {
         100: '25rem',
         115: '28.75rem',
         125: '31.25rem',
-        132.5: '33.125rem',
         150: '37.5rem',
-        171.5: '42.875rem',
         180: '45rem',
-        187.5: '46.875rem',
         203: '50.75rem',
         230: '57.5rem',
-        242.5: '60.625rem'
+        4.5: '1.125rem',
+        5.5: '1.375rem',
+        6.5: '1.625rem',
+        7.5: '1.875rem',
+        8.5: '2.125rem',
+        9.5: '2.375rem',
+        10.5: '2.625rem',
+        11.5: '2.875rem',
+        12.5: '3.125rem',
+        13.5: '3.375rem',
+        14.5: '3.625rem',
+        15.5: '3.875rem',
+        16.5: '4.125rem',
+        17.5: '4.375rem',
+        18.5: '4.625rem',
+        19.5: '4.875rem',
+        21.5: '5.375rem',
+        22.5: '5.625rem',
+        24.5: '6.125rem',
+        25.5: '6.375rem',
+        27.5: '6.875rem',
+        29.5: '7.375rem',
+        32.5: '8.125rem',
+        34.5: '8.625rem',
+        36.5: '9.125rem',
+        37.5: '9.375rem',
+        39.5: '9.875rem',
+        42.5: '10.625rem',
+        47.5: '11.875rem',
+        52.5: '13.125rem',
+        54.5: '13.625rem',
+        55.5: '13.875rem',
+        62.5: '15.625rem',
+        67.5: '16.875rem',
+        72.5: '18.125rem',
+        132.5: '33.125rem',
+        171.5: '42.875rem',
+        187.5: '46.875rem',
+        242.5: '60.625rem',
       },
       maxWidth: {
-        2.5: '0.625rem',
         3: '0.75rem',
         4: '1rem',
         11: '2.75rem',
         13: '3.25rem',
         14: '3.5rem',
         15: '3.75rem',
-        22.5: '5.625rem',
         25: '6.25rem',
         30: '7.5rem',
         34: '8.5rem',
         35: '8.75rem',
         40: '10rem',
-        42.5: '10.625rem',
         44: '11rem',
         45: '11.25rem',
         70: '17.5rem',
         90: '22.5rem',
         94: '23.5rem',
         125: '31.25rem',
-        132.5: '33.125rem',
-        142.5: '35.625rem',
         150: '37.5rem',
         180: '45rem',
         203: '50.75rem',
         230: '57.5rem',
-        242.5: '60.625rem',
         270: '67.5rem',
         280: '70rem',
-        292.5: '73.125rem'
+        2.5: '0.625rem',
+        22.5: '5.625rem',
+        42.5: '10.625rem',
+        132.5: '33.125rem',
+        142.5: '35.625rem',
+        242.5: '60.625rem',
+        292.5: '73.125rem',
       },
       maxHeight: {
         35: '8.75rem',
         70: '17.5rem',
         90: '22.5rem',
+        300: '18.75rem',
         550: '34.375rem',
-        300: '18.75rem'
       },
       minWidth: {
+        75: '18.75rem',
         22.5: '5.625rem',
         42.5: '10.625rem',
         47.5: '11.875rem',
-        75: '18.75rem'
       },
       zIndex: {
-        999999: '999999',
-        99999: '99999',
-        9999: '9999',
-        999: '999',
-        99: '99',
+        1: '1',
         9: '9',
-        1: '1'
+        99: '99',
+        999: '999',
+        9999: '9999',
+        99999: '99999',
+        999999: '999999',
       },
       opacity: {
-        65: '.65'
+        65: '.65',
       },
       backgroundImage: {
-        video: "url('../images/video/video.png')"
+        video: 'url("../images/video/video.png")',
       },
       content: {
-        'icon-copy': 'url("../images/icon/icon-copy-alt.svg")'
+        'icon-copy': 'url("../images/icon/icon-copy-alt.svg")',
       },
-      transitionProperty: { width: 'width', stroke: 'stroke' },
+      transitionProperty: {
+        width: 'width',
+        stroke: 'stroke',
+      },
       borderWidth: {
-        6: '6px'
+        6: '6px',
       },
       boxShadow: {
-        default: '0px 8px 13px -3px rgba(0, 0, 0, 0.07)',
-        card: '0px 1px 3px rgba(0, 0, 0, 0.12)',
-        'card-2': '0px 1px 2px rgba(0, 0, 0, 0.05)',
-        switcher: '0px 2px 4px rgba(0, 0, 0, 0.2), inset 0px 2px 2px #FFFFFF, inset 0px -1px 1px rgba(0, 0, 0, 0.1)',
-        'switch-1': '0px 0px 5px rgba(0, 0, 0, 0.15)',
         1: '0px 1px 3px rgba(0, 0, 0, 0.08)',
         2: '0px 1px 4px rgba(0, 0, 0, 0.12)',
         3: '0px 1px 5px rgba(0, 0, 0, 0.14)',
@@ -295,26 +341,41 @@ export default {
         5: '0px 1px 1px rgba(0, 0, 0, 0.15)',
         6: '0px 3px 15px rgba(0, 0, 0, 0.1)',
         7: '-5px 0 0 #313D4A, 5px 0 0 #313D4A',
-        8: '1px 0 0 #313D4A, -1px 0 0 #313D4A, 0 1px 0 #313D4A, 0 -1px 0 #313D4A, 0 3px 13px rgb(0 0 0 / 8%)'
+        8: '1px 0 0 #313D4A, -1px 0 0 #313D4A, 0 1px 0 #313D4A, 0 -1px 0 #313D4A, 0 3px 13px rgb(0 0 0 / 8%)',
+        default: '0px 8px 13px -3px rgba(0, 0, 0, 0.07)',
+        card: '0px 1px 3px rgba(0, 0, 0, 0.12)',
+        'card-2': '0px 1px 2px rgba(0, 0, 0, 0.05)',
+        switcher:
+          '0px 2px 4px rgba(0, 0, 0, 0.2), inset 0px 2px 2px #FFFFFF, inset 0px -1px 1px rgba(0, 0, 0, 0.1)',
+        'switch-1': '0px 0px 5px rgba(0, 0, 0, 0.15)',
       },
       dropShadow: {
         1: '0px 1px 0px #E2E8F0',
-        2: '0px 1px 4px rgba(0, 0, 0, 0.12)'
+        2: '0px 1px 4px rgba(0, 0, 0, 0.12)',
       },
       keyframes: {
         rotating: {
-          '0%, 100%': { transform: 'rotate(360deg)' },
-          '50%': { transform: 'rotate(0deg)' }
-        }
+          '0%, 100%': {
+            transform: 'rotate(360deg)',
+          },
+          '50%': {
+            transform: 'rotate(0deg)',
+          },
+        },
       },
       animation: {
         'ping-once': 'ping 5s cubic-bezier(0, 0, 0.2, 1)',
         rotating: 'rotating 30s linear infinite',
         'spin-1.5': 'spin 1.5s linear infinite',
         'spin-2': 'spin 2s linear infinite',
-        'spin-3': 'spin 3s linear infinite'
-      }
-    }
+        'spin-3': 'spin 3s linear infinite',
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+    },
   },
   daisyui: {
     themes: [
@@ -338,10 +399,11 @@ export default {
 
           error: '#dc2626',
 
-          active: '#ffffff'
-        }
-      }
-    ]
+          active: '#ffffff',
+        },
+      },
+    ],
   },
-  plugins: [daisyui]
+  // eslint-disable-next-line no-undef
+  plugins: [daisyui, require('tailwindcss-animate')],
 };

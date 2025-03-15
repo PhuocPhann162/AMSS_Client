@@ -10,7 +10,7 @@ import {
   polygonApi,
   socialMetricApi,
   userApi
-} from '~/api';
+} from '@/api';
 import { userAuthReducer } from './authSlice';
 
 const store = configureStore({

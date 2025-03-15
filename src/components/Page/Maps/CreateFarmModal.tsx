@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import * as turf from '@turf/turf';
-import { inputHelper, toastNotify } from '~/helper';
-import { useCreateFarmMutation, useGetAllFarmsQuery } from '~/api/farmApi';
-import { apiResponse, farmModel, locationModel, pointModel } from '~/interfaces';
-import { useCreateLocationMutation } from '~/api/locationApi';
-import { useCreateFieldMutation } from '~/api/fieldApi';
-import { SD_PlaceType } from '~/utils/SD';
-import { useCreatePolygonMutation } from '~/api/polygonApi';
+import { inputHelper, toastNotify } from '@/helper';
+import { useCreateFarmMutation, useGetAllFarmsQuery } from '@/api/farmApi';
+import { apiResponse, farmModel, locationModel, pointModel } from '@/interfaces';
+import { useCreateLocationMutation } from '@/api/locationApi';
+import { useCreateFieldMutation } from '@/api/fieldApi';
+import { SD_PlaceType } from '@/utils/SD';
+import { useCreatePolygonMutation } from '@/api/polygonApi';
 import { MiniLoader } from '../common';
 interface CreateFarmModalProps {
   area?: number;

@@ -1,5 +1,5 @@
 import { Avatar, StepProps, Steps, StepsProps } from 'antd';
-import { ONE_STEP_WIDTH } from '~/configs/component.config';
+import { ONE_STEP_WIDTH } from '@/configs/component.config';
 import { FC, useEffect, useState } from 'react';
 
 type AStepsProps = StepsProps;

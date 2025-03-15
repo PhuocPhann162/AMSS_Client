@@ -1,7 +1,7 @@
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { ACard } from '~/common/ui-common';
-import { socialMetricModel } from '~/interfaces';
+import { ACard } from '@/common/ui-common';
+import { socialMetricModel } from '@/interfaces';
 
 Chart.register(...registerables);
 
