@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { HeaderApp } from '@/components/Layout/Header';
 import { AppSidebar } from '@/components/Layout/SideBar';
@@ -7,17 +6,13 @@ import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/Sidebar';
 import { useCookie } from '@/hooks/useCookie';
 
 function DefaultAppLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);
   return (
     <SidebarProvider defaultOpen={value}>
-      <div className='dark:bg-boxdark-2 dark:text-bodydark grow flex'>
-        <AppSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <div className='grow'>
-          <HeaderApp
-            sidebarOpen={sidebarOpen}
-            setSidebarOpen={setSidebarOpen}
-          />
+      <div className='dark:bg-boxdark-2 dark:text-bodydark flex flex-col grow'>
+        <HeaderApp />
+        <div className='flex'>
+          <AppSidebar />
           <main>
             <Outlet />
           </main>
@@ -28,4 +23,4 @@ function DefaultAppLayout() {
 }
 
 const EnhancedDefaultAppLayout = withAdminAuth(DefaultAppLayout);
-export default EnhancedDefaultAppLayout;
+export default DefaultAppLayout;
