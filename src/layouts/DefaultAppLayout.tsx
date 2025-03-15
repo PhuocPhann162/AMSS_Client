@@ -1,37 +1,29 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { HeaderApp } from '@/components/Layout/Header';
-import { Sidebar } from '@/components/Layout/SideBar';
+import { AppSidebar } from '@/components/Layout/SideBar';
 import { withAdminAuth } from '@/HOC';
+import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/Sidebar';
+import { useCookie } from '@/hooks/useCookie';
 
 function DefaultAppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);
   return (
-    <div className='dark:bg-boxdark-2 dark:text-bodydark'>
-      {/* <!-- ===== Page Wrapper Start ===== --> */}
-      <div className='flex h-screen overflow-hidden'>
-        {/* <!-- ===== Sidebar Start ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        {/* <!-- ===== Sidebar End ===== --> */}
-
-        {/* <!-- ===== Content Area Start ===== --> */}
-        <div className='relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden'>
-          {/* <!-- ===== Header Start ===== --> */}
-          <HeaderApp sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          {/* <!-- ===== Header End ===== --> */}
-
-          {/* <!-- ===== Main Content Start ===== --> */}
+    <SidebarProvider defaultOpen={value}>
+      <div className='dark:bg-boxdark-2 dark:text-bodydark grow flex'>
+        <AppSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <div className='grow'>
+          <HeaderApp
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+          />
           <main>
-            <div className='mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10 h-full'>
-              <Outlet />
-            </div>
+            <Outlet />
           </main>
-          {/* <!-- ===== Main Content End ===== --> */}
         </div>
-        {/* <!-- ===== Content Area End ===== --> */}
       </div>
-      {/* <!-- ===== Page Wrapper End ===== --> */}
-    </div>
+    </SidebarProvider>
   );
 }
 
