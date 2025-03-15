@@ -23,4 +23,4 @@ function DefaultAppLayout() {
 }
 
 const EnhancedDefaultAppLayout = withAdminAuth(DefaultAppLayout);
-export default DefaultAppLayout;
+export default EnhancedDefaultAppLayout;
