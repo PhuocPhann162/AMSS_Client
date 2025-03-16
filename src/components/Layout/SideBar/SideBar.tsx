@@ -22,6 +22,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/Sidebar';
+import { NavLink } from 'react-router-dom';
 
 const routes: Route[] = [
   {
@@ -108,7 +109,7 @@ const routes: Route[] = [
 
 const AppSidebar = () => {
   return (
-    <Sidebar className='[border:initial] pt-12 md:pt-16'>
+    <Sidebar className='[border:initial] md:pt-16'>
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
@@ -117,10 +118,10 @@ const AppSidebar = () => {
               {routes.map((route) => (
                 <SidebarMenuItem key={route.title}>
                   <SidebarMenuButton asChild>
-                    <a href={route.path}>
+                    <NavLink to={route.path}>
                       {route.icon}
                       <span>{route.title}</span>
-                    </a>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
