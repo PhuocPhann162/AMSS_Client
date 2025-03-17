@@ -9,11 +9,11 @@ function DefaultAppLayout() {
   const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);
   return (
     <SidebarProvider defaultOpen={value}>
-      <div className='dark:bg-boxdark-2 dark:text-bodydark flex flex-col grow'>
+      <div className='flex flex-col'>
         <HeaderApp />
         <div className='flex'>
           <AppSidebar />
-          <main>
+          <main className='min-w-0 p-4'>
             <Outlet />
           </main>
         </div>
