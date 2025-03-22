@@ -7,7 +7,7 @@ import {
   EditExpandIcon,
   DeleteIcon,
   MarkerIcon,
-  DetailIcon
+  DetailIcon,
 } from './TableListIcon';
 import { ForecastIcon } from './WeatherIcon';
 import {
@@ -27,7 +27,7 @@ import {
   GrowthRateIcon,
   HardinessZoneIcon,
   LeafColorIcon,
-  PropogationIcon
+  PropogationIcon,
 } from './SoilQualityIcon';
 
 import {
@@ -37,24 +37,16 @@ import {
   DownloadIcon,
   DeleteFileIcon,
   UploadIcon,
-  FileBackgroundIcon
+  FileBackgroundIcon,
 } from './GPASearchIcon';
 
 import {
-  DashBoardIcon,
-  CropIcon,
-  FarmMapIcon,
-  LandIcon,
-  ScheduleIcon,
-  ExpandSidebarIcon,
-  UsersIcon,
-  TaskIcon,
-  ReportIcon,
-  ResourcesIcon,
-  MarketIcon
-} from './SideBarIcon';
-
-import { MarkerPopupIcon, RiverIcon, LightIcon, DeletePopupIcon, SearchWorldIcon } from './PopupIcon';
+  MarkerPopupIcon,
+  RiverIcon,
+  LightIcon,
+  DeletePopupIcon,
+  SearchWorldIcon,
+} from './PopupIcon';
 
 export {
   SortIcon,
@@ -91,20 +83,9 @@ export {
   DeleteFileIcon,
   UploadIcon,
   FileBackgroundIcon,
-  DashBoardIcon,
-  CropIcon,
-  FarmMapIcon,
-  LandIcon,
-  ScheduleIcon,
-  ExpandSidebarIcon,
-  UsersIcon,
-  TaskIcon,
-  ReportIcon,
-  ResourcesIcon,
   DeletePopupIcon,
   RiverIcon,
   LightIcon,
   MarkerPopupIcon,
   SearchWorldIcon,
-  MarketIcon
 };
