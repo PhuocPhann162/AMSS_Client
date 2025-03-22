@@ -1,15 +1,3 @@
-import {
-  ClimateIcon,
-  CropIcon,
-  DashBoardIcon,
-  LandIcon,
-  ScheduleIcon,
-  TaskIcon,
-  ResourcesIcon,
-  FarmMapIcon,
-  UsersIcon,
-  MarketIcon,
-} from '@/components/Icon/SideBarIcon';
 import { Route } from '@/interfaces/route';
 import {
   Sidebar,
@@ -17,93 +5,114 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/Sidebar';
 import { NavLink } from 'react-router-dom';
+import { Fragment } from 'react';
+import { LaptopOutlined } from '@ant-design/icons';
 
-const routes: Route[] = [
+const labels: {
+  groupLabel: string;
+  routes: Route[];
+}[] = [
   {
-    title: 'Dashboard',
-    path: '/app/dashBoard',
-    icon: <DashBoardIcon />,
+    groupLabel: 'Dashboard',
+    routes: [
+      {
+        title: 'Dashboard',
+        path: '/app/dashBoard',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Schedule',
+        path: '/app/schedule',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Tasks',
+        path: '/app/task',
+        icon: <LaptopOutlined />,
+      },
+    ],
   },
   {
-    title: 'Schedule',
-    path: '/app/schedule',
-    icon: <ScheduleIcon />,
+    groupLabel: 'Resources',
+    routes: [
+      {
+        title: 'My Crops',
+        path: '/app/crop/myCrops',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Grow Locations',
+        path: '/app/crop/growLocations',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Crop',
+        path: '/app/crop',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Farms',
+        path: 'land/farm/allFarms',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Fields',
+        path: 'land/field/allFields',
+        icon: <LaptopOutlined />,
+      },
+    ],
   },
   {
-    title: 'Tasks',
-    path: '/app/task',
-    icon: <TaskIcon />,
-  },
-  {
-    title: 'My Crops',
-    path: '/app/crop/myCrops',
-    icon: <ResourcesIcon />,
-  },
-  {
-    title: 'Grow Locations',
-    path: '/app/crop/growLocations',
-    icon: <FarmMapIcon />,
-  },
-  {
-    title: 'Crop',
-    path: '/app/crop',
-    icon: <UsersIcon />,
-  },
-  {
-    title: 'Farms',
-    path: 'land/farm/allFarms',
-    icon: <MarketIcon />,
-  },
-  {
-    title: 'Fields',
-    path: 'land/field/allFields',
-    icon: <CropIcon />,
-  },
-  {
-    title: 'Weather Search',
-    path: '/app/weatherSearch',
-    icon: <ClimateIcon />,
-  },
-  {
-    title: 'Weather Map',
-    path: '/app/map/weather',
-    icon: <LandIcon />,
-  },
-  {
-    title: 'Social Metrics',
-    path: 'gpaSearch/home',
-    icon: <CropIcon />,
-  },
-  {
-    title: 'Import Data',
-    path: 'gpaSearch/importData',
-    icon: <CropIcon />,
-  },
-  {
-    title: 'Farm Map',
-    path: '/app/map',
-    icon: <CropIcon />,
-  },
-  {
-    title: 'Online Store',
-    path: 'market/onlineStore',
-    icon: <CropIcon />,
-  },
-  {
-    title: 'Registration Form',
-    path: '/app/user/register',
-    icon: <CropIcon />,
-  },
-  {
-    title: 'Accounts',
-    path: '/app/user/allUsers',
-    icon: <CropIcon />,
+    groupLabel: 'Data',
+    routes: [
+      {
+        title: 'Weather Search',
+        path: '/app/weatherSearch',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Weather Map',
+        path: '/app/map/weather',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Social Metrics',
+        path: 'gpaSearch/home',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Import Data',
+        path: 'gpaSearch/importData',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Farm Map',
+        path: '/app/map',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Online Store',
+        path: 'market/onlineStore',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Registration Form',
+        path: '/app/user/register',
+        icon: <LaptopOutlined />,
+      },
+      {
+        title: 'Accounts',
+        path: '/app/user/allUsers',
+        icon: <LaptopOutlined />,
+      },
+    ],
   },
 ];
 
@@ -113,20 +122,25 @@ const AppSidebar = () => {
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {routes.map((route) => (
-                <SidebarMenuItem key={route.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={route.path}>
-                      {route.icon}
-                      <span>{route.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          {labels.map((label) => (
+            <Fragment key={label.groupLabel}>
+              <SidebarGroupLabel>{label.groupLabel}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {label.routes.map((route) => (
+                    <SidebarMenuItem key={route.title}>
+                      <SidebarMenuButton asChild>
+                        <NavLink to={route.path}>
+                          {route.icon}
+                          <span>{route.title}</span>
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </Fragment>
+          ))}
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />
