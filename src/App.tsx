@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
 import {
   AccessDenied,
@@ -26,7 +26,7 @@ import {
   Schedule,
   Settings,
   UpdateField,
-  WeatherSearch
+  WeatherSearch,
 } from './pages';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -43,55 +43,171 @@ function App() {
     }
   }, []);
 
+  const router = createBrowserRouter(
+    [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'about',
+        element: <Pricing />,
+      },
+      {
+        path: 'product',
+        element: <Product />,
+      },
+      {
+        path: 'accessDenied',
+        element: <AccessDenied />,
+      },
+      {
+        path: 'app',
+        element: <EnhancedDefaultAppLayout />,
+        children: [
+          {
+            path: 'dashBoard',
+            element: <DashBoard />,
+          },
+          // User Routes
+          {
+            path: 'user/profile',
+            element: <Profile />,
+          },
+          {
+            path: 'user/settings',
+            element: <Settings />,
+          },
+          {
+            path: 'user/register',
+            element: <Register />,
+          },
+          {
+            path: 'user/allUsers',
+            element: <AllUsers />,
+          },
+          {
+            path: 'user/allUsers/updateRole/:userId',
+            element: <Permission />,
+          },
+          // Schedule Routes
+          {
+            path: 'schedule',
+            element: <Schedule />,
+          },
+          // Crop Routes
+          {
+            path: 'crop/myCrops',
+            element: <CropTypeList />,
+          },
+          {
+            path: 'crop/myCrops/cropDetail/:id',
+            element: <CropDetail />,
+          },
+          {
+            path: 'crop/growLocations',
+            element: <Crop />,
+          },
+          // Map Routes
+          {
+            path: 'map',
+            element: <Map />,
+          },
+          {
+            path: 'map/weather',
+            element: <WeatherMap />,
+          },
+          // Farm Routes
+          {
+            path: 'land/farm/allFarms',
+            element: <FarmList />,
+          },
+          // Field Routes
+          {
+            path: 'land/field/allFields',
+            element: <FieldList />,
+          },
+          {
+            path: 'land/field/suggestion/:id',
+            element: <FieldSuggestion />,
+          },
+          {
+            path: 'land/field/updateField/:id',
+            element: <UpdateField />,
+          },
+          {
+            path: 'land/field/weather/:id',
+            element: <FieldWeather />,
+          },
+          {
+            path: 'land/field/suggestion/plantDetail/:id',
+            element: <PlantDetail />,
+          },
+          // Weather
+          {
+            path: 'weatherSearch',
+            element: <WeatherSearch />,
+          },
+          // GPA Routes
+          {
+            path: 'gpaSearch',
+            children: [
+              {
+                path: 'home',
+                element: <GPASearch />,
+              },
+              {
+                path: 'home/:id',
+                element: <GPASearch />,
+              },
+              {
+                path: 'importData',
+                element: <ImportData />,
+              },
+            ],
+          },
+          // Market Routes
+          {
+            path: 'market',
+            children: [
+              {
+                path: 'dashboard',
+                element: <GPASearch />,
+              },
+              {
+                path: 'onlineStore',
+                element: <OnlineStore />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: '*',
+        element: <PageNotFound />,
+      },
+    ],
+    {
+      future: {
+        v7_relativeSplatPath: true,
+        v7_fetcherPersist: true,
+        v7_normalizeFormMethod: true,
+        v7_partialHydration: true,
+      },
+    },
+  );
+
   return (
-    <Routes>
-      <Route index element={<HomePage />} />
-      <Route path='login' element={<Login />} />
-      <Route path='about' element={<Pricing />} />
-      <Route path='product' element={<Product />} />
-      <Route path='accessDenied' element={<AccessDenied />} />
-      <Route path='app' element={<EnhancedDefaultAppLayout />}>
-        {/* DashBoard */}
-        <Route path='dashBoard' element={<DashBoard />} />
-        {/* User Routes */}
-        <Route path='user/profile' element={<Profile />} />
-        <Route path='user/settings' element={<Settings />} />
-        <Route path='user/register' element={<Register />} />
-        <Route path='user/allUsers' element={<AllUsers />} />
-        <Route path='user/allUsers/updateRole/:userId' element={<Permission />} />
-        {/* Schedule Routes */}
-        <Route path='schedule' element={<Schedule />} />
-        {/* Crop Routes */}
-        <Route path='crop/myCrops' element={<CropTypeList />} />
-        <Route path='crop/myCrops/cropDetail/:id' element={<CropDetail />} />
-        <Route path='crop/growLocations' element={<Crop />} />
-        {/* Map Routes */}
-        <Route path='map' element={<Map />} />
-        <Route path='map/weather' element={<WeatherMap />} />
-        {/* Farm Routes  */}
-        <Route path='land/farm/allFarms' element={<FarmList />} />
-        {/* Field Routes */}
-        <Route path='land/field/allFields' element={<FieldList />} />
-        <Route path='land/field/suggestion/:id' element={<FieldSuggestion />} />
-        <Route path='land/field/updateField/:id' element={<UpdateField />} />
-        <Route path='land/field/weather/:id' element={<FieldWeather />} />
-        <Route path='land/field/suggestion/plantDetail/:id' element={<PlantDetail />} />
-        {/* Weather */}
-        <Route path='weatherSearch' element={<WeatherSearch />} />
-        {/* GPA Routes */}
-        <Route path='gpaSearch'>
-          <Route path='home' element={<GPASearch />} />
-          <Route path='home/:id' element={<GPASearch />} />
-          <Route path='importData' element={<ImportData />} />
-        </Route>
-        {/* Market Routes */}
-        <Route path='market'>
-          <Route path='dashboard' element={<GPASearch />} />
-          <Route path='onlineStore' element={<OnlineStore />} />
-        </Route>
-      </Route>
-      <Route path='*' element={<PageNotFound />} />
-    </Routes>
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: true,
+      }}
+    />
   );
 }
 
