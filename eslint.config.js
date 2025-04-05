@@ -37,6 +37,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
+      'react/prop-types': 'off',
     },
   },
 );

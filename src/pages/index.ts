@@ -25,8 +25,10 @@ import { GPASearch } from './GPASearch/GPASearch';
 import { ImportData } from './GPASearch/ImportData';
 import AccessDenied from './Authentication/AccessDenied';
 import { OnlineStore } from './Markets/OnlineStore';
+import { StorePage } from './store';
 
 export {
+  StorePage,
   HomePage,
   Pricing,
   Product,
@@ -53,5 +55,5 @@ export {
   GPASearch,
   ImportData,
   AccessDenied,
-  OnlineStore
+  OnlineStore,
 };
