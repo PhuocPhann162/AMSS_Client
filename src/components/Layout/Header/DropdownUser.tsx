@@ -8,7 +8,7 @@ import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
 import Dropdown from 'antd/es/dropdown';
 
-const DropdownUser = () => {
+export const DropdownUser = () => {
   const dispatch = useDispatch();
   const userData: userModel = useSelector(
     (state: RootState) => state.userAuthStore,
@@ -56,5 +56,3 @@ const DropdownUser = () => {
     </div>
   );
 };
-
-export default DropdownUser;

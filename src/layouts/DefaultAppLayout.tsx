@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { HeaderApp } from '@/components/Layout/Header';
 import { AppSidebar } from '@/components/Layout/SideBar';
 import { withAdminAuth } from '@/HOC';
 import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/Sidebar';
 import { useCookie } from '@/hooks/useCookie';
+import { HeaderApp } from '@/components/Layout/Header';
 
 function DefaultAppLayout() {
   const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);
