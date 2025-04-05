@@ -25,6 +25,7 @@ import {
   Register,
   Schedule,
   Settings,
+  StorePage,
   UpdateField,
   WeatherSearch,
 } from './pages';
@@ -32,6 +33,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setLoggedInUser } from './storage/redux/authSlice';
 import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
+import { HomeLayout } from '@/layouts';
 
 function App() {
   const dispatch = useDispatch();
@@ -46,20 +48,27 @@ function App() {
   const router = createBrowserRouter(
     [
       {
-        index: true,
-        element: <HomePage />,
+        path: '',
+        element: <HomeLayout />,
+        children: [
+          { index: true, element: <HomePage /> },
+          {
+            path: 'product',
+            element: <Pricing />,
+          },
+          {
+            path: 'about',
+            element: <Product />,
+          },
+          {
+            path: 'store',
+            element: <StorePage />,
+          },
+        ],
       },
       {
         path: 'login',
         element: <Login />,
-      },
-      {
-        path: 'about',
-        element: <Pricing />,
-      },
-      {
-        path: 'product',
-        element: <Product />,
       },
       {
         path: 'accessDenied',

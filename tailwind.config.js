@@ -29,8 +29,8 @@ export default {
         transparent: 'transparent',
         white: '#FFFFFF',
         'white-300': '#F8F8F8',
-        black: '#1C2434',
-        'black-2': '#010101',
+        // black: '#1C2434',
+        // 'black-2': '#010101',
         body: '#64748B',
         bodydark: '#AEB7C0',
         bodydark1: '#DEE4EE',
@@ -40,10 +40,10 @@ export default {
           foreground: 'hsl(var(--secondary-foreground))',
         },
         stroke: '#E2E8F0',
-        gray: '#EFF4FB',
-        graydark: '#333A48',
-        'gray-2': '#F7F9FC',
-        'gray-3': '#FAFAFA',
+        // gray: '#EFF4FB',
+        // graydark: '#333A48',
+        // 'gray-2': '#F7F9FC',
+        // 'gray-3': '#FAFAFA',
         whiten: '#F1F5F9',
         whiter: '#F5F7FD',
         boxdark: '#24303F',
@@ -194,32 +194,32 @@ export default {
       },
     },
   },
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          primary: '#00c46a',
+  // daisyui: {
+  //   themes: [
+  //     {
+  //       mytheme: {
+  //         primary: '#00c46a',
 
-          secondary: '#009e35',
+  //         secondary: '#009e35',
 
-          accent: '#5D3D2E',
+  //         accent: '#5D3D2E',
 
-          neutral: '#292221',
+  //         neutral: '#292221',
 
-          'base-100': '#232217',
+  //         'base-100': '#232217',
 
-          info: '#00aeff',
+  //         info: '#00aeff',
 
-          success: '#4bc552',
+  //         success: '#4bc552',
 
-          warning: '#ffb100',
+  //         warning: '#ffb100',
 
-          error: '#dc2626',
+  //         error: '#dc2626',
 
-          active: '#ffffff',
-        },
-      },
-    ],
-  },
-  plugins: [daisyui, require('tailwindcss-animate')],
+  //         active: '#ffffff',
+  //       },
+  //     },
+  //   ],
+  // },
+  plugins: [require('tailwindcss-animate')],
 };
