@@ -42,10 +42,7 @@ export const HeaderPage = () => {
   };
 
   return (
-    <HeaderUnderOverlay
-      rootClassName='sticky inset-x-0 top-0 z-50'
-      className='flex h-[--navbar-height] items-center justify-between bg-white/85 px-6 backdrop-blur'
-    >
+    <HeaderUnderOverlay className='sticky inset-x-0 top-0 z-50 flex h-[--navbar-height] items-center justify-between bg-white/85 px-6 backdrop-blur'>
       {isMobile && (
         <Sidebar className='[border:initial] md:pt-16'>
           <SidebarContent>
