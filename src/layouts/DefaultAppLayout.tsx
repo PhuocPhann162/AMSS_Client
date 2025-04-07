@@ -13,7 +13,7 @@ function DefaultAppLayout() {
         <HeaderApp />
         <div className='flex'>
           <AppSidebar />
-          <main className='min-w-0 p-4'>
+          <main className='min-w-0 grow p-4'>
             <Outlet />
           </main>
         </div>
