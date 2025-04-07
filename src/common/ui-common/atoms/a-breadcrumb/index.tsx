@@ -1,7 +1,9 @@
-import { Breadcrumb, BreadcrumbProps } from 'antd';
-import { FC } from 'react';
+import Breadcrumb, { type BreadcrumbProps } from 'antd/es/breadcrumb';
+import { type FC } from 'react';
 
-type ABreadcrumbProps = BreadcrumbProps;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ABreadcrumbProps extends BreadcrumbProps {}
 
-const ABreadcrumb: FC<ABreadcrumbProps> = (props: ABreadcrumbProps) => <Breadcrumb {...props} />;
-export { ABreadcrumb };
+export const ABreadcrumb: FC<ABreadcrumbProps> = (props: ABreadcrumbProps) => (
+  <Breadcrumb {...props} />
+);

@@ -1,28 +1,39 @@
-import { Modal, ModalProps } from 'antd';
+import Modal, { type ModalProps } from 'antd/es/modal';
+import { type FC } from 'react';
 
-type AModalProps = ModalProps;
-const AModal = (props: AModalProps) => (
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface AModalProps extends ModalProps {}
+
+export const AModal: FC<AModalProps> = ({
+  title,
+  styles = {
+    content: { padding: 0, paddingBottom: 12 },
+    body: {
+      paddingRight: 12,
+      paddingLeft: 12,
+      borderBottomWidth: 1,
+      borderColor: '#E8E8EA',
+      paddingBottom: 12,
+    },
+    footer: { paddingRight: 12 },
+  },
+  okButtonProps = { size: 'middle' },
+  cancelButtonProps = { size: 'middle' },
+  ...props
+}) => (
   <Modal
-    {...props}
     title={
-      <div className={'flex justify-between rounded-t-lg border-b border-b-bgr-500 bg-bgr-500 px-4 py-3.5'}>
-        <div>{props?.title}</div>
+      <div
+        className={
+          'border-b-bgr-500 bg-bgr-500 flex justify-between rounded-t-lg border-b px-4 py-3.5'
+        }
+      >
+        <div>{title}</div>
       </div>
     }
-    styles={{
-      content: { padding: 0, paddingBottom: 12 },
-      body: {
-        paddingRight: 12,
-        paddingLeft: 12,
-        borderBottomWidth: 1,
-        borderColor: '#E8E8EA',
-        paddingBottom: 12
-      },
-      footer: { paddingRight: 12 }
-    }}
-    okButtonProps={{ ...props.okButtonProps, size: 'middle' }}
-    cancelButtonProps={{ ...props.cancelButtonProps, size: 'middle' }}
+    styles={styles}
+    okButtonProps={okButtonProps}
+    cancelButtonProps={cancelButtonProps}
+    {...props}
   />
 );
-
-export { AModal };
