@@ -1,11 +1,16 @@
-import { Checkbox, CheckboxProps, CheckboxRef } from 'antd';
-import { forwardRef, Ref } from 'react';
+import Checkbox, {
+  type CheckboxProps,
+  type CheckboxRef,
+} from 'antd/es/checkbox';
+import { forwardRef } from 'react';
 
-type ACheckboxProps = CheckboxProps;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface ACheckboxProps extends CheckboxProps {}
 
-const ACheckbox = forwardRef<CheckboxRef, ACheckboxProps>((props, ref: Ref<CheckboxRef>) => (
-  <Checkbox {...props} ref={ref} />
-));
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface ACheckboxRef extends CheckboxRef {}
 
+export const ACheckbox = forwardRef<ACheckboxRef, ACheckboxProps>(
+  ({ ...props }, ref) => <Checkbox ref={ref} {...props} />,
+);
 ACheckbox.displayName = 'ACheckbox';
-export { ACheckbox };

@@ -16,3 +16,4 @@ export * from './a-tooltip';
 export * from './a-carousel';
 export * from './a-rate';
 export * from './a-image';
+export * from './a-avatar';

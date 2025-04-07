@@ -1,4 +1,4 @@
-import { Route } from '@/interfaces/route';
+import { type Route } from '@/interfaces/route';
 import {
   Sidebar,
   SidebarContent,
@@ -12,28 +12,28 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/Sidebar';
 import { NavLink } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { LaptopOutlined } from '@ant-design/icons';
 
 const labels: {
   groupLabel: string;
-  routes: Route[];
+  routes: (Route & { icon: ReactNode })[];
 }[] = [
   {
     groupLabel: 'Dashboard',
     routes: [
       {
-        title: 'Dashboard',
+        name: 'Dashboard',
         path: '/app/dashBoard',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Schedule',
+        name: 'Schedule',
         path: '/app/schedule',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Tasks',
+        name: 'Tasks',
         path: '/app/task',
         icon: <LaptopOutlined />,
       },
@@ -43,27 +43,27 @@ const labels: {
     groupLabel: 'Resources',
     routes: [
       {
-        title: 'My Crops',
+        name: 'My Crops',
         path: '/app/crop/myCrops',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Grow Locations',
+        name: 'Grow Locations',
         path: '/app/crop/growLocations',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Crop',
+        name: 'Crop',
         path: '/app/crop',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Farms',
+        name: 'Farms',
         path: 'land/farm/allFarms',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Fields',
+        name: 'Fields',
         path: 'land/field/allFields',
         icon: <LaptopOutlined />,
       },
@@ -73,42 +73,42 @@ const labels: {
     groupLabel: 'Data',
     routes: [
       {
-        title: 'Weather Search',
+        name: 'Weather Search',
         path: '/app/weatherSearch',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Weather Map',
+        name: 'Weather Map',
         path: '/app/map/weather',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Social Metrics',
+        name: 'Social Metrics',
         path: 'gpaSearch/home',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Import Data',
+        name: 'Import Data',
         path: 'gpaSearch/importData',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Farm Map',
+        name: 'Farm Map',
         path: '/app/map',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Online Store',
+        name: 'Online Store',
         path: 'market/onlineStore',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Registration Form',
+        name: 'Registration Form',
         path: '/app/user/register',
         icon: <LaptopOutlined />,
       },
       {
-        title: 'Accounts',
+        name: 'Accounts',
         path: '/app/user/allUsers',
         icon: <LaptopOutlined />,
       },
@@ -116,7 +116,7 @@ const labels: {
   },
 ];
 
-const AppSidebar = () => {
+export const AppSidebar = () => {
   return (
     <Sidebar className='[border:initial] md:pt-16'>
       <SidebarHeader />
@@ -128,11 +128,11 @@ const AppSidebar = () => {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {label.routes.map((route) => (
-                    <SidebarMenuItem key={route.title}>
+                    <SidebarMenuItem key={route.name}>
                       <SidebarMenuButton asChild>
                         <NavLink to={route.path}>
                           {route.icon}
-                          <span>{route.title}</span>
+                          <span>{route.name}</span>
                         </NavLink>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -147,5 +147,3 @@ const AppSidebar = () => {
     </Sidebar>
   );
 };
-
-export default AppSidebar;

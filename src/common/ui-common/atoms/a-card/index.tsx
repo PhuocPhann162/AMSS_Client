@@ -1,10 +1,21 @@
-import { Card, CardProps } from 'antd';
-import clsx from 'clsx';
-import { FC } from 'react';
+import { cn } from '@/lib/utils';
+import { type GetRef } from 'antd/es/_util/type';
+import Card, { type CardProps } from 'antd/es/card';
+import { forwardRef } from 'react';
 
-type ACardProps = CardProps;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface ACardProps extends CardProps {}
 
-const ACard: FC<ACardProps> = (props: ACardProps) => (
-  <Card {...props} className={clsx('bg-white shadow-lg', props.className)} />
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface ACardRef extends GetRef<typeof Card> {}
+
+export const ACard = forwardRef<ACardRef, ACardProps>(
+  ({ className, ...props }, ref) => (
+    <Card
+      ref={ref}
+      className={cn('bg-white shadow-lg', className)}
+      {...props}
+    />
+  ),
 );
-export { ACard };
+ACard.displayName = 'ACard';

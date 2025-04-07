@@ -1,9 +1,13 @@
-import { Input, InputProps, InputRef } from 'antd';
-import { forwardRef, Ref } from 'react';
+import Input, { type InputProps, type InputRef } from 'antd/es/input';
+import { forwardRef } from 'react';
 
-type AInputProps = InputProps;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface AInputProps extends InputProps {}
 
-const AInput = forwardRef<InputRef, AInputProps>((props, ref: Ref<InputRef>) => <Input {...props} ref={ref} />);
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface AInputRef extends InputRef {}
 
+export const AInput = forwardRef<AInputRef, AInputProps>((props, ref) => (
+  <Input ref={ref} {...props} />
+));
 AInput.displayName = 'AInput';
-export { AInput };

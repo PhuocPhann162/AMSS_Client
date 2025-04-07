@@ -1,12 +1,12 @@
-import { Tooltip, TooltipProps } from 'antd';
-import { TooltipRef } from 'antd/es/tooltip';
-import { forwardRef, Ref } from 'react';
+import Tooltip, { type TooltipProps, type TooltipRef } from 'antd/es/tooltip';
+import { forwardRef } from 'react';
 
-type ATooltipProps = TooltipProps;
+export type ATooltipProps = TooltipProps;
 
-const ATooltip = forwardRef<TooltipRef, ATooltipProps>((props, ref: Ref<TooltipRef>) => (
-  <Tooltip {...props} ref={ref} />
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ATooltipRef extends TooltipRef {}
+
+export const ATooltip = forwardRef<ATooltipRef, ATooltipProps>((props, ref) => (
+  <Tooltip ref={ref} {...props} />
 ));
-
 ATooltip.displayName = 'ATooltip';
-export { ATooltip };

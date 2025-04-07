@@ -1,6 +1,10 @@
+import { type ReactNode } from 'react';
+
 export interface Route {
-  title: string;
+  name: string;
   path: string;
-  icon: React.ReactNode;
+  hidden?: boolean;
+  element?: ReactNode;
+  protected?: boolean;
   children?: Route[];
 }

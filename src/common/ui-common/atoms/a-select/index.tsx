@@ -1,9 +1,13 @@
-import { Select, SelectProps } from 'antd';
-import { forwardRef, Ref } from 'react';
+import Select, { type RefSelectProps, type SelectProps } from 'antd/es/select';
+import { forwardRef } from 'react';
 
-type ASelectProps = SelectProps;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface ASelectProps extends SelectProps {}
 
-const ASelect = forwardRef<any, ASelectProps>((props, ref: Ref<any>) => <Select {...props} ref={ref} />);
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ASelectRef extends RefSelectProps {}
 
+export const ASelect = forwardRef<ASelectRef, ASelectProps>((props, ref) => (
+  <Select ref={ref} {...props} />
+));
 ASelect.displayName = 'ASelect';
-export { ASelect };
