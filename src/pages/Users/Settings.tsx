@@ -9,16 +9,19 @@ import { inputHelper, toastNotify } from '@/helper';
 import { MiniLoader } from '@/components/Page/common';
 import { Modal } from '@/common';
 import { useNavigate } from 'react-router-dom';
+import { AButton } from '@/common/ui-common';
 
 const Settings = () => {
-  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+  const userData: userModel = useSelector(
+    (state: RootState) => state.userAuthStore,
+  );
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
     fullName: userData.fullName,
     phoneNumber: userData.phoneNumber,
     userName: userData.userName,
-    email: userData.email
+    email: userData.email,
   });
   const [updateInfo] = useUpdateInfoMutation();
 
@@ -32,7 +35,7 @@ const Settings = () => {
       fullName: userData.fullName,
       phoneNumber: userData.phoneNumber,
       userName: userData.userName,
-      email: userData.email
+      email: userData.email,
     });
   };
 
@@ -46,8 +49,8 @@ const Settings = () => {
           fullName: userInputs.fullName,
           phoneNumber: userInputs.phoneNumber,
           userName: userInputs.userName,
-          email: userInputs.email
-        }
+          email: userInputs.email,
+        },
       });
       if (response.data?.isSuccess) {
         setIsLoading(false);
@@ -56,15 +59,22 @@ const Settings = () => {
           fullName: userInputs.fullName,
           phoneNumber: userInputs.phoneNumber,
           userName: userInputs.userName,
-          email: userInputs.email
+          email: userInputs.email,
         };
         localStorage.setItem('user', JSON.stringify(user));
 
-        toastNotify(response.data.successMessage || 'User information updated successfully');
+        toastNotify(
+          response.data.successMessage ||
+            'User information updated successfully',
+        );
         navigate('/app/user/settings');
       } else {
         setIsLoading(false);
-        console.log(response.error?.data.errorMessages[0] ?? 'Something wrong when updating user info', 'error');
+        console.log(
+          response.error?.data.errorMessages[0] ??
+            'Something wrong when updating user info',
+          'error',
+        );
       }
     } catch (error) {
       setIsLoading(false);
@@ -78,24 +88,29 @@ const Settings = () => {
   };
 
   return (
-    <div className='mx-auto max-w-270'>
+    <div className='max-w-270 mx-auto'>
       <Breadcrumb pageParent='Account' pageName='Settings' />
 
       <div className='grid grid-cols-5 gap-8'>
         <div className='col-span-5 xl:col-span-3'>
           <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
-            <div className='border-b border-stroke py-4 px-7 dark:border-strokedark'>
-              <h3 className='font-medium text-black dark:text-white'>Personal Information</h3>
+            <div className='border-b border-stroke px-7 py-4 dark:border-strokedark'>
+              <h3 className='font-medium text-black dark:text-white'>
+                Personal Information
+              </h3>
             </div>
             <div className='p-7'>
               <form method='PUT' onSubmit={handleSubmit}>
-                <div className='mb-5.5 flex flex-col gap-5.5 sm:flex-row'>
+                <div className='mb-4 flex flex-col gap-4 sm:flex-row'>
                   <div className='w-full sm:w-1/2'>
-                    <label className='mb-3 block text-sm font-medium text-black dark:text-white' htmlFor='fullName'>
+                    <label
+                      className='mb-2 block text-sm font-medium text-black dark:text-white'
+                      htmlFor='fullName'
+                    >
                       Full Name
                     </label>
                     <div className='relative'>
-                      <span className='absolute left-4.5 top-4'>
+                      <span className='absolute left-4 top-4'>
                         <svg
                           className='fill-current'
                           width='20'
@@ -121,7 +136,7 @@ const Settings = () => {
                         </svg>
                       </span>
                       <input
-                        className='w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                        className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                         type='text'
                         id='fullName'
                         placeholder='Devid Jhon'
@@ -134,11 +149,14 @@ const Settings = () => {
                   </div>
 
                   <div className='w-full sm:w-1/2'>
-                    <label className='mb-3 block text-sm font-medium text-black dark:text-white' htmlFor='phoneNumber'>
+                    <label
+                      className='mb-2 block text-sm font-medium text-black dark:text-white'
+                      htmlFor='phoneNumber'
+                    >
                       Phone Number
                     </label>
                     <input
-                      className='w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-stroke py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       type='tel'
                       pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
                       id='phoneNumber'
@@ -151,12 +169,15 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='mb-5.5'>
-                  <label className='mb-3 block text-sm font-medium text-black dark:text-white' htmlFor='emailAddress'>
+                <div className='mb-4'>
+                  <label
+                    className='mb-2 block text-sm font-medium text-black dark:text-white'
+                    htmlFor='emailAddress'
+                  >
                     Email Address
                   </label>
                   <div className='relative'>
-                    <span className='absolute left-4.5 top-4'>
+                    <span className='absolute left-4 top-4'>
                       <svg
                         className='fill-current'
                         width='20'
@@ -182,7 +203,7 @@ const Settings = () => {
                       </svg>
                     </span>
                     <input
-                      className='w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       type='email'
                       id='email'
                       placeholder='devidjond45@gmail.com'
@@ -194,12 +215,15 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='mb-5.5'>
-                  <label className='mb-3 block text-sm font-medium text-black dark:text-white' htmlFor='Username'>
+                <div className='mb-4'>
+                  <label
+                    className='mb-2 block text-sm font-medium text-black dark:text-white'
+                    htmlFor='Username'
+                  >
                     Username
                   </label>
                   <input
-                    className='w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                    className='bg-gray w-full rounded border border-stroke py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                     type='email'
                     id='Username'
                     placeholder='sample@fuco.com'
@@ -211,11 +235,14 @@ const Settings = () => {
                 </div>
 
                 <div className='mb-5.5'>
-                  <label className='mb-3 block text-sm font-medium text-black dark:text-white' htmlFor='Username'>
+                  <label
+                    className='mb-3 block text-sm font-medium text-black dark:text-white'
+                    htmlFor='Username'
+                  >
                     BIO
                   </label>
                   <div className='relative'>
-                    <span className='absolute left-4.5 top-4'>
+                    <span className='absolute left-4 top-4'>
                       <svg
                         className='fill-current'
                         width='20'
@@ -245,9 +272,8 @@ const Settings = () => {
                         </defs>
                       </svg>
                     </span>
-
                     <textarea
-                      className='w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       name='bio'
                       id='bio'
                       rows={6}
@@ -257,21 +283,15 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='flex justify-end gap-4.5'>
-                  <button
-                    className='flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white'
-                    type='button'
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className='flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90'
-                    type='submit'
+                <div className='mt-2 flex justify-end gap-2'>
+                  <AButton onClick={handleCancel}>Cancel</AButton>
+                  <AButton
+                    type='primary'
+                    htmlType='submit'
                     disabled={isLoading}
                   >
                     {isLoading ? <MiniLoader /> : 'Save'}
-                  </button>
+                  </AButton>
                 </div>
               </form>
             </div>
@@ -279,8 +299,10 @@ const Settings = () => {
         </div>
         <div className='col-span-5 xl:col-span-2'>
           <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
-            <div className='border-b border-stroke py-4 px-7 dark:border-strokedark'>
-              <h3 className='font-medium text-black dark:text-white'>Your Photo</h3>
+            <div className='border-b border-stroke px-7 py-4 dark:border-strokedark'>
+              <h3 className='font-medium text-black dark:text-white'>
+                Your Photo
+              </h3>
             </div>
             <div className='p-7'>
               <form action='#'>
@@ -289,17 +311,23 @@ const Settings = () => {
                     <img src={userOne} alt='User' />
                   </div>
                   <div>
-                    <span className='mb-1.5 text-black dark:text-white'>Edit your photo</span>
+                    <span className='mb-1.5 text-black dark:text-white'>
+                      Edit your photo
+                    </span>
                     <span className='flex gap-2.5'>
-                      <button className='text-sm hover:text-primary'>Delete</button>
-                      <button className='text-sm hover:text-primary'>Update</button>
+                      <button className='text-sm hover:text-primary'>
+                        Delete
+                      </button>
+                      <button className='text-sm hover:text-primary'>
+                        Update
+                      </button>
                     </span>
                   </div>
                 </div>
 
                 <div
                   id='FileUpload'
-                  className='relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5'
+                  className='mb-5.5 bg-gray sm:py-7.5 relative block w-full cursor-pointer appearance-none rounded border border-dashed border-primary px-4 py-4 dark:bg-meta-4'
                 >
                   <input
                     type='file'
@@ -308,7 +336,13 @@ const Settings = () => {
                   />
                   <div className='flex flex-col items-center justify-center space-y-3'>
                     <span className='flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark'>
-                      <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                      <svg
+                        width='16'
+                        height='16'
+                        viewBox='0 0 16 16'
+                        fill='none'
+                        xmlns='http://www.w3.org/2000/svg'
+                      >
                         <path
                           fillRule='evenodd'
                           clipRule='evenodd'
@@ -330,33 +364,31 @@ const Settings = () => {
                       </svg>
                     </span>
                     <p>
-                      <span className='text-primary'>Click to upload</span> or drag and drop
+                      <span className='text-primary'>Click to upload</span> or
+                      drag and drop
                     </p>
                     <p className='mt-1.5'>SVG, PNG, JPG or GIF</p>
                     <p>(max, 800 X 800px)</p>
                   </div>
                 </div>
 
-                <div className='flex justify-end gap-4.5'>
-                  <button
-                    className='flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white'
-                    type='submit'
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className='flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90'
-                    type='submit'
-                  >
+                <div className='mt-2 flex justify-end gap-2'>
+                  <AButton>Cancel</AButton>
+                  <AButton type='primary' htmlType='submit'>
                     Save
-                  </button>
+                  </AButton>
                 </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <Modal width='' title='update your information?' onConfirm={handleUpdateInfo} onCancel={handleCancel} />
+      <Modal
+        width=''
+        title='update your information?'
+        onConfirm={handleUpdateInfo}
+        onCancel={handleCancel}
+      />
     </div>
   );
 };
