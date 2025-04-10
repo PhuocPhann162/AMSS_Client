@@ -1,7 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, FeatureGroup, Polygon, useMapEvents } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  FeatureGroup,
+  Polygon,
+  useMapEvents,
+} from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
-import { farmModel, fieldModel, locationModel, pointModel, positionModel } from '@/interfaces';
+import {
+  farmModel,
+  fieldModel,
+  locationModel,
+  pointModel,
+  positionModel,
+} from '@/interfaces';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
@@ -16,25 +31,34 @@ import { UpdateLandModal } from './UpdateLandModal';
 import { useGeolocation, useUrlPosition } from '@/hooks';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
+import { AButton } from '@/common/ui-common';
 
 const style = {
-  color: '#ee7219'
+  color: '#ee7219',
 };
 
 const Map: React.FC = () => {
   const navigate = useNavigate();
   const [mapKey, setMapKey] = useState(0);
-  const [mapPosition, setMapPosition] = useState([40, 0]);
+  const [mapPosition, setMapPosition] = useState([80, 40]);
   const [area, setArea] = useState<number>(0);
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
-  const [farmAddress, setFarmAddress] = useState<locationModel>({ address: '', lat: 0, lng: 0 });
+  const [farmAddress, setFarmAddress] = useState<locationModel>({
+    address: '',
+    lat: 0,
+    lng: 0,
+  });
   const [cityLocation, setCityLocation] = useState<string>('');
   const [points, setPoints] = useState<pointModel[]>();
   const [idLand, setIdLand] = useState<string>('');
   const [idPolygon, setIdPolygon] = useState<string>('');
   const [fieldId, polygonId, mapLat, mapLng] = useUrlPosition();
-  const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
+  const {
+    isLoading: isLoadingPosition,
+    position: geolocationPosition,
+    getPosition,
+  } = useGeolocation();
   const mapRef = useRef<any>(null);
   const polygonRef = useRef<L.Polygon>(null);
 
@@ -95,11 +119,16 @@ const Map: React.FC = () => {
     const latLngs = layers.getLatLngs()[0];
     setPoints(latLngs);
 
-    const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
+    const sum = latLngs.reduce(
+      (acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng],
+      [0, 0],
+    );
     const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
     setMapPosition(average);
     try {
-      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
+      fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`,
+      )
         .then((response) => response.json())
         .then((dataApi) => {
           setCityLocation(dataApi.address?.city);
@@ -114,7 +143,7 @@ const Map: React.FC = () => {
             postCode: dataApi.address?.postcode,
             state: dataApi.address?.quarter || dataApi.address?.state,
             road: dataApi.address?.road,
-            district: dataApi.address?.suburb
+            district: dataApi.address?.suburb,
           });
         })
         .catch((error) => {
@@ -125,7 +154,9 @@ const Map: React.FC = () => {
     }
 
     setIsPolygonDrawn(true);
-    (document.getElementById('create_farm_modal') as HTMLDialogElement)?.showModal();
+    (
+      document.getElementById('create_farm_modal') as HTMLDialogElement
+    )?.showModal();
   };
 
   const handleEdited = (e: any) => {
@@ -139,12 +170,17 @@ const Map: React.FC = () => {
     });
 
     if (latLngs !== undefined) {
-      const sum = latLngs.reduce((acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng], [0, 0]);
+      const sum = latLngs.reduce(
+        (acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng],
+        [0, 0],
+      );
       const average = [sum[0] / latLngs!.length, sum[1] / latLngs!.length];
       setMapPosition(average);
 
       try {
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`)
+        fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`,
+        )
           .then((response) => response.json())
           .then((dataApi) => {
             const address = dataApi.display_name;
@@ -158,7 +194,7 @@ const Map: React.FC = () => {
               postCode: dataApi.address.postcode,
               state: dataApi.address.quarter,
               road: dataApi.address.road,
-              district: dataApi.address.suburb
+              district: dataApi.address.suburb,
             });
           })
           .catch((error) => {
@@ -171,21 +207,24 @@ const Map: React.FC = () => {
       return;
     }
 
-    (document.getElementById('update_land_modal') as HTMLDialogElement)?.showModal();
+    (
+      document.getElementById('update_land_modal') as HTMLDialogElement
+    )?.showModal();
   };
 
   return (
     <>
       {isLoading && <MainLoader />}
       {!isLoading && (
-        <div className='h-full relative flex-1 overflow-hidden'>
+        <div className='relative h-full flex-1 overflow-hidden'>
           {!geolocationPosition.lat && (
-            <button
-              className='btn btn-secondary text-white uppercase absolute z-999 bottom-16 left-1/2 -translate-x-1/2'
+            <AButton
+              type='primary'
+              className='absolute bottom-16 left-1/2 z-[9999999] -translate-x-1/2 bg-black uppercase'
               onClick={getPosition}
             >
               {isLoadingPosition ? 'Loading...' : 'Use your location'}
-            </button>
+            </AButton>
           )}
           <MapContainer
             ref={mapRef}
@@ -210,33 +249,12 @@ const Map: React.FC = () => {
                     showLength: true,
                     metric: true,
                     feet: true,
-                    showArea: true
-                  }
+                    showArea: true,
+                  },
                 }}
                 onCreated={handleCreated}
                 onEdited={handleEdited}
               ></EditControl>
-              {dataFarm &&
-                dataFarm?.apiResponse?.result.map((item: farmModel) => (
-                  <div key={item.id}>
-                    <Polygon
-                      positions={getDrawFarmPolygon(item)}
-                      pathOptions={{
-                        color: item.polygonApp?.color,
-                        fillColor: 'transparent'
-                      }}
-                    >
-                      <Popup className='w-72'>
-                        <PopupFarm farmInfo={item} />
-                      </Popup>
-                    </Polygon>
-                    <Marker position={[item?.location?.lat ?? 0, item?.location?.lng ?? 0]}>
-                      <Popup className='w-72'>
-                        <PopupFarm farmInfo={item} />
-                      </Popup>
-                    </Marker>
-                  </div>
-                ))}
               {dataField &&
                 dataField?.apiResponse?.result.map((item: fieldModel) => (
                   <div key={item.id}>
@@ -244,7 +262,7 @@ const Map: React.FC = () => {
                       positions={getDrawFieldPolygon(item)}
                       pathOptions={{
                         color: item.polygonApp?.color,
-                        fillColor: item.polygonApp?.color
+                        fillColor: item.polygonApp?.color,
                       }}
                     >
                       <Popup className='w-72'>
@@ -253,12 +271,40 @@ const Map: React.FC = () => {
                     </Polygon>
                   </div>
                 ))}
+              {dataFarm &&
+                dataFarm?.apiResponse?.result.map((item: farmModel) => (
+                  <div key={item.id}>
+                    <Polygon
+                      positions={getDrawFarmPolygon(item)}
+                      pathOptions={{
+                        color: item.polygonApp?.color,
+                        fillColor: 'transparent',
+                      }}
+                    >
+                      <Popup className='w-72'>
+                        <PopupFarm farmInfo={item} />
+                      </Popup>
+                    </Polygon>
+                    <Marker
+                      position={[
+                        item?.location?.lat ?? 0,
+                        item?.location?.lng ?? 0,
+                      ]}
+                    >
+                      <Popup className='w-72'>
+                        <PopupFarm farmInfo={item} />
+                      </Popup>
+                    </Marker>
+                  </div>
+                ))}
             </FeatureGroup>
             <SearchControl
               provider={new OpenStreetMapProvider()}
               showMarker={true}
               showPopup={false}
-              popupFormat={({ query, result }: { query: any; result: any }) => result.label}
+              popupFormat={({ query, result }: { query: any; result: any }) =>
+                result.label
+              }
               maxMarkers={3}
               retainZoomLevel={false}
               animateZoom={true}
@@ -279,8 +325,17 @@ const Map: React.FC = () => {
               </Marker>
             )}
             <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-            <CreateFarmModal area={area} location={farmAddress} points={points || []} onCancel={handleCreatedCancel} />
-            <UpdateLandModal area={area} location={farmAddress} points={points!} />
+            <CreateFarmModal
+              area={area}
+              location={farmAddress}
+              points={points || []}
+              onCancel={handleCreatedCancel}
+            />
+            <UpdateLandModal
+              area={area}
+              location={farmAddress}
+              points={points!}
+            />
           </MapContainer>
         </div>
       )}

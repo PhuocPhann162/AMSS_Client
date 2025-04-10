@@ -13,27 +13,28 @@ const cropTypeApi = createApi({
         params: {
           ...(searchString && { searchString }),
           ...(pageNumber && { pageNumber }),
-          ...(pageSize && { pageSize })
-        }
+          ...(pageSize && { pageSize }),
+        },
       }),
       transformResponse(apiResponse: { result: any }, meta: any) {
         return {
           apiResponse,
-          totalRecords: meta.response.headers.get('X-Pagination')
+          totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['CropTypes']
+      providesTags: ['CropTypes'],
     }),
     createCropType: builder.mutation({
       query: (cropType) => ({
         url: 'cropType',
         method: 'POST',
-        body: cropType
+        body: cropType,
       }),
-      invalidatesTags: ['CropTypes']
-    })
-  })
+      invalidatesTags: ['CropTypes'],
+    }),
+  }),
 });
 
 export default cropTypeApi;
-export const { useGetAllCropTypesQuery, useCreateCropTypeMutation } = cropTypeApi;
+export const { useGetAllCropTypesQuery, useCreateCropTypeMutation } =
+  cropTypeApi;

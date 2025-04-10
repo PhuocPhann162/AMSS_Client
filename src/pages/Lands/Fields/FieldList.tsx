@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
-import { useDeleteFieldMutation, useGetAllFieldsQuery } from '@/api/fieldApi';
-import { Modal, Pagination } from '@/common';
-import { ATag } from '@/common/ui-common';
-import { CreateIcon, DeleteIcon, EditTableIcon, MarkerIcon, SearchIcon, SortIcon } from '@/components/Icon';
+import { useGetAllFieldsQuery } from '@/api/fieldApi';
+import { Pagination } from '@/common';
+import { AButton, ATag } from '@/common/ui-common';
+import {
+  CreateIcon,
+  EditTableIcon,
+  MarkerIcon,
+  SearchIcon,
+  SortIcon,
+} from '@/components/Icon';
 import { MainLoader } from '@/components/Page/common';
 import { Breadcrumb } from '@/components/UI';
 
-import { getStatusColor, inputHelper, toastNotify } from '@/helper';
+import { getStatusColor, inputHelper } from '@/helper';
 import { fieldModel, pageOptions } from '@/interfaces';
 import { SD_FieldStatus } from '@/utils/SD';
 
@@ -18,26 +23,25 @@ const filterOptions = [
   SD_FieldStatus.PLANTED,
   SD_FieldStatus.NEEDS_CARE,
   SD_FieldStatus.AWAITING_HARVEST,
-  SD_FieldStatus.HARVESTING
+  SD_FieldStatus.HARVESTING,
 ];
 
 export const FieldList = () => {
   const navigate = useNavigate();
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
-  const [fieldIdModal, setfieldIdModal] = useState<string>('');
 
   const [filters, setFilters] = useState({
     searchString: '',
-    status: ''
+    status: '',
   });
   const [apiFilters, setApiFilters] = useState({
     searchString: '',
-    status: ''
+    status: '',
   });
   const [pageOptions, setPageOptions] = useState<pageOptions>({
     pageNumber: 1,
-    pageSize: 5
+    pageSize: 5,
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -50,34 +54,13 @@ export const FieldList = () => {
       searchString: apiFilters.searchString,
       status: apiFilters.status,
       pageNumber: pageOptions.pageNumber,
-      pageSize: pageOptions.pageSize
-    })
+      pageSize: pageOptions.pageSize,
+    }),
   });
 
-  const [deleteField] = useDeleteFieldMutation();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, filters);
     setFilters(tempData);
-  };
-
-  const handleDelete = async (id?: string) => {
-    try {
-      toast.promise(
-        deleteField(id),
-        {
-          pending: 'Processing your request...',
-          success: 'Field deleted successfully 👌',
-
-          error: 'An unexpected error occured 🤯'
-        },
-        {
-          theme: 'colored'
-        }
-      );
-      (document.getElementById('fuco_modal') as HTMLDialogElement)?.close();
-    } catch (error: any) {
-      toastNotify(error.message, 'error');
-    }
   };
 
   useEffect(() => {
@@ -99,13 +82,15 @@ export const FieldList = () => {
       {!isLoading && (
         <>
           <Breadcrumb pageParent='Land' pageName='All fields' />
-          <div className='container px-4 mx-auto'>
+          <div className='container mx-auto px-4'>
             <div className='sm:flex sm:items-center sm:justify-between'>
               <div>
                 <div className='flex items-center gap-x-3'>
-                  <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Fields</h2>
+                  <h2 className='text-lg font-medium text-gray-800 dark:text-white'>
+                    Fields
+                  </h2>
 
-                  <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
+                  <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
                     {totalRecords} lands
                   </span>
                 </div>
@@ -115,10 +100,10 @@ export const FieldList = () => {
                 </p>
               </div>
 
-              <div className='flex items-center mt-4 gap-x-3'>
+              <div className='mt-4 flex items-center gap-x-3'>
                 <Link
                   to='/app/map'
-                  className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
+                  className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-5 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
                 >
                   <CreateIcon />
                   <span>New field</span>
@@ -127,19 +112,24 @@ export const FieldList = () => {
             </div>
 
             <div className='mt-6 md:flex md:items-center md:justify-between'>
-              <div className='inline-flex overflow-hidden bg-white  shadow-md divide-x divide-res-draft rounded-lg rtl:flex-row-reverse '>
+              <div className='inline-flex divide-x divide-res-draft overflow-hidden rounded-lg bg-white shadow-md rtl:flex-row-reverse'>
                 {filterOptions.map((opt: string) => (
                   <button
                     key={opt}
                     className={`px-5 py-2 text-xs font-medium sm:text-sm ${filters.status == opt ? 'bg-black text-white' : 'text-gray-600'} ${filters.status == '' && opt == 'View all' && 'bg-black text-white'} transition-all hover:bg-slate-500 hover:text-white`}
-                    onClick={() => setFilters({ ...filters, status: opt == 'View all' ? '' : opt })}
+                    onClick={() =>
+                      setFilters({
+                        ...filters,
+                        status: opt == 'View all' ? '' : opt,
+                      })
+                    }
                   >
                     {opt}
                   </button>
                 ))}
               </div>
 
-              <div className='relative flex items-center mt-4 md:mt-0'>
+              <div className='relative mt-4 flex items-center md:mt-0'>
                 <span className='absolute'>
                   <SearchIcon />
                 </span>
@@ -147,7 +137,7 @@ export const FieldList = () => {
                 <input
                   type='text'
                   placeholder='Search Name, Farm Name,...'
-                  className='block w-full py-1.5 pr-5 text-gray-700 bg-white shadow-md rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                  className='block w-full rounded-lg bg-white py-1.5 pl-11 pr-5 text-gray-700 placeholder-gray-400/70 shadow-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300 md:w-80 rtl:pl-5 rtl:pr-11'
                   name='searchString'
                   value={filters.searchString}
                   onChange={handleChange}
@@ -155,66 +145,89 @@ export const FieldList = () => {
               </div>
             </div>
 
-            <div className='flex flex-col mt-6 shadow-lg'>
+            <div className='mt-6 flex flex-col shadow-lg'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
                   <div className='overflow-hidden shadow-md md:rounded-lg'>
                     <table className='min-w-full divide-y divide-res-draft dark:divide-gray-700'>
                       <thead className='bg-status-white-light text-status-white-dark'>
                         <tr>
-                          <th scope='col' className='py-3.5 px-4 text-sm font-semibold text-left rtl:text-right '>
+                          <th
+                            scope='col'
+                            className='px-4 py-3.5 text-left text-sm font-semibold rtl:text-right'
+                          >
                             <button className='flex items-center gap-x-3 focus:outline-none'>
                               <span>Name</span>
 
                               <SortIcon />
                             </button>
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th
+                            scope='col'
+                            className='px-4 py-3.5 text-left text-sm font-semibold rtl:text-right'
+                          >
                             Farm Name
                           </th>
-                          <th scope='col' className='px-8 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th
+                            scope='col'
+                            className='px-8 py-3.5 text-left text-sm font-semibold rtl:text-right'
+                          >
                             Total Area
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th
+                            scope='col'
+                            className='px-4 py-3.5 text-left text-sm font-semibold rtl:text-right'
+                          >
                             Status
                           </th>
-                          <th scope='col' className='px-4 py-3.5 text-sm font-semibold text-left rtl:text-right'>
+                          <th
+                            scope='col'
+                            className='px-4 py-3.5 text-left text-sm font-semibold rtl:text-right'
+                          >
                             Location
                           </th>
 
-                          <th scope='col' className='relative py-3.5 px-4'>
+                          <th scope='col' className='relative px-4 py-3.5'>
                             <span className='sr-only'>Edit</span>
                           </th>
                         </tr>
                       </thead>
-                      <tbody className='bg-white divide-y divide-res-draft'>
+                      <tbody className='divide-y divide-res-draft bg-white'>
                         {fieldList &&
                           fieldList.map((field: fieldModel) => (
                             <tr key={field.id}>
-                              <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
                                 <div>
-                                  <h2 className='font-medium text-gray-800'>{field.name}</h2>
+                                  <h2 className='font-medium text-gray-800'>
+                                    {field.name}
+                                  </h2>
                                 </div>
                               </td>
-                              <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
                                 <div>
-                                  <h2 className='font-medium text-gray-800'>{field.farm?.name}</h2>
+                                  <h2 className='font-medium text-gray-800'>
+                                    {field.farm?.name}
+                                  </h2>
                                 </div>
                               </td>
-                              <td className='px-8 py-4 text-sm font-medium whitespace-nowrap'>
+                              <td className='whitespace-nowrap px-8 py-4 text-sm font-medium'>
                                 <div>
-                                  <h2 className='font-medium text-gray-800'>{field.area!.toFixed(2)} m²</h2>
+                                  <h2 className='font-medium text-gray-800'>
+                                    {field.area!.toFixed(2)} m²
+                                  </h2>
                                 </div>
                               </td>
-                              <td className='px-4 py-4 text-sm whitespace-nowrap'>
-                                <ATag color={getStatusColor(field.status!)}>{field.status!}</ATag>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm'>
+                                <ATag color={getStatusColor(field.status!)}>
+                                  {field.status!}
+                                </ATag>
                               </td>
-                              <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
                                 <div>
                                   <h2 className='font-medium text-gray-800'>
                                     <Link
                                       to={`/app/map?lat=${field.location!.lat}&lng=${field.location!.lng}`}
-                                      className='font-medium flex items-center underline underline-offset-4 text-green-500 gap-1 hover:decoration-2 hover:text-green-400'
+                                      className='flex items-center gap-1 font-medium text-green-500 underline underline-offset-4 hover:text-green-400 hover:decoration-2'
                                     >
                                       <MarkerIcon />
                                       See in map
@@ -222,23 +235,18 @@ export const FieldList = () => {
                                   </h2>
                                 </div>
                               </td>
-                              <td className='px-4 py-4 text-sm font-medium whitespace-nowrap'>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
                                 <div className='flex items-center gap-2'>
-                                  <button
-                                    className='btn btn-accent btn-sm'
-                                    onClick={() => navigate(`/app/land/field/updateField/${field.id}`)}
+                                  <AButton
+                                    type='link'
+                                    onClick={() =>
+                                      navigate(
+                                        `/app/land/field/updateField/${field.id}`,
+                                      )
+                                    }
                                   >
                                     <EditTableIcon />
-                                  </button>
-                                  <button
-                                    className='btn btn-sm btn-error'
-                                    onClick={() => {
-                                      setfieldIdModal(field.id!);
-                                      (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
-                                    }}
-                                  >
-                                    <DeleteIcon />
-                                  </button>
+                                  </AButton>
                                 </div>
                               </td>
                             </tr>
@@ -259,7 +267,6 @@ export const FieldList = () => {
               totalRecords={totalRecords}
             />
           </div>
-          <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldIdModal)} />
         </>
       )}
     </div>

@@ -10,10 +10,11 @@ import {
   HardinessZoneIcon,
   PropogationIcon,
   SoilIcon,
-  WateringIcon
+  WateringIcon,
 } from '@/components/Icon';
 import { MainLoader } from '@/components/Page/common';
 import { cropModel } from '@/interfaces';
+import { AButton } from '@/common/ui-common';
 
 export const CropDetail = () => {
   const navigate = useNavigate();
@@ -30,17 +31,25 @@ export const CropDetail = () => {
     <>
       {isLoading && <MainLoader />}
       {!isLoading && (
-        <div className='grid grid-cols-5 bg-white h-full'>
+        <div className='grid h-full grid-cols-5 bg-white'>
           <div className='col-span-2'>
-            <img className='h-full w-full py-6 px-4' src={cropDetail?.icon} alt={cropDetail?.name} />
+            <img
+              className='h-full w-full px-4 py-6'
+              src={cropDetail?.icon}
+              alt={cropDetail?.name}
+            />
           </div>
           <div className='col-span-3'>
             <div className='px-4 py-6'>
-              <p className='text-black font-bold text-4xl'>{cropDetail?.name}</p>
-              <p className='text-primary italic py-2'>{cropDetail?.cropType?.type}.</p>
-              <p className='text-sm text-justify'>{cropDetail?.description}</p>
-              <div className='bg-be grid grid-cols-2 text-black mt-4'>
-                <div className='text-sm py-4 px-6'>
+              <p className='text-4xl font-bold text-black'>
+                {cropDetail?.name}
+              </p>
+              <p className='py-2 italic text-primary'>
+                {cropDetail?.cropType?.type}
+              </p>
+              <p className='text-justify text-sm'>{cropDetail?.description}</p>
+              <div className='mt-4 grid grid-cols-2 bg-be text-black'>
+                <div className='px-6 py-4 text-sm'>
                   <div className='flex items-center gap-1'>
                     <CycleIcon /> Cycle:
                     <span>{cropDetail?.cycle}</span>
@@ -62,7 +71,7 @@ export const CropDetail = () => {
                     <span>{cropDetail?.edible}</span>
                   </div>
                 </div>
-                <div className='text-sm py-4 px-12'>
+                <div className='px-12 py-4 text-sm'>
                   <div className='flex items-center gap-1'>
                     <WateringIcon /> Watering:
                     <span>{cropDetail?.watering}</span>
@@ -81,11 +90,9 @@ export const CropDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className='flex items-center gap-2'>
-                <button className='btn btn-accent mt-2 text-white'>Leave your experience</button>
-                <button className='btn mt-2 text-white' onClick={() => navigate(-1)}>
-                  Back to list
-                </button>
+              <div className='mt-4 flex items-center gap-2'>
+                <AButton type='primary'>Leave your experience</AButton>
+                <AButton onClick={() => navigate(-1)}>Back to list</AButton>
               </div>
             </div>
           </div>

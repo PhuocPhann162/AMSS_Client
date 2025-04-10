@@ -13,6 +13,7 @@ import { EditTableIcon } from '@/components/Icon';
 import { MiniLoader } from '@/components/Page/common';
 import { inputHelper, LabelHelper, toastNotify } from '@/helper';
 import { apiResponse } from '@/interfaces';
+import { Divider } from 'antd';
 
 interface CropUpsertModalProps {
   id?: string;
@@ -200,12 +201,12 @@ export const CropUpsertModal = ({
     <>
       <dialog
         id='crop_upsert_modal'
-        className='modal modal-top sm:modal-top w-3/5 mx-auto mt-6 border rounded-lg h-screen'
+        className='modal modal-top sm:modal-top mx-auto mt-6 h-screen w-3/5 rounded-lg border'
       >
-        <div className='modal-box bg-white h-full'>
-          <div className='flex items-center gap-1'>
-            <h3 className='font-bold text-lg text-black tracking-wide'>
-              {id ? 'Update' : 'Create'} New Crop
+        <div className='modal-box h-full bg-white'>
+          <div className='mt-4 flex items-center gap-1 px-4'>
+            <h3 className='text-lg font-bold tracking-wide text-black'>
+              {id ? 'Update Crop' : 'Create New Crop'}
             </h3>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -223,19 +224,19 @@ export const CropUpsertModal = ({
               </g>
             </svg>
           </div>
-          <div className='divider divide-neutral-400'></div>
-          <div className='px-6 mb-6 space-y-6'>
+          <Divider />
+          <div className='mb-6 space-y-6 px-6'>
             <form
               action='#'
               method='post'
               encType='multipart/form-data'
               onSubmit={handleSubmit}
             >
-              <div className='overflow-auto h-full px-6 mb-6 space-y-6'>
+              <div className='mb-6 h-full space-y-6 overflow-auto px-6'>
                 <div className='grid grid-cols-6 gap-6'>
                   <div
                     id='FileUpload'
-                    className='col-span-6 sm:col-span-6 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5'
+                    className='mb-5.5 bg-gray sm:py-7.5 relative col-span-6 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary px-4 py-4 dark:bg-meta-4 sm:col-span-6'
                   >
                     {imageToDisplay == '' ? (
                       <>
@@ -287,7 +288,7 @@ export const CropUpsertModal = ({
                       <div className='flex items-center justify-center gap-10'>
                         <img
                           src={imageToDisplay}
-                          className='w-40 h-50 rounded-md'
+                          className='h-50 w-40 rounded-md'
                           alt='Upload Here'
                         />
                         <AButton
@@ -304,7 +305,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='name'
-                      className='text-black font-medium shadow-sm bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Corn Crop 1”'
                       value={userInputs.name}
                       onChange={handleUserInput}
@@ -316,7 +317,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='cycle'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Annual'
                       value={userInputs.cycle}
                       onChange={handleUserInput}
@@ -325,7 +326,7 @@ export const CropUpsertModal = ({
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
                     <LabelHelper text='Edible' required={true} />
-                    <div className='flex items-center mx-2 my-3'>
+                    <div className='mx-2 my-3 flex items-center'>
                       <input
                         type='radio'
                         id='edible-true'
@@ -337,7 +338,7 @@ export const CropUpsertModal = ({
                       />
                       <label
                         htmlFor='edible-true'
-                        className='text-sm font-medium text-black mr-4'
+                        className='mr-4 text-sm font-medium text-black'
                       >
                         True
                       </label>
@@ -346,7 +347,7 @@ export const CropUpsertModal = ({
                         id='edible-false'
                         name='edible'
                         value='false'
-                        className='mr-2 '
+                        className='mr-2'
                         required
                         onChange={handleUserInput}
                       />
@@ -360,7 +361,7 @@ export const CropUpsertModal = ({
                   </div>
                   <div className='col-span-6 sm:col-span-3'>
                     <LabelHelper text='Indoor' required={true} />
-                    <div className='flex items-center mx-2 my-3'>
+                    <div className='mx-2 my-3 flex items-center'>
                       <input
                         type='radio'
                         id='indoor-true'
@@ -372,7 +373,7 @@ export const CropUpsertModal = ({
                       />
                       <label
                         htmlFor='indoor-true'
-                        className='text-sm font-medium text-black mr-4'
+                        className='mr-4 text-sm font-medium text-black'
                       >
                         True
                       </label>
@@ -381,7 +382,7 @@ export const CropUpsertModal = ({
                         id='indoor-false'
                         name='indoor'
                         value='false'
-                        className='mr-2 '
+                        className='mr-2'
                         required
                         onChange={handleUserInput}
                       />
@@ -398,7 +399,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='soil'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Clay'
                       value={userInputs.soil}
                       onChange={handleUserInput}
@@ -410,7 +411,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='watering'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Heavy'
                       value={userInputs.watering}
                       onChange={handleUserInput}
@@ -422,7 +423,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='maintenance'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Low'
                       value={userInputs.maintenance}
                       onChange={handleUserInput}
@@ -434,7 +435,7 @@ export const CropUpsertModal = ({
                     <input
                       type='number'
                       name='hardinessZone'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='8'
                       value={userInputs.hardinessZone}
                       onChange={handleUserInput}
@@ -447,7 +448,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='propogation'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Seed'
                       value={userInputs.propogation}
                       onChange={handleUserInput}
@@ -459,7 +460,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='careLevel'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-mediumsm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='font-mediumsm:text-sm block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600'
                       placeholder='Easy'
                       value={userInputs.careLevel}
                       onChange={handleUserInput}
@@ -471,7 +472,7 @@ export const CropUpsertModal = ({
                     <input
                       type='text'
                       name='growthRate'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Fast'
                       value={userInputs.growthRate}
                       onChange={handleUserInput}
@@ -484,13 +485,13 @@ export const CropUpsertModal = ({
                       <input
                         type='number'
                         name='cultivatedArea'
-                        className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                        className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                         placeholder='894.0'
                         value={userInputs.cultivatedArea}
                         onChange={handleUserInput}
                         required={true}
                       />
-                      <label className='text-sm font-medium text-gray-900 block mb-2'>
+                      <label className='mb-2 block text-sm font-medium text-gray-900'>
                         m²
                       </label>
                     </div>
@@ -500,7 +501,7 @@ export const CropUpsertModal = ({
                     <input
                       type='number'
                       name='quantity'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='420'
                       value={userInputs.quantity}
                       onChange={handleUserInput}
@@ -511,7 +512,7 @@ export const CropUpsertModal = ({
                     <LabelHelper text='Crop Type' required={true} />
                     <select
                       name='cropType'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       value={userInputs.cropType}
                       onChange={handleUserInput}
                       required={true}
@@ -546,7 +547,7 @@ export const CropUpsertModal = ({
                         setUserInputs({ ...userInputs, plantedDate: date })
                       }
                       dateFormat='dd/MM/yyyy'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       icon={
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -589,7 +590,7 @@ export const CropUpsertModal = ({
                         setUserInputs({ ...userInputs, expectedDate: date })
                       }
                       dateFormat='dd/MM/yyyy'
-                      className='shadow-sm bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 font-medium text-black shadow-sm focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       icon={
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -628,7 +629,7 @@ export const CropUpsertModal = ({
                     <LabelHelper text='Description' required={true} />
                     <textarea
                       name='description'
-                      className='bg-gray-50 border border-gray-300 text-black font-medium sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4'
+                      className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 font-medium text-black focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm'
                       placeholder='Maize crop known for its versatility and use in various food products.'
                       required={true}
                       value={userInputs.description}
@@ -637,9 +638,9 @@ export const CropUpsertModal = ({
                   </div>
                 </div>
               </div>
-              <div className='p-6 border-t border-gray-200 rounded-b flex items-center justify-end gap-1'>
+              <div className='flex items-center justify-end gap-1 rounded-b border-t border-gray-200 p-6'>
                 <button
-                  className='text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+                  className='rounded-lg bg-cyan-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200'
                   type='submit'
                   disabled={isLoading}
                 >
@@ -647,7 +648,7 @@ export const CropUpsertModal = ({
                 </button>
                 <button
                   type='button'
-                  className='text-white bg-body hover:bg-graydark focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+                  className='hover:bg-graydark rounded-lg bg-body px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:ring-cyan-200'
                   onClick={() => {
                     setSelectedCropId && setSelectedCropId('');
                     (
