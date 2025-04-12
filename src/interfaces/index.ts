@@ -1,4 +1,3 @@
-import userModel from './userModel';
 import apiResponse from './apiResponse';
 import tokenModel from './tokenModel';
 import locationModel from './locationModel';
@@ -23,7 +22,6 @@ import socialYearModel from './socialYearModel';
 
 export type {
   pointModel,
-  userModel,
   apiResponse,
   tokenModel,
   locationModel,
@@ -45,5 +43,7 @@ export type {
   provinceModel,
   seriesMetricModel,
   socialMetricModel,
-  socialYearModel
+  socialYearModel,
 };
+
+export * from './user';

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Logo } from '@/common';
-import { userModel } from '@/interfaces';
+import { User } from '@/interfaces';
 import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
 import { RootState } from '@/storage/redux/store';
 import { AButton } from '@/common/ui-common';
@@ -22,9 +22,7 @@ import { dashboardRoutes } from '@/routes';
 export const HeaderPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const userData: userModel = useSelector(
-    (state: RootState) => state.userAuthStore,
-  );
+  const userData: User = useSelector((state: RootState) => state.userAuthStore);
   const isMobile = useIsMobile();
 
   const handleLogout = () => {
