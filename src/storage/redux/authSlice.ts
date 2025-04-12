@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userModel } from '@/interfaces';
+import { User } from '@/interfaces';
 
-export const emptyUserState: userModel = {
+export const emptyUserState: User = {
   id: '',
   fullName: '',
   userName: '',
@@ -16,12 +16,13 @@ export const emptyUserState: userModel = {
   isActive: true,
   role: '',
   createdAt: '',
-  updatedAt: ''
+  updatedAt: '',
 };
 
 export const userAuthSlice = createSlice({
   name: 'userAuth',
-  initialState: (JSON.parse(localStorage.getItem('user')!) as userModel) || emptyUserState,
+  initialState:
+    (JSON.parse(localStorage.getItem('user')!) as User) || emptyUserState,
   reducers: {
     setLoggedInUser: (state, action) => {
       state.id = action.payload.id;
@@ -39,8 +40,8 @@ export const userAuthSlice = createSlice({
       state.role = action.payload.role;
       state.createdAt = action.payload.createdAt;
       state.updatedAt = action.payload.updatedAt;
-    }
-  }
+    },
+  },
 });
 
 export const { setLoggedInUser } = userAuthSlice.actions;

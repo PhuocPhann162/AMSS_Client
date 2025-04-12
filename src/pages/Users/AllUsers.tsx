@@ -4,7 +4,7 @@ import { useGetAllUsersQuery, useLockUnLockUserMutation } from '@/api/userApi';
 import { Modal, Pagination } from '@/common';
 import { MainLoader } from '@/components/Page/common';
 import { Breadcrumb } from '@/components/UI';
-import { apiResponse, pageOptions, userModel } from '@/interfaces';
+import { apiResponse, pageOptions, User } from '@/interfaces';
 import { inputHelper, toastNotify } from '@/helper';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { CreateIcon, EditTableIcon, SearchIcon } from '@/components/Icon';
@@ -14,17 +14,17 @@ export const AllUsers = () => {
   const navigate = useNavigate();
 
   // Start State
-  const [userList, setUserList] = useState<userModel[]>([]);
+  const [userList, setUserList] = useState<User[]>([]);
   const [userIdModal, setUserIdModal] = useState('');
   const [filters, setFilters] = useState({
-    searchString: ''
+    searchString: '',
   });
   const [apiFilters, setApiFilters] = useState({
-    searchString: ''
+    searchString: '',
   });
   const [pageOptions, setPageOptions] = useState<pageOptions>({
     pageNumber: 1,
-    pageSize: 5
+    pageSize: 5,
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -34,8 +34,8 @@ export const AllUsers = () => {
     ...(apiFilters && {
       searchString: apiFilters.searchString,
       pageNumber: pageOptions.pageNumber,
-      pageSize: pageOptions.pageSize
-    })
+      pageSize: pageOptions.pageSize,
+    }),
   });
   const [lockUnlockUser] = useLockUnLockUserMutation();
 
@@ -46,7 +46,7 @@ export const AllUsers = () => {
 
   const handleFilters = () => {
     setApiFilters({
-      searchString: filters.searchString
+      searchString: filters.searchString,
     });
   };
 
@@ -54,9 +54,13 @@ export const AllUsers = () => {
     try {
       const response: apiResponse = await lockUnlockUser(userId);
       if (response?.data && response.data?.isSuccess) {
-        toastNotify(response?.data.successMessage || 'User account locked/unlocked successfully');
+        toastNotify(
+          response?.data.successMessage ||
+            'User account locked/unlocked successfully',
+        );
       } else if (response?.error) {
-        const errorMessage = response.error?.data.errorMessages[0] ?? 'Something wrong when login';
+        const errorMessage =
+          response.error?.data.errorMessages[0] ?? 'Something wrong when login';
         toastNotify(errorMessage, 'error');
       }
     } catch (error: any) {
@@ -78,13 +82,15 @@ export const AllUsers = () => {
       {!isLoading && (
         <>
           <Breadcrumb pageParent='Users' pageName='All Users' />
-          <div className='flex items-center justify-between mb-2'>
+          <div className='mb-2 flex items-center justify-between'>
             <div className='flex flex-col gap-4'>
               <div>
                 <div className='flex items-center gap-x-3'>
-                  <h2 className='text-lg font-medium text-gray-800 dark:text-white'>Users</h2>
+                  <h2 className='text-lg font-medium text-gray-800 dark:text-white'>
+                    Users
+                  </h2>
 
-                  <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
+                  <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
                     {totalRecords} accounts
                   </span>
                 </div>
@@ -96,17 +102,17 @@ export const AllUsers = () => {
             </div>
 
             <div className='flex flex-col items-end gap-2'>
-              <div className='flex items-center mt-4 gap-x-3'>
+              <div className='mt-4 flex items-center gap-x-3'>
                 <NavLink
                   to='/app/user/register'
-                  className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
+                  className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-5 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
                 >
                   <CreateIcon />
                   <span>New User</span>
                 </NavLink>
               </div>
               <div className='flex items-center gap-3'>
-                <div className='relative flex items-center mt-4 md:mt-0'>
+                <div className='relative mt-4 flex items-center md:mt-0'>
                   <span className='absolute'>
                     <SearchIcon />
                   </span>
@@ -114,21 +120,27 @@ export const AllUsers = () => {
                   <input
                     type='text'
                     placeholder='Search Name, Phone or Role'
-                    className='block w-full py-1.5 pr-5 text-gray-700 bg-white shadow-md rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                    className='block w-full rounded-lg bg-white py-1.5 pl-11 pr-5 text-gray-700 placeholder-gray-400/70 shadow-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300 md:w-80 rtl:pl-5 rtl:pr-11'
                     name='searchString'
                     value={filters.searchString}
                     onChange={handleChange}
                   />
                 </div>
-                <div className='tooltip tooltip-bottom' data-tip='Enter to Search'>
-                  <button className='btn btn-accent btn-sm text-whiten' onClick={handleFilters}>
+                <div
+                  className='tooltip tooltip-bottom'
+                  data-tip='Enter to Search'
+                >
+                  <button
+                    className='btn btn-accent btn-sm text-whiten'
+                    onClick={handleFilters}
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       fill='none'
                       viewBox='0 0 24 24'
                       strokeWidth='1.5'
                       stroke='currentColor'
-                      className='w-5 h-5'
+                      className='h-5 w-5'
                     >
                       <path
                         strokeLinecap='round'
@@ -141,9 +153,9 @@ export const AllUsers = () => {
               </div>
             </div>
           </div>
-          <div className='overflow-x-auto overflow-y-hidden py-4 rounded-lg'>
-            <table className='table table-sm rounded-md shadow-lg bg-white'>
-              <thead className='bg-status-white-light text-status-white-dark text-md'>
+          <div className='overflow-x-auto overflow-y-hidden rounded-lg py-4'>
+            <table className='table-sm table rounded-md bg-white shadow-lg'>
+              <thead className='text-md bg-status-white-light text-status-white-dark'>
                 <tr className='border-b border-res-draft'>
                   <th>No</th>
                   <th>Name</th>
@@ -157,7 +169,7 @@ export const AllUsers = () => {
                 </tr>
               </thead>
               <tbody>
-                {userList.map((user: userModel) => (
+                {userList.map((user: User) => (
                   <tr key={user.id} className='border-b border-res-draft'>
                     <th className='font-medium'>{cnt++}</th>
                     <td>{user.fullName}</td>
@@ -174,7 +186,11 @@ export const AllUsers = () => {
                           data-tip='Lock user account'
                           onClick={() => {
                             setUserIdModal(user.id!);
-                            (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+                            (
+                              document.getElementById(
+                                'fuco_modal',
+                              ) as HTMLDialogElement
+                            )?.showModal();
                           }}
                         >
                           <svg
@@ -183,7 +199,7 @@ export const AllUsers = () => {
                             viewBox='0 0 24 24'
                             strokeWidth='1.5'
                             stroke='currentColor'
-                            className='w-5 h-5'
+                            className='h-5 w-5'
                           >
                             <path
                               strokeLinecap='round'
@@ -198,7 +214,11 @@ export const AllUsers = () => {
                           data-tip='Unlock user account'
                           onClick={() => {
                             setUserIdModal(user.id!);
-                            (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+                            (
+                              document.getElementById(
+                                'fuco_modal',
+                              ) as HTMLDialogElement
+                            )?.showModal();
                           }}
                         >
                           <svg
@@ -207,7 +227,7 @@ export const AllUsers = () => {
                             viewBox='0 0 24 24'
                             strokeWidth='1.5'
                             stroke='currentColor'
-                            className='w-5 h-5'
+                            className='h-5 w-5'
                           >
                             <path
                               strokeLinecap='round'
@@ -222,7 +242,7 @@ export const AllUsers = () => {
                         data-tip='Update user role'
                         onClick={() =>
                           navigate(`/app/user/allUsers/updateRole/${user.id}`, {
-                            state: { userData: user as userModel }
+                            state: { userData: user as User },
                           })
                         }
                       >
@@ -243,7 +263,11 @@ export const AllUsers = () => {
             totalRecords={totalRecords}
           />
 
-          <Modal width='' title='lock/unlock this user?' onConfirm={() => handleLockUnlockUser(userIdModal)} />
+          <Modal
+            width=''
+            title='lock/unlock this user?'
+            onConfirm={() => handleLockUnlockUser(userIdModal)}
+          />
         </>
       )}
     </div>

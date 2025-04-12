@@ -4,27 +4,27 @@ import Avatar from '../../../public/avatar.png';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/storage/redux/store';
-import { userModel } from '@/interfaces';
+import { User } from '@/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 
 const Profile = () => {
-  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+  const userData: User = useSelector((state: RootState) => state.userAuthStore);
 
   return (
     <div>
       <Breadcrumb pageParent='Account' pageName='Profile' />
 
       <div className='overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
-        <div className='relative z-20 h-35 md:h-65'>
+        <div className='h-35 md:h-65 relative z-20'>
           <img
             src={CoverOne}
             alt='profile cover'
             className='h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center'
           />
-          <div className='absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4'>
+          <div className='xsm:bottom-4 xsm:right-4 absolute bottom-1 right-1 z-10'>
             <label
               htmlFor='cover'
-              className='flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-1 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4'
+              className='xsm:px-4 flex cursor-pointer items-center justify-center gap-2 rounded bg-primary px-2 py-1 text-sm font-medium text-white hover:bg-opacity-90'
             >
               <input type='file' name='cover' id='cover' className='sr-only' />
               <span>
@@ -54,13 +54,16 @@ const Profile = () => {
             </label>
           </div>
         </div>
-        <div className='px-4 pb-6 text-center lg:pb-8 xl:pb-11.5'>
-          <div className='relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3'>
+        <div className='xl:pb-11.5 px-4 pb-6 text-center lg:pb-8'>
+          <div className='-mt-22 h-30 max-w-30 relative z-30 mx-auto w-full rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3'>
             <div className='relative drop-shadow-2'>
-              <img src={userData.avatar ? userData.avatar : Avatar} alt='profile' />
+              <img
+                src={userData.avatar ? userData.avatar : Avatar}
+                alt='profile'
+              />
               <label
                 htmlFor='profile'
-                className='absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2'
+                className='h-8.5 w-8.5 absolute bottom-0 right-0 flex cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2'
               >
                 <svg
                   className='fill-current'
@@ -83,17 +86,25 @@ const Profile = () => {
                     fill=''
                   />
                 </svg>
-                <input type='file' name='profile' id='profile' className='sr-only' />
+                <input
+                  type='file'
+                  name='profile'
+                  id='profile'
+                  className='sr-only'
+                />
               </label>
             </div>
           </div>
           <div className='mt-4'>
-            <h3 className='mb-1.5 text-2xl font-semibold text-black dark:text-white'>{userData.fullName}</h3>
-            <p className='font-medium flex justify-center items-center gap-2'>
-              <span>{flagemojiToPNG(convertToEmoji(userData.country!))}</span> {userData.userName}
+            <h3 className='mb-1.5 text-2xl font-semibold text-black dark:text-white'>
+              {userData.fullName}
+            </h3>
+            <p className='flex items-center justify-center gap-2 font-medium'>
+              <span>{flagemojiToPNG(convertToEmoji(userData.country!))}</span>{' '}
+              {userData.userName}
             </p>
-            <div className='mx-auto mt-4.5 mb-5.5 grid grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]'>
-              <div className='flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row'>
+            <div className='mt-4.5 mb-5.5 mx-auto grid grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]'>
+              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark'>
                 <span className='font-semibold text-black dark:text-white'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -101,7 +112,7 @@ const Profile = () => {
                     viewBox='0 0 24 24'
                     strokeWidth='1.5'
                     stroke='currentColor'
-                    className='w-5 h-5'
+                    className='h-5 w-5'
                   >
                     <path
                       strokeLinecap='round'
@@ -112,9 +123,13 @@ const Profile = () => {
                 </span>
                 <span className='text-sm'>+{userData.phoneNumber}</span>
               </div>
-              <div className='flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row'>
+              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark'>
                 <span className='font-semibold text-black dark:text-white'>
-                  <svg xmlns='http://www.w3.org/2000/svg' className='w-5 h-5' viewBox='0 0 24 24'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-5 w-5'
+                    viewBox='0 0 24 24'
+                  >
                     <title>location_2_line</title>
                     <g id='location_2_line' fill='none' fillRule='evenodd'>
                       <path d='M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z' />
@@ -126,9 +141,15 @@ const Profile = () => {
                     </g>
                   </svg>
                 </span>
-                <span className='text-sm'>{userData.streetAddress + ', ' + userData.state + ', ' + userData.city}</span>
+                <span className='text-sm'>
+                  {userData.streetAddress +
+                    ', ' +
+                    userData.state +
+                    ', ' +
+                    userData.city}
+                </span>
               </div>
-              <div className='flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row'>
+              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 px-4'>
                 <span className='font-semibold text-black dark:text-white'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -136,7 +157,7 @@ const Profile = () => {
                     viewBox='0 0 24 24'
                     strokeWidth='1.5'
                     stroke='currentColor'
-                    className='w-5 h-5'
+                    className='h-5 w-5'
                   >
                     <path
                       strokeLinecap='round'
@@ -149,19 +170,29 @@ const Profile = () => {
               </div>
             </div>
 
-            <div className='mx-auto max-w-180'>
-              <h4 className='font-semibold text-black dark:text-white'>About Me</h4>
+            <div className='max-w-180 mx-auto'>
+              <h4 className='font-semibold text-black dark:text-white'>
+                About Me
+              </h4>
               <p className='mt-4.5'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu
-                condimentum mauris tempus ut. Donec fermentum blandit aliquet. Etiam dictum dapibus ultricies. Sed vel
-                aliquet libero. Nunc a augue fermentum, pharetra ligula sed, aliquam lacus.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Pellentesque posuere fermentum urna, eu condimentum mauris
+                tempus ut. Donec fermentum blandit aliquet. Etiam dictum dapibus
+                ultricies. Sed vel aliquet libero. Nunc a augue fermentum,
+                pharetra ligula sed, aliquam lacus.
               </p>
             </div>
 
             <div className='mt-6.5'>
-              <h4 className='mb-3.5 font-medium text-black dark:text-white'>Follow me on</h4>
+              <h4 className='mb-3.5 font-medium text-black dark:text-white'>
+                Follow me on
+              </h4>
               <div className='flex items-center justify-center gap-3.5'>
-                <Link to='#' className='hover:text-primary' aria-label='social-icon'>
+                <Link
+                  to='#'
+                  className='hover:text-primary'
+                  aria-label='social-icon'
+                >
                   <svg
                     className='fill-current'
                     width='22'
@@ -183,7 +214,11 @@ const Profile = () => {
                     </defs>
                   </svg>
                 </Link>
-                <Link to='#' className='hover:text-primary' aria-label='social-icon'>
+                <Link
+                  to='#'
+                  className='hover:text-primary'
+                  aria-label='social-icon'
+                >
                   <svg
                     className='fill-current'
                     width='23'
@@ -200,12 +235,21 @@ const Profile = () => {
                     </g>
                     <defs>
                       <clipPath id='clip0_30_970'>
-                        <rect width='22' height='22' fill='white' transform='translate(0.666138)' />
+                        <rect
+                          width='22'
+                          height='22'
+                          fill='white'
+                          transform='translate(0.666138)'
+                        />
                       </clipPath>
                     </defs>
                   </svg>
                 </Link>
-                <Link to='#' className='hover:text-primary' aria-label='social-icon'>
+                <Link
+                  to='#'
+                  className='hover:text-primary'
+                  aria-label='social-icon'
+                >
                   <svg
                     className='fill-current'
                     width='23'
@@ -222,12 +266,21 @@ const Profile = () => {
                     </g>
                     <defs>
                       <clipPath id='clip0_30_974'>
-                        <rect width='22' height='22' fill='white' transform='translate(0.333862)' />
+                        <rect
+                          width='22'
+                          height='22'
+                          fill='white'
+                          transform='translate(0.333862)'
+                        />
                       </clipPath>
                     </defs>
                   </svg>
                 </Link>
-                <Link to='#' className='hover:text-primary' aria-label='social-icon'>
+                <Link
+                  to='#'
+                  className='hover:text-primary'
+                  aria-label='social-icon'
+                >
                   <svg
                     className='fill-current'
                     width='22'
@@ -249,7 +302,11 @@ const Profile = () => {
                     </defs>
                   </svg>
                 </Link>
-                <Link to='#' className='hover:text-primary' aria-label='social-icon'>
+                <Link
+                  to='#'
+                  className='hover:text-primary'
+                  aria-label='social-icon'
+                >
                   <svg
                     className='fill-current'
                     width='23'
@@ -266,7 +323,12 @@ const Profile = () => {
                     </g>
                     <defs>
                       <clipPath id='clip0_30_982'>
-                        <rect width='22' height='22' fill='white' transform='translate(0.666138)' />
+                        <rect
+                          width='22'
+                          height='22'
+                          fill='white'
+                          transform='translate(0.666138)'
+                        />
                       </clipPath>
                     </defs>
                   </svg>

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Footer } from '@/components/Layout/Footer';
 import { Hero, OurService } from '@/components/Page/HomePage';
-import { userModel } from '@/interfaces';
+import { User } from '@/interfaces';
 import { RootState } from '@/storage/redux/store';
 import { motion } from 'framer-motion';
 import { ScrollAnimationWrapper } from '@/components/Animation';
@@ -11,9 +11,7 @@ import { getScrollAnimation } from '@/helper';
 import { AButton } from '@/common/ui-common';
 
 export default function HomePage() {
-  const userData: userModel = useSelector(
-    (state: RootState) => state.userAuthStore,
-  );
+  const userData: User = useSelector((state: RootState) => state.userAuthStore);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   return (

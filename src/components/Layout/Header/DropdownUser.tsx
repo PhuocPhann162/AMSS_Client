@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { userModel } from '@/interfaces';
+import { User } from '@/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/storage/redux/store';
 import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
@@ -14,9 +14,7 @@ export interface DropdownUserProps {
 
 export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
   const dispatch = useDispatch();
-  const userData: userModel = useSelector(
-    (state: RootState) => state.userAuthStore,
-  );
+  const userData: User = useSelector((state: RootState) => state.userAuthStore);
 
   const handleLockOut = () => {
     localStorage.removeItem('accessToken');

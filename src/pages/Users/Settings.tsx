@@ -2,7 +2,7 @@ import { Breadcrumb } from '@/components/UI';
 import userOne from '../../../public/avatar.png';
 import { useUpdateInfoMutation } from '@/api/userApi';
 import React, { useState } from 'react';
-import { apiResponse, userModel } from '@/interfaces';
+import { apiResponse, User } from '@/interfaces';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/storage/redux/store';
 import { inputHelper, toastNotify } from '@/helper';
@@ -12,9 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { AButton } from '@/common/ui-common';
 
 const Settings = () => {
-  const userData: userModel = useSelector(
-    (state: RootState) => state.userAuthStore,
-  );
+  const userData: User = useSelector((state: RootState) => state.userAuthStore);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
@@ -54,7 +52,7 @@ const Settings = () => {
       });
       if (response.data?.isSuccess) {
         setIsLoading(false);
-        const user: userModel = {
+        const user: User = {
           ...userData,
           fullName: userInputs.fullName,
           phoneNumber: userInputs.phoneNumber,
