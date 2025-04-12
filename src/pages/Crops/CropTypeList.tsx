@@ -6,32 +6,33 @@ import { useGetAllCropTypesQuery } from '@/api/cropTypeApi';
 import { Pagination } from '@/common';
 import {
   CreateIcon,
-  DeleteIcon,
   DetailIcon,
-  EditExpandIcon,
+  EditTableIcon,
   ExpandIcon,
   SearchIcon,
-  SortIcon
+  SortIcon,
 } from '@/components/Icon';
 import { MainLoader } from '@/components/Page/common';
 import { getScrollAnimation, inputHelper } from '@/helper';
 import { cropModel, cropTypeModel, pageOptions } from '@/interfaces';
 import { CropUpsertModal } from './CropUpsertModal';
 import { motion } from 'framer-motion';
+import { Dropdown } from 'antd';
+import { AButton } from '@/common/ui-common';
 
 export const CropTypeList = () => {
   const navigate = useNavigate();
   // Start State
   const [cropTypeList, setCropTypeList] = useState<cropTypeModel[]>([]);
   const [filters, setFilters] = useState({
-    searchString: ''
+    searchString: '',
   });
   const [apiFilters, setApiFilters] = useState({
-    searchString: ''
+    searchString: '',
   });
   const [pageOptions, setPageOptions] = useState<pageOptions>({
     pageNumber: 1,
-    pageSize: 10
+    pageSize: 10,
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -44,10 +45,44 @@ export const CropTypeList = () => {
     ...(apiFilters && {
       searchString: apiFilters.searchString,
       pageNumber: pageOptions.pageNumber,
-      pageSize: pageOptions.pageSize
-    })
+      pageSize: pageOptions.pageSize,
+    }),
   });
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
+
+  const dropDownMenuItems = (cropId: string) => [
+    {
+      label: (
+        <AButton
+          type='link'
+          onClick={() => {
+            navigate(`/app/crop/myCrops/cropDetail/${cropId}`);
+          }}
+          style={{ color: '#5D3D2E' }}
+        >
+          <DetailIcon /> Detail
+        </AButton>
+      ),
+      key: '0',
+    },
+    {
+      label: (
+        <AButton
+          type='link'
+          onClick={() => {
+            setSelectedCropId(cropId);
+            (
+              document.getElementById('crop_upsert_modal') as HTMLDialogElement
+            )?.showModal();
+          }}
+          style={{ color: '#5D3D2E' }}
+        >
+          <EditTableIcon /> Edit
+        </AButton>
+      ),
+      key: '1',
+    },
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, filters);
@@ -71,20 +106,22 @@ export const CropTypeList = () => {
       {isLoading && <MainLoader />}
       {!isLoading && data && (
         <>
-          <div className='container px-4 mx-auto'>
+          <div className='container mx-auto px-4'>
             <div className='sm:flex sm:items-center sm:justify-between'>
               <div>
                 <div className='flex items-center gap-x-3'>
-                  <h2 className='text-lg text-gray-800 dark:text-white'>Crop Types</h2>
+                  <h2 className='text-lg text-gray-800 dark:text-white'>
+                    Crop Types
+                  </h2>
 
-                  <span className='px-3 py-1 text-xs text-green-600 bg-green-100 rounded-full shadow-md'>
+                  <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
                     {totalRecords} types
                   </span>
                 </div>
                 <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
                   These farms have managed in the last 12 months.
                 </p>
-                <div className='relative flex items-center md:mt-4 border-none shadow-md rounded-md'>
+                <div className='relative flex items-center rounded-md border-none shadow-md md:mt-4'>
                   <span className='absolute'>
                     <SearchIcon />
                   </span>
@@ -92,7 +129,7 @@ export const CropTypeList = () => {
                   <input
                     type='text'
                     placeholder='Search...'
-                    className='block w-full py-1.5 pr-5 text-gray-700 bg-white shadow-md rounded-md md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                    className='block w-full rounded-md bg-white py-1.5 pl-11 pr-5 text-gray-700 placeholder-gray-400/70 shadow-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300 md:w-80 rtl:pl-5 rtl:pr-11'
                     name='searchString'
                     value={filters.searchString}
                     onChange={handleChange}
@@ -100,11 +137,17 @@ export const CropTypeList = () => {
                 </div>
               </div>
 
-              <div className='mt-6 md:flex md: flex-col md:items-center gap-4'>
-                <div className='flex items-center mt-4 md:mt-0'>
+              <div className='md: mt-6 flex-col gap-4 md:flex md:items-center'>
+                <div className='mt-4 flex items-center md:mt-0'>
                   <button
-                    onClick={() => (document.getElementById('crop_upsert_modal') as HTMLDialogElement)?.showModal()}
-                    className='flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 shadow-lg hover:shadow-green'
+                    onClick={() =>
+                      (
+                        document.getElementById(
+                          'crop_upsert_modal',
+                        ) as HTMLDialogElement
+                      )?.showModal()
+                    }
+                    className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-5 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
                   >
                     <CreateIcon />
                     <span>New Crop</span>
@@ -113,17 +156,20 @@ export const CropTypeList = () => {
               </div>
             </div>
 
-            <div className='flex flex-col mt-6 shadow-lg'>
+            <div className='mt-6 flex flex-col shadow-lg'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
                   <div className='overflow-hidden'>
                     <table className='min-w-full'>
-                      <thead className='bg-white text-type-2 font-bold'>
+                      <thead className='bg-white font-bold text-type-2'>
                         <tr>
-                          <th scope='col' className='px-3 py-4 text-sm w-24 border-r border-type-1'></th>
                           <th
                             scope='col'
-                            className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'
+                            className='w-24 border-r border-type-1 px-3 py-4 text-sm'
+                          ></th>
+                          <th
+                            scope='col'
+                            className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
                           >
                             <button className='flex items-center gap-x-3 focus:outline-none'>
                               <span>CropType</span>
@@ -133,18 +179,18 @@ export const CropTypeList = () => {
 
                           <th
                             scope='col'
-                            className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'
+                            className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
                           >
                             Planted
                           </th>
 
                           <th
                             scope='col'
-                            className='px-4 py-3.5 text-sm text-left rtl:text-right border-r border-type-1'
+                            className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
                           >
                             Expected
                           </th>
-                          <th scope='col' className='relative py-3.5 px-4'>
+                          <th scope='col' className='relative px-4 py-3.5'>
                             <span className='sr-only'>Edit</span>
                           </th>
                         </tr>
@@ -152,22 +198,28 @@ export const CropTypeList = () => {
                       <tbody className='bg-white'>
                         {cropTypeList.map((ct: cropTypeModel) => (
                           <>
-                            <tr key={ct.id} className='bg-type-1 font-bold border-b border-type-1'>
-                              <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'></td>
-                              <td className='px-4 py-4 text-sm whitespace-nowrap'>
+                            <tr
+                              key={ct.id}
+                              className='border-b border-type-1 bg-type-1 font-bold'
+                            >
+                              <td className='whitespace-nowrap border-r border-type-1 px-3 py-4 text-sm'></td>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm'>
                                 <div>
                                   <h2 className='text-type-2'>
                                     {ct.name} ({ct.type})
                                   </h2>
                                 </div>
                               </td>
-                              <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
-                              <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
-                              <td className='px-4 py-4 text-sm whitespace-nowrap'></td>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm'></td>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm'></td>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm'></td>
                             </tr>
                             {ct.crops.map((crop: cropModel, index: number) => (
-                              <tr key={crop.id} className='border-b border-type-1'>
-                                <td className='px-3 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                              <tr
+                                key={crop.id}
+                                className='border-b border-type-1'
+                              >
+                                <td className='whitespace-nowrap border-r border-type-1 px-3 py-4 text-sm'>
                                   <motion.img
                                     variants={scrollAnimation}
                                     src={crop.icon}
@@ -177,23 +229,27 @@ export const CropTypeList = () => {
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                     loading='lazy'
-                                    className='w-16 h-16 rounded-full'
+                                    className='h-16 w-16 rounded-full'
                                   />
                                 </td>
-                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
+                                <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
                                   <div>
                                     <div className='flex items-center gap-2'>
-                                      <h2 className='text-pearl font-bold'>{crop.name}</h2>
+                                      <h2 className='font-bold text-pearl'>
+                                        {crop.name}
+                                      </h2>
                                       <span
-                                        className={`text-center align-baseline inline-flex px-3 py-2 mr-auto items-center text-xs text-type-2 leading-none bg-type-1 rounded-lg`}
+                                        className={`mr-auto inline-flex items-center rounded-lg bg-type-1 px-3 py-2 text-center align-baseline text-xs leading-none text-type-2`}
                                       >
                                         {ct.code}
                                       </span>
                                     </div>
-                                    <h4 className='w-40 text-wrap text-xs opacity-80'>{crop.description}</h4>
+                                    <h4 className='w-40 text-wrap text-xs opacity-80'>
+                                      {crop.description}
+                                    </h4>
                                   </div>
                                 </td>
-                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
+                                <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-base'>
                                   <div className='flex items-center gap-2'>
                                     {crop.cultivatedArea?.toFixed(2)} sqft
                                     <div className='flex items-center gap-1'>
@@ -203,7 +259,7 @@ export const CropTypeList = () => {
                                           <Link
                                             key={fieldCrop.id}
                                             to={`/app/map?lat=${fieldCrop.field.location?.lat}&lng=${fieldCrop.field.location?.lng}`}
-                                            className={`text-center underline align-baseline inline-flex px-4 py-3 mr-auto items-center text-sm text-type-2 leading-none bg-type-1 rounded-lg hover:text-primary`}
+                                            className={`mr-auto inline-flex items-center rounded-lg bg-type-1 px-4 py-3 text-center align-baseline text-sm leading-none text-type-2 underline hover:text-primary`}
                                           >
                                             {fieldCrop.field?.name}
                                           </Link>
@@ -211,50 +267,28 @@ export const CropTypeList = () => {
                                     </div>
                                   </div>
                                 </td>
-                                <td className='px-4 py-4 text-sm whitespace-nowrap border-r border-type-1'>
-                                  <div>Expected {format(new Date(crop.expectedDate!), 'MMM. dd, yyyy')}</div>
-                                </td>
-                                <td className='px-4 py-4 text-base whitespace-nowrap border-r border-type-1'>
-                                  {/* <!-- Dropdown Start --> */}
-                                  <div className='dropdown dropdown-left dropdown-bottom dropdown-hover'>
-                                    <div tabIndex={index} role='button' className=' m-1'>
-                                      <ExpandIcon />
-                                    </div>
-                                    <ul
-                                      tabIndex={index}
-                                      className='dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52'
-                                    >
-                                      <li>
-                                        <button
-                                          className='text-accent'
-                                          onClick={() => navigate(`/app/crop/myCrops/cropDetail/${crop.id}`)}
-                                        >
-                                          <DetailIcon />
-                                          Detail
-                                        </button>
-                                        <button
-                                          onClick={() => {
-                                            setSelectedCropId(crop.id);
-                                            (
-                                              document.getElementById('crop_upsert_modal') as HTMLDialogElement
-                                            )?.showModal();
-                                          }}
-                                          className='text-accent'
-                                        >
-                                          <EditExpandIcon />
-                                          Edit
-                                        </button>
-                                      </li>
-                                      <li>
-                                        <button className='text-danger'>
-                                          <DeleteIcon />
-                                          Delete
-                                        </button>
-                                      </li>
-                                    </ul>
+                                <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
+                                  <div>
+                                    Expected{' '}
+                                    {format(
+                                      new Date(crop.expectedDate!),
+                                      'MMM. dd, yyyy',
+                                    )}
                                   </div>
-
-                                  {/* <!-- Dropdown End --> */}
+                                </td>
+                                <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-base'>
+                                  <Dropdown
+                                    menu={{
+                                      items: dropDownMenuItems(crop.id!),
+                                    }}
+                                  >
+                                    <AButton
+                                      type='link'
+                                      style={{ color: '#000000' }}
+                                    >
+                                      <ExpandIcon />
+                                    </AButton>
+                                  </Dropdown>
                                 </td>
                               </tr>
                             ))}
@@ -276,7 +310,10 @@ export const CropTypeList = () => {
               totalRecords={totalRecords}
             />
           </div>
-          <CropUpsertModal id={selectedCropId} setSelectedCropId={setSelectedCropId} />
+          <CropUpsertModal
+            id={selectedCropId}
+            setSelectedCropId={setSelectedCropId}
+          />
         </>
       )}
     </div>

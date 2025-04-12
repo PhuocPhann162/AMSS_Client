@@ -9,6 +9,7 @@ import { inputHelper, toastNotify } from '@/helper';
 import { MiniLoader } from '@/components/Page/common';
 import { Modal } from '@/common';
 import { useNavigate } from 'react-router-dom';
+import { AButton } from '@/common/ui-common';
 
 const Settings = () => {
   const userData: User = useSelector((state: RootState) => state.userAuthStore);
@@ -98,16 +99,16 @@ const Settings = () => {
             </div>
             <div className='p-7'>
               <form method='PUT' onSubmit={handleSubmit}>
-                <div className='mb-5.5 gap-5.5 flex flex-col sm:flex-row'>
+                <div className='mb-4 flex flex-col gap-4 sm:flex-row'>
                   <div className='w-full sm:w-1/2'>
                     <label
-                      className='mb-3 block text-sm font-medium text-black dark:text-white'
+                      className='mb-2 block text-sm font-medium text-black dark:text-white'
                       htmlFor='fullName'
                     >
                       Full Name
                     </label>
                     <div className='relative'>
-                      <span className='left-4.5 absolute top-4'>
+                      <span className='absolute left-4 top-4'>
                         <svg
                           className='fill-current'
                           width='20'
@@ -133,7 +134,7 @@ const Settings = () => {
                         </svg>
                       </span>
                       <input
-                        className='bg-gray pl-11.5 pr-4.5 w-full rounded border border-stroke py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                        className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                         type='text'
                         id='fullName'
                         placeholder='Devid Jhon'
@@ -147,13 +148,13 @@ const Settings = () => {
 
                   <div className='w-full sm:w-1/2'>
                     <label
-                      className='mb-3 block text-sm font-medium text-black dark:text-white'
+                      className='mb-2 block text-sm font-medium text-black dark:text-white'
                       htmlFor='phoneNumber'
                     >
                       Phone Number
                     </label>
                     <input
-                      className='bg-gray px-4.5 w-full rounded border border-stroke py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-stroke py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       type='tel'
                       pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
                       id='phoneNumber'
@@ -166,15 +167,15 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='mb-5.5'>
+                <div className='mb-4'>
                   <label
-                    className='mb-3 block text-sm font-medium text-black dark:text-white'
+                    className='mb-2 block text-sm font-medium text-black dark:text-white'
                     htmlFor='emailAddress'
                   >
                     Email Address
                   </label>
                   <div className='relative'>
-                    <span className='left-4.5 absolute top-4'>
+                    <span className='absolute left-4 top-4'>
                       <svg
                         className='fill-current'
                         width='20'
@@ -200,7 +201,7 @@ const Settings = () => {
                       </svg>
                     </span>
                     <input
-                      className='bg-gray pl-11.5 pr-4.5 w-full rounded border border-stroke py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       type='email'
                       id='email'
                       placeholder='devidjond45@gmail.com'
@@ -212,15 +213,15 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='mb-5.5'>
+                <div className='mb-4'>
                   <label
-                    className='mb-3 block text-sm font-medium text-black dark:text-white'
+                    className='mb-2 block text-sm font-medium text-black dark:text-white'
                     htmlFor='Username'
                   >
                     Username
                   </label>
                   <input
-                    className='bg-gray px-4.5 w-full rounded border border-stroke py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                    className='bg-gray w-full rounded border border-stroke py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                     type='email'
                     id='Username'
                     placeholder='sample@fuco.com'
@@ -239,7 +240,7 @@ const Settings = () => {
                     BIO
                   </label>
                   <div className='relative'>
-                    <span className='left-4.5 absolute top-4'>
+                    <span className='absolute left-4 top-4'>
                       <svg
                         className='fill-current'
                         width='20'
@@ -269,9 +270,8 @@ const Settings = () => {
                         </defs>
                       </svg>
                     </span>
-
                     <textarea
-                      className='bg-gray pl-11.5 pr-4.5 w-full rounded border border-stroke py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
                       name='bio'
                       id='bio'
                       rows={6}
@@ -281,21 +281,15 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='gap-4.5 flex justify-end'>
-                  <button
-                    className='flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white'
-                    type='button'
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className='text-gray flex justify-center rounded bg-primary px-6 py-2 font-medium hover:bg-opacity-90'
-                    type='submit'
+                <div className='mt-2 flex justify-end gap-2'>
+                  <AButton onClick={handleCancel}>Cancel</AButton>
+                  <AButton
+                    type='primary'
+                    htmlType='submit'
                     disabled={isLoading}
                   >
                     {isLoading ? <MiniLoader /> : 'Save'}
-                  </button>
+                  </AButton>
                 </div>
               </form>
             </div>
@@ -376,19 +370,11 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className='gap-4.5 flex justify-end'>
-                  <button
-                    className='flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white'
-                    type='submit'
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className='text-gray flex justify-center rounded bg-primary px-6 py-2 font-medium hover:bg-opacity-90'
-                    type='submit'
-                  >
+                <div className='mt-2 flex justify-end gap-2'>
+                  <AButton>Cancel</AButton>
+                  <AButton type='primary' htmlType='submit'>
                     Save
-                  </button>
+                  </AButton>
                 </div>
               </form>
             </div>
