@@ -1,5 +1,4 @@
 import {
-  type RegisterRequest,
   useGetCountriesQuery,
   useGetProvincesQuery,
   useRegisterUserMutation,
@@ -7,6 +6,7 @@ import {
 import { AButton, AInput, AInputPassword, ASelect } from '@/common/ui-common';
 import { FormLabel } from '@/components/form-label';
 import { cn } from '@/lib/utils';
+import { type RegisterRequest } from '@/models';
 import Form, { Rule } from 'antd/es/form';
 import { useMemo, type FC, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';

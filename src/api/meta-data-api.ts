@@ -1,7 +1,4 @@
-import {
-  type GetCountriesResponse,
-  type GetProvincesResponse,
-} from '@/api/meta-data-api/types';
+import type { GetCountriesResponse, GetProvincesResponse } from '@/models';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const metaDataApi = createApi({

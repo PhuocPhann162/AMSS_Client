@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '@/api/authApi';
 import { inputHelper, toastNotify } from '@/helper';
 import { setLoggedInUser } from '@/storage/redux/authSlice';
-import { type LoginResponse } from '@/api';
+import type { LoginResponse } from '@/models';
 
 function Login() {
   const navigate = useNavigate();

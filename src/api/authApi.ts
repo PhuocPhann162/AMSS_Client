@@ -3,7 +3,7 @@ import type {
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
-} from '@/api/authApi/types';
+} from '@/models';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const authApi = createApi({
