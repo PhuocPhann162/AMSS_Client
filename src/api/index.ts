@@ -1,4 +1,3 @@
-import authApi from './authApi';
 import userApi from './userApi';
 import locationApi from './locationApi';
 import farmApi from './farmApi';
@@ -10,7 +9,6 @@ import cropApi from './cropApi';
 import socialMetricApi from './socialMetricApi';
 
 export {
-  authApi,
   userApi,
   locationApi,
   farmApi,
@@ -19,5 +17,7 @@ export {
   cropTypeApi,
   polygonAgroApi,
   cropApi,
-  socialMetricApi
+  socialMetricApi,
 };
+
+export * from './authApi';
