@@ -2,30 +2,35 @@ import React, { useState } from 'react';
 import { Breadcrumb } from '@/components/UI';
 import { inputHelper, toastNotify } from '@/helper';
 import ReactFlagsSelect from 'react-flags-select';
-import { apiResponse } from '@/interfaces';
-import { useRegisterUserMutation } from '@/api/authApi';
 import { SD_Roles } from '@/utils/SD';
 import { MainLoader } from '@/components/Page/common';
 import { useNavigate } from 'react-router-dom';
+import { type RegisterRequest, type RegisterResponse } from '@/api/authApi';
+import { useRegisterUserMutation } from '@/api/authApi';
 
 export const Register = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [userInputs, setUserInputs] = useState({
+  const [userInputs, setUserInputs] = useState<RegisterRequest>({
     userName: '',
     password: '',
     repeatPassword: '',
     fullName: '',
     phoneNumber: '',
     country: '',
+    provinceCode: '',
     streetAddress: '',
     city: '',
     state: '',
-    role: ''
+    avatar: '',
+    phoneCode: '',
+    role: undefined,
   });
   const [registerUser] = useRegisterUserMutation();
 
-  const handleUserInputs = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleUserInputs = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const tempData = inputHelper(e, userInputs);
     setUserInputs(tempData);
   };
@@ -38,21 +43,23 @@ export const Register = () => {
     setIsLoading(true);
 
     try {
-      const response: apiResponse = await registerUser({
+      const response = await registerUser({
         ...userInputs,
-        avatar: `https://ui-avatars.com/api/?name=${userInputs.fullName}&background=00c46a&color=fff`
-      });
-      if (response.data && response.data.isSuccess) {
-        setIsLoading(false);
-        toastNotify(response?.data.successMessage ?? '', 'success');
-        navigate('/app/user/allUsers');
-      } else if (response.error) {
-        toastNotify(response.error.data.errorMessages[0], 'error');
-      }
-    } catch (error: any) {
+        avatar: `https://ui-avatars.com/api/?name=${userInputs.fullName}&background=00c46a&color=fff`,
+      }).unwrap();
       setIsLoading(false);
+      toastNotify(
+        response.successMessage ?? 'User registered successfully',
+        'success',
+      );
+      navigate('/app/user/allUsers');
+    } catch (error) {
+      const _error = error as { data?: RegisterResponse } | undefined;
+      const errMessage = _error?.data?.errorMessages[0] || 'Something wrong';
+      toastNotify(errMessage, 'error');
       setIsLoading(false);
-      toastNotify(error.message, 'error');
+      console.error('Register failed', error);
+      throw error;
     }
   };
 
@@ -62,143 +69,143 @@ export const Register = () => {
       {!isLoading && (
         <>
           <Breadcrumb pageParent='Users' pageName='Registration' />
-          <div className='bg-white py-6 max-w-xl mx-auto border border-white rounded-lg shadow-lg'>
-            <form className='max-w-md mx-auto' onSubmit={handleSubmit}>
-              <div className='relative z-0 w-full mb-5 group'>
+          <div className='mx-auto max-w-xl rounded-lg border border-white bg-white py-6 shadow-lg'>
+            <form className='mx-auto max-w-md' onSubmit={handleSubmit}>
+              <div className='group relative z-0 mb-5 w-full'>
                 <input
                   type='email'
                   name='userName'
-                  className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                  className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                   placeholder=' '
                   value={userInputs.userName}
                   onChange={handleUserInputs}
                   required
                 />
-                <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4'>
                   Email address (name@fuco.com)
                 </label>
               </div>
               <div className='grid md:grid-cols-2 md:gap-6'>
-                <div className='relative z-0 w-full mb-5 group'>
+                <div className='group relative z-0 mb-5 w-full'>
                   <input
                     type='password'
                     name='password'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                    className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                     placeholder=' '
                     value={userInputs.password}
                     onChange={handleUserInputs}
                     required
                   />
-                  <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                  <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'>
                     Password
                   </label>
                 </div>
-                <div className='relative z-0 w-full mb-5 group'>
+                <div className='group relative z-0 mb-5 w-full'>
                   <input
                     type='password'
                     name='repeatPassword'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                    className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                     placeholder=' '
                     value={userInputs.repeatPassword}
                     onChange={handleUserInputs}
                     required
                   />
-                  <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                  <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'>
                     Confirm password
                   </label>
                 </div>
               </div>
               <div className='grid md:grid-cols-2 md:gap-6'>
-                <div className='relative z-0 w-full mb-5 group'>
+                <div className='group relative z-0 mb-5 w-full'>
                   <input
                     type='text'
                     name='fullName'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                    className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                     placeholder=' '
                     value={userInputs.fullName}
                     onChange={handleUserInputs}
                     required
                   />
-                  <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                  <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4'>
                     Full name
                   </label>
                 </div>
-                <div className='relative z-0 w-full mb-5 group'>
+                <div className='group relative z-0 mb-5 w-full'>
                   <input
                     type='tel'
                     pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
                     name='phoneNumber'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                    className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                     placeholder=' '
                     value={userInputs.phoneNumber}
                     onChange={handleUserInputs}
                     required
                   />
-                  <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                  <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'>
                     Phone number (123-456-7890)
                   </label>
                 </div>
               </div>
-              <div className='z-0 w-full mb-5 group'>
-                <label className='peer-focus:font-medium text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              <div className='group z-0 mb-5 w-full'>
+                <label className='top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'>
                   Country
                 </label>
                 <ReactFlagsSelect
-                  className='menu-flags block py-2.5 px-0 w-full text-xs text-gray-900 bg-transparent  appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                  className='menu-flags peer block w-full appearance-none bg-transparent px-0 py-2.5 text-xs text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                   onSelect={handleCountrySelect}
                   selected={userInputs.country}
                   searchable={true}
                 />
               </div>
-              <div className='relative z-0 w-full mb-5 group'>
+              <div className='group relative z-0 mb-5 w-full'>
                 <input
                   type='text'
                   name='streetAddress'
-                  className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                  className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                   placeholder=' '
                   value={userInputs.streetAddress}
                   onChange={handleUserInputs}
                   required
                 />
-                <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4'>
                   Street address
                 </label>
               </div>
 
               <div className='grid md:grid-cols-2 md:gap-6'>
-                <div className='relative z-0 w-full mb-5 group'>
+                <div className='group relative z-0 mb-5 w-full'>
                   <input
                     type='text'
                     name='city'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                    className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                     placeholder=' '
                     value={userInputs.city}
                     onChange={handleUserInputs}
                     required
                   />
-                  <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                  <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'>
                     City
                   </label>
                 </div>
-                <div className='relative z-0 w-full mb-5 group'>
+                <div className='group relative z-0 mb-5 w-full'>
                   <input
                     type='text'
                     name='state'
-                    className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                    className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                     placeholder=' '
                     value={userInputs.state}
                     onChange={handleUserInputs}
                     required
                   />
-                  <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                  <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'>
                     State
                   </label>
                 </div>
               </div>
-              <div className='relative z-0 w-full mb-5 group'>
+              <div className='group relative z-0 mb-5 w-full'>
                 <select
                   name='role'
-                  className='select select-warning w-full max-w-xs block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                  className='select select-warning peer block w-full max-w-xs appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
                   onChange={handleUserInputs}
                   value={userInputs.role}
                   required
@@ -216,12 +223,12 @@ export const Register = () => {
                     Owner
                   </option>
                 </select>
-                <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'></label>
+                <label className='absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500 rtl:peer-focus:translate-x-1/4'></label>
               </div>
 
               <button
                 type='submit'
-                className='text-white bg-primary hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                className='w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 sm:w-auto'
               >
                 Submit
               </button>

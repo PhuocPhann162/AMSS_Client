@@ -57,3 +57,5 @@ export {
   AccessDenied,
   OnlineStore,
 };
+
+export * from './Authentication';

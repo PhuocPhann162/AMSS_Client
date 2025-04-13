@@ -1,3 +1,9 @@
+import type {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+} from '@/api/authApi/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const authApi = createApi({
@@ -6,7 +12,7 @@ const authApi = createApi({
     baseUrl: 'https://localhost:7213/api/',
   }),
   endpoints: (builder) => ({
-    registerUser: builder.mutation({
+    registerUser: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (userData) => ({
         url: 'auth/register',
         method: 'POST',
@@ -16,7 +22,7 @@ const authApi = createApi({
         body: userData,
       }),
     }),
-    loginUser: builder.mutation({
+    loginUser: builder.mutation<LoginResponse, LoginRequest>({
       query: (userCredentials) => ({
         url: 'auth/login',
         method: 'POST',

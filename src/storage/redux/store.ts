@@ -6,10 +6,11 @@ import {
   farmApi,
   fieldApi,
   locationApi,
+  metaDataApi,
   polygonAgroApi,
   polygonApi,
   socialMetricApi,
-  userApi
+  userApi,
 } from '@/api';
 import { userAuthReducer } from './authSlice';
 
@@ -25,7 +26,8 @@ const store = configureStore({
     [cropTypeApi.reducerPath]: cropTypeApi.reducer,
     [polygonAgroApi.reducerPath]: polygonAgroApi.reducer,
     [cropApi.reducerPath]: cropApi.reducer,
-    [socialMetricApi.reducerPath]: socialMetricApi.reducer
+    [socialMetricApi.reducerPath]: socialMetricApi.reducer,
+    [metaDataApi.reducerPath]: metaDataApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -39,6 +41,7 @@ const store = configureStore({
       .concat(polygonAgroApi.middleware)
       .concat(cropApi.middleware)
       .concat(socialMetricApi.middleware)
+      .concat(metaDataApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
