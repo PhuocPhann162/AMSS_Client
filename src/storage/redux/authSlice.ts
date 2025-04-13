@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { User } from '@/interfaces';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { User } from '@/interfaces';
 
 export const emptyUserState: User = {
   id: '',
@@ -14,7 +14,7 @@ export const emptyUserState: User = {
   avatar: '',
   refreshToken: '',
   isActive: true,
-  role: '',
+  role: undefined,
   createdAt: '',
   updatedAt: '',
 };
@@ -24,7 +24,7 @@ export const userAuthSlice = createSlice({
   initialState:
     (JSON.parse(localStorage.getItem('user')!) as User) || emptyUserState,
   reducers: {
-    setLoggedInUser: (state, action) => {
+    setLoggedInUser: (state, action: PayloadAction<User>) => {
       state.id = action.payload.id;
       state.fullName = action.payload.fullName;
       state.userName = action.payload.userName;

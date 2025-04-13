@@ -6,6 +6,7 @@ import {
   farmApi,
   fieldApi,
   locationApi,
+  metaDataApi,
   polygonAgroApi,
   polygonApi,
   socialMetricApi,
@@ -27,6 +28,7 @@ const store = configureStore({
     [polygonAgroApi.reducerPath]: polygonAgroApi.reducer,
     [cropApi.reducerPath]: cropApi.reducer,
     [socialMetricApi.reducerPath]: socialMetricApi.reducer,
+    [metaDataApi.reducerPath]: metaDataApi.reducer,
     [supplierApi.reducerPath]: supplierApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -41,6 +43,7 @@ const store = configureStore({
       .concat(polygonAgroApi.middleware)
       .concat(cropApi.middleware)
       .concat(socialMetricApi.middleware)
+      .concat(metaDataApi.middleware)
       .concat(supplierApi.middleware),
 });
 

@@ -1,4 +1,3 @@
-import authApi from './authApi';
 import userApi from './userApi';
 import locationApi from './locationApi';
 import farmApi from './farmApi';
@@ -11,7 +10,6 @@ import socialMetricApi from './socialMetricApi';
 import supplierApi from './supplierApi';
 
 export {
-  authApi,
   userApi,
   locationApi,
   farmApi,
@@ -23,3 +21,6 @@ export {
   socialMetricApi,
   supplierApi,
 };
+
+export * from './authApi';
+export * from './meta-data-api';

@@ -13,3 +13,12 @@ export default interface apiResponse {
   };
   error?: any;
 }
+
+export interface ApiResponse<T = unknown> {
+  statusCode: string;
+  isSuccess: boolean;
+  successMessage: string;
+  errorMessages: Array<string>;
+  result: T;
+  pagination?: any;
+}
