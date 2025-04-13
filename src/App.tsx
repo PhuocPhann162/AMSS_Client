@@ -35,6 +35,7 @@ import { useEffect } from 'react';
 import { setLoggedInUser } from './storage/redux/authSlice';
 import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
 import { AuthenticationLayout, HomeLayout } from '@/layouts';
+import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 
 function App() {
   const dispatch = useDispatch();
@@ -201,6 +202,16 @@ function App() {
               {
                 path: 'onlineStore',
                 element: <OnlineStore />,
+              },
+            ],
+          },
+          //Supplier Routes
+          {
+            path: 'supplier',
+            children: [
+              {
+                path: 'seedCrop',
+                element: <SeedCropSuppliers />,
               },
             ],
           },

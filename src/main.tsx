@@ -9,12 +9,16 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'leaflet-geosearch/dist/geosearch.css';
 import 'leaflet/dist/leaflet.css';
+import { ConfigProvider } from 'antd';
+import { themeConfig } from './configs/ant.configs.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer />
+      <ConfigProvider theme={themeConfig}>
+        <App />
+        <ToastContainer />
+      </ConfigProvider>
     </Provider>
   </StrictMode>,
 );
