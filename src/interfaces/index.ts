@@ -47,3 +47,4 @@ export type {
 };
 
 export * from './user';
+export * from './role';
