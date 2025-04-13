@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://localhost:7213/api/'
+    baseUrl: 'https://localhost:7213/api/',
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
@@ -11,33 +11,37 @@ const authApi = createApi({
         url: 'auth/register',
         method: 'POST',
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
         },
-        body: userData
-      })
+        body: userData,
+      }),
     }),
     loginUser: builder.mutation({
       query: (userCredentials) => ({
         url: 'auth/login',
         method: 'POST',
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
         },
-        body: userCredentials
-      })
+        body: userCredentials,
+      }),
     }),
     refreshToken: builder.mutation({
       query: (refreshToken) => ({
         url: 'auth/refreshToken',
         method: 'POST',
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
         },
-        body: refreshToken
-      })
-    })
-  })
+        body: refreshToken,
+      }),
+    }),
+  }),
 });
 
-export default authApi;
-export const { useRegisterUserMutation, useLoginUserMutation, useRefreshTokenMutation } = authApi;
+export { authApi };
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useRefreshTokenMutation,
+} = authApi;
