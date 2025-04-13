@@ -21,3 +21,4 @@ export {
 };
 
 export * from './authApi';
+export * from './meta-data-api';

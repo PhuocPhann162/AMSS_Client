@@ -23,6 +23,7 @@ import {
   Product,
   Profile,
   Register,
+  RegisterCustomer,
   Schedule,
   Settings,
   StorePage,
@@ -33,7 +34,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setLoggedInUser } from './storage/redux/authSlice';
 import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
-import { HomeLayout } from '@/layouts';
+import { AuthenticationLayout, HomeLayout } from '@/layouts';
 
 function App() {
   const dispatch = useDispatch();
@@ -67,8 +68,18 @@ function App() {
         ],
       },
       {
-        path: 'login',
-        element: <Login />,
+        path: '',
+        element: <AuthenticationLayout />,
+        children: [
+          {
+            path: 'login',
+            element: <Login />,
+          },
+          {
+            path: 'register',
+            element: <RegisterCustomer />,
+          },
+        ],
       },
       {
         path: 'accessDenied',
