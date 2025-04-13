@@ -1,0 +1,20 @@
+.ant-table-wrapper .ant-table {
+  scrollbar-color: unset;
+}
+
+.ant-table-tbody .ant-table-cell {
+  padding: 0.5rem !important;
+}
+
+.ant-table-column-sort {
+  background-color: inherit;
+}
+
+.ant-table-wrapper .ant-table-thead th.ant-table-column-has-sorters:hover {
+  background-color: unset;
+}
+
+.ant-table-wrapper .ant-table-thead th.ant-table-column-sort,
+.ant-table-wrapper td.ant-table-column-sort {
+  background-color: transparent;
+}

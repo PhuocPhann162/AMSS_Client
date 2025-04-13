@@ -8,6 +8,7 @@ import cropTypeApi from './cropTypeApi';
 import polygonAgroApi from './polygonAgroApi';
 import cropApi from './cropApi';
 import socialMetricApi from './socialMetricApi';
+import supplierApi from './supplierApi';
 
 export {
   authApi,
@@ -19,5 +20,6 @@ export {
   cropTypeApi,
   polygonAgroApi,
   cropApi,
-  socialMetricApi
+  socialMetricApi,
+  supplierApi,
 };
