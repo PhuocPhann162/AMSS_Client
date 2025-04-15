@@ -1,10 +1,8 @@
-import {
-  useGetCountriesQuery,
-  useGetProvincesQuery,
-  useRegisterUserMutation,
-} from '@/api';
+import { useGetProvincesQuery, useRegisterUserMutation } from '@/api';
 import { AButton, AInput, AInputPassword, ASelect } from '@/common/ui-common';
 import { FormLabel } from '@/components/form-label';
+import { SelectCountry } from '@/components/UI/select/select-country';
+import { SelectPhoneCode } from '@/components/UI/select/select-phonecode';
 import { cn } from '@/lib/utils';
 import { type RegisterRequest } from '@/models';
 import Form, { Rule } from 'antd/es/form';
@@ -36,40 +34,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
   const navigate = useNavigate();
 
   const [registerUser] = useRegisterUserMutation();
-  const getCountries = useGetCountriesQuery();
   const getProvinces = useGetProvincesQuery();
-
-  const countryOptions = useMemo(() => {
-    if (
-      !getCountries.isFetching &&
-      !getCountries.isError &&
-      getCountries.data
-    ) {
-      return getCountries.data.result.map((country) => ({
-        value: country.value,
-        label: country.name,
-      }));
-    }
-    return [];
-  }, [getCountries.data, getCountries.isFetching, getCountries.isError]);
-
-  const phoneCodeOptions = useMemo(() => {
-    if (
-      !getCountries.isFetching &&
-      !getCountries.isError &&
-      getCountries.data
-    ) {
-      return getCountries.data.result
-        .map((country) => {
-          return country.phoneCode.split(',').map((code) => ({
-            value: code,
-            label: code,
-          }));
-        })
-        .flat();
-    }
-    return [];
-  }, [getCountries.data, getCountries.isFetching, getCountries.isError]);
 
   const provinceOptions = useMemo(() => {
     if (
@@ -87,6 +52,14 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
 
   const formItems: FormItemType<RegisterRequest>[] = [
     {
+      label: 'Full Name',
+      name: 'fullName',
+      rule: [{ required: true }],
+      renderFormControl: (
+        <AInput autoComplete='fullName' placeholder='Enter your name' />
+      ),
+    },
+    {
       label: 'Email',
       name: 'userName',
       rule: [{ required: true, type: 'email' }],
@@ -96,14 +69,6 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
           autoComplete='email'
           placeholder='Enter your email'
         />
-      ),
-    },
-    {
-      label: 'Full Name',
-      name: 'fullName',
-      rule: [{ required: true }],
-      renderFormControl: (
-        <AInput autoComplete='fullName' placeholder='Enter your name' />
       ),
     },
     {
@@ -129,14 +94,25 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
       ),
     },
     {
+      label: 'Country',
+      name: 'country',
+      rule: [{ required: true }],
+      renderFormControl: <SelectCountry placeholder='Select your country' />,
+    },
+    {
+      label: 'Province',
+      name: 'provinceCode',
+      rule: [{ required: true }],
+      renderFormControl: (
+        <ASelect options={provinceOptions} placeholder='Select your province' />
+      ),
+    },
+    {
       label: 'Code',
       name: 'phoneCode',
       rule: [{ required: true }],
       renderFormControl: (
-        <ASelect
-          options={phoneCodeOptions}
-          placeholder='Select your phone code'
-        />
+        <SelectPhoneCode placeholder='Select your phone code' />
       ),
       classNames: {
         wrapper: 'col-span-2',
@@ -157,22 +133,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
         wrapper: 'col-span-4',
       },
     },
-    {
-      label: 'Country',
-      name: 'country',
-      rule: [{ required: true }],
-      renderFormControl: (
-        <ASelect options={countryOptions} placeholder='Select your country' />
-      ),
-    },
-    {
-      label: 'Province Code',
-      name: 'provinceCode',
-      rule: [{ required: true }],
-      renderFormControl: (
-        <ASelect options={provinceOptions} placeholder='Select your province' />
-      ),
-    },
+
     {
       label: 'Street Address',
       name: 'streetAddress',

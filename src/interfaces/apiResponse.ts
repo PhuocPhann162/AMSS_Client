@@ -1,4 +1,4 @@
-export default interface apiResponse {
+export interface apiResponse {
   data?: {
     // this will be included in suggestions so if possible use the format if u know that.
     statusCode?: number;
