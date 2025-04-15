@@ -14,10 +14,12 @@ import {
   userApi,
 } from '@/api';
 import { userAuthReducer } from './authSlice';
+import { countryReducer } from './countrySlice';
 
 const store = configureStore({
   reducer: {
     userAuthStore: userAuthReducer,
+    countryStore: countryReducer,
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [locationApi.reducerPath]: locationApi.reducer,

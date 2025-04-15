@@ -1,7 +1,6 @@
 export interface Country {
   value: string;
   name: string;
-  // Ex: abc,xyz,...
   phoneCode: string;
 }
 
