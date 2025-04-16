@@ -32,7 +32,11 @@ function Login() {
         password: userInput.password,
       }).unwrap();
 
-      const { user } = response.result;
+      const { user, token } = response.result;
+
+      localStorage.setItem('accessToken', token.accessToken);
+      localStorage.setItem('refreshToken', token.refreshToken);
+      localStorage.setItem('user', JSON.stringify(user));
 
       dispatch(setLoggedInUser(user));
       setLoading(false);
