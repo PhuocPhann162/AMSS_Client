@@ -1,5 +1,5 @@
 import { Role } from '@/interfaces';
-import SuppliersByRole from '../components/suppliers-by-role';
+import { SuppliersByRole } from '../components';
 
 export function SeedCropSuppliers() {
   return (

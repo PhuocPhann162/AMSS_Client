@@ -12,6 +12,7 @@ import {
 import { Mutex } from 'async-mutex';
 import { jwtDecode } from 'jwt-decode';
 import { type RootState } from '@/storage/redux/store';
+import qs from 'qs';
 
 const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
@@ -22,6 +23,9 @@ export const baseQuery = fetchBaseQuery({
       headers.set('Authorization', 'Bearer ' + accessToken);
     }
     return headers;
+  },
+  paramsSerializer: (params) => {
+    return qs.stringify(params, { arrayFormat: 'repeat' });
   },
 });
 
