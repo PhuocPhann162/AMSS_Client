@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { User } from '@/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/storage/redux/store';
-import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
+import { clearAuth } from '@/storage/redux/authSlice';
 import Dropdown from 'antd/es/dropdown';
 import { AAvatar } from '@/common/ui-common';
 import { getFirstTwoCharacters } from '@/lib/string';
@@ -14,14 +13,10 @@ export interface DropdownUserProps {
 
 export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
   const dispatch = useDispatch();
-  const userData: User = useSelector((state: RootState) => state.userAuthStore);
+  const userData = useSelector((state: RootState) => state.userAuthStore);
 
   const handleLockOut = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-
-    dispatch(setLoggedInUser({ ...emptyUserState }));
+    dispatch(clearAuth());
     window.location.replace('/');
   };
 
@@ -62,10 +57,10 @@ export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
       }}
     >
       <button className='flex items-center gap-2'>
-        <AAvatar src={userData.avatar}>
-          {getFirstTwoCharacters(userData.fullName || '')}
+        <AAvatar src={userData.user?.avatar}>
+          {getFirstTwoCharacters(userData.user?.fullName || '')}
         </AAvatar>
-        {showName && <p className='font-semibold'>{userData.fullName}</p>}
+        {showName && <p className='font-semibold'>{userData.user?.fullName}</p>}
       </button>
     </Dropdown>
   );
