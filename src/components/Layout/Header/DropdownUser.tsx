@@ -42,7 +42,7 @@ export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
 
   return (
     <Dropdown
-      trigger={['click', 'hover']}
+      trigger={['click']}
       menu={{
         items: items.map((item) => {
           return {
