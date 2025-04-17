@@ -4,11 +4,7 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
-import {
-  clearAuth,
-  emptyUserState,
-  setLoggedInUser,
-} from '@/storage/redux/authSlice';
+import { clearAuth, setAccessToken } from '@/storage/redux/authSlice';
 import { Mutex } from 'async-mutex';
 import { jwtDecode } from 'jwt-decode';
 import { type RootState } from '@/storage/redux/store';
@@ -34,8 +30,8 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  const refreshTokenValue = localStorage.getItem('refreshToken');
-  const decodeRefreshToken = jwtDecode(refreshTokenValue as string);
+  const refreshTokenValue = (api.getState() as RootState).userAuth.refreshToken;
+  const decodeRefreshToken = jwtDecode(refreshTokenValue || '');
 
   if (decodeRefreshToken.exp! < Math.floor(Date.now() / 1000)) {
     api.dispatch(clearAuth());
@@ -69,18 +65,14 @@ export const baseQueryWithReauth: BaseQueryFn<
         if (refreshResult.data) {
           console.log('refresh success');
           // store the new token in the store or wherever you keep it
-          localStorage.setItem(
-            'accessToken',
-            (refreshResult.data as { result: string }).result,
+          api.dispatch(
+            setAccessToken((refreshResult.data as { result: string }).result),
           );
           // retry the initial query
           result = await baseQuery(args, api, extraOptions);
         } else {
           // refresh failed - do something like redirect to login or show a "retry" button
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('user');
-          api.dispatch(setLoggedInUser({ ...emptyUserState }));
+          api.dispatch(clearAuth());
           window.location.replace('/login');
         }
       } finally {
