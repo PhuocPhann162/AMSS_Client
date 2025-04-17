@@ -1,37 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Logo } from '@/common';
-import { User } from '@/interfaces';
-import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
-import { RootState } from '@/storage/redux/store';
+import { Link, NavLink } from 'react-router-dom';
 import { AButton } from '@/common/ui-common';
 import { useIsMobile } from '@/hooks';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarTrigger,
-  useSidebar,
-} from '@/components/ui/Sidebar';
+import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { HeaderUnderOverlay, DropdownUser } from '@/components/Layout/Header';
 import { dashboardRoutes } from '@/routes';
+import { useAppSelector } from '@/hooks';
 
 export const HeaderPage = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const userData: User = useSelector((state: RootState) => state.userAuthStore);
+  const userData = useAppSelector((state) => state.userAuth.user);
   const isMobile = useIsMobile();
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    dispatch(setLoggedInUser({ ...emptyUserState }));
-    window.location.reload();
-  };
 
   return (
     <HeaderUnderOverlay
@@ -55,7 +32,7 @@ export const HeaderPage = () => {
               </NavLink>
             ))}
           </div>
-          {!userData.id ? <ButtonSignIn /> : <DropdownUser />}
+          {!userData ? <ButtonSignIn /> : <DropdownUser />}
         </>
       ) : (
         <SidebarTrigger />

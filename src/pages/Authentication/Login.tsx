@@ -3,7 +3,11 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '@/api/authApi';
 import { inputHelper, toastNotify } from '@/helper';
-import { setLoggedInUser } from '@/storage/redux/authSlice';
+import {
+  setAccessToken,
+  setLoggedInUser,
+  setRefreshToken,
+} from '@/storage/redux/authSlice';
 import type { LoginResponse } from '@/models';
 
 function Login() {
@@ -34,11 +38,10 @@ function Login() {
 
       const { user, token } = response.result;
 
-      localStorage.setItem('accessToken', token.accessToken);
-      localStorage.setItem('refreshToken', token.refreshToken);
-      localStorage.setItem('user', JSON.stringify(user));
-
+      dispatch(setAccessToken(token.accessToken));
+      dispatch(setRefreshToken(token.refreshToken));
       dispatch(setLoggedInUser(user));
+
       setLoading(false);
       toastNotify(response.successMessage || '');
       navigate('/app/dashBoard');

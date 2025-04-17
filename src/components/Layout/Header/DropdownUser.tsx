@@ -1,27 +1,21 @@
 import { Link } from 'react-router-dom';
-import { User } from '@/interfaces';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/storage/redux/store';
-import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
+import { clearAuth } from '@/storage/redux/authSlice';
 import Dropdown from 'antd/es/dropdown';
 import { AAvatar } from '@/common/ui-common';
 import { getFirstTwoCharacters } from '@/lib/string';
 import { FC } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 export interface DropdownUserProps {
   showName?: boolean;
 }
 
 export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
-  const dispatch = useDispatch();
-  const userData: User = useSelector((state: RootState) => state.userAuthStore);
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.userAuth.user);
 
   const handleLockOut = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-
-    dispatch(setLoggedInUser({ ...emptyUserState }));
+    dispatch(clearAuth());
     window.location.replace('/');
   };
 
@@ -44,6 +38,8 @@ export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
     },
   ];
 
+  if (!userData) return null;
+
   return (
     <Dropdown
       trigger={['click', 'hover']}
@@ -62,10 +58,10 @@ export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
       }}
     >
       <button className='flex items-center gap-2'>
-        <AAvatar src={userData.avatar}>
-          {getFirstTwoCharacters(userData.fullName || '')}
+        <AAvatar src={userData?.avatar}>
+          {getFirstTwoCharacters(userData?.fullName || '')}
         </AAvatar>
-        {showName && <p className='font-semibold'>{userData.fullName}</p>}
+        {showName && <p className='font-semibold'>{userData?.fullName}</p>}
       </button>
     </Dropdown>
   );

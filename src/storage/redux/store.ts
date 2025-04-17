@@ -16,9 +16,9 @@ import {
 import { userAuthReducer } from './authSlice';
 import { countryReducer } from './countrySlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    userAuthStore: userAuthReducer,
+    userAuth: userAuthReducer,
     countryStore: countryReducer,
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
@@ -50,4 +50,4 @@ const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export default store;
+export type AppDispatch = typeof store.dispatch;

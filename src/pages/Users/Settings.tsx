@@ -3,23 +3,22 @@ import userOne from '../../../public/avatar.png';
 import { useUpdateInfoMutation } from '@/api/userApi';
 import React, { useState } from 'react';
 import { apiResponse, User } from '@/interfaces';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/storage/redux/store';
 import { inputHelper, toastNotify } from '@/helper';
 import { MiniLoader } from '@/components/Page/common';
 import { Modal } from '@/common';
 import { useNavigate } from 'react-router-dom';
 import { AButton } from '@/common/ui-common';
+import { useAppSelector } from '@/hooks';
 
 const Settings = () => {
-  const userData: User = useSelector((state: RootState) => state.userAuthStore);
+  const userData = useAppSelector((state) => state.userAuth.user);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
-    fullName: userData.fullName,
-    phoneNumber: userData.phoneNumber,
-    userName: userData.userName,
-    email: userData.email,
+    fullName: userData?.fullName,
+    phoneNumber: userData?.phoneNumber,
+    userName: userData?.userName,
+    email: userData?.email,
   });
   const [updateInfo] = useUpdateInfoMutation();
 
@@ -30,10 +29,10 @@ const Settings = () => {
 
   const handleCancel = () => {
     setUserInputs({
-      fullName: userData.fullName,
-      phoneNumber: userData.phoneNumber,
-      userName: userData.userName,
-      email: userData.email,
+      fullName: userData?.fullName,
+      phoneNumber: userData?.phoneNumber,
+      userName: userData?.userName,
+      email: userData?.email,
     });
   };
 
@@ -42,7 +41,7 @@ const Settings = () => {
 
     try {
       const response: apiResponse = await updateInfo({
-        userId: userData.id,
+        userId: userData?.id,
         data: {
           fullName: userInputs.fullName,
           phoneNumber: userInputs.phoneNumber,

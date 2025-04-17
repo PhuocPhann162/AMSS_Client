@@ -3,21 +3,26 @@ import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
-  FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query';
-import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
+import {
+  clearAuth,
+  emptyUserState,
+  setLoggedInUser,
+} from '@/storage/redux/authSlice';
 import { Mutex } from 'async-mutex';
-import { MaybePromise } from 'node_modules/@reduxjs/toolkit/dist/query/tsHelpers';
-import { QueryReturnValue } from 'node_modules/@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { jwtDecode } from 'jwt-decode';
+import { type RootState } from '@/storage/redux/store';
 import qs from 'qs';
 
 const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_BASE_URL as string,
+  baseUrl: import.meta.env.VITE_BASE_URL,
   prepareHeaders: (headers: Headers, api) => {
-    const accessToken = localStorage.getItem('accessToken');
-    accessToken && headers.append('Authorization', 'Bearer ' + accessToken);
+    const accessToken = (api.getState() as RootState).userAuth.accessToken;
+    if (accessToken) {
+      headers.set('Authorization', 'Bearer ' + accessToken);
+    }
+    return headers;
   },
   paramsSerializer: (params) => {
     return qs.stringify(params, { arrayFormat: 'repeat' });
@@ -33,20 +38,15 @@ export const baseQueryWithReauth: BaseQueryFn<
   const decodeRefreshToken = jwtDecode(refreshTokenValue as string);
 
   if (decodeRefreshToken.exp! < Math.floor(Date.now() / 1000)) {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    api.dispatch(setLoggedInUser({ ...emptyUserState }));
+    api.dispatch(clearAuth());
     window.location.replace('/login');
   }
 
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
-  let result: MaybePromise<
-    QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
-  > = await baseQuery(args, api, extraOptions);
+  let result = await baseQuery(args, api, extraOptions);
 
-  if ((result?.error as any)?.status === 401) {
+  if (result.error?.status === 401) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();

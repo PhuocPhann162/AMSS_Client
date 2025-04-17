@@ -1,3 +1,3 @@
-import store from './redux/store';
+import { store } from './redux/store';
 
 export { store };

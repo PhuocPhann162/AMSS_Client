@@ -9,9 +9,10 @@ import { ScrollAnimationWrapper } from '@/components/Animation';
 import { useMemo } from 'react';
 import { getScrollAnimation } from '@/helper';
 import { AButton } from '@/common/ui-common';
+import { useAppSelector } from '@/hooks';
 
 export default function HomePage() {
-  const userData: User = useSelector((state: RootState) => state.userAuthStore);
+  const userData = useAppSelector((state) => state.userAuth.user);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   return (
@@ -33,9 +34,9 @@ export default function HomePage() {
             <p className='text-white md:text-lg'>
               Connecting agriculture, ensuring transparent origins
             </p>
-            <Link to={userData.id ? '/app/dashBoard' : '/login'}>
+            <Link to={userData?.id ? '/app/dashBoard' : '/login'}>
               <AButton type='primary'>
-                {userData.id ? 'Manage Farm Now' : 'Discover More'}
+                {userData?.id ? 'Manage Farm Now' : 'Discover More'}
               </AButton>
             </Link>
           </div>
