@@ -1,15 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { RootState } from '@/storage/redux/store';
 import { AButton } from '@/common/ui-common';
 import { useIsMobile } from '@/hooks';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { HeaderUnderOverlay, DropdownUser } from '@/components/Layout/Header';
 import { dashboardRoutes } from '@/routes';
+import { useAppSelector } from '@/hooks';
 
 export const HeaderPage = () => {
-  const dispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.userAuthStore);
+  const userData = useAppSelector((state) => state.userAuth.user);
   const isMobile = useIsMobile();
 
   return (
@@ -34,7 +32,7 @@ export const HeaderPage = () => {
               </NavLink>
             ))}
           </div>
-          {!userData.user ? <ButtonSignIn /> : <DropdownUser />}
+          {!userData ? <ButtonSignIn /> : <DropdownUser />}
         </>
       ) : (
         <SidebarTrigger />

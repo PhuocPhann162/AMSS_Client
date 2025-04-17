@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/storage/redux/store';
 import { User } from '@/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
+import { useAppSelector } from '@/hooks';
 
 const Profile = () => {
-  const userData: User = useSelector((state: RootState) => state.userAuthStore);
+  const userData = useAppSelector((state) => state.userAuth.user);
 
   return (
     <div>
@@ -58,7 +59,7 @@ const Profile = () => {
           <div className='-mt-22 h-30 max-w-30 relative z-30 mx-auto w-full rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3'>
             <div className='relative drop-shadow-2'>
               <img
-                src={userData.avatar ? userData.avatar : Avatar}
+                src={userData?.avatar ? userData.avatar : Avatar}
                 alt='profile'
               />
               <label
@@ -97,11 +98,13 @@ const Profile = () => {
           </div>
           <div className='mt-4'>
             <h3 className='mb-1.5 text-2xl font-semibold text-black dark:text-white'>
-              {userData.fullName}
+              {userData?.fullName}
             </h3>
             <p className='flex items-center justify-center gap-2 font-medium'>
-              <span>{flagemojiToPNG(convertToEmoji(userData.country!))}</span>{' '}
-              {userData.userName}
+              <span>
+                {flagemojiToPNG(convertToEmoji(userData?.country || ''))}
+              </span>{' '}
+              {userData?.userName}
             </p>
             <div className='mt-4.5 mb-5.5 mx-auto grid grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]'>
               <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark'>
@@ -121,7 +124,7 @@ const Profile = () => {
                     />
                   </svg>
                 </span>
-                <span className='text-sm'>+{userData.phoneNumber}</span>
+                <span className='text-sm'>+{userData?.phoneNumber}</span>
               </div>
               <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark'>
                 <span className='font-semibold text-black dark:text-white'>
@@ -142,11 +145,11 @@ const Profile = () => {
                   </svg>
                 </span>
                 <span className='text-sm'>
-                  {userData.streetAddress +
+                  {userData?.streetAddress +
                     ', ' +
-                    userData.state +
+                    userData?.state +
                     ', ' +
-                    userData.city}
+                    userData?.city}
                 </span>
               </div>
               <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 px-4'>
@@ -166,7 +169,7 @@ const Profile = () => {
                     />
                   </svg>
                 </span>
-                <span className='text-sm'>{userData.email}</span>
+                <span className='text-sm'>{userData?.email}</span>
               </div>
             </div>
 

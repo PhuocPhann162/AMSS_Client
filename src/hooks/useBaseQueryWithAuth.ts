@@ -3,8 +3,6 @@ import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  QueryReturnValue,
 } from '@reduxjs/toolkit/query';
 import {
   clearAuth,
@@ -12,17 +10,18 @@ import {
   setLoggedInUser,
 } from '@/storage/redux/authSlice';
 import { Mutex } from 'async-mutex';
-import { MaybePromise } from 'node_modules/@reduxjs/toolkit/dist/query/tsHelpers';
 import { jwtDecode } from 'jwt-decode';
+import { type RootState } from '@/storage/redux/store';
 
 const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
   prepareHeaders: (headers: Headers, api) => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = (api.getState() as RootState).userAuth.accessToken;
     if (accessToken) {
-      headers.append('Authorization', 'Bearer ' + accessToken);
+      headers.set('Authorization', 'Bearer ' + accessToken);
     }
+    return headers;
   },
 });
 
@@ -41,11 +40,9 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
-  let result: MaybePromise<
-    QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
-  > = await baseQuery(args, api, extraOptions);
+  let result = await baseQuery(args, api, extraOptions);
 
-  if ((result?.error as any)?.status === 401) {
+  if (result.error?.status === 401) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
