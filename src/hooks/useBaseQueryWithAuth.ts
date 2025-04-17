@@ -1,10 +1,16 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+} from '@reduxjs/toolkit/query';
 import { emptyUserState, setLoggedInUser } from '@/storage/redux/authSlice';
 import { Mutex } from 'async-mutex';
 import { MaybePromise } from 'node_modules/@reduxjs/toolkit/dist/query/tsHelpers';
 import { QueryReturnValue } from 'node_modules/@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { jwtDecode } from 'jwt-decode';
+import qs from 'qs';
 
 const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
@@ -12,14 +18,17 @@ export const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers: Headers, api) => {
     const accessToken = localStorage.getItem('accessToken');
     accessToken && headers.append('Authorization', 'Bearer ' + accessToken);
-  }
+  },
+  paramsSerializer: (params) => {
+    return qs.stringify(params, { arrayFormat: 'repeat' });
+  },
 });
 
-export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
-  args,
-  api,
-  extraOptions
-) => {
+export const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
   const refreshTokenValue = localStorage.getItem('refreshToken');
   const decodeRefreshToken = jwtDecode(refreshTokenValue as string);
 
@@ -33,11 +42,9 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
 
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
-  let result: MaybePromise<QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>> = await baseQuery(
-    args,
-    api,
-    extraOptions
-  );
+  let result: MaybePromise<
+    QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
+  > = await baseQuery(args, api, extraOptions);
 
   if ((result?.error as any)?.status === 401) {
     // checking whether the mutex is locked
@@ -50,19 +57,22 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
             url: '/auth/refreshToken',
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ RefreshToken: refreshTokenValue })
+            body: JSON.stringify({ RefreshToken: refreshTokenValue }),
           },
           { ...api },
-          extraOptions
+          extraOptions,
         );
         console.log(refreshResult);
 
         if (refreshResult.data) {
           console.log('refresh success');
           // store the new token in the store or wherever you keep it
-          localStorage.setItem('accessToken', (refreshResult.data as { result: string }).result);
+          localStorage.setItem(
+            'accessToken',
+            (refreshResult.data as { result: string }).result,
+          );
           // retry the initial query
           result = await baseQuery(args, api, extraOptions);
         } else {

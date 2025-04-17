@@ -1,20 +1,26 @@
 import { useGetSeedCropSuppliersQuery } from '@/api/supplierApi';
 import { AButton, ATable } from '@/common/ui-common';
+import {
+  AFilterDropdown,
+  FilterOpstion,
+} from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { SearchInput } from '@/components/UI/search-input';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
-import { apiResponse, Role } from '@/interfaces';
+import { apiResponse, Country, Role } from '@/interfaces';
 import { GetSuppliersResponse } from '@/models';
+import { RootState } from '@/storage/redux/store';
 import { TableParams } from '@/utils/models/Tables';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 interface SuppliersByRoleProps {
   supplierRole: Role;
 }
 
-function SuppliersByRole(props: SuppliersByRoleProps) {
+export function SuppliersByRole(props: SuppliersByRoleProps) {
   const { supplierRole } = props;
   const [searchValue, setSearchValue] = useState<string>('');
   const [tableParams, setTableParams] =
@@ -24,56 +30,64 @@ function SuppliersByRole(props: SuppliersByRoleProps) {
   const [totalRecord, setTotalRecord] = useState<number>(0);
   const { data, isLoading } = useGetSeedCropSuppliersQuery({
     supplierRole: supplierRole,
+    countryCodes:
+      tableParams.filters && (tableParams.filters['CountryName'] as string[]),
     currentPage: tableParams.pagination?.current ?? 1,
     limit: tableParams.pagination?.pageSize ?? 10,
     orderBy: tableParams.sortField?.toString() ?? 'CreatedAt',
     orderByDirection: tableParams.sortOrder === 'ascend' ? 0 : 1,
     search: searchValue,
   });
+  const allCountries: Country[] = useSelector(
+    (state: RootState) => state.countryStore,
+  );
+  const [countryFilters, setCountryFilters] = useState<FilterOpstion[]>([]);
 
   const activityLogCol: ColumnsType = useMemo(() => {
     return [
       {
         width: '6rem',
         title: 'Company Name',
-        dataIndex: 'name',
+        dataIndex: 'Name',
         sorter: true,
         ellipsis: true,
       },
       {
         width: '6rem',
         title: 'Contact Name',
-        dataIndex: 'contactName',
+        dataIndex: 'ContactName',
         sorter: true,
         ellipsis: true,
       },
       {
         width: '7rem',
         title: 'Email',
-        dataIndex: 'email',
+        dataIndex: 'Email',
         ellipsis: true,
       },
       {
         width: '6rem',
         title: 'Contact Number',
-        dataIndex: 'phoneNumber',
+        dataIndex: 'PhoneNumber',
         ellipsis: true,
         render: (_, record) => {
-          const { phoneCode, phoneNumber } = record;
-          return `${phoneCode || ''} ${phoneNumber || ''}`;
+          const { PhoneCode, PhoneNumber } = record;
+          return `${PhoneCode || ''} ${PhoneNumber || ''}`;
         },
       },
       {
         width: '5rem',
         title: 'Country',
-        dataIndex: 'countryName',
-        sorter: true,
+        dataIndex: 'CountryName',
+        filterDropdown: (props) => (
+          <AFilterDropdown {...props} optionsFilter={countryFilters} />
+        ),
         ellipsis: true,
       },
       {
         width: '5rem',
         title: 'Province',
-        dataIndex: 'provinceName',
+        dataIndex: 'ProvinceName',
         sorter: true,
         ellipsis: true,
         render: (value: string) => value || 'N/A',
@@ -82,7 +96,7 @@ function SuppliersByRole(props: SuppliersByRoleProps) {
         title: 'Created Date',
         align: 'center',
         width: '5rem',
-        dataIndex: 'createdAt',
+        dataIndex: 'CreatedAt',
         sorter: true,
         ellipsis: true,
         render: (value: string) => displayDateTimeByLocale(value),
@@ -100,7 +114,20 @@ function SuppliersByRole(props: SuppliersByRoleProps) {
         ),
       },
     ];
-  }, []);
+  }, [countryFilters]);
+
+  useEffect(() => {
+    const countryOptions = allCountries
+      .map((item: Country) => {
+        return {
+          title: `${item.name}`,
+          key: `${item.value}`,
+        };
+      })
+      .slice()
+      .sort((a, b) => a.title.localeCompare(b.title));
+    setCountryFilters(countryOptions);
+  }, [allCountries]);
 
   useEffect(() => {
     const getSeedCropSuppliers = () => {
@@ -114,7 +141,7 @@ function SuppliersByRole(props: SuppliersByRoleProps) {
       }
     };
     getSeedCropSuppliers();
-  }, [data]);
+  }, [searchValue, data, tableParams]);
 
   return (
     <div className='flex flex-col gap-1'>
@@ -148,5 +175,3 @@ function SuppliersByRole(props: SuppliersByRoleProps) {
     </div>
   );
 }
-
-export default SuppliersByRole;

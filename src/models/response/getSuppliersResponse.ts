@@ -1,13 +1,13 @@
 export interface GetSuppliersResponse {
-  id: string;
-  name: string;
-  contactName: string;
-  countryName: string;
-  countryCode: string;
-  provinceCode?: string;
-  provinceName?: string;
-  email: string;
-  phoneCode: string;
-  phoneNumber: string;
-  createdAt: string;
+  Id: string;
+  Name: string;
+  ContactName: string;
+  CountryName: string;
+  CountryCode: string;
+  ProvinceCode?: string;
+  ProvinceName?: string;
+  Email: string;
+  PhoneCode: string;
+  PhoneNumber: string;
+  CreatedAt: string;
 }
