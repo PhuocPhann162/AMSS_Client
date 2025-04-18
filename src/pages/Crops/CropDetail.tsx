@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetCropByIdQuery } from '@/api/cropApi';
+import { useGetCropByIdQuery } from '@/api/app/cropApi';
 import {
   CareLevelIcon,
   CycleIcon,

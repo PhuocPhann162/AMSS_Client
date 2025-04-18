@@ -1,6 +1,6 @@
 import { Breadcrumb } from '@/components/UI';
 import userOne from '../../../public/avatar.png';
-import { useUpdateInfoMutation } from '@/api/userApi';
+import { useUpdateInfoMutation } from '@/api/app/userApi';
 import React, { useState } from 'react';
 import { apiResponse, User } from '@/interfaces';
 import { inputHelper, toastNotify } from '@/helper';

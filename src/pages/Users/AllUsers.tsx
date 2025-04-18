@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useGetAllUsersQuery, useLockUnLockUserMutation } from '@/api/userApi';
+import {
+  useGetAllUsersQuery,
+  useLockUnLockUserMutation,
+} from '@/api/app/userApi';
 import { Modal, Pagination } from '@/common';
 import { MainLoader } from '@/components/Page/common';
 import { Breadcrumb } from '@/components/UI';

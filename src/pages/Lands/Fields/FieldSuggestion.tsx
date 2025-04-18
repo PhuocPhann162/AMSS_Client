@@ -2,8 +2,8 @@ import { ScrollAnimationWrapper } from '@/components/Animation';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { getPlanListSuggest, getScrollAnimation } from '@/helper';
-import { Link, NavLink, useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '@/api/fieldApi';
+import { useParams } from 'react-router-dom';
+import { useGetFieldByIdQuery } from '@/api/app/fieldApi';
 import { fieldModel, plantSuggestModel } from '@/interfaces';
 import LandImage from '../../../../public/LandTemp.jpg';
 import { PlantSugesstion } from '@/components/Page/Fields';
@@ -40,54 +40,54 @@ export const FieldSuggestion = () => {
       <div className='flex flex-col gap-6'>
         <ScrollAnimationWrapper>
           <motion.div variants={scrollAnimation} className='grid grid-cols-1'>
-            <div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default w-full'>
+            <div className='px-7.5 w-full rounded-sm border border-stroke bg-white py-6 shadow-default'>
               <div>Soil Quality</div>
-              <div className='grid grid-cols-3 py-4 px-6'>
-                <img src={LandImage} className='h-full col-span-1' />
-                <div className='bg-be grid grid-cols-2 col-span-2'>
+              <div className='grid grid-cols-3 px-6 py-4'>
+                <img src={LandImage} className='col-span-1 h-full' />
+                <div className='col-span-2 grid grid-cols-2 bg-be'>
                   <div className='px-16 py-4'>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Chlorophyll:</p>
+                      <p className='font-medium text-black'>Chlorophyll:</p>
                       <p>{fieldData?.soilQuality?.chlorophyll} µg/L</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Iron:</p>
+                      <p className='font-medium text-black'>Iron:</p>
                       <p>{fieldData?.soilQuality?.iron} mol/L</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Nitrate:</p>
+                      <p className='font-medium text-black'>Nitrate:</p>
                       <p>{fieldData?.soilQuality?.nitrate} mol/L</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Phyto:</p>
+                      <p className='font-medium text-black'>Phyto:</p>
                       <p>{fieldData?.soilQuality?.phyto} g C/m³L</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Oxygen:</p>
+                      <p className='font-medium text-black'>Oxygen:</p>
                       <p>{fieldData?.soilQuality?.oxygen} mol/L</p>
                     </div>
 
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Phytoplankton:</p>
+                      <p className='font-medium text-black'>Phytoplankton:</p>
                       <p>{fieldData?.soilQuality?.phytoplankton} g C/m³</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Silicate:</p>
+                      <p className='font-medium text-black'>Silicate:</p>
                       <p>{fieldData?.soilQuality?.silicate} mol/L</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>Salinity:</p>
+                      <p className='font-medium text-black'>Salinity:</p>
                       <p>{fieldData?.soilQuality?.salinity} per mille</p>
                     </div>
 
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>pH:</p>
+                      <p className='font-medium text-black'>pH:</p>
                       <p>{fieldData?.soilQuality?.pH}</p>
                     </div>
                   </div>
                   <div className='px-12 py-4'>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>SoilTemperature:</p>
+                      <p className='font-medium text-black'>SoilTemperature:</p>
                     </div>
                     <div className='flex items-center gap-1'>
                       <p className='font-medium'>+0-10cm below surface:</p>
@@ -106,7 +106,7 @@ export const FieldSuggestion = () => {
                       <p>{fieldData?.soilQuality?.soilTemperature100cm}°C</p>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <p className='text-black font-medium'>SoilMoisture:</p>
+                      <p className='font-medium text-black'>SoilMoisture:</p>
                     </div>
                     <div className='flex items-center gap-1'>
                       <p className='font-medium'>+0-10cm below surface:</p>

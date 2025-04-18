@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLoginUserMutation } from '@/api/authApi';
+import { useLoginUserMutation } from '@/api/app/authApi';
 import { inputHelper, toastNotify } from '@/helper';
 import {
   setAccessToken,

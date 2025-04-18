@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
-import { useGetAllFarmsQuery } from '@/api/farmApi';
+import { useGetAllFarmsQuery } from '@/api/app/farmApi';
 import { Pagination } from '@/common';
 import {
   CreateIcon,

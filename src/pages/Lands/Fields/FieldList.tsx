@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
-import { useGetAllFieldsQuery } from '@/api/fieldApi';
+import { useGetAllFieldsQuery } from '@/api/app/fieldApi';
 import { Pagination } from '@/common';
 import { AButton, ATag } from '@/common/ui-common';
 import {
