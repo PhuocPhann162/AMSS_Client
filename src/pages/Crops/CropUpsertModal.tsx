@@ -7,7 +7,7 @@ import {
   useCreateCropMutation,
   useGetCropByIdQuery,
   useUpdateCropMutation,
-} from '@/api/cropApi';
+} from '@/api/app/cropApi';
 import { AButton } from '@/common/ui-common';
 import { EditTableIcon } from '@/components/Icon';
 import { MiniLoader } from '@/components/Page/common';

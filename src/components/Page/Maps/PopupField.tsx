@@ -2,7 +2,7 @@ import * as turf from '@turf/turf';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useDeleteFieldMutation } from '@/api/fieldApi';
+import { useDeleteFieldMutation } from '@/api/app/fieldApi';
 import { Modal } from '@/common';
 import {
   DeletePopupIcon,
@@ -11,7 +11,7 @@ import {
   LightIcon,
   MarkerPopupIcon,
   RiverIcon,
-  SearchWorldIcon
+  SearchWorldIcon,
 } from '@/components/Icon';
 import { findNearestRiver } from '@/helper';
 import { fieldModel } from '@/interfaces';
@@ -34,11 +34,11 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
           pending: 'Processing your request...',
           success: 'Field deleted successfully 👌',
 
-          error: 'An unexpected error occured 🤯'
+          error: 'An unexpected error occured 🤯',
         },
         {
-          theme: 'colored'
-        }
+          theme: 'colored',
+        },
       );
       (document.getElementById('fuco_modal') as HTMLDialogElement)?.close();
     } catch (error: any) {
@@ -49,7 +49,10 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
   useEffect(() => {
     async function findNearestRiverAsync() {
       if (fieldInfo) {
-        const river = await findNearestRiver(fieldInfo.location?.lat ?? 0, fieldInfo.location?.lng ?? 0);
+        const river = await findNearestRiver(
+          fieldInfo.location?.lat ?? 0,
+          fieldInfo.location?.lng ?? 0,
+        );
         setNearestRiver(river);
         // const plant = await getPlantSuggest();
         // setPlantSuggest(plant);
@@ -60,10 +63,10 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
 
   return (
     <>
-      <div className='flex flex-col w-80 gap-1 '>
+      <div className='flex w-80 flex-col gap-1'>
         <PopupCrop fieldId={fieldInfo.id!} />
 
-        <div className='flex items-center font-bold text-lg text-brown gap-1'>
+        <div className='flex items-center gap-1 text-lg font-bold text-brown'>
           <MarkerPopupIcon />
           {fieldInfo.name}
         </div>
@@ -71,40 +74,51 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
         <div className='flex items-center justify-between'>
           <Link
             to={`/app/land/field/suggestion/${fieldInfo.id}`}
-            className='flex items-center font-bold underline text-sm text-brown gap-1'
+            className='flex items-center gap-1 text-sm font-bold text-brown underline'
           >
             {fieldInfo.name} <LightIcon />
           </Link>
         </div>
 
-        <div className='flex items-center text-sm gap-2 mt-4'>
+        <div className='mt-4 flex items-center gap-2 text-sm'>
           <div className='font-bold'>Total area:</div>
           <div className='text-zinc-500'>
-            {fieldInfo.area!.toFixed(2)} m² ({turf.convertArea(fieldInfo.area!, 'meters', 'acres').toFixed(2)} acres)
+            {fieldInfo.area!.toFixed(2)} m² (
+            {turf.convertArea(fieldInfo.area!, 'meters', 'acres').toFixed(2)}{' '}
+            acres)
           </div>
         </div>
-        <div className='flex items-center text-sm gap-2'>
+        <div className='flex items-center gap-2 text-sm'>
           <div className='font-bold'>Neareast River:</div>
-          <div className='text-zinc-500 flex items-center gap-1'>
+          <div className='flex items-center gap-1 text-zinc-500'>
             <RiverIcon />
             {nearestRiver ? nearestRiver : 'No river found nearby'}
           </div>
         </div>
-        <div className='text-sm mt-2'>
-          <Link to={`/app/gpaSearch/home/${fieldInfo.id}?type=1`} className='flex items-center gap-1'>
+        <div className='mt-2 text-sm'>
+          <Link
+            to={`/app/gpaSearch/home/${fieldInfo.id}?type=1`}
+            className='flex items-center gap-1'
+          >
             <SearchWorldIcon />
             <div className='underline'>Search Social Indicators</div>
           </Link>
         </div>
         <div className='text-sm'>
-          <Link to={`/app/land/field/weather/${fieldInfo.id}`} className='flex items-center gap-1'>
+          <Link
+            to={`/app/land/field/weather/${fieldInfo.id}`}
+            className='flex items-center gap-1'
+          >
             <ForecastIcon />
             <div className='underline'>Weather Forecast</div>
           </Link>
         </div>
-        <div className='text-sm flex items-center gap-1'>
+        <div className='flex items-center gap-1 text-sm'>
           <EditTableIcon />
-          <Link to={`/app/land/field/updateField/${fieldInfo.id}`} className='flex items-center gap-1'>
+          <Link
+            to={`/app/land/field/updateField/${fieldInfo.id}`}
+            className='flex items-center gap-1'
+          >
             <div className='underline'>Edit Detail</div>
           </Link>
         </div>
@@ -112,14 +126,20 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
           <button
             className='flex items-center gap-1'
             onClick={() => {
-              (document.getElementById('fuco_modal') as HTMLDialogElement)?.showModal();
+              (
+                document.getElementById('fuco_modal') as HTMLDialogElement
+              )?.showModal();
             }}
           >
             <DeletePopupIcon />
             <div className='underline'>Delete</div>
           </button>
         </div>
-        <Modal width='' title='delete this field?' onConfirm={() => handleDelete(fieldInfo.id ?? '')} />
+        <Modal
+          width=''
+          title='delete this field?'
+          onConfirm={() => handleDelete(fieldInfo.id ?? '')}
+        />
       </div>
     </>
   );

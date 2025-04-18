@@ -1,13 +1,13 @@
-import userApi from './userApi';
-import locationApi from './locationApi';
-import farmApi from './farmApi';
-import fieldApi from './fieldApi';
-import polygonApi from './polygonApi';
-import cropTypeApi from './cropTypeApi';
+import userApi from './app/userApi';
+import locationApi from './app/locationApi';
+import farmApi from './app/farmApi';
+import fieldApi from './app/fieldApi';
+import polygonApi from './app/polygonApi';
+import cropTypeApi from './app/cropTypeApi';
 import polygonAgroApi from './polygonAgroApi';
-import cropApi from './cropApi';
-import socialMetricApi from './socialMetricApi';
-import supplierApi from './supplierApi';
+import cropApi from './app/cropApi';
+import socialMetricApi from './app/socialMetricApi';
+import supplierApi from './app/supplierApi';
 
 export {
   userApi,
@@ -22,5 +22,5 @@ export {
   supplierApi,
 };
 
-export * from './authApi';
-export * from './meta-data-api';
+export * from './app/authApi';
+export * from './app/meta-data-api';

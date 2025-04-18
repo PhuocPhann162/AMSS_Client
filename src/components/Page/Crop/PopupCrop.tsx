@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
-import { useGetCropsByFieldIdQuery } from '@/api/cropApi';
+import { useGetCropsByFieldIdQuery } from '@/api/app/cropApi';
 import { MiniLoader } from '../common';
 import { fieldCropModel } from '@/interfaces';
 
@@ -28,11 +28,14 @@ export const PopupCrop = ({ fieldId }: PopupCropProps) => {
       {!isLoading && (
         <div className='flex items-center gap-1'>
           {fieldCrop?.map((fc) => (
-            <Link key={fc.cropId} to={`/app/crop/myCrops/cropDetail/${fc.cropId}`}>
+            <Link
+              key={fc.cropId}
+              to={`/app/crop/myCrops/cropDetail/${fc.cropId}`}
+            >
               <motion.img
                 variants={scrollAnimation}
                 src={fc.crop?.icon}
-                className='w-12 h-12 rounded-full'
+                className='h-12 w-12 rounded-full'
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}

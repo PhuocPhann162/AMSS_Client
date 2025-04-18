@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import * as turf from '@turf/turf';
 import { inputHelper, toastNotify } from '@/helper';
-import { useCreateFarmMutation, useGetAllFarmsQuery } from '@/api/farmApi';
-import { apiResponse, farmModel, locationModel, pointModel } from '@/interfaces';
-import { useCreateLocationMutation } from '@/api/locationApi';
-import { useCreateFieldMutation } from '@/api/fieldApi';
+import { useCreateFarmMutation, useGetAllFarmsQuery } from '@/api/app/farmApi';
+import {
+  apiResponse,
+  farmModel,
+  locationModel,
+  pointModel,
+} from '@/interfaces';
+import { useCreateLocationMutation } from '@/api/app/locationApi';
+import { useCreateFieldMutation } from '@/api/app/fieldApi';
 import { SD_PlaceType } from '@/utils/SD';
-import { useCreatePolygonMutation } from '@/api/polygonApi';
+import { useCreatePolygonMutation } from '@/api/app/polygonApi';
 import { MiniLoader } from '../common';
 interface CreateFarmModalProps {
   area?: number;
@@ -15,7 +20,12 @@ interface CreateFarmModalProps {
   onCancel?: () => void;
 }
 
-export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarmModalProps) => {
+export const CreateFarmModal = ({
+  area,
+  location,
+  points,
+  onCancel,
+}: CreateFarmModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({
     name: '',
@@ -23,7 +33,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
     placeType: '',
     growLocation: '',
     color: '',
-    farmId: ''
+    farmId: '',
   });
   const [createLocation] = useCreateLocationMutation();
   const [createPolygon] = useCreatePolygonMutation();
@@ -31,7 +41,9 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
   const [createField] = useCreateFieldMutation();
   const { data } = useGetAllFarmsQuery('');
 
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleUserInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const tempData = inputHelper(e, userInputs);
     setUserInputs(tempData);
   };
@@ -51,7 +63,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
       const newPolygon: apiResponse = await createPolygon({
         color: userInputs.color,
         type: userInputs.placeType === 'Farm' ? 1 : 0,
-        positions: points
+        positions: points,
       });
       const polygonId = newPolygon.data?.result.id ?? '';
       return polygonId;
@@ -96,10 +108,16 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
 
           if (response.data && response.data.isSuccess) {
             setIsLoading(false);
-            toastNotify(response.data?.successMessage || 'Farm created successfully');
+            toastNotify(
+              response.data?.successMessage || 'Farm created successfully',
+            );
           } else {
             setIsLoading(false);
-            toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create farm', 'error');
+            toastNotify(
+              response.error?.data.errorMessages[0] ??
+                'Something wrong when create farm',
+              'error',
+            );
           }
         } else if (userInputs.placeType === 'Field') {
           // Create Field
@@ -112,10 +130,16 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
 
           if (response.data && response.data.isSuccess) {
             setIsLoading(false);
-            toastNotify(response.data?.successMessage || 'Field created successfully');
+            toastNotify(
+              response.data?.successMessage || 'Field created successfully',
+            );
           } else {
             setIsLoading(false);
-            toastNotify(response.error?.data.errorMessages[0] ?? 'Something wrong when create field', 'error');
+            toastNotify(
+              response.error?.data.errorMessages[0] ??
+                'Something wrong when create field',
+              'error',
+            );
           }
         }
       } else {
@@ -129,9 +153,11 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
         placeType: '',
         growLocation: '',
         color: '',
-        farmId: ''
+        farmId: '',
       });
-      (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
+      (
+        document.getElementById('create_farm_modal') as HTMLDialogElement
+      )?.close();
     } catch (error: any) {
       setIsLoading(false);
       toastNotify(error.message, 'error');
@@ -140,16 +166,23 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
 
   return (
     <>
-      <dialog id='create_farm_modal' className='modal modal-top sm:modal-top w-3/5 mx-auto mt-6 border rounded-lg'>
+      <dialog
+        id='create_farm_modal'
+        className='modal modal-top sm:modal-top mx-auto mt-6 w-3/5 rounded-lg border'
+      >
         <div className='modal-box bg-white'>
           <div className=''>
-            <h3 className='font-bold text-lg w-100 tracking-wide'>Create Land</h3>
+            <h3 className='w-100 text-lg font-bold tracking-wide'>
+              Create Land
+            </h3>
           </div>
           <div className='divider divide-neutral-400'></div>
           <form method='post' onSubmit={handleSubmit}>
             <div className='flex items-center justify-between gap-4'>
-              <label className='text-sm flex-shrink-0 w-1/5 text-right'>Name</label>
-              <div className='flex-grow w-full'>
+              <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                Name
+              </label>
+              <div className='w-full flex-grow'>
                 <input
                   type='text'
                   placeholder='Type name here'
@@ -161,8 +194,10 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                 />
               </div>
             </div>
-            <div className='flex items-center justify-between gap-4 mt-2'>
-              <label className='text-sm flex-shrink-0 w-1/5 text-right'>Place type</label>
+            <div className='mt-2 flex items-center justify-between gap-4'>
+              <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                Place type
+              </label>
               <div className='flex-grow'>
                 <select
                   className='select select-bordered select-warning w-full max-w-lg bg-white'
@@ -185,9 +220,11 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
             </div>
             {userInputs.placeType === 'Farm' && (
               <>
-                <div className='flex items-center justify-between gap-4 mt-2'>
-                  <label className='text-sm flex-shrink-0 w-1/5 text-right'>Owner name</label>
-                  <div className='flex-grow w-full'>
+                <div className='mt-2 flex items-center justify-between gap-4'>
+                  <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                    Owner name
+                  </label>
+                  <div className='w-full flex-grow'>
                     <input
                       type='text'
                       placeholder='Type owner name here'
@@ -200,7 +237,9 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                   </div>
                 </div>
                 <div className='flex items-center gap-4 py-4'>
-                  <label className='text-sm flex-shrink-0 w-1/5 text-right'>Color</label>
+                  <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                    Color
+                  </label>
                   <div className='flex items-center gap-3'>
                     <div className='flex items-center'>
                       <input
@@ -231,7 +270,9 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
             {userInputs.placeType == 'Field' && (
               <>
                 <div className='flex items-center gap-4 py-4'>
-                  <label className='text-sm flex-shrink-0 w-1/5 text-right'>Color</label>
+                  <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                    Color
+                  </label>
                   <div className='flex items-center gap-3'>
                     <div className='flex items-center'>
                       <input
@@ -259,8 +300,10 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                     </div>
                   </div>
                 </div>
-                <div className='flex items-center justify-between gap-4 mt-2'>
-                  <label className='text-sm flex-shrink-0 w-1/5 text-right'>Farm</label>
+                <div className='mt-2 flex items-center justify-between gap-4'>
+                  <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                    Farm
+                  </label>
                   <div className='flex-grow'>
                     <select
                       className='select select-bordered select-warning w-full max-w-lg bg-white'
@@ -283,9 +326,11 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                 </div>
               </>
             )}
-            <div className='flex items-center justify-between gap-4 mt-2'>
-              <label className='text-sm flex-shrink-0 w-1/5 text-right'>Grow Location</label>
-              <div className='flex-grow w-full'>
+            <div className='mt-2 flex items-center justify-between gap-4'>
+              <label className='w-1/5 flex-shrink-0 text-right text-sm'>
+                Grow Location
+              </label>
+              <div className='w-full flex-grow'>
                 <input
                   type='text'
                   placeholder='Type here'
@@ -300,20 +345,31 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
             <div className='divider divide-neutral-400'></div>
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
-                <h3 className='font-bold text-lg'>Total Area: </h3>
+                <h3 className='text-lg font-bold'>Total Area: </h3>
                 <h3 className='text-lg'>{area?.toFixed(2)} m²</h3>
-                <h5 className='text-sm'>({turf.convertArea(area!, 'meters', 'acres').toFixed(2)} acres) </h5>
+                <h5 className='text-sm'>
+                  ({turf.convertArea(area!, 'meters', 'acres').toFixed(2)}{' '}
+                  acres){' '}
+                </h5>
               </div>
               <div className='modal-action flex justify-end'>
                 {/* if there is a button in form, it will close the modal */}
-                <button disabled={isLoading} type='submit' className='btn btn-primary text-white'>
+                <button
+                  disabled={isLoading}
+                  type='submit'
+                  className='btn btn-primary text-white'
+                >
                   {isLoading ? <MiniLoader /> : 'Save'}
                 </button>
                 <button
                   type='button'
                   className='btn text-white'
                   onClick={() => {
-                    (document.getElementById('create_farm_modal') as HTMLDialogElement)?.close();
+                    (
+                      document.getElementById(
+                        'create_farm_modal',
+                      ) as HTMLDialogElement
+                    )?.close();
                     if (onCancel) {
                       setUserInputs({
                         name: '',
@@ -321,7 +377,7 @@ export const CreateFarmModal = ({ area, location, points, onCancel }: CreateFarm
                         placeType: '',
                         growLocation: '',
                         color: '',
-                        farmId: ''
+                        farmId: '',
                       });
                       onCancel();
                     }

@@ -5,7 +5,12 @@ import { inputWordTypeAnalysis } from '@/helper/vnlpServerAnalysis';
 import Select, { MultiValue } from 'react-select';
 import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
 import { SENTENCE_LIST } from '@/constants/sentenceInput';
-import { farmModel, fieldModel, OptionType, socialMetricModel } from '@/interfaces';
+import {
+  farmModel,
+  fieldModel,
+  OptionType,
+  socialMetricModel,
+} from '@/interfaces';
 import Banner from '@/components/Page/GPASearch/Banner';
 import { ScrollAnimationWrapper } from '@/components/Animation';
 import { motion } from 'framer-motion';
@@ -14,16 +19,16 @@ import {
   fieldDescriptionItems,
   getScrollAnimation,
   locationDescriptionItems,
-  toastNotify
+  toastNotify,
 } from '@/helper';
 import { LANGUAGE } from '@/constants/languages';
 import { SocialMetricLineChart } from '@/components/UI/Chart/SocialMetricLineChart';
-import { useGetAllSocialMetricsQuery } from '@/api/socialMetricApi';
+import { useGetAllSocialMetricsQuery } from '@/api/app/socialMetricApi';
 import { findProvinceCode } from '@/helper/findProvinceCodeWithVnlp';
 import { MapBox } from '@/components/Page/Maps';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '@/api/fieldApi';
-import { useGetFarmByIdQuery } from '@/api/farmApi';
+import { useGetFieldByIdQuery } from '@/api/app/fieldApi';
+import { useGetFarmByIdQuery } from '@/api/app/farmApi';
 import {} from '@/common';
 import { ACard, ADescriptions } from '@/common/ui-common';
 import { SocialMetricBarChart } from '@/components/UI/Chart/SocialMetricBarChart';
@@ -38,23 +43,32 @@ export const GPASearch = () => {
   const [vnlpList, setVnlpList] = useState<vnlpAnalysisModel[]>();
   const [socialMetrics, setSocialMetrics] = useState<socialMetricModel[]>([]);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
-  const [landValue, setLandValue] = useState<(farmModel & fieldModel) | null>(null);
+  const [landValue, setLandValue] = useState<(farmModel & fieldModel) | null>(
+    null,
+  );
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   const { data, isLoading } = useGetAllSocialMetricsQuery(
-    { ProvinceCode: provinceAnalysis, SeriesCodes: sentenceFilters.map((s) => s.value) },
     {
-      skip: !provinceAnalysis || sentenceFilters.length == 0 || !isSearchClicked
-    }
+      ProvinceCode: provinceAnalysis,
+      SeriesCodes: sentenceFilters.map((s) => s.value),
+    },
+    {
+      skip:
+        !provinceAnalysis || sentenceFilters.length == 0 || !isSearchClicked,
+    },
   );
 
   const { data: dataFarm, isLoading: isLoadingFarm } = useGetFarmByIdQuery(id, {
-    skip: !type || type === '1'
+    skip: !type || type === '1',
   });
 
-  const { data: dataField, isLoading: isLoadingField } = useGetFieldByIdQuery(id, {
-    skip: !type || type === '0'
-  });
+  const { data: dataField, isLoading: isLoadingField } = useGetFieldByIdQuery(
+    id,
+    {
+      skip: !type || type === '0',
+    },
+  );
 
   const handleSearch = async () => {
     if (!sentenceFilters.length) {
@@ -63,7 +77,10 @@ export const GPASearch = () => {
     }
 
     setIsSearchClicked(true);
-    const response: vnlpAnalysisModel[] = await inputWordTypeAnalysis(sentenceFilters[0].label, LANGUAGE.EN);
+    const response: vnlpAnalysisModel[] = await inputWordTypeAnalysis(
+      sentenceFilters[0].label,
+      LANGUAGE.EN,
+    );
     if (response) {
       setVnlpList(response);
       const code = findProvinceCode(response);
@@ -82,7 +99,9 @@ export const GPASearch = () => {
 
   const locationItems = useMemo(() => {
     if (!landValue) return [];
-    return landValue.location ? locationDescriptionItems(landValue.location) : [];
+    return landValue.location
+      ? locationDescriptionItems(landValue.location)
+      : [];
   }, [landValue]);
 
   const handleMultiSelectChange = (selectedOptions: MultiValue<OptionType>) => {
@@ -112,11 +131,11 @@ export const GPASearch = () => {
       <div className='min-h-screen pb-10'>
         <Banner searchSectionRef={searchSectionRef} />
         <div>
-          <div className='max-w-6xl py-10 my-10 mx-auto'>
+          <div className='mx-auto my-10 max-w-6xl py-10'>
             <ScrollAnimationWrapper>
               <motion.div variants={scrollAnimation}>
-                <div className='mockup-window bg-gradient-to-r from-white to-brown shadow-xl rounded-md'>
-                  <div className='flex justify-center px-4 py-4 bg-white'>
+                <div className='mockup-window rounded-md bg-gradient-to-r from-white to-brown shadow-xl'>
+                  <div className='flex justify-center bg-white px-4 py-4'>
                     <MapBox />
                   </div>
                 </div>
@@ -126,7 +145,10 @@ export const GPASearch = () => {
         </div>
         <div className='flex gap-3' ref={searchSectionRef}>
           <div className='w-1/2'>
-            <ACard className='h-full' title={`${type === '0' ? 'Farm' : 'Field'} Information`}>
+            <ACard
+              className='h-full'
+              title={`${type === '0' ? 'Farm' : 'Field'} Information`}
+            >
               <ADescriptions colon items={landItems} />
             </ACard>
           </div>
@@ -139,10 +161,13 @@ export const GPASearch = () => {
 
         <div className='w-full py-20'>
           <ScrollAnimationWrapper className='flex w-full gap-8'>
-            <motion.div variants={scrollAnimation} className='flex flex-col w-full max-w-md gap-4 ml-4'>
-              <div className='flex flex-col gap-4 w-full'>
+            <motion.div
+              variants={scrollAnimation}
+              className='ml-4 flex w-full max-w-md flex-col gap-4'
+            >
+              <div className='flex w-full flex-col gap-4'>
                 <button
-                  className='flex items-center justify-center px-4 py-2 text-sm tracking-wide shadow-lg text-black font-bold transition-colors duration-200 bg-res-pending rounded-lg shrink-0 sm:w-auto hover:bg-res-refunded hover:shadow-yellow max-w-40'
+                  className='hover:shadow-yellow flex max-w-40 shrink-0 items-center justify-center rounded-lg bg-res-pending px-4 py-2 text-sm font-bold tracking-wide text-black shadow-lg transition-colors duration-200 hover:bg-res-refunded sm:w-auto'
                   onClick={handleSearch}
                 >
                   <span>Search</span>
@@ -160,9 +185,9 @@ export const GPASearch = () => {
                   className='font-rubik'
                 />
               </div>
-              <div className='bg-white shadow-md rounded-lg max-w-md'>
-                <div className='overflow-y-auto max-h-80 overflow-x-hidden'>
-                  <table className='table table-zebra custom-zebra text-center '>
+              <div className='max-w-md rounded-lg bg-white shadow-md'>
+                <div className='max-h-80 overflow-y-auto overflow-x-hidden'>
+                  <table className='table-zebra custom-zebra table text-center'>
                     {/* head */}
                     <thead>
                       <tr>
@@ -172,13 +197,15 @@ export const GPASearch = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {vnlpList?.map((item: vnlpAnalysisModel, index: number) => (
-                        <tr key={index}>
-                          <th>{index}</th>
-                          <td>{item.pos}</td>
-                          <td>{item.word}</td>
-                        </tr>
-                      ))}
+                      {vnlpList?.map(
+                        (item: vnlpAnalysisModel, index: number) => (
+                          <tr key={index}>
+                            <th>{index}</th>
+                            <td>{item.pos}</td>
+                            <td>{item.word}</td>
+                          </tr>
+                        ),
+                      )}
                     </tbody>
                   </table>
                 </div>
