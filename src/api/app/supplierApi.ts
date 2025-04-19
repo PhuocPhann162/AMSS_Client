@@ -1,12 +1,8 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 import { GetSuppliersRequest } from '@/models/request';
 import { GetSuppliersResponse, PaginationResponse } from '@/models/response';
 
-const supplierApi = createApi({
-  reducerPath: 'supplierApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['Suppliers'],
+export const supplierApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getSeedCropSuppliers: builder.query({
       query: (params: GetSuppliersRequest) => ({
@@ -26,5 +22,4 @@ const supplierApi = createApi({
   }),
 });
 
-export default supplierApi;
 export const { useGetSeedCropSuppliersQuery } = supplierApi;

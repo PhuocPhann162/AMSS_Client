@@ -22,8 +22,8 @@ import { SearchControl } from './SearchControl';
 import { CreateFarmModal } from './CreateFarmModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '@/helper';
-import { useGetAllFarmsQuery } from '@/api/app/farmApi';
-import { useGetAllFieldsQuery } from '@/api/app/fieldApi';
+import { useGetAllFarmsQuery } from '@/api/app';
+import { useGetAllFieldsQuery } from '@/api/app';
 import { PopupFarm } from './PopupFarm';
 import { MainLoader } from '../common';
 import { PopupField } from './PopupField';
@@ -174,7 +174,7 @@ const Map: React.FC = () => {
         (acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng],
         [0, 0],
       );
-      const average = [sum[0] / latLngs!.length, sum[1] / latLngs!.length];
+      const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
       setMapPosition(average);
 
       try {

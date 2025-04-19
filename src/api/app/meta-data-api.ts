@@ -1,12 +1,7 @@
+import { authAppApi } from '@/api/app';
 import type { GetCountriesResponse, GetProvincesResponse } from '@/models';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const metaDataApi = createApi({
-  reducerPath: 'metaDataApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
-  }),
-  tagTypes: ['MetaDatas'],
+export const metaDataApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getCountries: builder.query<GetCountriesResponse, void>({
       query: () => ({

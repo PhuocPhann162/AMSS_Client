@@ -1,43 +1,43 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const cropApi = createApi({
-  reducerPath: 'cropApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['Crops'],
+export const cropApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getCropById: builder.query({
       query: (id) => ({
         url: `crop/getCropById/${id}`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Crops']
+      providesTags: ['Crops'],
     }),
     getCropsByFieldId: builder.query({
       query: (fieldId) => ({
         url: 'crop/getAllByFieldId/' + fieldId,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Crops']
+      providesTags: ['Crops'],
     }),
     createCrop: builder.mutation({
       query: (crop) => ({
         url: 'crop',
         method: 'POST',
-        body: crop
+        body: crop,
       }),
-      invalidatesTags: ['Crops']
+      invalidatesTags: ['Crops'],
     }),
     updateCrop: builder.mutation({
       query: ({ id, crop }) => ({
         url: 'crop/' + id,
         method: 'PUT',
-        body: crop
+        body: crop,
       }),
-      invalidatesTags: ['Crops']
-    })
-  })
+      invalidatesTags: ['Crops'],
+    }),
+  }),
 });
 
-export default cropApi;
-export const { useGetCropByIdQuery, useGetCropsByFieldIdQuery, useCreateCropMutation, useUpdateCropMutation } = cropApi;
+export const {
+  useGetCropByIdQuery,
+  useGetCropsByFieldIdQuery,
+  useCreateCropMutation,
+  useUpdateCropMutation,
+} = cropApi;

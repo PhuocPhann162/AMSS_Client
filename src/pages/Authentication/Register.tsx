@@ -5,7 +5,7 @@ import ReactFlagsSelect from 'react-flags-select';
 import { SD_Roles } from '@/utils/SD';
 import { MainLoader } from '@/components/Page/common';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterUserMutation } from '@/api/app/authApi';
+import { useRegisterUserMutation } from '@/api/app';
 import type { RegisterRequest, RegisterResponse } from '@/models';
 
 export const Register = () => {

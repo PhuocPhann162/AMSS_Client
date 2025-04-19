@@ -4,10 +4,10 @@ import { withAdminAuth } from '@/HOC';
 import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/Sidebar';
 import { useCookie } from '@/hooks/useCookie';
 import { HeaderApp } from '@/components/Layout/Header';
-import { useGetCountriesQuery } from '@/api';
 import { useEffect } from 'react';
 import { setCountries } from '@/storage/redux/countrySlice';
 import { useDispatch } from 'react-redux';
+import { useGetCountriesQuery } from '@/api/app';
 
 function DefaultAppLayout() {
   const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);

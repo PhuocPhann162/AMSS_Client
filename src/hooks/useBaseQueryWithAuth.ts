@@ -13,7 +13,7 @@ import qs from 'qs';
 const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
-  prepareHeaders: (headers: Headers, api) => {
+  prepareHeaders: (headers, api) => {
     const accessToken = (api.getState() as RootState).userAuth.accessToken;
     if (accessToken) {
       headers.set('Authorization', 'Bearer ' + accessToken);

@@ -1,36 +1,34 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const polygonApi = createApi({
-  reducerPath: 'polygonApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['Polygons'],
+export const polygonApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllPolygons: builder.query({
       query: () => ({
         url: 'polygon/getAll',
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Polygons']
+      providesTags: ['Polygons'],
     }),
     getPolygonByFarmId: builder.query({
       query: (farmId) => ({
         url: `polygon/getPolygonByFarmId/${farmId}`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Polygons']
+      providesTags: ['Polygons'],
     }),
     createPolygon: builder.mutation({
       query: (data) => ({
         url: 'polygon',
         method: 'POST',
-        body: data
+        body: data,
       }),
-      invalidatesTags: ['Polygons']
-    })
+      invalidatesTags: ['Polygons'],
+    }),
   }),
-  refetchOnReconnect: true
 });
 
-export default polygonApi;
-export const { useGetAllPolygonsQuery, useCreatePolygonMutation, useGetPolygonByFarmIdQuery } = polygonApi;
+export const {
+  useGetAllPolygonsQuery,
+  useCreatePolygonMutation,
+  useGetPolygonByFarmIdQuery,
+} = polygonApi;

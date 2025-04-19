@@ -1,30 +1,27 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const socialMetricApi = createApi({
-  reducerPath: 'socialMetricApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['SocialMetrics'],
+export const socialMetricApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllSocialMetrics: builder.query({
       query: (request) => ({
         url: 'socialMetric/getByCode',
         method: 'GET',
-        params: request
+        params: request,
       }),
-      providesTags: ['SocialMetrics']
+      providesTags: ['SocialMetrics'],
     }),
     importDataSocialMetric: builder.mutation({
       query: (data) => ({
         url: 'socialMetric/importData',
         method: 'POST',
-        body: data
+        body: data,
       }),
-      invalidatesTags: ['SocialMetrics']
-    })
+      invalidatesTags: ['SocialMetrics'],
+    }),
   }),
-  refetchOnReconnect: true
 });
 
-export default socialMetricApi;
-export const { useGetAllSocialMetricsQuery, useImportDataSocialMetricMutation } = socialMetricApi;
+export const {
+  useGetAllSocialMetricsQuery,
+  useImportDataSocialMetricMutation,
+} = socialMetricApi;

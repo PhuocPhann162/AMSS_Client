@@ -1,10 +1,6 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const userApi = createApi({
-  reducerPath: 'userApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['Users'],
+export const userApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
       query: ({ searchString, pageNumber, pageSize }) => ({
@@ -13,48 +9,50 @@ const userApi = createApi({
         params: {
           ...(searchString && { searchString }),
           ...(pageNumber && { pageNumber }),
-          ...(pageSize && { pageSize })
-        }
+          ...(pageSize && { pageSize }),
+        },
       }),
       transformResponse(apiResponse: { result: any }, meta: any) {
         return {
           apiResponse,
-          totalRecords: meta.response.headers.get('X-Pagination')
+          totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['Users']
+      providesTags: ['Users'],
     }),
     lockUnLockUser: builder.mutation({
       query: (id) => ({
         url: `user/lockUnlock/${id}`,
         method: 'POST',
-        body: id
+        body: id,
       }),
-      invalidatesTags: ['Users']
+      invalidatesTags: ['Users'],
     }),
     roleManagement: builder.mutation({
       query: ({ userId, role }) => ({
         url: `user/updateRole/${userId}`,
         method: 'POST',
-        body: role
+        body: role,
       }),
-      invalidatesTags: ['Users']
+      invalidatesTags: ['Users'],
     }),
     updateInfo: builder.mutation({
       query: ({ userId, data }) => ({
         url: `user/updateInfo/${userId}`,
         method: 'PUT',
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
         },
-        body: JSON.stringify({ ...data })
+        body: JSON.stringify({ ...data }),
       }),
-      invalidatesTags: ['Users']
-    })
+      invalidatesTags: ['Users'],
+    }),
   }),
-  refetchOnReconnect: true
 });
 
-export default userApi;
-export const { useGetAllUsersQuery, useLockUnLockUserMutation, useRoleManagementMutation, useUpdateInfoMutation } =
-  userApi;
+export const {
+  useGetAllUsersQuery,
+  useLockUnLockUserMutation,
+  useRoleManagementMutation,
+  useUpdateInfoMutation,
+} = userApi;

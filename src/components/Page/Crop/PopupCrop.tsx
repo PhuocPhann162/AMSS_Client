@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
-import { useGetCropsByFieldIdQuery } from '@/api/app/cropApi';
+import { useGetCropsByFieldIdQuery } from '@/api/app';
 import { MiniLoader } from '../common';
 import { fieldCropModel } from '@/interfaces';
 

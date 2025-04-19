@@ -1,10 +1,6 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const farmApi = createApi({
-  reducerPath: 'farmApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['Farms'],
+export const farmApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllFarms: builder.query({
       query: ({ searchString, pageNumber, pageSize }) => ({
@@ -13,56 +9,54 @@ const farmApi = createApi({
         params: {
           ...(searchString && { searchString }),
           ...(pageNumber && { pageNumber }),
-          ...(pageSize && { pageSize })
-        }
+          ...(pageSize && { pageSize }),
+        },
       }),
       transformResponse(apiResponse: { result: any }, meta: any) {
         return {
           apiResponse,
-          totalRecords: meta.response.headers.get('X-Pagination')
+          totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['Farms']
+      providesTags: ['Farms'],
     }),
     getFarmById: builder.query({
       query: (id) => ({
         url: `farm/getFarmById/${id}`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Farms']
+      providesTags: ['Farms'],
     }),
     createFarm: builder.mutation({
       query: (data) => ({
         url: 'farm',
         method: 'POST',
-        body: data
+        body: data,
       }),
-      invalidatesTags: ['Farms']
+      invalidatesTags: ['Farms'],
     }),
     updateFarm: builder.mutation({
       query: ({ id, data }) => ({
         url: `farm/${id}`,
         method: 'PUT',
-        body: data
+        body: data,
       }),
-      invalidatesTags: ['Farms']
+      invalidatesTags: ['Farms'],
     }),
     deleteFarm: builder.mutation({
       query: (id) => ({
         url: `farm/${id}`,
-        method: 'DELETE'
+        method: 'DELETE',
       }),
-      invalidatesTags: ['Farms']
-    })
+      invalidatesTags: ['Farms'],
+    }),
   }),
-  refetchOnReconnect: true
 });
 
-export default farmApi;
 export const {
   useGetAllFarmsQuery,
   useGetFarmByIdQuery,
   useCreateFarmMutation,
   useUpdateFarmMutation,
-  useDeleteFarmMutation
+  useDeleteFarmMutation,
 } = farmApi;

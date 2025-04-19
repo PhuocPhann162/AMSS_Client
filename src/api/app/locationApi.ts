@@ -1,57 +1,51 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const locationApi = createApi({
-  reducerPath: 'locationApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['Locations'],
+export const locationApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllLocations: builder.query({
       query: () => ({
         url: 'location/getAll',
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Locations']
+      providesTags: ['Locations'],
     }),
     getLocationById: builder.query({
       query: (id) => ({
         url: `location/getLocationById/${id}`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['Locations']
+      providesTags: ['Locations'],
     }),
     createLocation: builder.mutation({
       query: (data) => ({
         url: 'location',
         method: 'POST',
-        body: data
+        body: data,
       }),
-      invalidatesTags: ['Locations']
+      invalidatesTags: ['Locations'],
     }),
     updateLocation: builder.mutation({
       query: ({ id, data }) => ({
         url: `location/${id}`,
         method: 'PUT',
-        body: data
+        body: data,
       }),
-      invalidatesTags: ['Locations']
+      invalidatesTags: ['Locations'],
     }),
     deleteLocation: builder.mutation({
       query: (id) => ({
         url: `location/${id}`,
-        method: 'DELETE'
+        method: 'DELETE',
       }),
-      invalidatesTags: ['Locations']
-    })
+      invalidatesTags: ['Locations'],
+    }),
   }),
-  refetchOnReconnect: true
 });
 
-export default locationApi;
 export const {
   useGetAllLocationsQuery,
   useGetLocationByIdQuery,
   useCreateLocationMutation,
   useUpdateLocationMutation,
-  useDeleteLocationMutation
+  useDeleteLocationMutation,
 } = locationApi;

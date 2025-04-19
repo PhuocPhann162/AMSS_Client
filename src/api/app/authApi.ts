@@ -1,16 +1,12 @@
+import { appApi } from '@/api/app';
 import type {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
 } from '@/models';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://localhost:7213/api/',
-  }),
+export const authApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (userData) => ({
@@ -45,7 +41,6 @@ const authApi = createApi({
   }),
 });
 
-export { authApi };
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,

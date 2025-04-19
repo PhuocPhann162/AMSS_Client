@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
-import { useGetAllCropTypesQuery } from '@/api/app/cropTypeApi';
+import { useGetAllCropTypesQuery } from '@/api/app';
 import { Pagination } from '@/common';
 import {
   CreateIcon,

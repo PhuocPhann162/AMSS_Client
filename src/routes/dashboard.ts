@@ -1,4 +1,4 @@
-import { Route } from '@/interfaces/route';
+import { Route } from '@/route';
 
 export const dashboardRoutes: Route[] = [
   { path: 'store', name: 'Store' },

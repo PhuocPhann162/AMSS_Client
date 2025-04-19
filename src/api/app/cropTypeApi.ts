@@ -1,10 +1,6 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from '@/hooks';
+import { authAppApi } from '@/api/app';
 
-const cropTypeApi = createApi({
-  reducerPath: 'cropTypeApi',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['CropTypes'],
+export const cropTypeApi = authAppApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllCropTypes: builder.query({
       query: ({ searchString, pageNumber, pageSize }) => ({
@@ -35,6 +31,5 @@ const cropTypeApi = createApi({
   }),
 });
 
-export default cropTypeApi;
 export const { useGetAllCropTypesQuery, useCreateCropTypeMutation } =
   cropTypeApi;
