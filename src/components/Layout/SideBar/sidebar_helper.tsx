@@ -1,10 +1,10 @@
-import { type Route } from '@/interfaces/route';
 import { type ReactNode } from 'react';
 import { LaptopOutlined } from '@ant-design/icons';
 import DashboardIcon from '@/components/Icon/icon-svg/dashboard-sidebar.svg?react';
 import CropIcon from '@/components/Icon/icon-svg/crop-sidebar.svg?react';
 import FarmMapIcon from '@/components/Icon/icon-svg/farmmap_sidebar.svg?react';
 import UserIcon from '@/components/Icon/icon-svg/user-sidebar.svg?react';
+import { type Route } from '@/route';
 
 export const sidebarOptions: {
   groupLabel: string;

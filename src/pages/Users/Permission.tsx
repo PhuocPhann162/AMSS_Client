@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRoleManagementMutation } from '@/api/app/userApi';
+import { useRoleManagementMutation } from '@/api/app';
 import { MiniLoader } from '@/components/Page/common';
 import { Breadcrumb } from '@/components/UI';
 import { apiResponse } from '@/interfaces';

@@ -3,8 +3,8 @@ import { RouterProvider } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import router from './route';
-import { useGetCountriesQuery } from './api';
 import { setCountries } from './storage/redux/countrySlice';
+import { useGetCountriesQuery } from '@/api/app';
 
 function App() {
   const dispatch = useDispatch();
