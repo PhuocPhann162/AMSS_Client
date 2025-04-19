@@ -159,7 +159,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
   };
 
   return (
-    <div className='flex w-96 max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0'>
+    <div className='flex w-96 max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0'>
       <p className='text-2xl font-bold'>Register</p>
       <Form form={form} initialValues={defaultValue} onFinish={onFinish}>
         <div className='flex flex-col gap-6'>
