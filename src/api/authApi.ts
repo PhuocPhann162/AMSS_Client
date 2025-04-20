@@ -1,4 +1,4 @@
-import { appBaseApi } from '@/api/app-api';
+import { appBaseApi } from '@/api/instances';
 import type {
   LoginRequest,
   LoginResponse,

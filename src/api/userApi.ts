@@ -1,4 +1,4 @@
-import { appBaseApi, TAG_TYPES } from '@/api/app-api';
+import { appBaseApi, TAG_TYPES } from '@/api/instances';
 
 export const userApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
