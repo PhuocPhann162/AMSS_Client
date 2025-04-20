@@ -2,13 +2,13 @@ import { appBaseApi } from '@/api/instances';
 import type {
   LoginRequest,
   LoginResponse,
-  RegisterRequest,
   RegisterResponse,
+  RegisterSupplier,
 } from '@/models';
 
 export const authApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    registerUser: builder.mutation<RegisterResponse, RegisterRequest>({
+    registerUser: builder.mutation<RegisterResponse, RegisterSupplier>({
       query: (userData) => ({
         url: 'auth/register',
         method: 'POST',

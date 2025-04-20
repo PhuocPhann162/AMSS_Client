@@ -7,4 +7,15 @@ import { UpdateLandModal } from './UpdateLandModal';
 import WeatherMap from './WeatherMap';
 import MapBox from './MapBox';
 
-export { Map, CreateFarmModal, SearchControl, PopupFarm, PopupField, UpdateLandModal, WeatherMap, MapBox };
+export * from './MapBoxAddressSearch';
+
+export {
+  Map,
+  CreateFarmModal,
+  SearchControl,
+  PopupFarm,
+  PopupField,
+  UpdateLandModal,
+  WeatherMap,
+  MapBox,
+};

@@ -14,4 +14,11 @@ export interface RegisterRequest {
   provinceCode: string;
   avatar: string;
   role?: Role;
+  lat: number;
+  lng: number;
+}
+
+export interface RegisterSupplier extends RegisterRequest {
+  contactName: string;
+  companyName: string;
 }

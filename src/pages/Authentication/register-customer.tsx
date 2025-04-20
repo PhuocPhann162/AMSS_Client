@@ -3,10 +3,11 @@ import { AButton, AInput, AInputPassword, ASelect } from '@/common/ui-common';
 import { FormLabel } from '@/components/form-label';
 import { SelectCountry } from '@/components/UI/select/select-country';
 import { SelectPhoneCode } from '@/components/UI/select/select-phonecode';
+import { Province } from '@/interfaces';
 import { cn } from '@/lib/utils';
-import { type RegisterRequest } from '@/models';
+import { RegisterSupplier, type RegisterRequest } from '@/models';
 import Form, { Rule } from 'antd/es/form';
-import { useMemo, type FC, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type FC, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export interface RegisterCustomerProps {
@@ -29,26 +30,18 @@ type FormItemType<T> = {
 export const RegisterCustomer: FC<RegisterCustomerProps> = ({
   defaultValue,
 }) => {
-  const [form] = Form.useForm<RegisterRequest>();
+  const [form] = Form.useForm<RegisterSupplier>();
+  const country = Form.useWatch('country', form);
+  const province = Form.useWatch('provinceCode', form);
+  const [opsProvince, setOpsProvince] = useState<Province[]>([]);
 
   const navigate = useNavigate();
 
   const [registerUser] = useRegisterUserMutation();
-  const getProvinces = useGetProvincesQuery();
-
-  const provinceOptions = useMemo(() => {
-    if (
-      !getProvinces.isFetching &&
-      !getProvinces.isError &&
-      getProvinces.data
-    ) {
-      return getProvinces.data.result.map((province) => ({
-        value: province.value,
-        label: province.name,
-      }));
-    }
-    return [];
-  }, [getProvinces.data, getProvinces.isFetching, getProvinces.isError]);
+  const { data: provinceOptions, isLoading: isLoadingProvinces } =
+    useGetProvincesQuery(country, {
+      skip: !country,
+    });
 
   const formItems: FormItemType<RegisterRequest>[] = [
     {
@@ -104,7 +97,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
       name: 'provinceCode',
       rule: [{ required: true }],
       renderFormControl: (
-        <ASelect options={provinceOptions} placeholder='Select your province' />
+        <ASelect options={opsProvince} placeholder='Select your province' />
       ),
     },
     {
@@ -148,7 +141,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
     },
   ];
 
-  const onFinish = async (values: RegisterRequest) => {
+  const onFinish = async (values: RegisterSupplier) => {
     try {
       console.log('[RegisterCustomer] [onFinish] submit values', values);
       await registerUser(values);
@@ -157,6 +150,22 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
       console.error('[RegisterCustomer] [onFinish] submit error', error);
     }
   };
+
+  useEffect(() => {
+    const getOps = () => {
+      setOpsProvince(provinceOptions?.result ?? []);
+      const provinceValue = provinceOptions
+        ? provinceOptions.result.find((x) => x.value === province)?.value
+        : null;
+      if (province) {
+        form.setFieldValue('provinceCode', provinceValue);
+      }
+    };
+    if (country) getOps();
+    else {
+      setOpsProvince([]);
+    }
+  }, [country, provinceOptions]);
 
   return (
     <div className='flex w-96 max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0'>

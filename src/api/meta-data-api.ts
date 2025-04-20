@@ -13,9 +13,9 @@ export const metaDataApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.MetaDatas],
     }),
-    getProvinces: builder.query<GetProvincesResponse, void>({
-      query: () => ({
-        url: 'meta-data/provinces',
+    getProvinces: builder.query<GetProvincesResponse, string>({
+      query: (countryCode: string) => ({
+        url: `meta-data/${countryCode}/provinces`,
         method: 'GET',
         headers: {
           'Content-type': 'application/json',
