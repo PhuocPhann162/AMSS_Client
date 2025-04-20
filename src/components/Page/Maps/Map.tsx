@@ -7,7 +7,6 @@ import {
   useMap,
   FeatureGroup,
   Polygon,
-  useMapEvents,
 } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import {
