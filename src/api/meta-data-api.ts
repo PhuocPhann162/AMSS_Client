@@ -1,4 +1,4 @@
-import { appBaseApi, TAG_TYPES } from '@/api/app-api';
+import { appBaseApi, TAG_TYPES } from '@/api/instances';
 import type { GetCountriesResponse, GetProvincesResponse } from '@/models';
 
 export const metaDataApi = appBaseApi.injectEndpoints({
