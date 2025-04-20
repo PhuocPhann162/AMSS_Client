@@ -23,12 +23,12 @@ import {
 } from '@/helper';
 import { LANGUAGE } from '@/constants/languages';
 import { SocialMetricLineChart } from '@/components/UI/Chart/SocialMetricLineChart';
-import { useGetAllSocialMetricsQuery } from '@/api/app';
+import { useGetAllSocialMetricsQuery } from '@/api';
 import { findProvinceCode } from '@/helper/findProvinceCodeWithVnlp';
 import { MapBox } from '@/components/Page/Maps';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '@/api/app';
-import { useGetFarmByIdQuery } from '@/api/app';
+import { useGetFieldByIdQuery } from '@/api';
+import { useGetFarmByIdQuery } from '@/api';
 import {} from '@/common';
 import { ACard, ADescriptions } from '@/common/ui-common';
 import { SocialMetricBarChart } from '@/components/UI/Chart/SocialMetricBarChart';

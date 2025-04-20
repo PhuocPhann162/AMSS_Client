@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '@/storage/redux/authSlice';
 import { countryReducer } from '@/storage/redux/countrySlice';
-import { appBaseApi } from '@/api/app';
+import { appBaseApi } from '@/api/app-api';
 import { polygonAgroApi } from '@/api';
 
 export const store = configureStore({

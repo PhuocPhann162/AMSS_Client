@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import router from './route';
 import { setCountries } from './storage/redux/countrySlice';
-import { useGetCountriesQuery } from '@/api/app';
+import { useGetCountriesQuery } from '@/api';
 
 function App() {
   const dispatch = useDispatch();

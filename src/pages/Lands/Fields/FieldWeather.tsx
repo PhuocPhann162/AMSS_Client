@@ -4,7 +4,7 @@ import { DailyWeather } from '@/components/Page/DashBoard';
 import { getAirPollution, getForecast, getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
 import { NavLink, useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '@/api/app';
+import { useGetFieldByIdQuery } from '@/api';
 import { airPollutionType, forecastType, optionType } from '@/interfaces';
 import { MainLoader } from '@/components/Page/common';
 import { AirPollutionCard, Forecast } from '@/components/Page/Weather';

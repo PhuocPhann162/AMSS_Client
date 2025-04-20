@@ -2,7 +2,7 @@ import * as turf from '@turf/turf';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useDeleteFieldMutation } from '@/api/app';
+import { useDeleteFieldMutation } from '@/api';
 import { Modal } from '@/common';
 import {
   DeletePopupIcon,
