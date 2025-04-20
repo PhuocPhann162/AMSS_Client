@@ -11,7 +11,7 @@ import { useAppSelector } from '@/hooks';
 import { useUpdateInfoMutation } from '@/api/app';
 
 const Settings = () => {
-  const userData = useAppSelector((state) => state.userAuth.user);
+  const userData = useAppSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [userInputs, setUserInputs] = useState({

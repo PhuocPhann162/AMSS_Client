@@ -1,7 +1,7 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 import type { GetCountriesResponse, GetProvincesResponse } from '@/models';
 
-export const metaDataApi = authAppApi.injectEndpoints({
+export const metaDataApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCountries: builder.query<GetCountriesResponse, void>({
       query: () => ({
@@ -11,7 +11,7 @@ export const metaDataApi = authAppApi.injectEndpoints({
           'Content-type': 'application/json',
         },
       }),
-      providesTags: ['MetaDatas'],
+      providesTags: [TAG_TYPES.MetaDatas],
     }),
     getProvinces: builder.query<GetProvincesResponse, void>({
       query: () => ({
@@ -21,7 +21,7 @@ export const metaDataApi = authAppApi.injectEndpoints({
           'Content-type': 'application/json',
         },
       }),
-      providesTags: ['MetaDatas'],
+      providesTags: [TAG_TYPES.MetaDatas],
     }),
   }),
 });

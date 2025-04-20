@@ -1,6 +1,5 @@
 export * from './app-api';
 export * from './authApi';
-export * from './auth-app-api';
 export * from './userApi';
 export * from './cropApi';
 export * from './cropTypeApi';

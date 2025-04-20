@@ -14,10 +14,12 @@ const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
   prepareHeaders: (headers, api) => {
-    const accessToken = (api.getState() as RootState).userAuth.accessToken;
+    const accessToken = (api.getState() as RootState).auth.accessToken;
+
     if (accessToken) {
       headers.set('Authorization', 'Bearer ' + accessToken);
     }
+
     return headers;
   },
   paramsSerializer: (params) => {
@@ -30,19 +32,29 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  const refreshTokenValue = (api.getState() as RootState).userAuth.refreshToken;
-  const decodeRefreshToken = jwtDecode(refreshTokenValue || '');
-
-  if (decodeRefreshToken.exp! < Math.floor(Date.now() / 1000)) {
-    api.dispatch(clearAuth());
-    window.location.replace('/login');
-  }
-
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
+
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error?.status === 401) {
+    const refreshTokenValue = (api.getState() as RootState).auth.refreshToken;
+
+    if (refreshTokenValue) {
+      try {
+        const decodeRefreshToken = jwtDecode(refreshTokenValue);
+
+        if (decodeRefreshToken.exp! < Math.floor(Date.now() / 1000)) {
+          api.dispatch(clearAuth());
+          return result;
+        }
+      } catch (error) {
+        console.error('Invalid refresh token', error);
+        api.dispatch(clearAuth());
+        return result;
+      }
+    }
+
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
@@ -50,17 +62,15 @@ export const baseQueryWithReauth: BaseQueryFn<
       try {
         const refreshResult = await baseQuery(
           {
-            url: '/auth/refreshToken',
+            url: 'auth/refreshToken',
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ RefreshToken: refreshTokenValue }),
+            body: { RefreshToken: refreshTokenValue },
           },
-          { ...api },
+          api,
           extraOptions,
         );
-        console.log(refreshResult);
+
+        console.log('refresh token result', refreshResult);
 
         if (refreshResult.data) {
           console.log('refresh success');
@@ -73,7 +83,6 @@ export const baseQueryWithReauth: BaseQueryFn<
         } else {
           // refresh failed - do something like redirect to login or show a "retry" button
           api.dispatch(clearAuth());
-          window.location.replace('/login');
         }
       } finally {
         // release the mutex

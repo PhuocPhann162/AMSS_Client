@@ -1,6 +1,6 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const userApi = authAppApi.injectEndpoints({
+export const userApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
       query: ({ searchString, pageNumber, pageSize }) => ({
@@ -18,7 +18,7 @@ export const userApi = authAppApi.injectEndpoints({
           totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['Users'],
+      providesTags: [TAG_TYPES.Users],
     }),
     lockUnLockUser: builder.mutation({
       query: (id) => ({
@@ -26,7 +26,7 @@ export const userApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: id,
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: [TAG_TYPES.Users],
     }),
     roleManagement: builder.mutation({
       query: ({ userId, role }) => ({
@@ -34,7 +34,7 @@ export const userApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: role,
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: [TAG_TYPES.Users],
     }),
     updateInfo: builder.mutation({
       query: ({ userId, data }) => ({
@@ -45,7 +45,7 @@ export const userApi = authAppApi.injectEndpoints({
         },
         body: JSON.stringify({ ...data }),
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: [TAG_TYPES.Users],
     }),
   }),
 });

@@ -1,20 +1,20 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const locationApi = authAppApi.injectEndpoints({
+export const locationApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllLocations: builder.query({
       query: () => ({
         url: 'location/getAll',
         method: 'GET',
       }),
-      providesTags: ['Locations'],
+      providesTags: [TAG_TYPES.Locations],
     }),
     getLocationById: builder.query({
       query: (id) => ({
         url: `location/getLocationById/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Locations'],
+      providesTags: [TAG_TYPES.Locations],
     }),
     createLocation: builder.mutation({
       query: (data) => ({
@@ -22,7 +22,7 @@ export const locationApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Locations'],
+      invalidatesTags: [TAG_TYPES.Locations],
     }),
     updateLocation: builder.mutation({
       query: ({ id, data }) => ({
@@ -30,14 +30,14 @@ export const locationApi = authAppApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Locations'],
+      invalidatesTags: [TAG_TYPES.Locations],
     }),
     deleteLocation: builder.mutation({
       query: (id) => ({
         url: `location/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Locations'],
+      invalidatesTags: [TAG_TYPES.Locations],
     }),
   }),
 });

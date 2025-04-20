@@ -42,11 +42,11 @@ const initialState: AuthState = {
   refreshToken: localStorage.getItem('refreshToken') || undefined,
 };
 
-export const userAuthSlice = createSlice({
-  name: 'userAuth',
+export const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
-    setLoggedInUser: (state, action: PayloadAction<User>) => {
+    setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
       localStorage.setItem('user', JSON.stringify(action.payload));
     },
@@ -69,6 +69,6 @@ export const userAuthSlice = createSlice({
   },
 });
 
-export const { setLoggedInUser, setAccessToken, setRefreshToken, clearAuth } =
-  userAuthSlice.actions;
-export const userAuthReducer = userAuthSlice.reducer;
+export const { setUser, setAccessToken, setRefreshToken, clearAuth } =
+  authSlice.actions;
+export const authReducer = authSlice.reducer;

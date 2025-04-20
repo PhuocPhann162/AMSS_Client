@@ -1,6 +1,6 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const socialMetricApi = authAppApi.injectEndpoints({
+export const socialMetricApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllSocialMetrics: builder.query({
       query: (request) => ({
@@ -8,7 +8,7 @@ export const socialMetricApi = authAppApi.injectEndpoints({
         method: 'GET',
         params: request,
       }),
-      providesTags: ['SocialMetrics'],
+      providesTags: [TAG_TYPES.SocialMetrics],
     }),
     importDataSocialMetric: builder.mutation({
       query: (data) => ({
@@ -16,7 +16,7 @@ export const socialMetricApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['SocialMetrics'],
+      invalidatesTags: [TAG_TYPES.SocialMetrics],
     }),
   }),
 });

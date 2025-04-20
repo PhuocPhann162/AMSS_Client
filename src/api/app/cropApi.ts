@@ -1,20 +1,20 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const cropApi = authAppApi.injectEndpoints({
+export const cropApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCropById: builder.query({
       query: (id) => ({
         url: `crop/getCropById/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Crops'],
+      providesTags: [TAG_TYPES.Crops],
     }),
     getCropsByFieldId: builder.query({
       query: (fieldId) => ({
         url: 'crop/getAllByFieldId/' + fieldId,
         method: 'GET',
       }),
-      providesTags: ['Crops'],
+      providesTags: [TAG_TYPES.Crops],
     }),
     createCrop: builder.mutation({
       query: (crop) => ({
@@ -22,7 +22,7 @@ export const cropApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: crop,
       }),
-      invalidatesTags: ['Crops'],
+      invalidatesTags: [TAG_TYPES.Crops],
     }),
     updateCrop: builder.mutation({
       query: ({ id, crop }) => ({
@@ -30,7 +30,7 @@ export const cropApi = authAppApi.injectEndpoints({
         method: 'PUT',
         body: crop,
       }),
-      invalidatesTags: ['Crops'],
+      invalidatesTags: [TAG_TYPES.Crops],
     }),
   }),
 });

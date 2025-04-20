@@ -1,6 +1,6 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const farmApi = authAppApi.injectEndpoints({
+export const farmApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllFarms: builder.query({
       query: ({ searchString, pageNumber, pageSize }) => ({
@@ -18,14 +18,14 @@ export const farmApi = authAppApi.injectEndpoints({
           totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['Farms'],
+      providesTags: [TAG_TYPES.Farms],
     }),
     getFarmById: builder.query({
       query: (id) => ({
         url: `farm/getFarmById/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Farms'],
+      providesTags: [TAG_TYPES.Farms],
     }),
     createFarm: builder.mutation({
       query: (data) => ({
@@ -33,7 +33,7 @@ export const farmApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Farms'],
+      invalidatesTags: [TAG_TYPES.Farms],
     }),
     updateFarm: builder.mutation({
       query: ({ id, data }) => ({
@@ -41,14 +41,14 @@ export const farmApi = authAppApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Farms'],
+      invalidatesTags: [TAG_TYPES.Farms],
     }),
     deleteFarm: builder.mutation({
       query: (id) => ({
         url: `farm/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Farms'],
+      invalidatesTags: [TAG_TYPES.Farms],
     }),
   }),
 });

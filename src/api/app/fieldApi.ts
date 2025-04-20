@@ -1,6 +1,6 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const fieldApi = authAppApi.injectEndpoints({
+export const fieldApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllFields: builder.query({
       query: ({ searchString, status, pageNumber, pageSize }) => ({
@@ -19,14 +19,14 @@ export const fieldApi = authAppApi.injectEndpoints({
           totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['Fields'],
+      providesTags: [TAG_TYPES.Fields],
     }),
     getFieldById: builder.query({
       query: (id) => ({
         url: `field/getFieldById/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Fields'],
+      providesTags: [TAG_TYPES.Fields],
     }),
     createField: builder.mutation({
       query: (data) => ({
@@ -34,7 +34,7 @@ export const fieldApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Fields'],
+      invalidatesTags: [TAG_TYPES.Fields],
     }),
     updateField: builder.mutation({
       query: ({ id, data }) => ({
@@ -45,14 +45,14 @@ export const fieldApi = authAppApi.injectEndpoints({
         },
         body: JSON.stringify({ ...data }),
       }),
-      invalidatesTags: ['Fields'],
+      invalidatesTags: [TAG_TYPES.Fields],
     }),
     deleteField: builder.mutation({
       query: (id) => ({
         url: `field/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Fields'],
+      invalidatesTags: [TAG_TYPES.Fields],
     }),
   }),
 });

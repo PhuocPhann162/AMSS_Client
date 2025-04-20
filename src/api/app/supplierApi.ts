@@ -1,8 +1,8 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 import { GetSuppliersRequest } from '@/models/request';
 import { GetSuppliersResponse, PaginationResponse } from '@/models/response';
 
-export const supplierApi = authAppApi.injectEndpoints({
+export const supplierApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getSeedCropSuppliers: builder.query({
       query: (params: GetSuppliersRequest) => ({
@@ -10,7 +10,7 @@ export const supplierApi = authAppApi.injectEndpoints({
         method: 'GET',
         params,
       }),
-      providesTags: ['Suppliers'],
+      providesTags: [TAG_TYPES.Suppliers],
       transformResponse(apiResponse: {
         result: PaginationResponse<GetSuppliersResponse>;
       }) {

@@ -12,7 +12,7 @@ export interface DropdownUserProps {
 
 export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.userAuth.user);
+  const userData = useAppSelector((state) => state.auth.user);
 
   const handleLockOut = () => {
     dispatch(clearAuth());

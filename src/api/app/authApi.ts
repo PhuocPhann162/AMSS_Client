@@ -1,4 +1,4 @@
-import { appApi } from '@/api/app';
+import { appBaseApi } from '@/api/app';
 import type {
   LoginRequest,
   LoginResponse,
@@ -6,15 +6,12 @@ import type {
   RegisterResponse,
 } from '@/models';
 
-export const authApi = appApi.injectEndpoints({
+export const authApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (userData) => ({
         url: 'auth/register',
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
         body: userData,
       }),
     }),
@@ -22,19 +19,14 @@ export const authApi = appApi.injectEndpoints({
       query: (userCredentials) => ({
         url: 'auth/login',
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
         body: userCredentials,
       }),
     }),
+    // TODO: remove this endpoint
     refreshToken: builder.mutation({
       query: (refreshToken) => ({
         url: 'auth/refreshToken',
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
         body: refreshToken,
       }),
     }),
