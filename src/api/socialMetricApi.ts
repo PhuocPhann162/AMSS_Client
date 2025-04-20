@@ -1,4 +1,4 @@
-import { appBaseApi, TAG_TYPES } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app-api';
 
 export const socialMetricApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({

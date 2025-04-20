@@ -1,4 +1,4 @@
-import { useGetSeedCropSuppliersQuery } from '@/api/app';
+import { useGetSeedCropSuppliersQuery } from '@/api';
 import { AButton, ATable } from '@/common/ui-common';
 import {
   AFilterDropdown,

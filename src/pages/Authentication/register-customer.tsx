@@ -1,4 +1,4 @@
-import { useGetProvincesQuery, useRegisterUserMutation } from '@/api/app';
+import { useGetProvincesQuery, useRegisterUserMutation } from '@/api';
 import { AButton, AInput, AInputPassword, ASelect } from '@/common/ui-common';
 import { FormLabel } from '@/components/form-label';
 import { SelectCountry } from '@/components/UI/select/select-country';

@@ -10,7 +10,7 @@ import {
 import { Breadcrumb } from '@/components/UI';
 import { motion } from 'framer-motion';
 import { getScrollAnimation, toastNotify } from '@/helper';
-import { useImportDataSocialMetricMutation } from '@/api/app';
+import { useImportDataSocialMetricMutation } from '@/api';
 import { apiResponse } from '@/interfaces';
 
 export const ImportData: React.FC = () => {

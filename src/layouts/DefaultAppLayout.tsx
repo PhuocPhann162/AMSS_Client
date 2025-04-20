@@ -7,7 +7,7 @@ import { HeaderApp } from '@/components/Layout/Header';
 import { useEffect } from 'react';
 import { setCountries } from '@/storage/redux/countrySlice';
 import { useDispatch } from 'react-redux';
-import { useGetCountriesQuery } from '@/api/app';
+import { useGetCountriesQuery } from '@/api';
 
 function DefaultAppLayout() {
   const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);

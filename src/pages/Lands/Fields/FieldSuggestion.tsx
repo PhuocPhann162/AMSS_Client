@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { getPlanListSuggest, getScrollAnimation } from '@/helper';
 import { useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery } from '@/api/app';
+import { useGetFieldByIdQuery } from '@/api';
 import { fieldModel, plantSuggestModel } from '@/interfaces';
 import LandImage from '../../../../public/LandTemp.jpg';
 import { PlantSugesstion } from '@/components/Page/Fields';

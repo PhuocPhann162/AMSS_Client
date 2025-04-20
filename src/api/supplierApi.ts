@@ -1,4 +1,4 @@
-import { appBaseApi, TAG_TYPES } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app-api';
 import { GetSuppliersRequest } from '@/models/request';
 import { GetSuppliersResponse, PaginationResponse } from '@/models/response';
 

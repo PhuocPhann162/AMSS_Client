@@ -8,7 +8,7 @@ import { Modal } from '@/common';
 import { useNavigate } from 'react-router-dom';
 import { AButton } from '@/common/ui-common';
 import { useAppSelector } from '@/hooks';
-import { useUpdateInfoMutation } from '@/api/app';
+import { useUpdateInfoMutation } from '@/api';
 
 const Settings = () => {
   const userData = useAppSelector((state) => state.auth.user);

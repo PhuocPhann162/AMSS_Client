@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useGetFieldByIdQuery, useUpdateFieldMutation } from '@/api/app';
+import { useGetFieldByIdQuery, useUpdateFieldMutation } from '@/api';
 import { Modal } from '@/common';
 import { MainLoader, MiniLoader } from '@/components/Page/common';
 import { Breadcrumb } from '@/components/UI';
