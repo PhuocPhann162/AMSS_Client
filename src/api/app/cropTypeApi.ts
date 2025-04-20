@@ -1,6 +1,6 @@
-import { authAppApi } from '@/api/app';
+import { appBaseApi, TAG_TYPES } from '@/api/app';
 
-export const cropTypeApi = authAppApi.injectEndpoints({
+export const cropTypeApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllCropTypes: builder.query({
       query: ({ searchString, pageNumber, pageSize }) => ({
@@ -18,7 +18,7 @@ export const cropTypeApi = authAppApi.injectEndpoints({
           totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: ['CropTypes'],
+      providesTags: [TAG_TYPES.CropTypes],
     }),
     createCropType: builder.mutation({
       query: (cropType) => ({
@@ -26,7 +26,7 @@ export const cropTypeApi = authAppApi.injectEndpoints({
         method: 'POST',
         body: cropType,
       }),
-      invalidatesTags: ['CropTypes'],
+      invalidatesTags: [TAG_TYPES.CropTypes],
     }),
   }),
 });

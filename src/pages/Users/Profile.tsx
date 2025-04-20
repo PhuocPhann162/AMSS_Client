@@ -9,7 +9,7 @@ import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { useAppSelector } from '@/hooks';
 
 const Profile = () => {
-  const userData = useAppSelector((state) => state.userAuth.user);
+  const userData = useAppSelector((state) => state.auth.user);
 
   return (
     <div>

@@ -5,7 +5,7 @@ import { useLoginUserMutation } from '@/api/app';
 import { inputHelper, toastNotify } from '@/helper';
 import {
   setAccessToken,
-  setLoggedInUser,
+  setUser,
   setRefreshToken,
 } from '@/storage/redux/authSlice';
 import type { LoginResponse } from '@/models';
@@ -40,7 +40,7 @@ function Login() {
 
       dispatch(setAccessToken(token.accessToken));
       dispatch(setRefreshToken(token.refreshToken));
-      dispatch(setLoggedInUser(user));
+      dispatch(setUser(user));
 
       setLoading(false);
       toastNotify(response.successMessage || '');

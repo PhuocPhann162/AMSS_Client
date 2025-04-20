@@ -1,21 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { userAuthReducer } from './authSlice';
-import { countryReducer } from './countrySlice';
-import { appApi, authAppApi } from '@/api/app';
+import { authReducer } from '@/storage/redux/authSlice';
+import { countryReducer } from '@/storage/redux/countrySlice';
+import { appBaseApi } from '@/api/app';
 import { polygonAgroApi } from '@/api';
 
 export const store = configureStore({
   reducer: {
-    userAuth: userAuthReducer,
+    auth: authReducer,
     countryStore: countryReducer,
-    [appApi.reducerPath]: appApi.reducer,
-    [authAppApi.reducerPath]: authAppApi.reducer,
+    [appBaseApi.reducerPath]: appBaseApi.reducer,
     [polygonAgroApi.reducerPath]: polygonAgroApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(appApi.middleware)
-      .concat(authAppApi.middleware)
+      .concat(appBaseApi.middleware)
       .concat(polygonAgroApi.middleware),
 });
 

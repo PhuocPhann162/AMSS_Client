@@ -12,7 +12,7 @@ import { AButton } from '@/common/ui-common';
 import { useAppSelector } from '@/hooks';
 
 export default function HomePage() {
-  const userData = useAppSelector((state) => state.userAuth.user);
+  const userData = useAppSelector((state) => state.auth.user);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   return (

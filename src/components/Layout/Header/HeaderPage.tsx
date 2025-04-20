@@ -7,7 +7,7 @@ import { dashboardRoutes } from '@/routes';
 import { useAppSelector } from '@/hooks';
 
 export const HeaderPage = () => {
-  const userData = useAppSelector((state) => state.userAuth.user);
+  const userData = useAppSelector((state) => state.auth.user);
   const isMobile = useIsMobile();
 
   return (
