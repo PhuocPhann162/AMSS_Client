@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '@/api';
 import { inputHelper, toastNotify } from '@/helper';
 import {
@@ -125,15 +125,14 @@ function Login() {
           >
             Sign in
           </button>
-          <p className='w-full text-sm font-light text-gray-500 dark:text-gray-400'>
-            Don’t have an account yet? Please contact our admin{' '}
-            <a
-              href='#'
-              className='text-primary-600 dark:text-primary-500 font-medium hover:underline'
+          <p className='w-full text-sm text-gray-500 dark:text-gray-400'>
+            Don’t have an account yet?{' '}
+            <Link
+              to='/register'
+              className='text-primary-600 font-medium hover:underline'
             >
-              admin@fuco.com
-            </a>{' '}
-            to create an account.
+              Register
+            </Link>
           </p>
         </form>
       </div>
