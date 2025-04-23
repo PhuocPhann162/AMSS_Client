@@ -9,14 +9,12 @@ import {
 } from 'react';
 
 export interface HeaderUnderOverlayProps {
-  className?: string;
-  overlayClassName?: string;
-  rootClassName?: string;
   children?: ReactNode;
+  classNames?: Partial<Record<'header' | 'overlay' | 'root', string>>;
 }
 
 export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
-  ({ className, overlayClassName, rootClassName, children }) => {
+  ({ children, classNames }) => {
     const headerRef = useRef<HTMLDivElement>(null);
     const [headerHeight, setHeaderHeight] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -51,7 +49,7 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
     }, []);
 
     return (
-      <header className={cn('relative', rootClassName)}>
+      <header className={cn('relative', classNames?.root)}>
         <div
           style={
             {
@@ -59,9 +57,9 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
             } as CSSProperties
           }
           className={cn(
-            'pointer-events-none absolute inset-x-0 top-0 h-[calc(var(--navbar-height)*1.5)] bg-gradient-to-b from-white/85 opacity-0 backdrop-blur transition-[height,opacity] duration-300 [clip-path:inset(var(--navbar-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]',
+            'pointer-events-none absolute inset-x-0 top-0 h-[calc(var(--navbar-height)*1.5)] bg-gradient-to-b from-white/85 opacity-0 transition-[height,opacity] duration-300 [backdrop-filter:saturate(180%)_blur(20px)] [clip-path:inset(var(--navbar-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]',
             isScrolled && 'opacity-100',
-            overlayClassName,
+            classNames?.overlay,
           )}
         />
         {/* <div
@@ -72,7 +70,7 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
           }
           className='pointer-events-none absolute inset-x-0 top-0 h-[calc(var(--navbar-height)*1.75)] bg-gradient-to-b from-white/85 backdrop-blur duration-200 [clip-path:inset(var(--navbar-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]'
         ></div> */}
-        <div ref={headerRef} className={cn('relative', className)}>
+        <div ref={headerRef} className={cn('relative', classNames?.header)}>
           {children}
         </div>
       </header>

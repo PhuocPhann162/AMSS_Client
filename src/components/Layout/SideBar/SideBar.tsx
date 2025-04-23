@@ -16,7 +16,7 @@ import { sidebarOptions } from './sidebar_helper';
 
 export const AppSidebar = () => {
   return (
-    <Sidebar className='[border:initial] md:pt-16'>
+    <Sidebar className='z-50 [border:initial] md:pt-16'>
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
