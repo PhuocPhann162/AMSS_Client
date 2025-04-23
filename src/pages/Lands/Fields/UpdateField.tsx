@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useGetFieldByIdQuery, useUpdateFieldMutation } from '@/api';
 import { Modal } from '@/common';
 import { MainLoader, MiniLoader } from '@/components/Page/common';

@@ -1,3 +1,4 @@
 export * from './paginationRequest';
-export * from './getSupliersRequest';
+export * from './supplier';
 export * from './auth';
+export * from './user';

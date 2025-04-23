@@ -1,24 +1,23 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
+import { GetUsersRequest } from '@/models/request';
+import { GetUsersResponse, PaginationResponse } from '@/models/response';
 
 export const userApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllUsers: builder.query({
-      query: ({ searchString, pageNumber, pageSize }) => ({
-        url: 'user/getAll',
+    getCustomers: builder.query({
+      query: (params: GetUsersRequest) => ({
+        url: 'user/customers',
         method: 'GET',
-        params: {
-          ...(searchString && { searchString }),
-          ...(pageNumber && { pageNumber }),
-          ...(pageSize && { pageSize }),
-        },
+        params,
       }),
-      transformResponse(apiResponse: { result: any }, meta: any) {
+      providesTags: [TAG_TYPES.Users],
+      transformResponse(apiResponse: {
+        result: PaginationResponse<GetUsersResponse>;
+      }) {
         return {
           apiResponse,
-          totalRecords: meta.response.headers.get('X-Pagination'),
         };
       },
-      providesTags: [TAG_TYPES.Users],
     }),
     lockUnLockUser: builder.mutation({
       query: (id) => ({
@@ -51,7 +50,7 @@ export const userApi = appBaseApi.injectEndpoints({
 });
 
 export const {
-  useGetAllUsersQuery,
+  useGetCustomersQuery,
   useLockUnLockUserMutation,
   useRoleManagementMutation,
   useUpdateInfoMutation,

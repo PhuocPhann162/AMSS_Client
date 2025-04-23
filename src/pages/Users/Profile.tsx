@@ -2,9 +2,6 @@ import { Breadcrumb } from '@/components/UI';
 import CoverOne from '../../../public/bg.jpg';
 import Avatar from '../../../public/avatar.png';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/storage/redux/store';
-import { User } from '@/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { useAppSelector } from '@/hooks';
 

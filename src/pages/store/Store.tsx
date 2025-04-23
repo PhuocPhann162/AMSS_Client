@@ -1,4 +1,4 @@
-import { ACarousel, AImage, ARate } from '@/common/ui-common';
+import { ACarousel, AImage } from '@/common/ui-common';
 import Horizontal from '@/pages/store/Horizontal';
 import { FC } from 'react';
 

@@ -1,4 +1,5 @@
 export * from './paginationResponse';
-export * from './getSuppliersResponse';
+export * from './supplier';
 export * from './auth';
+export * from './user';
 export * from './meta-data';
