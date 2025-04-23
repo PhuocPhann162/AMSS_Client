@@ -10,6 +10,7 @@ export const themeConfig: ThemeConfig = {
   },
   components: {
     Table: {
+      headerBg: '#ffffff',
       footerBg: '#ffffff',
       borderRadius: 8,
     },

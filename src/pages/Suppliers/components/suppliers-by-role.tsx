@@ -9,7 +9,7 @@ import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
 import { apiResponse, Country, Role } from '@/interfaces';
-import { GetSuppliersResponse } from '@/models';
+import { GetSuppliersResponse } from '@/models/response';
 import { RootState } from '@/storage/redux/store';
 import { TableParams } from '@/utils/models/Tables';
 import { ColumnsType } from 'antd/es/table';
@@ -43,7 +43,7 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
   );
   const [countryFilters, setCountryFilters] = useState<FilterOpstion[]>([]);
 
-  const activityLogCol: ColumnsType = useMemo(() => {
+  const supplierCropCol: ColumnsType = useMemo(() => {
     return [
       {
         width: '6rem',
@@ -158,11 +158,11 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
             }));
           }
         }}
-        placeholder={'Search by supplier name'}
+        placeholder={'Search by Contact Name and Company Name'}
         className='w-1/3 min-w-40'
       />
       <ATable
-        columns={activityLogCol}
+        columns={supplierCropCol}
         dataSource={dataTable}
         tableParams={tableParams}
         totalRecord={totalRecord}
