@@ -12,8 +12,11 @@ export const HeaderPage = () => {
 
   return (
     <HeaderUnderOverlay
-      rootClassName='sticky inset-x-0 top-0 z-50'
-      className='flex h-[--navbar-height] items-center justify-between bg-white/85 px-6 backdrop-blur'
+      classNames={{
+        root: 'sticky inset-x-0 top-0 z-50',
+        header:
+          'flex h-[--navbar-height] items-center justify-between bg-white/85 px-6 [backdrop-filter:saturate(180%)_blur(20px)]',
+      }}
     >
       <LogoLink />
 
