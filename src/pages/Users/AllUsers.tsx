@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useGetCustomersQuery, useLockUnLockUserMutation } from '@/api';
 import { Breadcrumb, SearchInput } from '@/components/UI';
-import { apiResponse, User } from '@/interfaces';
+import { apiResponse, Country, User } from '@/interfaces';
 import { toastNotify } from '@/helper';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
-import { CreateIcon, EditTableIcon, SearchIcon } from '@/components/Icon';
+import { LockOutlined } from '@ant-design/icons';
+import { CreateIcon } from '@/components/Icon';
 import { AButton, ATable } from '@/common/ui-common';
 import { TableParams } from '@/utils/models/Tables';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
@@ -16,10 +17,9 @@ import {
   FilterOpstion,
 } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { GetUsersResponse } from '@/models';
+import { useAppSelector } from '@/hooks';
 
 export const AllUsers = () => {
-  const navigate = useNavigate();
-
   // Start State
   const [searchValue, setSearchValue] = useState<string>('');
   const [tableParams, setTableParams] =
@@ -30,7 +30,7 @@ export const AllUsers = () => {
   const [countryFilters, setCountryFilters] = useState<FilterOpstion[]>([]);
 
   // End State
-
+  const allCountries = useAppSelector((state) => state.countryStore);
   const { data, isLoading } = useGetCustomersQuery({
     countryCodes:
       tableParams.filters && (tableParams.filters['CountryName'] as string[]),
@@ -90,6 +90,7 @@ export const AllUsers = () => {
         dataIndex: 'Address',
         sorter: true,
         ellipsis: true,
+        render: (value: string) => value || 'N/A',
       },
       {
         width: '5rem',
@@ -124,8 +125,8 @@ export const AllUsers = () => {
         fixed: 'right',
         dataIndex: '_',
         render: (_, record) => (
-          <AButton type='link' className='color-primary hover:underline'>
-            View
+          <AButton type='link' onClick={() => handleLockUnlockUser(record.Id)}>
+            <LockOutlined style={{ fontSize: '1.5rem', color: 'black' }} />
           </AButton>
         ),
       },
@@ -133,10 +134,31 @@ export const AllUsers = () => {
   }, [countryFilters]);
 
   useEffect(() => {
-    if (data) {
-      //setUserList(data.apiResponse.result);
-    }
-  }, [data]);
+    const countryOptions = allCountries
+      .map((item: Country) => {
+        return {
+          title: `${item.name}`,
+          key: `${item.value}`,
+        };
+      })
+      .slice()
+      .sort((a, b) => a.title.localeCompare(b.title));
+    setCountryFilters(countryOptions);
+  }, [allCountries]);
+
+  useEffect(() => {
+    const getCustomers = () => {
+      try {
+        setDataTable(data?.apiResponse.result.collection ?? []);
+        setTotalRecord(data?.apiResponse.result.totalRow ?? 0);
+      } catch (e) {
+        toastNotify(
+          (e as apiResponse).data?.errorMessages?.[0] ?? 'Something wrong!',
+        );
+      }
+    };
+    getCustomers();
+  }, [searchValue, data, tableParams]);
 
   return (
     <div>

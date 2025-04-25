@@ -131,7 +131,7 @@ function Login() {
               to='/register'
               className='text-primary-600 font-medium hover:underline'
             >
-              Register
+              Sign up
             </Link>
           </p>
         </form>
