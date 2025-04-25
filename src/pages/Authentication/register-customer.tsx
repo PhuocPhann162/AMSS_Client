@@ -3,12 +3,17 @@ import { AButton, AInput, AInputPassword, ASelect } from '@/common/ui-common';
 import { FormLabel } from '@/components/form-label';
 import { SelectCountry } from '@/components/UI/select/select-country';
 import { SelectPhoneCode } from '@/components/UI/select/select-phonecode';
-import { Province } from '@/interfaces';
+import { toastNotify } from '@/helper';
+import { Country, Province, Role } from '@/interfaces';
 import { cn } from '@/lib/utils';
-import { RegisterSupplier, type RegisterRequest } from '@/models';
+import {
+  RegisterResponse,
+  RegisterSupplier,
+  type RegisterRequest,
+} from '@/models';
 import Form, { Rule } from 'antd/es/form';
-import { useEffect, useMemo, useState, type FC, type ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, type FC, type ReactNode } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export interface RegisterCustomerProps {
   defaultValue?: RegisterRequest;
@@ -24,6 +29,7 @@ type FormItemType<T> = {
     classNames?: {
       wrapper?: string;
     };
+    condition?: () => boolean;
   };
 }[keyof T];
 
@@ -34,6 +40,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
   const country = Form.useWatch('country', form);
   const province = Form.useWatch('provinceCode', form);
   const [opsProvince, setOpsProvince] = useState<Province[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -45,17 +52,23 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
 
   const formItems: FormItemType<RegisterRequest>[] = [
     {
-      label: 'Full Name',
-      name: 'fullName',
-      rule: [{ required: true }],
+      label: 'Contact Name',
+      name: 'contactName',
+      rule: [{ required: true, max: 150 }],
       renderFormControl: (
-        <AInput autoComplete='fullName' placeholder='Enter your name' />
+        <AInput autoComplete='contactName' placeholder='Enter your name' />
       ),
     },
     {
       label: 'Email',
       name: 'userName',
-      rule: [{ required: true, type: 'email' }],
+      rule: [
+        { required: true },
+        {
+          type: 'email',
+          message: 'Please enter valid email format (name@fuco.com)',
+        },
+      ],
       renderFormControl: (
         <AInput
           allowClear
@@ -78,7 +91,17 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
     {
       label: 'Confirm Password',
       name: 'repeatPassword',
-      rule: [{ required: true }],
+      rule: [
+        { required: true },
+        ({ getFieldValue }) => ({
+          validator(_, value) {
+            if (!value || getFieldValue('password') === value) {
+              return Promise.resolve();
+            }
+            return Promise.reject(new Error('The two passwords do not match'));
+          },
+        }),
+      ],
       renderFormControl: (
         <AInputPassword
           autoComplete='new-password'
@@ -90,18 +113,43 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
       label: 'Country',
       name: 'country',
       rule: [{ required: true }],
-      renderFormControl: <SelectCountry placeholder='Select your country' />,
+      renderFormControl: (
+        <SelectCountry
+          placeholder='Select your country'
+          onChange={(_, ops) => {
+            form.setFieldValue('provinceCode', null);
+            form.setFieldValue(
+              'phoneCode',
+              (ops as Country).phoneCode?.split(',')[0],
+            );
+            form.validateFields(['phoneCode']);
+          }}
+        />
+      ),
+      classNames: {
+        wrapper: opsProvince.length > 0 ? 'col-span-3' : 'col-span-6',
+      },
     },
     {
       label: 'Province',
       name: 'provinceCode',
-      rule: [{ required: true }],
+      rule: [{ required: opsProvince.length > 0 }],
       renderFormControl: (
-        <ASelect options={opsProvince} placeholder='Select your province' />
+        <ASelect
+          options={opsProvince}
+          loading={isLoadingProvinces}
+          fieldNames={{ value: 'value', label: 'name' }}
+          optionFilterProp='name'
+          placeholder='Select your province'
+        />
       ),
+      classNames: {
+        wrapper: opsProvince.length > 0 ? 'col-span-3' : 'hidden',
+      },
+      condition: () => opsProvince.length > 0,
     },
     {
-      label: 'Code',
+      label: 'Phone Code',
       name: 'phoneCode',
       rule: [{ required: true }],
       renderFormControl: (
@@ -114,7 +162,13 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
     {
       label: 'Phone Number',
       name: 'phoneNumber',
-      rule: [{ required: true }],
+      rule: [
+        {
+          pattern: /^\d+$/,
+          message: 'Phone Number must be numeric (allowed: 0-9)',
+        },
+        { required: true, max: 15 },
+      ],
       renderFormControl: (
         <AInput
           allowClear
@@ -126,33 +180,43 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
         wrapper: 'col-span-4',
       },
     },
-
-    {
-      label: 'Street Address',
-      name: 'streetAddress',
-      rule: [{ required: true }],
-      renderFormControl: (
-        <AInput
-          allowClear
-          autoComplete='street'
-          placeholder='Enter your street address'
-        />
-      ),
-    },
+    // {
+    //   label: 'Street Address',
+    //   name: 'streetAddress',
+    //   rule: [{ required: true }],
+    //   renderFormControl: (
+    //     <AInput
+    //       allowClear
+    //       autoComplete='street'
+    //       placeholder='Enter your street address'
+    //     />
+    //   ),
+    // },
   ];
 
   const onFinish = async (values: RegisterSupplier) => {
+    setIsLoading(true);
     try {
-      console.log('[RegisterCustomer] [onFinish] submit values', values);
-      await registerUser(values);
-      navigate('/login');
+      const response = await registerUser({
+        ...values,
+        role: Role.CUSTOMER,
+        avatar: `https://ui-avatars.com/api/?name=${form.getFieldValue('contactName').trim()}&background=00c46a&color=fff`,
+      }).unwrap();
+      if (response.isSuccess) {
+        toastNotify('Sign up successfully! Please login to continue');
+        navigate('/login');
+      }
     } catch (error) {
-      console.error('[RegisterCustomer] [onFinish] submit error', error);
+      const _error = error as { data?: RegisterResponse } | undefined;
+      const errMessage = _error?.data?.errorMessages[0] || 'Something wrong';
+      toastNotify(errMessage, 'error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const getOps = () => {
+    if (country) {
       setOpsProvince(provinceOptions?.result ?? []);
       const provinceValue = provinceOptions
         ? provinceOptions.result.find((x) => x.value === province)?.value
@@ -160,38 +224,55 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
       if (province) {
         form.setFieldValue('provinceCode', provinceValue);
       }
-    };
-    if (country) getOps();
-    else {
+    } else {
       setOpsProvince([]);
+      form.setFieldValue('provinceCode', null);
     }
-  }, [country, provinceOptions]);
+  }, [country, provinceOptions, province, form]);
 
   return (
-    <div className='flex w-96 max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0'>
-      <p className='text-2xl font-bold'>Register</p>
+    <div className='flex min-w-[30rem] max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0'>
+      <p className='text-2xl font-bold'>Sign up to Novaris</p>
       <Form form={form} initialValues={defaultValue} onFinish={onFinish}>
         <div className='flex flex-col gap-6'>
           <div className='grid grid-cols-6 gap-x-4 gap-y-2'>
-            {formItems.map((item, index) => (
-              <FormLabel
-                key={`${index}_${item?.name}`}
-                name={item?.name}
-                label={item?.label as string}
-                rules={item?.rule}
-                classNames={{
-                  root: cn('col-span-6', item?.classNames?.wrapper),
-                }}
-              >
-                {item?.renderFormControl}
-              </FormLabel>
-            ))}
+            {formItems.map(
+              (item, index) =>
+                (item?.condition === undefined || item.condition()) && (
+                  <FormLabel
+                    key={`${index}_${item?.name}`}
+                    name={item?.name}
+                    label={item?.label as string}
+                    rules={item?.rule}
+                    classNames={{
+                      root: cn('col-span-6', item?.classNames?.wrapper),
+                      label: 'font-semibold',
+                    }}
+                  >
+                    {item?.renderFormControl}
+                  </FormLabel>
+                ),
+            )}
           </div>
-          <AButton type='primary' block htmlType='submit'>
-            Register
+          <AButton
+            type='primary'
+            className='bg-yellow-600'
+            loading={isLoading}
+            htmlType='submit'
+          >
+            Sign up
           </AButton>
         </div>
       </Form>
+      <p className='w-full text-sm text-gray-500 dark:text-gray-400'>
+        You already have an account?{' '}
+        <Link
+          to='/login'
+          className='text-primary-600 font-medium hover:underline'
+        >
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 };
