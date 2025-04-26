@@ -53,23 +53,16 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
         <div
           style={
             {
-              '--navbar-height': `${headerHeight}px`,
+              '--header-height': `${headerHeight}px`,
+              '--overlay-height': `${headerHeight * 1.5}px`,
             } as CSSProperties
           }
           className={cn(
-            'pointer-events-none absolute inset-x-0 top-0 h-[calc(var(--navbar-height)*1.5)] bg-gradient-to-b from-white/85 opacity-0 transition-[height,opacity] duration-300 [backdrop-filter:saturate(180%)_blur(20px)] [clip-path:inset(var(--navbar-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]',
+            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/85 opacity-0 transition-[height,opacity] duration-300 [backdrop-filter:saturate(180%)_blur(20px)] [clip-path:inset(var(--header-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]',
             isScrolled && 'opacity-100',
             classNames?.overlay,
           )}
         />
-        {/* <div
-          style={
-            {
-              '--navbar-height': `${headerHeight}px`,
-            } as CSSProperties
-          }
-          className='pointer-events-none absolute inset-x-0 top-0 h-[calc(var(--navbar-height)*1.75)] bg-gradient-to-b from-white/85 backdrop-blur duration-200 [clip-path:inset(var(--navbar-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]'
-        ></div> */}
         <div ref={headerRef} className={cn('relative', classNames?.header)}>
           {children}
         </div>
