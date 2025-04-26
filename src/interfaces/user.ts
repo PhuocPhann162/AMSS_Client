@@ -5,18 +5,16 @@ export interface User {
   fullName?: string;
   userName?: string;
   email?: string;
-  phoneNumber?: string;
   streetAddress?: string;
-  city?: string;
-  state?: string;
-  province?: string;
+  provinceName?: string;
   provinceCode?: string;
-  country?: string;
   countryCode?: string;
+  countryName?: string;
+  phoneCode?: string;
+  phoneNumber?: string;
   avatar?: string;
   refreshToken?: string;
   isActive?: boolean;
   role?: Role;
   createdAt?: string;
-  updatedAt?: string;
 }

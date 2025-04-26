@@ -99,7 +99,7 @@ const Profile = () => {
             </h3>
             <p className='flex items-center justify-center gap-2 font-medium'>
               <span>
-                {flagemojiToPNG(convertToEmoji(userData?.country || ''))}
+                {flagemojiToPNG(convertToEmoji(userData?.countryCode || ''))}
               </span>{' '}
               {userData?.userName}
             </p>
@@ -141,13 +141,7 @@ const Profile = () => {
                     </g>
                   </svg>
                 </span>
-                <span className='text-sm'>
-                  {userData?.streetAddress +
-                    ', ' +
-                    userData?.state +
-                    ', ' +
-                    userData?.city}
-                </span>
+                <span className='text-sm'>{userData?.streetAddress}</span>
               </div>
               <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 px-4'>
                 <span className='font-semibold text-black dark:text-white'>

@@ -3,7 +3,13 @@ import Degree from './Degree';
 import Sunrise from './Icons/Sunrise';
 import Sunset from './Icons/Sunset';
 import Tile from './Tile';
-import { getWindDirection, getHumidityValue, getVisibilityValue, getSunTime, getPop } from '@/helper';
+import {
+  getWindDirection,
+  getHumidityValue,
+  getVisibilityValue,
+  getSunTime,
+  getPop,
+} from '@/helper';
 
 type Props = {
   data: forecastType;
@@ -13,7 +19,7 @@ const Forecast = ({ data }: Props) => {
   const today = data.list[0];
 
   return (
-    <div className='w-full py-4 md:py-4 md:px-10 lg:px-24 h-full lg:h-auto bg-white bg-opacity-20 backdrop-blur-ls rounded drop-shadow-lg'>
+    <div className='backdrop-blur-ls h-full w-full rounded bg-white py-4 md:px-10 md:py-4 lg:h-auto lg:px-24'>
       <div className='mx-auto w-[300px]'>
         <section className='text-center'>
           <h2 className='text-2xl font-black'>
@@ -26,14 +32,20 @@ const Forecast = ({ data }: Props) => {
             {today.weather[0].main} ({today.weather[0].description})
           </p>
           <p className='text-sm'>
-            H: <Degree temp={Math.ceil(today.main.temp_max)} /> L: <Degree temp={Math.floor(today.main.temp_min)} />
+            H: <Degree temp={Math.ceil(today.main.temp_max)} /> L:{' '}
+            <Degree temp={Math.floor(today.main.temp_min)} />
           </p>
         </section>
 
-        <section className='flex overflow-x-scroll mt-4 pb-2 mb-5'>
+        <section className='mb-5 mt-4 flex overflow-x-scroll pb-2'>
           {data.list.map((item, i) => (
-            <div key={i} className='inline-block text-center w-[50px] flex-shrink-0'>
-              <p className='text-sm'>{i === 0 ? 'Now' : new Date(item.dt * 1000).getHours()}</p>
+            <div
+              key={i}
+              className='inline-block w-[50px] flex-shrink-0 text-center'
+            >
+              <p className='text-sm'>
+                {i === 0 ? 'Now' : new Date(item.dt * 1000).getHours()}
+              </p>
               <img
                 alt={`weather-icon-${item.weather[0].description}`}
                 src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
@@ -46,10 +58,10 @@ const Forecast = ({ data }: Props) => {
         </section>
 
         <section className='flex flex-wrap justify-between text-zinc-700'>
-          <div className='w-[140px] text-xs font-bold flex flex-col items-center bg-white/20 backdrop-blur-ls rounded drop-shadow-lg py-4 mb-5'>
+          <div className='backdrop-blur-ls mb-5 flex w-[140px] flex-col items-center rounded border bg-white/20 py-4 text-xs font-bold drop-shadow-lg'>
             <Sunrise /> <span className='mt-2'>{getSunTime(data.sunrise)}</span>
           </div>
-          <div className='w-[140px] text-xs font-bold flex flex-col items-center bg-white/20 backdrop-blur-ls rounded drop-shadow-lg py-4 mb-5'>
+          <div className='backdrop-blur-ls mb-5 flex w-[140px] flex-col items-center rounded border bg-white/20 py-4 text-xs font-bold drop-shadow-lg'>
             <Sunset /> <span className='mt-2'>{getSunTime(data.sunset)}</span>
           </div>
 
@@ -65,7 +77,9 @@ const Forecast = ({ data }: Props) => {
             title='Feels like'
             info={<Degree temp={Math.round(today.main.feels_like)} />}
             description={`Feels ${
-              Math.round(today.main.feels_like) < Math.round(today.main.temp) ? 'colder' : 'warmer'
+              Math.round(today.main.feels_like) < Math.round(today.main.temp)
+                ? 'colder'
+                : 'warmer'
             }`}
           />
           <Tile

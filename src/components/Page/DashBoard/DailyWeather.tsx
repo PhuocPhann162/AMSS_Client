@@ -70,5 +70,7 @@ export const DailyWeather = ({ forecast }: DailyWeatherProps) => {
     });
   }, [forecast.list]);
 
-  return <div className='flex gap-10'>{renderedItems}</div>;
+  return (
+    <div className='mt-8 flex gap-10 overflow-y-auto'>{renderedItems}</div>
+  );
 };

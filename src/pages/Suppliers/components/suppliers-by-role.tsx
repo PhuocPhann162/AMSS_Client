@@ -11,6 +11,7 @@ import { displayDateTimeByLocale } from '@/helper/dayFormat';
 import { apiResponse, Country, Role } from '@/interfaces';
 import { GetSuppliersResponse } from '@/models/response';
 import { RootState } from '@/storage/redux/store';
+import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { TableParams } from '@/utils/models/Tables';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
@@ -30,8 +31,11 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
   const [totalRecord, setTotalRecord] = useState<number>(0);
   const { data, isLoading } = useGetSeedCropSuppliersQuery({
     supplierRole: supplierRole,
-    countryCodes:
-      tableParams.filters && (tableParams.filters['CountryName'] as string[]),
+    ...(tableParams.filters &&
+    tableParams.filters['CountryName'] &&
+    (tableParams.filters['CountryName'] as string[]).length > 0
+      ? { countryCodes: tableParams.filters['CountryName'] as string[] }
+      : {}),
     currentPage: tableParams.pagination?.current ?? 1,
     limit: tableParams.pagination?.pageSize ?? 10,
     orderBy: tableParams.sortField?.toString() ?? 'CreatedAt',
@@ -76,13 +80,22 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
         },
       },
       {
-        width: '5rem',
+        width: '6rem',
         title: 'Country',
         dataIndex: 'CountryName',
         filterDropdown: (props) => (
           <AFilterDropdown {...props} optionsFilter={countryFilters} />
         ),
         ellipsis: true,
+        render: (_, record) => {
+          const { CountryCode, CountryName } = record;
+          return (
+            <div className='flex items-center gap-2'>
+              <p>{flagemojiToPNG(convertToEmoji(CountryCode as string))} </p>
+              <p>{CountryName}</p>
+            </div>
+          );
+        },
       },
       {
         width: '5rem',
