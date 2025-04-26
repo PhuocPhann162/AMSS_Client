@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
-import { useDeleteFieldMutation, useGetAllFieldsQuery } from '@/api';
+import { useGetAllFieldsQuery } from '@/api';
 import { MarkerIcon, SortIcon } from '@/components/Icon';
 import { MainLoader } from '@/components/Page/common';
 
-import { getStatusColor, inputHelper, toastNotify } from '@/helper';
+import { getStatusColor } from '@/helper';
 import { fieldModel, pageOptions } from '@/interfaces';
-import { SD_FieldStatus } from '@/utils/SD';
 import { PopupCrop } from '../Crop';
+import { ATag } from '@/common/ui-common';
 
 export const FieldStatusList = () => {
   // Start State
@@ -41,37 +40,11 @@ export const FieldStatusList = () => {
     }),
   });
 
-  const [deleteField] = useDeleteFieldMutation();
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const tempData = inputHelper(e, filters);
-    setFilters(tempData);
-  };
-
-  const handleDelete = async (id: number) => {
-    try {
-      toast.promise(
-        deleteField(id),
-        {
-          pending: 'Processing your request...',
-          success: 'Field deleted successfully 👌',
-
-          error: 'An unexpected error occured 🤯',
-        },
-        {
-          theme: 'colored',
-        },
-      );
-      (document.getElementById('fuco_modal') as HTMLDialogElement)?.close();
-    } catch (error: any) {
-      toastNotify(error.message, 'error');
-    }
-  };
-
   useEffect(() => {
     if (data) {
-      setfieldList(data.apiResponse.result);
-      const { TotalRecords } = JSON.parse(data.totalRecords);
-      setTotalRecords(TotalRecords);
+      setfieldList(data.apiResponse.result as fieldModel[]);
+      const { TotalRecords } = JSON.parse(data.totalRecords as string);
+      setTotalRecords(TotalRecords as number);
     }
   }, [data]);
 
@@ -179,11 +152,9 @@ export const FieldStatusList = () => {
                                 </div>
                               </td>
                               <td className='whitespace-nowrap px-4 py-4 text-sm'>
-                                <span
-                                  className={`mr-auto inline-flex items-center px-4 py-3 text-center align-baseline text-sm font-semibold text-status-${getStatusColor(field.status! as SD_FieldStatus)}-dark leading-none bg-status-${getStatusColor(field.status! as SD_FieldStatus)}-light rounded-lg`}
-                                >
-                                  {field.status!}
-                                </span>
+                                <ATag color={getStatusColor(field.status!)}>
+                                  {field.status}
+                                </ATag>
                               </td>
                               <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
                                 <div>

@@ -29,15 +29,27 @@ import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
 import { useGeolocation, useUrlPosition } from '@/hooks';
 import 'leaflet/dist/leaflet.css';
-import { useNavigate } from 'react-router-dom';
 import { AButton } from '@/common/ui-common';
 
 const style = {
   color: '#ee7219',
 };
 
+type GetAddressDataType = {
+  address?: {
+    city?: string;
+    country?: string;
+    country_code?: string;
+    postcode?: string;
+    quarter?: string;
+    state?: string;
+    road?: string;
+    suburb?: string;
+  };
+  display_name?: string;
+};
+
 const Map: React.FC = () => {
-  const navigate = useNavigate();
   const [mapKey, setMapKey] = useState(0);
   const [mapPosition, setMapPosition] = useState([80, 40]);
   const [area, setArea] = useState<number>(0);
@@ -48,10 +60,7 @@ const Map: React.FC = () => {
     lat: 0,
     lng: 0,
   });
-  const [cityLocation, setCityLocation] = useState<string>('');
   const [points, setPoints] = useState<pointModel[]>();
-  const [idLand, setIdLand] = useState<string>('');
-  const [idPolygon, setIdPolygon] = useState<string>('');
   const [fieldId, polygonId, mapLat, mapLng] = useUrlPosition();
   const {
     isLoading: isLoadingPosition,
@@ -59,7 +68,6 @@ const Map: React.FC = () => {
     getPosition,
   } = useGeolocation();
   const mapRef = useRef<any>(null);
-  const polygonRef = useRef<L.Polygon>(null);
 
   const { data: dataFarm } = useGetAllFarmsQuery('');
   const { data: dataField, isLoading } = useGetAllFieldsQuery('');
@@ -71,10 +79,6 @@ const Map: React.FC = () => {
   }, [geolocationPosition]);
 
   useEffect(() => {
-    if (fieldId) {
-      setIdLand(fieldId);
-      setIdPolygon(polygonId!);
-    }
     if (mapLat && mapLng) {
       setMapPosition([Number(mapLat), Number(mapLng)]);
     }
@@ -119,38 +123,36 @@ const Map: React.FC = () => {
     setPoints(latLngs);
 
     const sum = latLngs.reduce(
-      (acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng],
+      (acc: any, curr: any) => [
+        (acc[0] + curr.lat) as number,
+        (acc[1] + curr.lng) as number,
+      ],
       [0, 0],
-    );
+    ) as number[];
     const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
     setMapPosition(average);
-    try {
-      fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`,
-      )
-        .then((response) => response.json())
-        .then((dataApi) => {
-          setCityLocation(dataApi.address?.city);
-          const address = dataApi?.display_name;
-          setFarmAddress({
-            address: address,
-            lat: average[0],
-            lng: average[1],
-            city: dataApi.address?.city,
-            country: dataApi.address?.country,
-            countryCode: dataApi.address?.country_code,
-            postCode: dataApi.address?.postcode,
-            state: dataApi.address?.quarter || dataApi.address?.state,
-            road: dataApi.address?.road,
-            district: dataApi.address?.suburb,
-          });
-        })
-        .catch((error) => {
-          toastNotify('Something error while get address', 'error');
+    fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`,
+    )
+      .then((response) => response.json())
+      .then((dataApi: GetAddressDataType) => {
+        const address = dataApi?.display_name || '';
+        setFarmAddress({
+          address: address,
+          lat: average[0],
+          lng: average[1],
+          city: dataApi.address?.city || '',
+          country: dataApi.address?.country || '',
+          countryCode: dataApi.address?.country_code || '',
+          postCode: dataApi.address?.postcode || '',
+          state: dataApi.address?.quarter || dataApi.address?.state || '',
+          road: dataApi.address?.road || '',
+          district: dataApi.address?.suburb || '',
         });
-    } catch (error) {
-      toastNotify('Something error while get address', 'error');
-    }
+      })
+      .catch((_) => {
+        toastNotify('Something error while get address', 'error');
+      });
 
     setIsPolygonDrawn(true);
     (
@@ -170,38 +172,37 @@ const Map: React.FC = () => {
 
     if (latLngs !== undefined) {
       const sum = latLngs.reduce(
-        (acc: any, curr: any) => [acc[0] + curr.lat, acc[1] + curr.lng],
+        (acc: any, curr: any) => [
+          (acc[0] + curr.lat) as number,
+          (acc[1] + curr.lng) as number,
+        ],
         [0, 0],
-      );
+      ) as number[];
       const average = [sum[0] / latLngs.length, sum[1] / latLngs.length];
       setMapPosition(average);
 
-      try {
-        fetch(
-          `https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`,
-        )
-          .then((response) => response.json())
-          .then((dataApi) => {
-            const address = dataApi.display_name;
-            setFarmAddress({
-              address: address,
-              lat: average[0],
-              lng: average[1],
-              city: dataApi.address.city,
-              country: dataApi.address.country,
-              countryCode: dataApi.address.country_code,
-              postCode: dataApi.address.postcode,
-              state: dataApi.address.quarter,
-              road: dataApi.address.road,
-              district: dataApi.address.suburb,
-            });
-          })
-          .catch((error) => {
-            toastNotify('Something error while get address', 'error');
+      fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${average[0]}&lon=${average[1]}&format=json`,
+      )
+        .then((response) => response.json())
+        .then((dataApi: GetAddressDataType) => {
+          const address = dataApi.display_name;
+          setFarmAddress({
+            address: address,
+            lat: average[0],
+            lng: average[1],
+            city: dataApi.address?.city,
+            country: dataApi.address?.country,
+            countryCode: dataApi.address?.country_code,
+            postCode: dataApi.address?.postcode,
+            state: dataApi.address?.quarter,
+            road: dataApi.address?.road,
+            district: dataApi.address?.suburb,
           });
-      } catch (error) {
-        toastNotify('Something error while get address', 'error');
-      }
+        })
+        .catch((_) => {
+          toastNotify('Something error while get address', 'error');
+        });
     } else {
       return;
     }
@@ -254,22 +255,8 @@ const Map: React.FC = () => {
                 onCreated={handleCreated}
                 onEdited={handleEdited}
               ></EditControl>
-              {dataField &&
-                dataField?.apiResponse?.result.map((item: fieldModel) => (
-                  <div key={item.id}>
-                    <Polygon
-                      positions={getDrawFieldPolygon(item)}
-                      pathOptions={{
-                        color: item.polygonApp?.color,
-                        fillColor: item.polygonApp?.color,
-                      }}
-                    >
-                      <Popup className='w-72'>
-                        <PopupField fieldInfo={item} />
-                      </Popup>
-                    </Polygon>
-                  </div>
-                ))}
+            </FeatureGroup>
+            <FeatureGroup>
               {dataFarm &&
                 dataFarm?.apiResponse?.result.map((item: farmModel) => (
                   <div key={item.id}>
@@ -278,6 +265,8 @@ const Map: React.FC = () => {
                       pathOptions={{
                         color: item.polygonApp?.color,
                         fillColor: 'transparent',
+                        weight: 3,
+                        fillOpacity: 0.1,
                       }}
                     >
                       <Popup className='w-72'>
@@ -297,13 +286,37 @@ const Map: React.FC = () => {
                   </div>
                 ))}
             </FeatureGroup>
+            <FeatureGroup>
+              {dataField &&
+                dataField?.apiResponse?.result.map((item: fieldModel) => (
+                  <div key={item.id}>
+                    <Polygon
+                      positions={getDrawFieldPolygon(item)}
+                      pathOptions={{
+                        color: item.polygonApp?.color,
+                        fillColor: item.polygonApp?.color,
+                        weight: 2,
+                        fillOpacity: 0.4,
+                      }}
+                    >
+                      <Popup className='w-72'>
+                        <PopupField fieldInfo={item} />
+                      </Popup>
+                    </Polygon>
+                  </div>
+                ))}
+            </FeatureGroup>
             <SearchControl
               provider={new OpenStreetMapProvider()}
               showMarker={true}
               showPopup={false}
-              popupFormat={({ query, result }: { query: any; result: any }) =>
-                result.label
-              }
+              popupFormat={({
+                query,
+                result,
+              }: {
+                query: unknown;
+                result: any;
+              }) => result.label as string}
               maxMarkers={3}
               retainZoomLevel={false}
               animateZoom={true}
@@ -312,7 +325,6 @@ const Map: React.FC = () => {
               keepResult={true}
             />
             <TileLayer
-              attribution={`&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>, <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors`}
               url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${import.meta.env.VITE_MAPBOX_ACESS_TOKEN}`}
             />
 

@@ -18,14 +18,14 @@ const icons = {
   humidity: Humidity,
   visibility: Visibility,
   pressure: Pressure,
-  pop: Pop
+  pop: Pop,
 };
 
 const Tile = ({ icon, title, info, description }: Props): JSX.Element => {
   const Icon = icons[icon];
 
   return (
-    <article className='w-[140px] h-[130px] text-zinc-700 bg-white/20 backdrop-blur-ls rounded drop-shadow-lg p-2 mb-5 flex flex-col justify-between'>
+    <article className='backdrop-blur-ls mb-5 flex h-[130px] w-[140px] flex-col justify-between rounded border bg-white/20 p-2 text-zinc-700 drop-shadow-lg'>
       <div className='flex items-center text-sm font-bold'>
         <Icon /> <h4 className='ml-1'>{title}</h4>
       </div>

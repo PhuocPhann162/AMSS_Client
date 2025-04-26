@@ -7,24 +7,6 @@ export interface AuthState {
   refreshToken?: string;
 }
 
-export const emptyUserState: User = {
-  id: '',
-  fullName: '',
-  userName: '',
-  email: '',
-  phoneNumber: '',
-  streetAddress: '',
-  city: '',
-  state: '',
-  country: '',
-  avatar: '',
-  refreshToken: '',
-  isActive: true,
-  role: undefined,
-  createdAt: '',
-  updatedAt: '',
-};
-
 const initialState: AuthState = {
   user: (function () {
     const user = localStorage.getItem('user');

@@ -10,4 +10,5 @@ export interface GetUsersResponse {
   Address: string;
   PhoneNumber: string;
   CreatedAt: string;
+  IsActive: boolean;
 }

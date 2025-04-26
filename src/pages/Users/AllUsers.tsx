@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { useGetCustomersQuery, useLockUnLockUserMutation } from '@/api';
 import { Breadcrumb, SearchInput } from '@/components/UI';
-import { apiResponse, Country, User } from '@/interfaces';
+import { apiResponse, Country } from '@/interfaces';
 import { toastNotify } from '@/helper';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
-import { LockOutlined } from '@ant-design/icons';
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 import { CreateIcon } from '@/components/Icon';
 import { AButton, ATable } from '@/common/ui-common';
 import { TableParams } from '@/utils/models/Tables';
@@ -18,8 +17,11 @@ import {
 } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { GetUsersResponse } from '@/models';
 import { useAppSelector } from '@/hooks';
+import { PopupConfirmation } from '@/components/UI/modal';
+import { useNavigate } from 'react-router-dom';
 
 export const AllUsers = () => {
+  const navigate = useNavigate();
   // Start State
   const [searchValue, setSearchValue] = useState<string>('');
   const [tableParams, setTableParams] =
@@ -28,12 +30,17 @@ export const AllUsers = () => {
   const [dataTable, setDataTable] = useState<GetUsersResponse[]>([]);
   const [totalRecord, setTotalRecord] = useState<number>(0);
   const [countryFilters, setCountryFilters] = useState<FilterOpstion[]>([]);
+  const [isOpenConfirmLockModal, setIsOpenConfirmLockModal] =
+    useState<boolean>(false);
 
   // End State
   const allCountries = useAppSelector((state) => state.countryStore);
   const { data, isLoading } = useGetCustomersQuery({
-    countryCodes:
-      tableParams.filters && (tableParams.filters['CountryName'] as string[]),
+    ...(tableParams.filters &&
+    tableParams.filters['CountryName'] &&
+    (tableParams.filters['CountryName'] as string[]).length > 0
+      ? { countryCodes: tableParams.filters['CountryName'] as string[] }
+      : {}),
     currentPage: tableParams.pagination?.current ?? 1,
     limit: tableParams.pagination?.pageSize ?? 10,
     orderBy: tableParams.sortField?.toString() ?? 'CreatedAt',
@@ -56,6 +63,8 @@ export const AllUsers = () => {
         (e as apiResponse).data?.errorMessages?.[0] ?? 'Something wrong!',
         'error',
       );
+    } finally {
+      setIsOpenConfirmLockModal(false);
     }
   };
 
@@ -100,6 +109,15 @@ export const AllUsers = () => {
           <AFilterDropdown {...props} optionsFilter={countryFilters} />
         ),
         ellipsis: true,
+        render: (_, record) => {
+          const { CountryCode, CountryName } = record;
+          return (
+            <div className='flex items-center gap-2'>
+              <p>{flagemojiToPNG(convertToEmoji(CountryCode as string))} </p>
+              <p>{CountryName}</p>
+            </div>
+          );
+        },
       },
       {
         width: '5rem',
@@ -125,13 +143,39 @@ export const AllUsers = () => {
         fixed: 'right',
         dataIndex: '_',
         render: (_, record) => (
-          <AButton type='link' onClick={() => handleLockUnlockUser(record.Id)}>
-            <LockOutlined style={{ fontSize: '1.5rem', color: 'black' }} />
-          </AButton>
+          <>
+            <PopupConfirmation
+              isOpen={isOpenConfirmLockModal}
+              content='Kind Reminder: This action can lock/unlock this account!'
+              onConfirm={() => handleLockUnlockUser(record.Id)}
+              onCancel={() => setIsOpenConfirmLockModal(false)}
+            />
+            {record.IsActive ? (
+              <AButton
+                color='danger'
+                variant='link'
+                onClick={() => setIsOpenConfirmLockModal(true)}
+              >
+                <LockOutlined style={{ fontSize: '1.25rem', color: 'red' }} />{' '}
+                Lock
+              </AButton>
+            ) : (
+              <AButton
+                color='gold'
+                variant='link'
+                onClick={() => setIsOpenConfirmLockModal(true)}
+              >
+                <UnlockOutlined
+                  style={{ fontSize: '1.25rem', color: 'gold' }}
+                />{' '}
+                Unlock
+              </AButton>
+            )}
+          </>
         ),
       },
     ];
-  }, [countryFilters]);
+  }, [countryFilters, isOpenConfirmLockModal]);
 
   useEffect(() => {
     const countryOptions = allCountries
@@ -161,68 +205,70 @@ export const AllUsers = () => {
   }, [searchValue, data, tableParams]);
 
   return (
-    <div>
-      <Breadcrumb pageParent='Users' pageName='All Users' />
-      <div className='mb-2 flex items-center justify-between'>
-        <div className='flex flex-col gap-4'>
-          <div>
-            <div className='flex items-center gap-x-3'>
-              <h2 className='text-lg font-medium text-gray-800 dark:text-white'>
-                Users
-              </h2>
+    <>
+      <div>
+        <Breadcrumb pageParent='Customers' pageName='All Users' />
+        <div className='mb-2 flex items-center justify-between'>
+          <div className='flex flex-col gap-4'>
+            <div>
+              <div className='flex items-center gap-x-3'>
+                <h2 className='text-lg font-medium text-gray-800 dark:text-white'>
+                  Customers
+                </h2>
 
-              <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
-                {totalRecord} accounts
-              </span>
+                <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
+                  {totalRecord} accounts
+                </span>
+              </div>
+
+              <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
+                These accounts have managed in the last 12 months.
+              </p>
             </div>
+          </div>
 
-            <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
-              These accounts have managed in the last 12 months.
-            </p>
+          <div className='flex flex-col items-end gap-2'>
+            <div className='mt-4 flex items-center gap-x-3'>
+              <AButton
+                type='primary'
+                onClick={() => navigate('/app/user/register')}
+              >
+                <CreateIcon />
+                <span>New Customer</span>
+              </AButton>
+            </div>
           </div>
         </div>
-
-        <div className='flex flex-col items-end gap-2'>
-          <div className='mt-4 flex items-center gap-x-3'>
-            <NavLink
-              to='/app/user/register'
-              className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-5 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
-            >
-              <CreateIcon />
-              <span>New User</span>
-            </NavLink>
-          </div>
+        <div className='flex flex-col gap-1'>
+          <SearchInput
+            onSearch={(value) => {
+              if (value !== searchValue) {
+                setSearchValue(value);
+                setTableParams((pre) => ({
+                  ...pre,
+                  pagination: {
+                    ...pre.pagination,
+                    current: 1,
+                  },
+                }));
+              }
+            }}
+            placeholder={'Search by Contact name and Email'}
+            className='w-1/3 min-w-40'
+          />
+          <ATable
+            columns={userCol}
+            dataSource={dataTable}
+            tableParams={tableParams}
+            totalRecord={totalRecord}
+            loading={isLoading}
+            scroll={{ y: '55vh' }}
+            onChange={(params: TableParams) => {
+              setTableParams(params);
+            }}
+          />
         </div>
       </div>
-      <div className='flex flex-col gap-1'>
-        <SearchInput
-          onSearch={(value) => {
-            if (value !== searchValue) {
-              setSearchValue(value);
-              setTableParams((pre) => ({
-                ...pre,
-                pagination: {
-                  ...pre.pagination,
-                  current: 1,
-                },
-              }));
-            }
-          }}
-          placeholder={'Search by supplier name'}
-          className='w-1/3 min-w-40'
-        />
-        <ATable
-          columns={userCol}
-          dataSource={dataTable}
-          tableParams={tableParams}
-          totalRecord={totalRecord}
-          loading={isLoading}
-          scroll={{ y: '55vh' }}
-          onChange={(params: TableParams) => {
-            setTableParams(params);
-          }}
-        />
-      </div>
-    </div>
+    </>
   );
 };
