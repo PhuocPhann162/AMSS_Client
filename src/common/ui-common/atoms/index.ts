@@ -17,3 +17,6 @@ export * from './a-carousel';
 export * from './a-rate';
 export * from './a-image';
 export * from './a-avatar';
+export * from './a-tabs';
+export * from './a-dropdown';
+export * from './a-menu';

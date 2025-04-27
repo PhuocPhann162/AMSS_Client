@@ -26,12 +26,12 @@ export const HeaderPage = () => {
             {dashboardRoutes.map((route, index) => (
               <NavLink
                 key={index}
-                to={route.path}
+                to={route.path || ''}
                 className={({ isActive }) =>
-                  `font-semibold uppercase text-gray-700 transition-colors duration-300 hover:text-black ${isActive ? 'text-black' : ''}`
+                  `font-medium uppercase text-abbey-800 transition-colors duration-300 hover:text-abbey-950 ${isActive ? 'text-abbey-950' : ''}`
                 }
               >
-                {route.name}
+                {route.label}
               </NavLink>
             ))}
           </div>
