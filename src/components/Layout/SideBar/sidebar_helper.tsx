@@ -12,18 +12,16 @@ import FarmIcon from '@/components/Icon/icon-svg/farm-sidebar.svg?react';
 import FieldIcon from '@/components/Icon/icon-svg/field-sidebase.svg?react';
 import ImportDataIcon from '@/components/Icon/icon-svg/import-sidebar.svg?react';
 import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
-import { type Route } from '@/route';
+import { Item } from '@/components/Layout/SideBar/SideBar';
 
-export const sidebarOptions: {
-  groupLabel: string;
-  routes: (Route & { icon: ReactNode })[];
-}[] = [
+export const sidebarOptions: Item[] = [
   {
-    groupLabel: 'Dashboard',
-    routes: [
+    label: 'Dashboard',
+    isGroup: true,
+    children: [
       {
-        name: 'Dashboard',
         path: '/app/dashBoard',
+        label: 'Dashboard',
         icon: <DashboardIcon />,
       },
       // {
@@ -39,79 +37,82 @@ export const sidebarOptions: {
     ],
   },
   {
-    groupLabel: 'Resources',
-    routes: [
+    label: 'Resources',
+    isGroup: true,
+    children: [
       {
-        name: 'My Crops',
         path: '/app/crop/myCrops',
-        icon: <CropIcon />,
+        label: 'My Crops',
+        icon: <CropIcon className='size-4' />,
       },
       {
-        name: 'Farms',
-        path: 'land/farm/allFarms',
-        icon: <FarmIcon />,
+        label: 'Farms',
+        path: '/app/land/farm/allFarms',
+        icon: <FarmIcon className='size-4' />,
       },
       {
-        name: 'Fields',
-        path: 'land/field/allFields',
-        icon: <FieldIcon />,
+        label: 'Fields',
+        path: '/app/land/field/allFields',
+        icon: <FieldIcon className='size-4' />,
       },
       {
-        name: 'Social Metrics',
-        path: 'gpaSearch/home',
+        label: 'Social Metrics',
+        path: '/app/gpaSearch/home',
         icon: <BarChartOutlined />,
       },
       {
-        name: 'Import Data',
-        path: 'gpaSearch/importData',
-        icon: <ImportDataIcon />,
+        label: 'Import Data',
+        path: '/app/gpaSearch/importData',
+        icon: <ImportDataIcon className='size-4' />,
       },
     ],
   },
   {
-    groupLabel: 'Map',
-    routes: [
+    label: 'Map',
+    isGroup: true,
+    children: [
       {
-        name: 'Farm Map',
         path: '/app/map',
-        icon: <FarmMapIcon />,
+        label: 'Farm Map',
+        icon: <FarmMapIcon className='size-4' />,
       },
     ],
   },
   {
-    groupLabel: 'Market',
-    routes: [
+    label: 'Market',
+    isGroup: true,
+    children: [
       {
-        name: 'Online Store',
-        path: 'market/onlineStore',
+        label: 'Online Store',
+        path: '/app/market/onlineStore',
         icon: <ShoppingCartOutlined />,
-        children: [],
       },
     ],
   },
   {
-    groupLabel: 'Suppliers',
-    routes: [
+    label: 'Suppliers',
+    isGroup: true,
+    children: [
       {
-        name: 'Seed Crop',
-        path: 'supplier/seedCrop',
-        icon: <SupplierCropIcon />,
-        children: [],
+        label: 'Seed Crop',
+        path: '/app/supplier/seedCrop',
+        icon: <SupplierCropIcon className='size-4' />,
       },
     ],
   },
   {
-    groupLabel: 'Account',
-    routes: [
+    label: 'Account',
+    isGroup: true,
+    children: [
       {
-        name: 'Registration Form',
         path: '/app/user/register',
         icon: <SnippetsOutlined />,
+        label: 'Registration Form',
       },
       {
-        name: 'Customer',
         path: '/app/user/allUsers',
-        icon: <UserIcon />,
+        label: 'Customer',
+        icon: <UserIcon className='size-4' />,
       },
     ],
   },

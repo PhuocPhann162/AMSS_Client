@@ -1,7 +1,7 @@
-import { Route } from '@/route';
+import { Item } from '@/components/Layout/SideBar';
 
-export const dashboardRoutes: Route[] = [
-  { path: 'store', name: 'Store' },
-  { path: 'about', name: 'About Us' },
-  { path: 'introduction', name: 'Introduction' },
+export const dashboardRoutes: Item[] = [
+  { path: '/store', label: 'Store' },
+  { path: '/about', label: 'About Us' },
+  { path: '/introduction', label: 'Introduction' },
 ];
