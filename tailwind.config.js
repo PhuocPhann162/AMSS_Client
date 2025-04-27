@@ -1,4 +1,5 @@
 import daisyui from 'daisyui';
+import { colors } from './src/configs/colors';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -13,6 +14,7 @@ export default {
         rubik: ['Rubik', 'sans-serif'],
       },
       colors: {
+        ...colors,
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

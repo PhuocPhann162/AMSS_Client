@@ -1,4 +1,3 @@
-import { type ReactNode } from 'react';
 import {
   BarChartOutlined,
   ShoppingCartOutlined,
@@ -12,7 +11,7 @@ import FarmIcon from '@/components/Icon/icon-svg/farm-sidebar.svg?react';
 import FieldIcon from '@/components/Icon/icon-svg/field-sidebase.svg?react';
 import ImportDataIcon from '@/components/Icon/icon-svg/import-sidebar.svg?react';
 import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
-import { Item } from '@/components/Layout/SideBar/SideBar';
+import { type Item } from '@/components/Layout/SideBar/SideBar';
 
 export const sidebarOptions: Item[] = [
   {
