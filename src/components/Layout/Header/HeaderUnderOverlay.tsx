@@ -19,6 +19,8 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
     const [headerHeight, setHeaderHeight] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
 
+    const heightRatio = 2 / 3;
+
     useEffect(() => {
       if (!headerRef.current) return;
 
@@ -54,11 +56,12 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
           style={
             {
               '--header-height': `${headerHeight}px`,
-              '--overlay-height': `${headerHeight * 1.5}px`,
+              '--overlay-height': `${headerHeight / heightRatio}px`,
+              '--height-ratio': `${heightRatio}`,
             } as CSSProperties
           }
           className={cn(
-            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/85 opacity-0 transition-[height,opacity] duration-300 [backdrop-filter:saturate(180%)_blur(20px)] [clip-path:inset(var(--header-height)_0_0_0)] [mask:linear-gradient(white,white,transparent)]',
+            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/85 via-white/25 via-[length:calc(var(--height-ratio)*100%)] opacity-0 transition-[height,opacity] duration-500 [backdrop-filter:saturate(180%)_blur(12px)] [mask:linear-gradient(white,white_calc(var(--height-ratio)*100%),transparent)]',
             isScrolled && 'opacity-100',
             classNames?.overlay,
           )}
