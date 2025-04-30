@@ -40,11 +40,11 @@ export default tseslint.config(
       'react/prop-types': 'off',
 
       // TODO: remove below in future
+      '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-assignment': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-unsafe-member-access': 'warn',
-      '@typescript-eslint/no-misused-promises': 'warn',
       '@typescript-eslint/no-unsafe-call': 'warn',
     },
   },

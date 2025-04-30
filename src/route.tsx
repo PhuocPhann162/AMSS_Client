@@ -34,6 +34,8 @@ import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
 import { AuthenticationLayout, HomeLayout } from '@/layouts';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 import { type ReactNode } from 'react';
+import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
+import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 
 export interface Route {
   name: string;
@@ -209,6 +211,14 @@ const router = createBrowserRouter(
             {
               path: 'seedCrop',
               element: <SeedCropSuppliers />,
+            },
+            {
+              path: 'owner-farm',
+              element: <OwnerFarmSuppliers />,
+            },
+            {
+              path: 'commodity',
+              element: <CommoditySuppliers />,
             },
           ],
         },

@@ -1,4 +1,6 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
+import { CreateFarmRequest } from '@/models';
+import { BooleanResponse } from '@/models/response/boolean-response';
 
 export const farmApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -27,7 +29,7 @@ export const farmApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.Farms],
     }),
-    createFarm: builder.mutation({
+    createFarm: builder.mutation<BooleanResponse, CreateFarmRequest>({
       query: (data) => ({
         url: 'farm',
         method: 'POST',

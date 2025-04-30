@@ -1,4 +1,6 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
+import { CreateFieldRequest } from '@/models';
+import { BooleanResponse } from '@/models/response/boolean-response';
 
 export const fieldApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,7 +30,7 @@ export const fieldApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.Fields],
     }),
-    createField: builder.mutation({
+    createField: builder.mutation<BooleanResponse, CreateFieldRequest>({
       query: (data) => ({
         url: 'field',
         method: 'POST',
