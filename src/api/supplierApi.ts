@@ -1,6 +1,11 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
+import { Role } from '@/interfaces';
 import { GetSuppliersRequest } from '@/models/request';
-import { GetSuppliersResponse, PaginationResponse } from '@/models/response';
+import {
+  GetSelectionSuppliersByRoleApiResponse,
+  GetSuppliersResponse,
+  PaginationResponse,
+} from '@/models/response';
 
 export const supplierApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,7 +24,19 @@ export const supplierApi = appBaseApi.injectEndpoints({
         };
       },
     }),
+    getSuppliersByRole: builder.query<
+      GetSelectionSuppliersByRoleApiResponse,
+      Role
+    >({
+      query: (role: Role) => ({
+        url: `suppliers/by-role`,
+        method: 'GET',
+        params: { role },
+      }),
+      providesTags: [TAG_TYPES.Suppliers],
+    }),
   }),
 });
 
-export const { useGetSeedCropSuppliersQuery } = supplierApi;
+export const { useGetSeedCropSuppliersQuery, useGetSuppliersByRoleQuery } =
+  supplierApi;

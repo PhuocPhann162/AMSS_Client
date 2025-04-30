@@ -16,20 +16,24 @@ import {
   pointModel,
   positionModel,
 } from '@/interfaces';
+import SatelliteIcon from '@/components/Icon/icon-svg/satellite.svg?react';
+import StreetMapIcon from '@/components/Icon/icon-svg/street-map.svg?react';
+import { PlusOutlined } from '@ant-design/icons';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchControl } from './SearchControl';
-import { CreateFarmModal } from './CreateFarmModal';
+import { CreateLandModal } from './CreateLandModal';
 import * as turf from '@turf/turf';
 import { toastNotify } from '@/helper';
 import { useGetAllFarmsQuery } from '@/api';
 import { useGetAllFieldsQuery } from '@/api';
 import { PopupFarm } from './PopupFarm';
-import { MainLoader } from '../common';
 import { PopupField } from './PopupField';
 import { UpdateLandModal } from './UpdateLandModal';
 import { useGeolocation, useUrlPosition } from '@/hooks';
 import 'leaflet/dist/leaflet.css';
 import { AButton } from '@/common/ui-common';
+import FloatButtonGroup from 'antd/es/float-button/FloatButtonGroup';
+import { FloatButton } from 'antd';
 
 const style = {
   color: '#ee7219',
@@ -51,7 +55,8 @@ type GetAddressDataType = {
 
 const Map: React.FC = () => {
   const [mapKey, setMapKey] = useState(0);
-  const [mapPosition, setMapPosition] = useState([80, 40]);
+  const [mapStyle, setMapStyle] = useState('streets-v11');
+  const [mapPosition, setMapPosition] = useState([10.76, 106.66]);
   const [area, setArea] = useState<number>(0);
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [isPolygonDrawn, setIsPolygonDrawn] = useState<boolean>(false);
@@ -61,6 +66,7 @@ const Map: React.FC = () => {
     lng: 0,
   });
   const [points, setPoints] = useState<pointModel[]>();
+  const [isOpenCreateLandModal, setIsOpenCreateLandModal] = useState(false);
   const [fieldId, polygonId, mapLat, mapLng] = useUrlPosition();
   const {
     isLoading: isLoadingPosition,
@@ -73,7 +79,11 @@ const Map: React.FC = () => {
   const { data: dataField, isLoading } = useGetAllFieldsQuery('');
 
   useEffect(() => {
-    if (geolocationPosition) {
+    if (
+      geolocationPosition &&
+      geolocationPosition.lat &&
+      geolocationPosition.lng
+    ) {
       setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
     }
   }, [geolocationPosition]);
@@ -155,9 +165,7 @@ const Map: React.FC = () => {
       });
 
     setIsPolygonDrawn(true);
-    (
-      document.getElementById('create_farm_modal') as HTMLDialogElement
-    )?.showModal();
+    setIsOpenCreateLandModal(true);
   };
 
   const handleEdited = (e: any) => {
@@ -214,51 +222,86 @@ const Map: React.FC = () => {
 
   return (
     <>
-      {isLoading && <MainLoader />}
-      {!isLoading && (
-        <div className='relative h-full flex-1 overflow-hidden'>
-          {!geolocationPosition.lat && (
-            <AButton
-              type='primary'
-              className='absolute bottom-16 left-1/2 z-[9999999] -translate-x-1/2 bg-black uppercase'
-              onClick={getPosition}
-            >
-              {isLoadingPosition ? 'Loading...' : 'Use your location'}
-            </AButton>
-          )}
-          <MapContainer
-            ref={mapRef}
-            key={mapKey}
-            center={{ lat: mapPosition[0], lng: mapPosition[1] }}
-            zoom={20}
-            scrollWheelZoom={true}
-            className='h-[38rem]'
+      <div className='relative h-full flex-1 overflow-hidden'>
+        <div className='absolute z-[999] rounded-md'>
+          <FloatButtonGroup
+            trigger='click'
+            type='primary'
+            icon={<PlusOutlined />}
+            style={{ right: 24 }}
           >
-            <FeatureGroup>
-              <EditControl
-                position='topright'
-                draw={{
-                  rectangle: false,
-                  circle: false,
-                  circlemarker: false,
-                  marker: false,
-                  polyline: false,
-                  polygon: {
-                    shapeOptions: style,
-                    edit: true,
-                    showLength: true,
-                    metric: true,
-                    feet: true,
-                    showArea: true,
-                  },
-                }}
-                onCreated={handleCreated}
-                onEdited={handleEdited}
-              ></EditControl>
-            </FeatureGroup>
-            <FeatureGroup>
-              {dataFarm &&
-                dataFarm?.apiResponse?.result.map((item: farmModel) => (
+            <FloatButton
+              icon={
+                mapStyle === 'streets-v11' ? (
+                  <SatelliteIcon
+                    style={{ width: '1.5rem', height: '1.5rem' }}
+                  />
+                ) : (
+                  <StreetMapIcon
+                    style={{ width: '1.5rem', height: '1.5rem' }}
+                  />
+                )
+              }
+              tooltip={
+                mapStyle === 'streets-v11'
+                  ? 'Switch to Satellite'
+                  : 'Switch to Street'
+              }
+              onClick={() => {
+                setMapKey((prev) => prev + 1);
+                setMapStyle((prev) =>
+                  prev === 'streets-v11'
+                    ? 'satellite-streets-v11'
+                    : 'streets-v11',
+                );
+              }}
+            />
+          </FloatButtonGroup>
+        </div>
+        {!geolocationPosition.lat && (
+          <AButton
+            type='primary'
+            loading={isLoadingPosition}
+            className='absolute bottom-16 left-1/2 z-[999] -translate-x-1/2 bg-black uppercase'
+            onClick={getPosition}
+          >
+            {isLoadingPosition ? 'Loading...' : 'Use your location'}
+          </AButton>
+        )}
+        <MapContainer
+          ref={mapRef}
+          key={mapKey}
+          center={{ lat: mapPosition[0], lng: mapPosition[1] }}
+          zoom={20}
+          scrollWheelZoom={true}
+          className='h-[42rem]'
+        >
+          <FeatureGroup>
+            <EditControl
+              position='topright'
+              draw={{
+                rectangle: false,
+                circle: false,
+                circlemarker: false,
+                marker: false,
+                polyline: false,
+                polygon: {
+                  shapeOptions: style,
+                  edit: true,
+                  showLength: true,
+                  metric: true,
+                  feet: true,
+                  showArea: true,
+                },
+              }}
+              onCreated={handleCreated}
+              onEdited={handleEdited}
+            ></EditControl>
+          </FeatureGroup>
+          <FeatureGroup>
+            {dataFarm &&
+              (dataFarm?.apiResponse?.result as farmModel[]).map(
+                (item: farmModel) => (
                   <div key={item.id}>
                     <Polygon
                       positions={getDrawFarmPolygon(item)}
@@ -284,11 +327,13 @@ const Map: React.FC = () => {
                       </Popup>
                     </Marker>
                   </div>
-                ))}
-            </FeatureGroup>
-            <FeatureGroup>
-              {dataField &&
-                dataField?.apiResponse?.result.map((item: fieldModel) => (
+                ),
+              )}
+          </FeatureGroup>
+          <FeatureGroup>
+            {dataField &&
+              (dataField?.apiResponse?.result as fieldModel[]).map(
+                (item: fieldModel) => (
                   <div key={item.id}>
                     <Polygon
                       positions={getDrawFieldPolygon(item)}
@@ -304,52 +349,50 @@ const Map: React.FC = () => {
                       </Popup>
                     </Polygon>
                   </div>
-                ))}
-            </FeatureGroup>
-            <SearchControl
-              provider={new OpenStreetMapProvider()}
-              showMarker={true}
-              showPopup={false}
-              popupFormat={({
-                query,
-                result,
-              }: {
-                query: unknown;
-                result: any;
-              }) => result.label as string}
-              maxMarkers={3}
-              retainZoomLevel={false}
-              animateZoom={true}
-              autoClose={false}
-              searchLabel={'Enter address, please🌏'}
-              keepResult={true}
-            />
-            <TileLayer
-              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${import.meta.env.VITE_MAPBOX_ACESS_TOKEN}`}
-            />
+                ),
+              )}
+          </FeatureGroup>
+          <SearchControl
+            provider={new OpenStreetMapProvider()}
+            showMarker={true}
+            showPopup={false}
+            popupFormat={({ query, result }: { query: unknown; result: any }) =>
+              result.label as string
+            }
+            maxMarkers={3}
+            retainZoomLevel={false}
+            animateZoom={true}
+            autoClose={false}
+            searchLabel={'Enter address, please🌏'}
+            keepResult={true}
+          />
+          <TileLayer
+            url={`https://api.mapbox.com/styles/v1/mapbox/${mapStyle}/tiles/{z}/{x}/{y}?access_token=${import.meta.env.VITE_MAPBOX_ACESS_TOKEN}`}
+          />
 
-            {geolocationPosition && (
-              <Marker position={geolocationPosition}>
-                <Popup>
-                  <span>My Location</span>
-                </Popup>
-              </Marker>
-            )}
-            <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
-            <CreateFarmModal
-              area={area}
-              location={farmAddress}
-              points={points || []}
-              onCancel={handleCreatedCancel}
-            />
-            <UpdateLandModal
-              area={area}
-              location={farmAddress}
-              points={points!}
-            />
-          </MapContainer>
-        </div>
-      )}
+          {geolocationPosition && (
+            <Marker position={geolocationPosition}>
+              <Popup>
+                <span>My Location</span>
+              </Popup>
+            </Marker>
+          )}
+          <ChangeCenter point={[mapPosition[0], mapPosition[1]]} />
+          <CreateLandModal
+            isOpen={isOpenCreateLandModal}
+            setIsOpen={setIsOpenCreateLandModal}
+            area={area}
+            location={farmAddress}
+            points={points || []}
+            onCancel={handleCreatedCancel}
+          />
+          <UpdateLandModal
+            area={area}
+            location={farmAddress}
+            points={points!}
+          />
+        </MapContainer>
+      </div>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import Map from './Map';
-import { CreateFarmModal } from './CreateFarmModal';
+import { CreateLandModal } from './CreateLandModal';
 import { SearchControl } from './SearchControl';
 import { PopupFarm } from './PopupFarm';
 import { PopupField } from './PopupField';
@@ -11,7 +11,7 @@ export * from './MapBoxAddressSearch';
 
 export {
   Map,
-  CreateFarmModal,
+  CreateLandModal,
   SearchControl,
   PopupFarm,
   PopupField,

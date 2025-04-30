@@ -11,6 +11,10 @@ import FarmIcon from '@/components/Icon/icon-svg/farm-sidebar.svg?react';
 import FieldIcon from '@/components/Icon/icon-svg/field-sidebase.svg?react';
 import ImportDataIcon from '@/components/Icon/icon-svg/import-sidebar.svg?react';
 import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
+import LandIcon from '@/components/Icon/icon-svg/land-sidebar.svg?react';
+import OwnerFarmIcon from '@/components/Icon/icon-svg/owner-farm-sidebar.svg?react';
+import CommoditySupplierIcon from '@/components/Icon/icon-svg/supplier-commodity-sidebar.svg?react';
+import SupplierIcon from '@/components/Icon/icon-svg/supplier-sidebar.svg?react';
 import { type Item } from '@/components/Layout/SideBar/SideBar';
 
 export const sidebarOptions: Item[] = [
@@ -45,14 +49,20 @@ export const sidebarOptions: Item[] = [
         icon: <CropIcon className='size-4' />,
       },
       {
-        label: 'Farms',
-        path: '/app/land/farm/allFarms',
-        icon: <FarmIcon className='size-4' />,
-      },
-      {
-        label: 'Fields',
-        path: '/app/land/field/allFields',
-        icon: <FieldIcon className='size-4' />,
+        label: 'Lands',
+        icon: <LandIcon className='size-4' />,
+        children: [
+          {
+            label: 'Farms',
+            path: '/app/land/farm/allFarms',
+            icon: <FarmIcon className='size-4' />,
+          },
+          {
+            label: 'Fields',
+            path: '/app/land/field/allFields',
+            icon: <FieldIcon className='size-4' />,
+          },
+        ],
       },
       {
         label: 'Social Metrics',
@@ -89,13 +99,29 @@ export const sidebarOptions: Item[] = [
     ],
   },
   {
-    label: 'Suppliers',
+    label: 'Supplier',
     isGroup: true,
     children: [
       {
-        label: 'Seed Crop',
-        path: '/app/supplier/seedCrop',
-        icon: <SupplierCropIcon className='size-4' />,
+        label: 'Suppliers',
+        icon: <SupplierIcon className='size-4' />,
+        children: [
+          {
+            label: 'Seed Crop',
+            path: '/app/supplier/seedCrop',
+            icon: <SupplierCropIcon className='size-4' />,
+          },
+          {
+            label: 'Owner Farm',
+            path: '/app/supplier/owner-farm',
+            icon: <OwnerFarmIcon className='size-4' />,
+          },
+          {
+            label: 'Commodities',
+            path: '/app/supplier/commodity',
+            icon: <CommoditySupplierIcon className='size-4' />,
+          },
+        ],
       },
     ],
   },
@@ -104,14 +130,14 @@ export const sidebarOptions: Item[] = [
     isGroup: true,
     children: [
       {
-        path: '/app/user/register',
-        icon: <SnippetsOutlined />,
-        label: 'Registration Form',
-      },
-      {
         path: '/app/user/allUsers',
         label: 'Customer',
         icon: <UserIcon className='size-4' />,
+      },
+      {
+        path: '/app/user/register',
+        icon: <SnippetsOutlined />,
+        label: 'Registration Form',
       },
     ],
   },
