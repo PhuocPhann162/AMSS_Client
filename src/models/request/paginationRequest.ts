@@ -3,8 +3,8 @@ export enum ListSortDirection {
   Descending,
 }
 
-export interface PaginationRequest {
-  orderBy: string;
+export interface PaginationRequest<T = string> {
+  orderBy: T;
   orderByDirection: ListSortDirection;
   currentPage: number;
   limit: number;

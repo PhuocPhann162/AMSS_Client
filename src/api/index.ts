@@ -10,3 +10,4 @@ export * from './socialMetricApi';
 export * from './supplierApi';
 export * from './userApi';
 export * from './polygonAgroApi';
+export * from './commodity-api';
