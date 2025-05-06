@@ -1,48 +1,83 @@
 import { useMotionValueEvent, useScroll } from 'framer-motion';
-import { useState, useRef, RefObject } from 'react';
+import { useState, useRef, type RefObject } from 'react';
 
-export const SCROLL_DIRECTION = {
+export const DIRECTION_X = {
+  left: 'left',
+  right: 'right',
+  none: 'none',
+} as const;
+
+export type DirectionX = (typeof DIRECTION_X)[keyof typeof DIRECTION_X];
+
+export const DIRECTION_Y = {
   up: 'up',
   down: 'down',
   none: 'none',
 } as const;
 
-export type ScrollDirection =
-  (typeof SCROLL_DIRECTION)[keyof typeof SCROLL_DIRECTION];
+export type DirectionY = (typeof DIRECTION_Y)[keyof typeof DIRECTION_Y];
 
-interface UseScrollDirectionOptions<T extends HTMLElement = HTMLElement> {
+export interface UseScrollDirectionProps<T extends HTMLElement = HTMLElement> {
   element?: RefObject<T>;
   threshold?: number;
-  initialDirection?: ScrollDirection;
+  initialValue?: {
+    directionX?: DirectionX;
+    directionY?: DirectionY;
+  };
   enabled?: boolean;
+}
+
+export interface UseScrollDirectionReturn {
+  directionX: DirectionX;
+  directionY: DirectionY;
 }
 
 export const useScrollDirection = ({
   element,
-  threshold = 10,
-  initialDirection = SCROLL_DIRECTION.none,
+  threshold = 0,
+  initialValue,
   enabled = true,
-}: UseScrollDirectionOptions = {}) => {
-  const [scrollDirection, setScrollDirection] =
-    useState<ScrollDirection>(initialDirection);
+}: UseScrollDirectionProps = {}): UseScrollDirectionReturn => {
+  const [directionX, setDirectionX] = useState<DirectionX>(
+    initialValue?.directionX ?? DIRECTION_X.none,
+  );
+  const [directionY, setDirectionY] = useState<DirectionY>(
+    initialValue?.directionY ?? DIRECTION_Y.none,
+  );
 
-  const { scrollY } = useScroll({ container: element });
+  const { scrollX, scrollY } = useScroll({ container: element });
 
-  const lastScrollY = useRef(scrollY.get());
+  const prevScrollX = useRef(scrollX.get());
+  const prevScrollY = useRef(scrollY.get());
 
-  useMotionValueEvent(scrollY, 'change', (latest) => {
+  useMotionValueEvent(scrollX, 'change', (value) => {
     if (!enabled) return;
 
-    const lastScrollYValue = lastScrollY.current;
+    const deltaX = value - prevScrollX.current;
 
-    if (Math.abs(latest - lastScrollYValue) < threshold) return;
+    if (Math.abs(deltaX) > threshold) {
+      const newDirection = deltaX > 0 ? DIRECTION_X.right : DIRECTION_X.left;
 
-    const newDirection =
-      latest > lastScrollYValue ? SCROLL_DIRECTION.down : SCROLL_DIRECTION.up;
-
-    setScrollDirection(newDirection);
-    lastScrollY.current = latest;
+      setDirectionX(newDirection);
+      prevScrollX.current = value;
+    }
   });
 
-  return { direction: scrollDirection };
+  useMotionValueEvent(scrollY, 'change', (value) => {
+    if (!enabled) return;
+
+    const deltaY = value - prevScrollY.current;
+
+    if (Math.abs(deltaY) > threshold) {
+      const newDirection = deltaY > 0 ? DIRECTION_Y.down : DIRECTION_Y.up;
+
+      setDirectionY(newDirection);
+      prevScrollY.current = value;
+    }
+  });
+
+  return {
+    directionX,
+    directionY,
+  };
 };
