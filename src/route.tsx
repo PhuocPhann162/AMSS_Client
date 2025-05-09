@@ -36,6 +36,8 @@ import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 import { type ReactNode } from 'react';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
+import { CommodityManagement } from './pages/Commodities/CommodityManagement';
+import { GrowLocation } from './pages/Crops/GrowLocation';
 
 export interface Route {
   name: string;
@@ -129,8 +131,8 @@ const router = createBrowserRouter(
           element: <CropDetail />,
         },
         {
-          path: 'crop/growLocations',
-          element: <Crop />,
+          path: 'crop/grow-location',
+          element: <GrowLocation />,
         },
         // Map Routes
         {
@@ -219,6 +221,16 @@ const router = createBrowserRouter(
             {
               path: 'commodity',
               element: <CommoditySuppliers />,
+            },
+          ],
+        },
+        // Commodity Routes
+        {
+          path: 'commodity',
+          children: [
+            {
+              path: 'managment',
+              element: <CommodityManagement />,
             },
           ],
         },

@@ -154,15 +154,12 @@ const MapboxAddressSearch: React.FC<MapboxAddressSearchProps> = ({
   useEffect(() => {
     if (!map.current || !mapInitialized) return;
 
-    // Chỉ khởi tạo geocoder nếu chưa có
     if (!geocoder.current) {
       geocoder.current = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken!,
         mapboxgl: mapboxgl,
         marker: false,
         placeholder: placeholder,
-        countries: 'vn',
-        language: 'vi',
       });
 
       map.current.addControl(geocoder.current);

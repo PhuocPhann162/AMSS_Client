@@ -1,7 +1,8 @@
 import {
   BarChartOutlined,
-  ShoppingCartOutlined,
+  ShopOutlined,
   SnippetsOutlined,
+  CloudUploadOutlined,
 } from '@ant-design/icons';
 import DashboardIcon from '@/components/Icon/icon-svg/dashboard-sidebar.svg?react';
 import CropIcon from '@/components/Icon/icon-svg/crop-sidebar.svg?react';
@@ -9,12 +10,12 @@ import FarmMapIcon from '@/components/Icon/icon-svg/farmmap_sidebar.svg?react';
 import UserIcon from '@/components/Icon/icon-svg/user-sidebar.svg?react';
 import FarmIcon from '@/components/Icon/icon-svg/farm-sidebar.svg?react';
 import FieldIcon from '@/components/Icon/icon-svg/field-sidebase.svg?react';
-import ImportDataIcon from '@/components/Icon/icon-svg/import-sidebar.svg?react';
 import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
 import LandIcon from '@/components/Icon/icon-svg/land-sidebar.svg?react';
 import OwnerFarmIcon from '@/components/Icon/icon-svg/owner-farm-sidebar.svg?react';
 import CommoditySupplierIcon from '@/components/Icon/icon-svg/supplier-commodity-sidebar.svg?react';
 import SupplierIcon from '@/components/Icon/icon-svg/supplier-sidebar.svg?react';
+import CommodityIcon from '@/components/Icon/icon-svg/commodity-sidebar.svg?react';
 import { type Item } from '@/components/Layout/SideBar/SideBar';
 
 export const sidebarOptions: Item[] = [
@@ -27,16 +28,6 @@ export const sidebarOptions: Item[] = [
         label: 'Dashboard',
         icon: <DashboardIcon />,
       },
-      // {
-      //   name: 'Schedule',
-      //   path: '/app/schedule',
-      //   icon: <LaptopOutlined />,
-      // },
-      // {
-      //   name: 'Tasks',
-      //   path: '/app/task',
-      //   icon: <LaptopOutlined />,
-      // },
     ],
   },
   {
@@ -44,9 +35,18 @@ export const sidebarOptions: Item[] = [
     isGroup: true,
     children: [
       {
-        path: '/app/crop/myCrops',
-        label: 'My Crops',
+        label: 'Plantings',
         icon: <CropIcon className='size-4' />,
+        children: [
+          {
+            path: '/app/crop/myCrops',
+            label: 'My Crops',
+          },
+          {
+            path: '/app/crop/grow-location',
+            label: 'Grow Locations',
+          },
+        ],
       },
       {
         label: 'Lands',
@@ -64,15 +64,21 @@ export const sidebarOptions: Item[] = [
           },
         ],
       },
+    ],
+  },
+  {
+    label: 'Socials',
+    isGroup: true,
+    children: [
       {
         label: 'Social Metrics',
         path: '/app/gpaSearch/home',
-        icon: <BarChartOutlined />,
+        icon: <BarChartOutlined className='size-4' />,
       },
       {
         label: 'Import Data',
         path: '/app/gpaSearch/importData',
-        icon: <ImportDataIcon className='size-4' />,
+        icon: <CloudUploadOutlined className='size-4' />,
       },
     ],
   },
@@ -89,19 +95,27 @@ export const sidebarOptions: Item[] = [
   },
   {
     label: 'Market',
-    isGroup: true,
+    icon: <ShopOutlined className='size-4' />,
     children: [
       {
         label: 'Online Store',
         path: '/app/market/onlineStore',
-        icon: <ShoppingCartOutlined />,
+      },
+      {
+        path: '/app/commodity/managment',
+        label: 'Products',
       },
     ],
   },
   {
-    label: 'Supplier',
+    label: 'Account',
     isGroup: true,
     children: [
+      {
+        path: '/app/user/allUsers',
+        label: 'Customer',
+        icon: <UserIcon className='size-4' />,
+      },
       {
         label: 'Suppliers',
         icon: <SupplierIcon className='size-4' />,
@@ -123,20 +137,9 @@ export const sidebarOptions: Item[] = [
           },
         ],
       },
-    ],
-  },
-  {
-    label: 'Account',
-    isGroup: true,
-    children: [
-      {
-        path: '/app/user/allUsers',
-        label: 'Customer',
-        icon: <UserIcon className='size-4' />,
-      },
       {
         path: '/app/user/register',
-        icon: <SnippetsOutlined />,
+        icon: <SnippetsOutlined className='size-4' />,
         label: 'Registration Form',
       },
     ],

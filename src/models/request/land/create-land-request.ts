@@ -1,4 +1,5 @@
 import { pointModel } from '@/interfaces';
+import { CreateGrowLocationRequest } from '@/interfaces/growLocationModel';
 import { SD_PlaceType } from '@/utils/SD';
 
 export interface CreateLocationDto {
@@ -50,4 +51,5 @@ export interface CreateFieldRequest {
   farmId: string;
   location: CreateLocationDto;
   polygon: CreatePolygonDto;
+  growLocation?: CreateGrowLocationRequest;
 }

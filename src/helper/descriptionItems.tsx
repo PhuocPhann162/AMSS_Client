@@ -4,6 +4,8 @@ import { ATag } from '@/common/ui-common';
 import { farmModel, fieldModel, locationModel } from '@/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import getStatusColor from './getStatusColor';
+import { GetSuppliersResponse } from '@/models';
+import { supplierModel } from '@/interfaces/supplierModel';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {
   return [
@@ -155,4 +157,41 @@ export const fieldEditDescriptionItems = (fieldValue?: fieldModel) => {
     },
   ];
   return items;
+};
+
+export const supplierDescriptionItems = (supplierValue: supplierModel) => {
+  return [
+    {
+      key: '1',
+      label: 'Company Name',
+      children: supplierValue.name,
+    },
+    {
+      key: '2',
+      label: 'Contact Name',
+      children: supplierValue.contactName,
+    },
+    {
+      key: '3',
+      label: 'Country',
+      children: (
+        <div className='flex items-center gap-2'>
+          {flagemojiToPNG(
+            convertToEmoji(supplierValue.countryCode?.toUpperCase() ?? ''),
+          )}
+          {' ' + supplierValue.countryName}
+        </div>
+      ),
+    },
+    {
+      key: '4',
+      label: 'Email',
+      children: supplierValue.email,
+    },
+    {
+      key: '5',
+      label: 'Contact Number',
+      children: supplierValue.phoneCode + ' ' + supplierValue.phoneNumber,
+    },
+  ];
 };

@@ -1,3 +1,5 @@
+import { AButton } from './ui-common';
+
 interface PaginationProps {
   currentPageSize: number;
   setCurrentPageSize: (value: number) => void;
@@ -11,10 +13,11 @@ export const Pagination = ({
   setCurrentPageSize,
   pageOptions,
   setPageOptions,
-  totalRecords
+  totalRecords,
 }: PaginationProps) => {
   const getPageDetails = () => {
-    const dataStartRecordNumber = (pageOptions.pageNumber - 1) * pageOptions.pageSize + 1;
+    const dataStartRecordNumber =
+      (pageOptions.pageNumber - 1) * pageOptions.pageSize + 1;
     const dataEndRecordNumber = pageOptions.pageNumber * pageOptions.pageSize;
 
     return `${dataStartRecordNumber} - ${
@@ -26,27 +29,27 @@ export const Pagination = ({
     if (direction === 'prev') {
       setPageOptions({
         pageSize: currentPageSize,
-        pageNumber: pageOptions.pageNumber - 1
+        pageNumber: pageOptions.pageNumber - 1,
       });
     } else if (direction === 'next') {
       setPageOptions({
         pageSize: currentPageSize,
-        pageNumber: pageOptions.pageNumber + 1
+        pageNumber: pageOptions.pageNumber + 1,
       });
     } else if (direction === 'change') {
       setPageOptions({
         pageSize: pageSize ? pageSize : currentPageSize,
-        pageNumber: 1
+        pageNumber: 1,
       });
     }
   };
 
   return (
     <div className='mt-2 sm:flex sm:items-center sm:justify-between'>
-      <div className='flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400'>
+      <div className='flex items-center gap-2 text-sm'>
         <div>Row per page: </div>
         <select
-          className='select select-bordered select-sm max-w-xs select-warning w-18 bg-white'
+          className='select select-bordered select-sm select-warning w-18 max-w-xs bg-white'
           value={currentPageSize}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             handlePageOptionsChange('change', Number(e.target.value));
@@ -60,17 +63,21 @@ export const Pagination = ({
         </select>
         <div className='divider divider-horizontal divider-accent'></div>
         <div>
-          Page <span className='font-medium text-gray-700 dark:text-gray-100'>{getPageDetails()}</span>
+          Page{' '}
+          <span className='font-medium text-gray-700 dark:text-gray-100'>
+            {getPageDetails()}
+          </span>
         </div>
       </div>
 
-      <div className='flex items-center mt-4 gap-x-4 sm:mt-0'>
+      <div className='mt-4 flex items-center gap-x-4 sm:mt-0'>
         {pageOptions.pageNumber === 1 ? (
           <></>
         ) : (
-          <button
+          <AButton
+            variant='solid'
+            color='cyan'
             onClick={() => handlePageOptionsChange('prev')}
-            className='btn btn-outline btn-info flex items-center justify-center text-sm capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100'
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -78,21 +85,26 @@ export const Pagination = ({
               viewBox='0 0 24 24'
               strokeWidth='1.5'
               stroke='currentColor'
-              className='w-5 h-5 rtl:-scale-x-100'
+              className='h-5 w-5 rtl:-scale-x-100'
             >
-              <path strokeLinecap='round' strokeLinejoin='round' d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18' />
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18'
+              />
             </svg>
 
             <span>Previous</span>
-          </button>
+          </AButton>
         )}
 
         {pageOptions.pageNumber * pageOptions.pageSize >= totalRecords ? (
           <></>
         ) : (
-          <button
+          <AButton
+            variant='solid'
+            color='cyan'
             onClick={() => handlePageOptionsChange('next')}
-            className='btn btn-outline btn-info flex items-center justify-center text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100'
           >
             <span>Next</span>
             <svg
@@ -101,11 +113,15 @@ export const Pagination = ({
               viewBox='0 0 24 24'
               strokeWidth='1.5'
               stroke='currentColor'
-              className='w-5 h-5 rtl:-scale-x-100'
+              className='h-5 w-5 rtl:-scale-x-100'
             >
-              <path strokeLinecap='round' strokeLinejoin='round' d='M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3' />
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3'
+              />
             </svg>
-          </button>
+          </AButton>
         )}
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import { CreateFieldRequest } from '@/models';
+import { CreateGrowLocationRequest } from '@/interfaces/growLocationModel';
+import { CreateFieldRequest, GuidResponse } from '@/models';
 import { BooleanResponse } from '@/models/response/boolean-response';
 
 export const fieldApi = appBaseApi.injectEndpoints({
@@ -38,6 +39,17 @@ export const fieldApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Fields],
     }),
+    createGrowLocation: builder.mutation<
+      GuidResponse,
+      CreateGrowLocationRequest
+    >({
+      query: (data) => ({
+        url: 'field/grow-location',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [TAG_TYPES.Fields],
+    }),
     updateField: builder.mutation({
       query: ({ id, data }) => ({
         url: `field/${id}`,
@@ -63,6 +75,7 @@ export const {
   useGetAllFieldsQuery,
   useGetFieldByIdQuery,
   useCreateFieldMutation,
+  useCreateGrowLocationMutation,
   useUpdateFieldMutation,
   useDeleteFieldMutation,
 } = fieldApi;
