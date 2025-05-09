@@ -1,5 +1,6 @@
 import cropTypeModel from './cropTypeModel';
 import fieldCropModel from './fieldCropModel';
+import { supplierModel } from './supplierModel';
 
 export default interface cropModel {
   id?: string;
@@ -12,7 +13,7 @@ export default interface cropModel {
   maintenance?: string;
   hardinessZone?: number;
   indoor?: boolean;
-  propogation?: string;
+  propagation?: string;
   careLevel?: string;
   growthRate?: string;
   description?: string;
@@ -23,6 +24,7 @@ export default interface cropModel {
   cropTypeId?: string;
   cropType?: cropTypeModel;
   fieldCrops?: fieldCropModel[];
+  supplier?: supplierModel;
   createdAt?: string;
   updatedAt?: string;
 }

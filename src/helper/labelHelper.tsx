@@ -5,9 +5,9 @@ interface LabelHelperProps {
 
 const LabelHelper = ({ text, required = false }: LabelHelperProps) => {
   return (
-    <label className='text-sm font-medium text-gray-900 block mb-2'>
+    <label className='mb-2 block text-sm font-medium text-[#7b7b7b]'>
       {text}
-      {required && <span className='text-red-500 ml-1'>*</span>}
+      {required && <span className='ml-1 text-red-500'>*</span>}
     </label>
   );
 };

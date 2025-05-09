@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   CareLevelIcon,
   CycleIcon,
@@ -17,13 +17,17 @@ import {
   SoilIcon,
   SunIcon,
   TropicalIcon,
-  WateringIcon
+  WateringIcon,
 } from '@/components/Icon';
 import { getPlantSuggest } from '@/helper';
 import { plantSuggestModel } from '@/interfaces';
+import { AButton } from '@/common/ui-common';
 
 export const PlantDetail = () => {
-  const [plantDetail, setPlantDetail] = useState<plantSuggestModel | null>(null);
+  const [plantDetail, setPlantDetail] = useState<plantSuggestModel | null>(
+    null,
+  );
+  const navigate = useNavigate();
   const { id } = useParams();
   useEffect(() => {
     async function fetchPlantDetail() {
@@ -34,21 +38,25 @@ export const PlantDetail = () => {
   }, []);
 
   return (
-    <div className='grid grid-cols-5 bg-white h-full'>
+    <div className='grid h-full grid-cols-5 bg-white'>
       <div className='col-span-2'>
         <img
-          className='h-2/3 w-full py-6 px-4'
+          className='h-2/3 w-full px-4 py-6'
           src={plantDetail?.default_image.original_url}
           alt={plantDetail?.default_image.license_name}
         />
       </div>
       <div className='col-span-3'>
         <div className='px-4 py-6'>
-          <p className='text-black font-bold text-4xl'>{plantDetail?.common_name}</p>
-          <p className='text-primary italic py-2'>{plantDetail?.scientific_name}.</p>
-          <p className='text-sm text-justify'>{plantDetail?.description}</p>
-          <div className='bg-be grid grid-cols-2 text-black mt-4'>
-            <div className='text-sm py-4 px-6'>
+          <p className='text-4xl font-bold text-black'>
+            {plantDetail?.common_name}
+          </p>
+          <p className='py-2 italic text-primary'>
+            {plantDetail?.scientific_name}.
+          </p>
+          <p className='text-justify text-sm'>{plantDetail?.description}</p>
+          <div className='mt-4 grid grid-cols-2 bg-be text-black'>
+            <div className='px-6 py-4 text-sm'>
               <div className='flex items-center gap-1'>
                 <CycleIcon /> Cycle:
                 <span>{plantDetail?.cycle}</span>
@@ -78,13 +86,15 @@ export const PlantDetail = () => {
                 <span>{plantDetail?.maintenance}</span>
               </div>
               <div className='flex items-center gap-1'>
-                <SaltIcon /> Salt Tolerant:<span>{plantDetail?.salt_tolerant}</span>
+                <SaltIcon /> Salt Tolerant:
+                <span>{plantDetail?.salt_tolerant}</span>
               </div>
               <div className='flex items-center gap-1'>
-                <CareLevelIcon /> Care Level:<span>{plantDetail?.care_level}</span>
+                <CareLevelIcon /> Care Level:
+                <span>{plantDetail?.care_level}</span>
               </div>
             </div>
-            <div className='text-sm py-4 px-12'>
+            <div className='px-12 py-4 text-sm'>
               <div className='flex items-center gap-1'>
                 <WateringIcon /> Watering:
                 <span>{plantDetail?.watering}</span>
@@ -110,14 +120,22 @@ export const PlantDetail = () => {
                 <span>{plantDetail?.growth_rate}</span>
               </div>
               <div className='flex items-center gap-1'>
-                <DroughtIcon /> Drought Tolerant:<span>{plantDetail?.drought_tolerant}</span>
+                <DroughtIcon /> Drought Tolerant:
+                <span>{plantDetail?.drought_tolerant}</span>
               </div>
               <div className='flex items-center gap-1'>
                 <TropicalIcon /> Tropical:<span>{plantDetail?.tropical}</span>
               </div>
             </div>
           </div>
-          <button className='btn btn-accent mt-2 text-white'>Leave your experience</button>
+          <div className='mt-4 flex items-center gap-2'>
+            <AButton variant='solid' color='cyan'>
+              Leave your experience
+            </AButton>
+            <AButton type='default' onClick={() => navigate(-1)}>
+              Back
+            </AButton>
+          </div>
         </div>
       </div>
     </div>

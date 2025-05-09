@@ -17,6 +17,7 @@ export interface GetSuppliersResponse {
 export interface GetSelectionSuppliersByRoleResponse {
   supplierId: string;
   contactName: string;
+  companyName: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

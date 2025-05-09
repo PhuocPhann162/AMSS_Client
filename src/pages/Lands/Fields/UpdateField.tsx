@@ -9,6 +9,7 @@ import { SD_FieldStatus } from '@/utils/SD';
 import { AButton, ADescriptions, ATag } from '@/common/ui-common';
 import { PopupConfirmation } from '@/components/UI/modal';
 import { fieldEditDescriptionItems } from '@/helper/descriptionItems';
+import { PopupCrop } from '@/components/Page/Crop';
 
 type NextStatusType = {
   color: string;
@@ -119,6 +120,7 @@ export const UpdateField = () => {
 
         <div className='flex w-full items-center justify-center'>
           <div className='flex w-2/3 flex-col gap-3 bg-white px-10 py-10'>
+            <PopupCrop fieldId={fieldData?.id ?? ''} isPlantedCrop={true} />
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
                 <div className='text-sm font-semibold underline underline-offset-8'>

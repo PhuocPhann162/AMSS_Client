@@ -5,14 +5,21 @@ import { motion } from 'framer-motion';
 import { useGetCropsByFieldIdQuery } from '@/api';
 import { MiniLoader } from '../common';
 import { fieldCropModel } from '@/interfaces';
+import { PlusOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+import { AModal } from '@/common/ui-common';
+import { NewPlantedFieldCropModal } from '@/components/UI/modal/new-planted-field-crop-modal';
 
 interface PopupCropProps {
   fieldId: string;
+  isPlantedCrop?: boolean;
 }
 
-export const PopupCrop = ({ fieldId }: PopupCropProps) => {
+export const PopupCrop = ({ fieldId, isPlantedCrop }: PopupCropProps) => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   const [fieldCrop, setFieldCrop] = useState<fieldCropModel[]>();
+  const [isOpenNewPlantedCrop, setIsOpenNewPlantedCrop] =
+    useState<boolean>(false);
 
   const { data, isLoading } = useGetCropsByFieldIdQuery(fieldId);
 
@@ -24,7 +31,12 @@ export const PopupCrop = ({ fieldId }: PopupCropProps) => {
 
   return (
     <>
-      {isLoading && <MiniLoader />}
+      <NewPlantedFieldCropModal
+        isOpen={isOpenNewPlantedCrop}
+        fieldId={fieldId}
+        setIsOpen={setIsOpenNewPlantedCrop}
+      />
+      {isLoading && <Spin />}
       {!isLoading && (
         <div className='flex items-center gap-1'>
           {fieldCrop?.map((fc) => (
@@ -45,6 +57,14 @@ export const PopupCrop = ({ fieldId }: PopupCropProps) => {
               />
             </Link>
           ))}
+          {isPlantedCrop && (
+            <div
+              className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-black hover:border-green-haze-500 hover:text-green-500'
+              onClick={() => setIsOpenNewPlantedCrop(true)}
+            >
+              <PlusOutlined />
+            </div>
+          )}
         </div>
       )}
     </>

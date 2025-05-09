@@ -1,9 +1,6 @@
 import * as turf from '@turf/turf';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useDeleteFieldMutation } from '@/api';
-import { Modal } from '@/common';
 import {
   DeletePopupIcon,
   EditTableIcon,
@@ -24,27 +21,6 @@ interface PopupFieldProps {
 export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
   const [nearestRiver, setNearestRiver] = useState<string>('');
   // const [platnSuggest, setPlantSuggest] = useState<plantSuggestModel | null>(null);
-  const [deleteField] = useDeleteFieldMutation();
-
-  const handleDelete = async (id?: string) => {
-    try {
-      toast.promise(
-        deleteField(id),
-        {
-          pending: 'Processing your request...',
-          success: 'Field deleted successfully 👌',
-
-          error: 'An unexpected error occured 🤯',
-        },
-        {
-          theme: 'colored',
-        },
-      );
-      (document.getElementById('fuco_modal') as HTMLDialogElement)?.close();
-    } catch (error: any) {
-      console.log(error.message, 'error');
-    }
-  };
 
   useEffect(() => {
     async function findNearestRiverAsync() {
@@ -123,23 +99,11 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
           </Link>
         </div>
         <div className='text-sm'>
-          <button
-            className='flex items-center gap-1'
-            onClick={() => {
-              (
-                document.getElementById('fuco_modal') as HTMLDialogElement
-              )?.showModal();
-            }}
-          >
+          <button className='flex items-center gap-1'>
             <DeletePopupIcon />
             <div className='underline'>Delete</div>
           </button>
         </div>
-        <Modal
-          width=''
-          title='delete this field?'
-          onConfirm={() => handleDelete(fieldInfo.id ?? '')}
-        />
       </div>
     </>
   );

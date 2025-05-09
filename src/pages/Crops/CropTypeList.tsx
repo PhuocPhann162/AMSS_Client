@@ -23,6 +23,8 @@ import { AButton } from '@/common/ui-common';
 export const CropTypeList = () => {
   const navigate = useNavigate();
   // Start State
+  const [isOpenCropUpsertModal, setIsOpenCropUpsertModal] =
+    useState<boolean>(false);
   const [cropTypeList, setCropTypeList] = useState<cropTypeModel[]>([]);
   const [filters, setFilters] = useState({
     searchString: '',
@@ -71,9 +73,7 @@ export const CropTypeList = () => {
           type='link'
           onClick={() => {
             setSelectedCropId(cropId);
-            (
-              document.getElementById('crop_upsert_modal') as HTMLDialogElement
-            )?.showModal();
+            setIsOpenCropUpsertModal(true);
           }}
           style={{ color: '#5D3D2E' }}
         >
@@ -103,6 +103,12 @@ export const CropTypeList = () => {
 
   return (
     <div>
+      <CropUpsertModal
+        isOpen={isOpenCropUpsertModal}
+        setIsOpen={setIsOpenCropUpsertModal}
+        id={selectedCropId}
+        setSelectedCropId={setSelectedCropId}
+      />
       {isLoading && <MainLoader />}
       {!isLoading && data && (
         <>
@@ -139,19 +145,13 @@ export const CropTypeList = () => {
 
               <div className='md: mt-6 flex-col gap-4 md:flex md:items-center'>
                 <div className='mt-4 flex items-center md:mt-0'>
-                  <button
-                    onClick={() =>
-                      (
-                        document.getElementById(
-                          'crop_upsert_modal',
-                        ) as HTMLDialogElement
-                      )?.showModal()
-                    }
-                    className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-5 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
+                  <AButton
+                    type='primary'
+                    onClick={() => setIsOpenCropUpsertModal(true)}
                   >
                     <CreateIcon />
                     <span>New Crop</span>
-                  </button>
+                  </AButton>
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ export const CropTypeList = () => {
                                     className='h-16 w-16 rounded-full'
                                   />
                                 </td>
-                                <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
+                                <td className='w-64 whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
                                   <div>
                                     <div className='flex items-center gap-2'>
                                       <h2 className='font-bold text-pearl'>
@@ -244,7 +244,7 @@ export const CropTypeList = () => {
                                         {ct.code}
                                       </span>
                                     </div>
-                                    <h4 className='w-40 text-wrap text-xs opacity-80'>
+                                    <h4 className='w-full text-wrap text-justify text-xs opacity-80'>
                                       {crop.description}
                                     </h4>
                                   </div>
@@ -310,10 +310,6 @@ export const CropTypeList = () => {
               totalRecords={totalRecords}
             />
           </div>
-          <CropUpsertModal
-            id={selectedCropId}
-            setSelectedCropId={setSelectedCropId}
-          />
         </>
       )}
     </div>
