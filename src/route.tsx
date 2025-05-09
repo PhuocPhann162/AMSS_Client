@@ -3,6 +3,7 @@ import { Map, WeatherMap } from './components/Page/Maps';
 import {
   AccessDenied,
   AllUsers,
+  CommodityDetailPage,
   Crop,
   CropDetail,
   CropTypeList,
@@ -66,6 +67,10 @@ const router = createBrowserRouter(
         {
           path: 'store',
           element: <StorePage />,
+        },
+        {
+          path: 'commodity/:id',
+          element: <CommodityDetailPage />,
         },
       ],
     },

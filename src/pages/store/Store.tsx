@@ -1,158 +1,346 @@
-import { ACarousel, AImage } from '@/common/ui-common';
-import Horizontal from '@/pages/store/Horizontal';
-import { FC } from 'react';
+import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
+import {
+  ABadge,
+  AButton,
+  ADropdown,
+  AImage,
+  AInputDebounce,
+  ATabs,
+  ATabsProps,
+} from '@/common/ui-common';
+import { FC, useState } from 'react';
+import DownOutlined from '@ant-design/icons/DownOutlined';
+import {
+  COMMODITY_ORDER_BY,
+  CommodityOrderBy,
+  ListSortDirection,
+} from '@/models';
+import { Commodity, CommodityStatus } from '@/interfaces';
+import { useGetCommoditiesQuery } from '@/api';
+import { useNavigate } from 'react-router-dom';
+
+type CustomCommodityCategory = CommodityCategory | 'all';
+
+const categoryLabel: Record<
+  CustomCommodityCategory,
+  {
+    order: number;
+    label: string;
+  }
+> = {
+  all: {
+    order: 0,
+    label: 'All',
+  },
+  [CommodityCategory.Vegetable]: {
+    order: 1,
+    label: 'Vegetable',
+  },
+  [CommodityCategory.Fruit]: {
+    order: 2,
+    label: 'Fruit',
+  },
+  [CommodityCategory.Grain]: {
+    order: 3,
+    label: 'Grain',
+  },
+  [CommodityCategory.Seed]: {
+    order: 4,
+    label: 'Seed',
+  },
+};
 
 export const StorePage: FC = () => {
-  const items = [
+  const [sortValue, setSortValue] = useState<{
+    sort: ListSortDirection;
+    orderBy: CommodityOrderBy;
+  }>({
+    sort: ListSortDirection.Descending,
+    orderBy: COMMODITY_ORDER_BY['createdAt'],
+  });
+  const [sortOpen, setSortOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [categories, setCategories] = useState<CustomCommodityCategory[]>([
+    'all',
+  ]);
+
+  const navigate = useNavigate();
+
+  const commodityApi = useGetCommoditiesQuery({
+    orderBy: sortValue.orderBy,
+    orderByDirection: sortValue.sort,
+    categories: categories.filter((category) => category !== 'all'),
+    search,
+  });
+
+  const tabsItems: ATabsProps['items'] = Object.entries(categoryLabel)
+    .sort(([, a], [, b]) => a.order - b.order)
+    .map(([key, value]) => ({
+      key,
+      label: value.label,
+    }));
+
+  const items: Commodity[] = [
     {
-      id: 1,
-      name: 'Product 1',
-      price: 100000,
-      description: 'Product 1 description',
+      id: 'c1a2b3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+      name: 'Organic Carrots',
+      description: 'Fresh organic carrots harvested from sustainable farms.',
+      specialTag: 'Organic',
+      category: CommodityCategory.Vegetable,
+      price: 25000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2023-12-31',
+      status: CommodityStatus.Active,
+      supplierId: 'sup_01a2b3c4d5',
+      cropId: 'crop_carrot_01',
+      createdAt: '2023-01-15T08:30:00Z',
+      updatedAt: '2023-01-15T08:30:00Z',
     },
     {
-      id: 2,
-      name: 'Product 2',
-      price: 200000,
-      description: 'Product 2 description',
+      id: 'd4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s9',
+      name: 'Premium Apples',
+      description: 'Sweet and juicy apples from highland orchards.',
+      specialTag: 'Premium',
+      category: CommodityCategory.Fruit,
+      price: 35000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2023-12-15',
+      status: CommodityStatus.Active,
+      supplierId: 'sup_02c3d4e5f6',
+      cropId: 'crop_apple_02',
+      createdAt: '2023-02-10T09:45:00Z',
+      updatedAt: '2023-02-12T14:20:00Z',
     },
     {
-      id: 3,
-      name: 'Product 3',
-      price: 300000,
-      description: 'Product 3 description',
+      id: 'g7h8i9j0-k1l2-m3n4-o5p6-q7r8s9t0u1v2',
+      name: 'Brown Rice',
+      description: 'Nutritious brown rice sourced from local farms.',
+      specialTag: 'Gluten-Free',
+      category: CommodityCategory.Grain,
+      price: 45000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      status: CommodityStatus.Active,
+      supplierId: 'sup_03d4e5f6g7',
+      cropId: 'crop_rice_03',
+      createdAt: '2023-03-05T11:20:00Z',
+      updatedAt: '2023-03-05T11:20:00Z',
     },
     {
-      id: 4,
-      name: 'Product 4',
-      price: 400000,
-      description: 'Product 4 description',
+      id: 'j0k1l2m3-n4o5-p6q7-r8s9-t0u1v2w3x4y5',
+      name: 'Organic Tomato Seeds',
+      description: 'High-quality organic tomato seeds for home gardening.',
+      specialTag: 'Organic',
+      category: CommodityCategory.Seed,
+      price: 15000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2024-12-31',
+      status: CommodityStatus.Active,
+      supplierId: 'sup_04e5f6g7h8',
+      cropId: 'crop_tomato_seed_04',
+      createdAt: '2023-01-20T13:45:00Z',
+      updatedAt: '2023-01-22T10:30:00Z',
     },
     {
-      id: 5,
-      name: 'Product 5',
-      price: 500000,
-      description: 'Product 5 description',
+      id: 'm3n4o5p6-q7r8-s9t0-u1v2-w3x4y5z6a7b8',
+      name: 'Red Bell Peppers',
+      description: 'Vibrant red bell peppers, perfect for salads and cooking.',
+      specialTag: 'Fresh',
+      category: CommodityCategory.Vegetable,
+      price: 30000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2023-11-25',
+      status: CommodityStatus.Limited,
+      supplierId: 'sup_05f6g7h8i9',
+      cropId: 'crop_pepper_05',
+      createdAt: '2023-02-25T16:10:00Z',
+      updatedAt: '2023-02-26T09:15:00Z',
     },
     {
-      id: 6,
-      name: 'Product 6',
-      price: 600000,
-      description: 'Product 6 description',
+      id: 'p6q7r8s9-t0u1-v2w3-x4y5-z6a7b8c9d0e1',
+      name: 'Golden Mangoes',
+      description: 'Sweet and aromatic golden mangoes from tropical regions.',
+      specialTag: 'Seasonal',
+      category: CommodityCategory.Fruit,
+      price: 40000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      status: CommodityStatus.OutOfStock,
+      supplierId: 'sup_06g7h8i9j0',
+      cropId: 'crop_mango_06',
+      createdAt: '2023-03-10T08:20:00Z',
+      updatedAt: '2023-05-15T11:45:00Z',
     },
     {
-      id: 7,
-      name: 'Product 7',
-      price: 700000,
-      description: 'Product 7 description',
+      id: 's9t0u1v2-w3x4-y5z6-a7b8-c9d0e1f2g3h4',
+      name: 'Quinoa',
+      description: 'Protein-rich quinoa grain for healthy meals.',
+      specialTag: 'Super Food',
+      category: CommodityCategory.Grain,
+      price: 60000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2024-06-30',
+      status: CommodityStatus.Active,
+      supplierId: 'sup_07h8i9j0k1',
+      cropId: 'crop_quinoa_07',
+      createdAt: '2023-04-05T14:30:00Z',
+      updatedAt: '2023-04-05T14:30:00Z',
     },
     {
-      id: 8,
-      name: 'Product 8',
-      price: 800000,
-      description: 'Product 8 description',
+      id: 'v2w3x4y5-z6a7-b8c9-d0e1-f2g3h4i5j6k7',
+      name: 'Sunflower Seeds',
+      description: 'Premium sunflower seeds for planting or snacking.',
+      specialTag: 'Dual Purpose',
+      category: CommodityCategory.Seed,
+      price: 20000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2024-11-15',
+      status: CommodityStatus.PreOrder,
+      supplierId: 'sup_08i9j0k1l2',
+      cropId: 'crop_sunflower_08',
+      createdAt: '2023-03-15T09:40:00Z',
+      updatedAt: '2023-06-01T13:20:00Z',
     },
     {
-      id: 9,
-      name: 'Product 9',
-      price: 900000,
-      description: 'Product 9 description',
+      id: 'y5z6a7b8-c9d0-e1f2-g3h4-i5j6k7l8m9n0',
+      name: 'Purple Cabbage',
+      description: 'Nutritious purple cabbage full of antioxidants.',
+      specialTag: 'Nutrient-Rich',
+      category: CommodityCategory.Vegetable,
+      price: 28000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      expirationDate: '2023-12-05',
+      status: CommodityStatus.ComingSoon,
+      supplierId: 'sup_09j0k1l2m3',
+      cropId: 'crop_cabbage_09',
+      createdAt: '2023-05-20T10:15:00Z',
+      updatedAt: '2023-05-21T08:30:00Z',
     },
     {
-      id: 10,
-      name: 'Product 10',
-      price: 1000000,
-      description: 'Product 10 description',
+      id: 'b8c9d0e1-f2g3-h4i5-j6k7-l8m9n0o1p2q3',
+      name: 'Heritage Wheat',
+      description: 'Traditional heritage wheat variety for authentic baking.',
+      specialTag: 'Heritage',
+      category: CommodityCategory.Grain,
+      price: 55000,
       image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
-    },
-    {
-      id: 11,
-      name: 'Product 11',
-      price: 1100000,
-      description: 'Product 11 description',
-      image:
-        'https://sdmntprwestus.oaiusercontent.com/files/00000000-87f4-5230-aba3-056f9c03f80f/raw?se=2025-04-02T14%3A42%3A23Z&sp=r&sv=2024-08-04&sr=b&scid=bd8dd3fb-0210-56be-9311-dfb81da8888d&skoid=4ae7b564-2531-470e-8ddb-6913f4bee2ee&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T06%3A48%3A27Z&ske=2025-04-03T06%3A48%3A27Z&sks=b&skv=2024-08-04&sig=B3CDMUSoSoJtOiCngCxTL/zCHwgL5X5sIpsSs/KihcY%3D',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      status: CommodityStatus.Discontinued,
+      supplierId: 'sup_10k1l2m3n4',
+      cropId: 'crop_wheat_10',
+      createdAt: '2023-01-05T15:50:00Z',
+      updatedAt: '2023-04-10T12:25:00Z',
     },
   ];
+
+  const sortOptions = [
+    {
+      label: 'Newest to Oldest',
+      key: 'dateNewToOld',
+      value: {
+        sort: ListSortDirection.Descending,
+        orderBy: COMMODITY_ORDER_BY['createdAt'],
+      },
+    },
+    {
+      label: 'Oldest to Newest',
+      key: 'dateOldToNew',
+      value: {
+        sort: ListSortDirection.Ascending,
+        orderBy: COMMODITY_ORDER_BY['createdAt'],
+      },
+    },
+    {
+      label: 'Price: Lowest to Highest',
+      key: 'priceLowToHigh',
+      value: {
+        sort: ListSortDirection.Ascending,
+        orderBy: COMMODITY_ORDER_BY['price'],
+      },
+    },
+    {
+      label: 'Price: Highest to Lowest',
+      key: 'priceHighToLow',
+      value: {
+        sort: ListSortDirection.Descending,
+        orderBy: COMMODITY_ORDER_BY['price'],
+      },
+    },
+  ];
+
   return (
     <div className='flex flex-col gap-12 p-6'>
-      <div className='flex flex-col gap-16 p-6'>
-        <div className='grid grid-cols-3'>
-          <p className='col-span-2 text-5xl font-bold'>
-            Store.{' '}
-            <span className='text-gray-600'>
-              The best way to buy the products you love.
-            </span>
-          </p>
-        </div>
-        <ACarousel autoplay={{ dotDuration: true }} autoplaySpeed={4000}>
-          {Array.from({ length: 8 }).map((_, index) => (
-            <div key={index} className='!flex justify-center'>
-              <AImage
-                src='https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg'
-                width={600}
-              />
-            </div>
-          ))}
-        </ACarousel>
+      <div className='flex flex-col gap-2'>
+        <AInputDebounce
+          defaultValue={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder='Search'
+        />
+        <ATabs
+          activeKey={categories[0].toString()}
+          onChange={(key) => {
+            const _key = key as CustomCommodityCategory;
+            setCategories([_key]);
+          }}
+          items={tabsItems}
+          tabBarExtraContent={
+            <ADropdown
+              trigger={['click']}
+              placement={'bottomRight'}
+              open={sortOpen}
+              onOpenChange={setSortOpen}
+              menu={{
+                selectable: true,
+                items: sortOptions.map((option) => ({
+                  label: option.label,
+                  key: option.key,
+                  onClick: () => {
+                    setSortValue(option.value);
+                  },
+                })),
+                selectedKeys: (function () {
+                  if (!sortValue) return [];
+
+                  const selectedKey = sortOptions.find(
+                    (option) =>
+                      option.value.sort === sortValue.sort &&
+                      option.value.orderBy === sortValue.orderBy,
+                  )?.key;
+
+                  return selectedKey ? [selectedKey] : [];
+                })(),
+              }}
+            >
+              <ABadge dot={!!sortValue}>
+                <AButton iconPosition={'end'} icon={<DownOutlined />}>
+                  Sort
+                </AButton>
+              </ABadge>
+            </ADropdown>
+          }
+        />
       </div>
-      <Horizontal
-        items={items}
-        title='New Products'
-        renderItem={(item) => (
+      <div className='grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4'>
+        {items.map((item) => (
           <div
             key={item.id}
-            className='flex min-w-36 flex-col gap-4 md:rounded'
+            onClick={() => navigate(`/commodity/${item.id}`)}
+            className='flex flex-col gap-2'
           >
-            <AImage src={item.image} />
-            <p className='text-center text-lg font-bold'>{item.name}</p>
-          </div>
-        )}
-      />
-      <div className='flex flex-col p-6'>
-        <div className='grid grid-cols-3'>
-          <p className='col-span-2 text-5xl font-bold'>
-            The latest generation.{' '}
-            <span className='text-gray-600'> See what&apos;s new.</span>
-          </p>
-        </div>
-        <Horizontal
-          items={items}
-          title='New Products'
-          renderItem={(item) => (
-            <div
-              key={item.id}
-              className='flex min-w-96 flex-col gap-4 rounded-xl bg-white p-8 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl'
-            >
-              <div className='flex flex-col gap-2'>
-                <p className='text-3xl font-bold'>{item.name}</p>
-                <p className='line-clamp-2 text-lg font-semibold'>
-                  {item.description}
-                </p>
-              </div>
-              <AImage src={item.image} />
+            <AImage src={item.image} preview={false} />
+            <div className='flex flex-col gap-2'>
+              <p className='text-center text-lg font-bold'>{item.name}</p>
+              <p className='text-center text-lg font-bold'>{item.price}</p>
             </div>
-          )}
-        />
+          </div>
+        ))}
       </div>
     </div>
   );

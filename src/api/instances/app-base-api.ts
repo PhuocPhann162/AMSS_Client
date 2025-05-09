@@ -12,6 +12,7 @@ export const TAG_TYPES = {
   SocialMetrics: 'SocialMetrics',
   Suppliers: 'Suppliers',
   Users: 'Users',
+  Commodities: 'Commodities',
 } as const;
 
 export const appBaseApi = createApi({

@@ -20,3 +20,4 @@ export * from './a-avatar';
 export * from './a-tabs';
 export * from './a-dropdown';
 export * from './a-menu';
+export * from './a-badge';

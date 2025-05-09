@@ -48,3 +48,4 @@ export * from './user';
 export * from './role';
 export * from './meta-data';
 export * from './apiResponse';
+export * from './commodity';

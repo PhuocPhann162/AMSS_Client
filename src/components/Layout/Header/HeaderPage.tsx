@@ -12,6 +12,7 @@ export const HeaderPage = () => {
 
   return (
     <HeaderUnderOverlay
+      enableHiding
       classNames={{
         root: 'sticky inset-x-0 top-0 z-50',
         header: 'flex h-[--navbar-height] items-center justify-between px-6',
