@@ -20,14 +20,14 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
     const { directionY } = useScrollDirection();
     const { scrollY } = useScrollPosition();
 
-    const isHidden = enableHiding && directionY === DIRECTION_Y.down;
-    const shouldTransparent =
-      scrollY === 0 || (enableHiding && directionY === DIRECTION_Y.down);
+    const isHidden =
+      enableHiding && directionY === DIRECTION_Y.down && scrollY > height;
+    const shouldTransparent = scrollY === 0 || isHidden;
 
     return (
       <header
         className={cn(
-          'relative transition-transform duration-700 ease-out',
+          'relative transition-transform duration-500 ease-out',
           isHidden && '-translate-y-full',
           classNames?.root,
         )}
@@ -41,7 +41,7 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
             } as CSSProperties
           }
           className={cn(
-            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/85 via-white/35 via-[length:var(--height-ratio)] opacity-0 transition-[height,opacity] duration-700 ease-out [backdrop-filter:saturate(180%)_blur(8px)] [mask:linear-gradient(white,white_var(--height-ratio),transparent)]',
+            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/85 via-white/35 via-[length:var(--height-ratio)] opacity-0 transition-[height,opacity] duration-500 ease-out [backdrop-filter:saturate(180%)_blur(8px)] [mask:linear-gradient(white,white_var(--height-ratio),transparent)]',
             !shouldTransparent && 'opacity-100',
             classNames?.overlay,
           )}

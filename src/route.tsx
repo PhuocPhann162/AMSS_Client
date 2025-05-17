@@ -1,10 +1,13 @@
+import { AuthenticationLayout, HomeLayout } from '@/layouts';
+import { CartPage } from '@/pages/cart/cart-page';
+import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
+import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
 import {
   AccessDenied,
   AllUsers,
   CommodityDetailPage,
-  Crop,
   CropDetail,
   CropTypeList,
   DashBoard,
@@ -31,14 +34,11 @@ import {
   UpdateField,
   WeatherSearch,
 } from './pages';
-import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
-import { AuthenticationLayout, HomeLayout } from '@/layouts';
-import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
-import { type ReactNode } from 'react';
-import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
-import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { CommodityManagement } from './pages/Commodities/CommodityManagement';
 import { GrowLocation } from './pages/Crops/GrowLocation';
+import { CommoditySuppliers } from './pages/Suppliers/Commodities';
+import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
+import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 
 export interface Route {
   name: string;
@@ -66,11 +66,20 @@ const router = createBrowserRouter(
         },
         {
           path: 'store',
-          element: <StorePage />,
-        },
-        {
-          path: 'commodity/:id',
-          element: <CommodityDetailPage />,
+          children: [
+            {
+              index: true,
+              element: <StorePage />,
+            },
+            {
+              path: 'commodity/:id',
+              element: <CommodityDetailPage />,
+            },
+            {
+              path: 'cart',
+              element: <CartPage />,
+            },
+          ],
         },
       ],
     },
