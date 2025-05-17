@@ -1,7 +1,7 @@
 import { polygonAgroApi } from '@/api';
 import { appBaseApi } from '@/api/instances';
+import { authReducer } from '@/features/auth/store/auth-slice';
 import { cartReducer } from '@/features/cart/store/cart-slice';
-import { authReducer } from '@/storage/redux/authSlice';
 import { countryReducer } from '@/storage/redux/countrySlice';
 import { authListenerMiddleware } from '@/storage/redux/middleware/auth-listener';
 import { cartListenerMiddleware } from '@/storage/redux/middleware/cart-listener';

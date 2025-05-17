@@ -1,13 +1,13 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { clearAuth, setAccessToken } from '@/features/auth/store/auth-slice';
+import { type RootState } from '@/storage/redux/store';
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
-import { clearAuth, setAccessToken } from '@/storage/redux/authSlice';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Mutex } from 'async-mutex';
 import { jwtDecode } from 'jwt-decode';
-import { type RootState } from '@/storage/redux/store';
 import qs from 'qs';
 
 const mutex = new Mutex();
