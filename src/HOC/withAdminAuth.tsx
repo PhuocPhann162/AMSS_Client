@@ -3,7 +3,7 @@ import { SD_Roles } from '@/utils/SD';
 
 const withAdminAuth = (WrappedComponent: any) => {
   return (props: any) => {
-    const accessToken = localStorage.getItem('accessToken') ?? '';
+    const accessToken = localStorage.getItem('access-token') ?? '';
     if (accessToken) {
       const decode: {
         role: string;

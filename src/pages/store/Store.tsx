@@ -1,4 +1,4 @@
-import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
+import { useGetCommoditiesQuery } from '@/api';
 import {
   ABadge,
   AButton,
@@ -8,15 +8,15 @@ import {
   ATabs,
   ATabsProps,
 } from '@/common/ui-common';
-import { FC, useState } from 'react';
-import DownOutlined from '@ant-design/icons/DownOutlined';
+import { Commodity, CommodityStatus } from '@/interfaces';
+import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
 import {
   COMMODITY_ORDER_BY,
   CommodityOrderBy,
   ListSortDirection,
 } from '@/models';
-import { Commodity, CommodityStatus } from '@/interfaces';
-import { useGetCommoditiesQuery } from '@/api';
+import DownOutlined from '@ant-design/icons/DownOutlined';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type CustomCommodityCategory = CommodityCategory | 'all';
@@ -66,7 +66,7 @@ export const StorePage: FC = () => {
 
   const navigate = useNavigate();
 
-  const commodityApi = useGetCommoditiesQuery({
+  const getCommoditiesQuery = useGetCommoditiesQuery({
     orderBy: sortValue.orderBy,
     orderByDirection: sortValue.sort,
     categories: categories.filter((category) => category !== 'all'),
@@ -80,7 +80,7 @@ export const StorePage: FC = () => {
       label: value.label,
     }));
 
-  const items: Commodity[] = [
+  const items: Commodity[] = getCommoditiesQuery.data?.collection ?? [
     {
       id: 'c1a2b3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
       name: 'Organic Carrots',
@@ -88,8 +88,7 @@ export const StorePage: FC = () => {
       specialTag: 'Organic',
       category: CommodityCategory.Vegetable,
       price: 25000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2023-12-31',
       status: CommodityStatus.Active,
       supplierId: 'sup_01a2b3c4d5',
@@ -104,8 +103,7 @@ export const StorePage: FC = () => {
       specialTag: 'Premium',
       category: CommodityCategory.Fruit,
       price: 35000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2023-12-15',
       status: CommodityStatus.Active,
       supplierId: 'sup_02c3d4e5f6',
@@ -120,8 +118,7 @@ export const StorePage: FC = () => {
       specialTag: 'Gluten-Free',
       category: CommodityCategory.Grain,
       price: 45000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       status: CommodityStatus.Active,
       supplierId: 'sup_03d4e5f6g7',
       cropId: 'crop_rice_03',
@@ -135,8 +132,7 @@ export const StorePage: FC = () => {
       specialTag: 'Organic',
       category: CommodityCategory.Seed,
       price: 15000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2024-12-31',
       status: CommodityStatus.Active,
       supplierId: 'sup_04e5f6g7h8',
@@ -151,8 +147,7 @@ export const StorePage: FC = () => {
       specialTag: 'Fresh',
       category: CommodityCategory.Vegetable,
       price: 30000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2023-11-25',
       status: CommodityStatus.Limited,
       supplierId: 'sup_05f6g7h8i9',
@@ -167,8 +162,7 @@ export const StorePage: FC = () => {
       specialTag: 'Seasonal',
       category: CommodityCategory.Fruit,
       price: 40000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       status: CommodityStatus.OutOfStock,
       supplierId: 'sup_06g7h8i9j0',
       cropId: 'crop_mango_06',
@@ -182,8 +176,7 @@ export const StorePage: FC = () => {
       specialTag: 'Super Food',
       category: CommodityCategory.Grain,
       price: 60000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2024-06-30',
       status: CommodityStatus.Active,
       supplierId: 'sup_07h8i9j0k1',
@@ -198,8 +191,7 @@ export const StorePage: FC = () => {
       specialTag: 'Dual Purpose',
       category: CommodityCategory.Seed,
       price: 20000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2024-11-15',
       status: CommodityStatus.PreOrder,
       supplierId: 'sup_08i9j0k1l2',
@@ -214,8 +206,7 @@ export const StorePage: FC = () => {
       specialTag: 'Nutrient-Rich',
       category: CommodityCategory.Vegetable,
       price: 28000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       expirationDate: '2023-12-05',
       status: CommodityStatus.ComingSoon,
       supplierId: 'sup_09j0k1l2m3',
@@ -230,8 +221,7 @@ export const StorePage: FC = () => {
       specialTag: 'Heritage',
       category: CommodityCategory.Grain,
       price: 55000,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA_l3A646KPCMxXjaP6OH3Cr-w-afCvqyTFg&s',
+      image: 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg',
       status: CommodityStatus.Discontinued,
       supplierId: 'sup_10k1l2m3n4',
       cropId: 'crop_wheat_10',
@@ -327,17 +317,22 @@ export const StorePage: FC = () => {
           }
         />
       </div>
-      <div className='grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4'>
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6'>
         {items.map((item) => (
           <div
             key={item.id}
-            onClick={() => navigate(`/commodity/${item.id}`)}
-            className='flex flex-col gap-2'
+            onClick={() => navigate(`/store/commodity/${item.id}`)}
+            className='flex cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-[box-shadow,transform] duration-500 ease-out hover:shadow-lg hover:[transform:scale3d(1.01,1.01,1.01)]'
           >
-            <AImage src={item.image} preview={false} />
             <div className='flex flex-col gap-2'>
-              <p className='text-center text-lg font-bold'>{item.name}</p>
-              <p className='text-center text-lg font-bold'>{item.price}</p>
+              <p className='text-xs font-semibold text-abbey-400'>
+                {item.category}
+              </p>
+              <p className='text-2xl font-semibold'>{item.price}</p>
+            </div>
+            <AImage src={item.image} preview={false} />
+            <div className='flex justify-end'>
+              <AButton type='primary'>Buy</AButton>
             </div>
           </div>
         ))}

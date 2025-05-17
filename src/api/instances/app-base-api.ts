@@ -13,6 +13,7 @@ export const TAG_TYPES = {
   Suppliers: 'Suppliers',
   Users: 'Users',
   Commodities: 'Commodities',
+  Cart: 'Cart',
 } as const;
 
 export const appBaseApi = createApi({
