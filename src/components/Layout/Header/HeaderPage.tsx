@@ -1,7 +1,7 @@
 import { ABadge, AButton } from '@/common/ui-common';
 import { DropdownUser, HeaderUnderOverlay } from '@/components/Layout/Header';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
-import { ModalCart } from '@/features/cart/components/ModalCart';
+import { ModalCart } from '@/features/cart/components/modal-cart';
 import { useAppSelector, useIsMobile } from '@/hooks';
 import { useGetCart } from '@/hooks/cart/useGetCart';
 import { dashboardRoutes } from '@/routes';

@@ -3,7 +3,7 @@ import {
   setAccessToken,
   setRefreshToken,
   setUser,
-} from '@/storage/redux/authSlice';
+} from '@/features/auth/store/auth-slice';
 import { RootState } from '@/storage/redux/store';
 import { authStorage } from '@/utils/auth-storage';
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';

@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
-import { clearAuth } from '@/storage/redux/authSlice';
-import Dropdown from 'antd/es/dropdown';
 import { AAvatar } from '@/common/ui-common';
-import { getFirstTwoCharacters } from '@/lib/string';
-import { FC } from 'react';
+import { clearAuth } from '@/features/auth/store/auth-slice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
+import { getFirstTwoCharacters } from '@/lib/string';
+import Dropdown from 'antd/es/dropdown';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 export interface DropdownUserProps {
   showName?: boolean;

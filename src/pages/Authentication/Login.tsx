@@ -1,14 +1,14 @@
+import { useLoginUserMutation } from '@/api';
+import {
+  setAccessToken,
+  setRefreshToken,
+  setUser,
+} from '@/features/auth/store/auth-slice';
+import { inputHelper, toastNotify } from '@/helper';
+import type { LoginResponse } from '@/models';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLoginUserMutation } from '@/api';
-import { inputHelper, toastNotify } from '@/helper';
-import {
-  setAccessToken,
-  setUser,
-  setRefreshToken,
-} from '@/storage/redux/authSlice';
-import type { LoginResponse } from '@/models';
 
 function Login() {
   const navigate = useNavigate();
