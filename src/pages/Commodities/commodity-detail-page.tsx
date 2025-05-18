@@ -1,6 +1,6 @@
 import { useGetCommodityByIdQuery } from '@/api';
-import { AButton, AImage } from '@/common/ui-common';
-import { useAddCartItem } from '@/hooks/cart/use-add-cart-item';
+import { AImage } from '@/common/ui-common';
+import { ButtonAddToCart } from '@/features/cart/components/button-add-to-cart';
 import {
   CommodityCategory,
   CommodityStatus,
@@ -12,8 +12,6 @@ export const CommodityDetailPage = () => {
   const { id } = useParams();
 
   const getCommodityById = useGetCommodityByIdQuery({ id: id ?? '' });
-
-  const { addCartItem } = useAddCartItem();
 
   const data: Commodity =
     getCommodityById.isSuccess && getCommodityById.currentData?.result
@@ -37,7 +35,7 @@ export const CommodityDetailPage = () => {
         };
 
   return (
-    <div className='flex flex-col gap-4 p-6'>
+    <div className='flex flex-col gap-4'>
       <h3 className='text-4xl font-bold'>{data.name}</h3>
       <div className='grid grid-cols-7 gap-4'>
         <AImage src={data.image} rootClassName='col-span-4' />
@@ -46,19 +44,7 @@ export const CommodityDetailPage = () => {
           <p className='text-xl font-bold text-gray-700'>{data.price}</p>
         </div>
       </div>
-      <AButton
-        type='primary'
-        onClick={() =>
-          addCartItem({
-            id: id ?? '',
-            quantity: 1,
-            commodity: data,
-            shoppingCartId: '',
-          })
-        }
-      >
-        Add to cart
-      </AButton>
+      <ButtonAddToCart id={data.id}>Add To Cart</ButtonAddToCart>
     </div>
   );
 };

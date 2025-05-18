@@ -1,10 +1,16 @@
+import { useGetCartQuery } from '@/api/cart-api';
+import { AButton } from '@/common/ui-common';
 import { CartReviewItem } from '@/features/cart/components/cart-review-item';
-import { useGetCart } from '@/hooks/cart/use-get-cart';
 import type { Cart } from '@/interfaces/cart/cart';
 import type { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const CartPage = () => {
-  const getCart = useGetCart();
+  const getCart = useGetCartQuery();
+
+  const cart = getCart.currentData?.result;
+
+  const navigate = useNavigate();
 
   const paymentItems: {
     label: ReactNode;
@@ -14,7 +20,7 @@ export const CartPage = () => {
       label: 'Subtotal',
       render: (data) =>
         data?.cartItems?.reduce(
-          (total, item) => total + item.quantity * item.commodity.price,
+          (total, item) => total + item.quantity * item.price,
           0,
         ),
     },
@@ -26,7 +32,7 @@ export const CartPage = () => {
       label: 'Total',
       render: (data) =>
         data?.cartItems?.reduce(
-          (total, item) => total + item.quantity * item.commodity.price,
+          (total, item) => total + item.quantity * item.price,
           0,
         ),
     },
@@ -35,21 +41,28 @@ export const CartPage = () => {
   return (
     <div className='flex flex-col gap-4'>
       <h3 className='text-4xl font-bold'>Review your cart</h3>
-      {getCart.cart?.cartItems?.length ? (
-        getCart.cart?.cartItems?.map((item) => (
+      {cart?.cartItems?.length ? (
+        cart?.cartItems?.map((item) => (
           <CartReviewItem key={item.id} data={item} />
         ))
       ) : (
         <p>Cart is empty</p>
       )}
-      <div className='flex flex-col gap-3'>
-        {paymentItems.map((item, index) => (
-          <div key={index} className='flex justify-between'>
-            <p>{item.label}</p>
-            <p>{item.render(getCart.cart)}</p>
+      {!getCart.isFetching &&
+        (cart?.cartItems?.length ? (
+          <div className='flex flex-col gap-3'>
+            {paymentItems.map((item, index) => (
+              <div key={index} className='flex justify-between'>
+                <p>{item.label}</p>
+                <p>{item.render(cart)}</p>
+              </div>
+            ))}
           </div>
+        ) : (
+          <AButton type='primary' onClick={() => navigate('/store')}>
+            Continue Shopping
+          </AButton>
         ))}
-      </div>
     </div>
   );
 };

@@ -1,23 +1,17 @@
 import { ABadge, AButton } from '@/common/ui-common';
 import { DropdownUser, HeaderUnderOverlay } from '@/components/Layout/Header';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
-import { ModalCart } from '@/features/cart/components/modal-cart';
+import { ModalCartWrapper } from '@/features/cart/components/modal-cart-wrapper';
 import { useIsMobile } from '@/hooks';
 
-import { useGetCart } from '@/hooks/cart/use-get-cart';
 import { dashboardRoutes } from '@/routes';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
-import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 export const HeaderPage = () => {
   const userData = useAppSelector((state) => state.auth.user);
   const isMobile = useIsMobile();
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const getCart = useGetCart();
 
   return (
     <>
@@ -47,37 +41,29 @@ export const HeaderPage = () => {
         )}
 
         <div className='flex items-center gap-6'>
-          <ABadge
-            count={
-              getCart.cart?.cartItems?.reduce(
-                (total, item) => total + item.quantity,
-                0,
-              ) || undefined
-            }
-          >
-            <ShoppingCartOutlined
-              onClick={() => setModalOpen(true)}
-              className='text-xl'
-            />
-          </ABadge>
+          <ModalCartWrapper>
+            {({ cart, toggleModal }) => (
+              <ABadge
+                count={
+                  cart?.cartItems?.reduce(
+                    (total, item) => total + item.quantity,
+                    0,
+                  ) || undefined
+                }
+              >
+                <ShoppingCartOutlined
+                  onClick={toggleModal}
+                  className='text-xl'
+                />
+              </ABadge>
+            )}
+          </ModalCartWrapper>
 
           {!isMobile && (userData ? <DropdownUser /> : <ButtonSignIn />)}
 
           {!!isMobile && <SidebarTrigger />}
         </div>
       </HeaderUnderOverlay>
-      <ModalCart
-        open={modalOpen}
-        onCancel={() => {
-          setModalOpen(false);
-        }}
-        onNavigateCartPage={() => {
-          setModalOpen(false);
-        }}
-        onClickCartItem={() => {
-          setModalOpen(false);
-        }}
-      />
     </>
   );
 };

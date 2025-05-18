@@ -80,7 +80,7 @@ export const StorePage = () => {
       label: value.label,
     }));
 
-  const items: Commodity[] = getCommoditiesQuery.data?.collection ?? [
+  const items: Commodity[] = getCommoditiesQuery.currentData?.collection ?? [
     {
       id: 'c1a2b3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
       name: 'Organic Carrots',
