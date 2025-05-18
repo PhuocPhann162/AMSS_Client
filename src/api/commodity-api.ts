@@ -10,7 +10,7 @@ export const commodityApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({
     getCommodities: build.query<GetCommoditiesResponse, GetCommoditiesRequest>({
       query: (props) => ({
-        url: 'commodities',
+        url: 'commodity',
         params: props,
         method: 'GET',
       }),

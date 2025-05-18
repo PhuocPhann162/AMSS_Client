@@ -1,9 +1,7 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
 import type {
-  AddCartItemRequest,
-  MergeCartRequest,
-  RemoveCartItemRequest,
-  UpdateQuantityRequest,
+  AddUpdateCartItemRequest,
+  ApplyCouponRequest,
 } from '@/models/request/cart/cart-request';
 import type { GetCartResponse } from '@/models/response/cart/cart-response';
 
@@ -13,49 +11,19 @@ export const cartApi = appBaseApi.injectEndpoints({
       query: () => 'shopping-cart',
       providesTags: [TAG_TYPES.Cart],
     }),
-    addCartItem: build.mutation<void, AddCartItemRequest>({
+    addUpdateCartItem: build.mutation<void, AddUpdateCartItemRequest>({
       query: (props) => ({
-        url: 'shopping-cart',
+        url: 'shopping-cart/add-update-item',
         method: 'POST',
         body: props,
       }),
       invalidatesTags: [TAG_TYPES.Cart],
     }),
-    removeCartItem: build.mutation<void, RemoveCartItemRequest>({
+    applyCoupon: build.mutation<void, ApplyCouponRequest>({
       query: (props) => ({
-        url: 'shopping-cart',
-        method: 'DELETE',
-        body: props,
-      }),
-      invalidatesTags: [TAG_TYPES.Cart],
-    }),
-    updateQuantity: build.mutation<void, UpdateQuantityRequest>({
-      query: (props) => ({
-        url: 'shopping-cart',
-        method: 'PUT',
-        body: props,
-      }),
-      invalidatesTags: [TAG_TYPES.Cart],
-    }),
-    validateCart: build.mutation<void, void>({
-      query: () => ({
-        url: 'shopping-cart/validate',
-        method: 'PUT',
-      }),
-      invalidatesTags: [TAG_TYPES.Cart],
-    }),
-    mergeCart: build.mutation<void, MergeCartRequest>({
-      query: (props) => ({
-        url: 'shopping-cart/merge',
+        url: 'shopping-cart/apply-coupon',
         method: 'POST',
         body: props,
-      }),
-      invalidatesTags: [TAG_TYPES.Cart],
-    }),
-    clearCart: build.mutation<void, void>({
-      query: () => ({
-        url: 'shopping-cart/clear',
-        method: 'DELETE',
       }),
       invalidatesTags: [TAG_TYPES.Cart],
     }),
@@ -64,10 +32,6 @@ export const cartApi = appBaseApi.injectEndpoints({
 
 export const {
   useGetCartQuery,
-  useAddCartItemMutation,
-  useRemoveCartItemMutation,
-  useUpdateQuantityMutation,
-  useValidateCartMutation,
-  useMergeCartMutation,
-  useClearCartMutation,
+  useAddUpdateCartItemMutation,
+  useApplyCouponMutation,
 } = cartApi;

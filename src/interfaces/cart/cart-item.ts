@@ -1,8 +1,11 @@
-import { type Commodity } from '@/interfaces/commodity';
+import type { Commodity, CommodityCategory } from '@/interfaces/commodity';
 
 export interface CartItem {
   id: string;
   quantity: number;
-  shoppingCartId: string;
-  commodity: Commodity;
+  commodityName: Commodity['name'];
+  price: Commodity['price'];
+  commodityImage: Commodity['image'];
+  commodityCategory: CommodityCategory;
+  commodityId: Commodity['id'];
 }

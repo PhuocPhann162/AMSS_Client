@@ -1,19 +1,18 @@
+import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
 import { ASelect, type ASelectProps } from '@/common/ui-common';
-import { useGetCart } from '@/hooks/cart/use-get-cart';
-import { useUpdateQuantity } from '@/hooks/cart/use-update-quantity';
 import type { CartItem } from '@/interfaces/cart/cart-item';
 
 export interface SelectQuantityProps extends ASelectProps {
-  id: CartItem['commodity']['id'];
+  id: CartItem['commodityId'];
 }
 
 export const SelectQuantity = ({ id, ...props }: SelectQuantityProps) => {
-  const getCart = useGetCart();
+  const getCart = useGetCartQuery();
 
-  const updateQuantity = useUpdateQuantity();
+  const [addUpdateCartItem] = useAddUpdateCartItemMutation();
 
-  const cartItem = getCart.cart?.cartItems?.find(
-    (item) => item.commodity.id === id,
+  const cartItem = getCart.currentData?.result?.cartItems?.find(
+    (item) => item.commodityId === id,
   );
 
   return (
@@ -33,8 +32,8 @@ export const SelectQuantity = ({ id, ...props }: SelectQuantityProps) => {
             return;
           }
 
-          await updateQuantity.updateQuantity({
-            id: cartItem.commodity.id,
+          await addUpdateCartItem({
+            id: cartItem.commodityId,
             quantity: value as number,
           });
         } catch (error) {
