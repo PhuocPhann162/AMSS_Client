@@ -1,7 +1,8 @@
 import { AAvatar } from '@/common/ui-common';
 import { clearAuth } from '@/features/auth/store/auth-slice';
-import { useAppDispatch, useAppSelector } from '@/hooks';
 import { getFirstTwoCharacters } from '@/lib/string';
+import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import Dropdown from 'antd/es/dropdown';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';

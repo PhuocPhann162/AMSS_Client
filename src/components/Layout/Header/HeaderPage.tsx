@@ -2,9 +2,11 @@ import { ABadge, AButton } from '@/common/ui-common';
 import { DropdownUser, HeaderUnderOverlay } from '@/components/Layout/Header';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { ModalCart } from '@/features/cart/components/modal-cart';
-import { useAppSelector, useIsMobile } from '@/hooks';
-import { useGetCart } from '@/hooks/cart/useGetCart';
+import { useIsMobile } from '@/hooks';
+
+import { useGetCart } from '@/hooks/cart/use-get-cart';
 import { dashboardRoutes } from '@/routes';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
@@ -15,7 +17,7 @@ export const HeaderPage = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const getCartHook = useGetCart();
+  const getCart = useGetCart();
 
   return (
     <>
@@ -28,39 +30,41 @@ export const HeaderPage = () => {
       >
         <LogoLink />
 
-        <ABadge
-          count={getCartHook.cart?.cartItems?.reduce(
-            (total, item) => total + item.quantity,
-            0,
-          )}
-        >
-          <AButton
-            type='text'
-            onClick={() => setModalOpen(true)}
-            icon={<ShoppingCartOutlined className='text-2xl' />}
-          />
-        </ABadge>
-
-        {!isMobile ? (
-          <>
-            <div className='flex gap-5'>
-              {dashboardRoutes.map((route, index) => (
-                <NavLink
-                  key={index}
-                  to={route.path || ''}
-                  className={({ isActive }) =>
-                    `font-medium uppercase text-abbey-800 transition-colors duration-300 hover:text-abbey-950 ${isActive ? 'text-abbey-950' : ''}`
-                  }
-                >
-                  {route.label}
-                </NavLink>
-              ))}
-            </div>
-            {!userData ? <ButtonSignIn /> : <DropdownUser />}
-          </>
-        ) : (
-          <SidebarTrigger />
+        {!isMobile && (
+          <div className='flex gap-5'>
+            {dashboardRoutes.map((route, index) => (
+              <NavLink
+                key={index}
+                to={route.path || ''}
+                className={({ isActive }) =>
+                  `font-medium uppercase text-abbey-800 transition-colors duration-300 hover:text-abbey-950 ${isActive ? 'text-abbey-950' : ''}`
+                }
+              >
+                {route.label}
+              </NavLink>
+            ))}
+          </div>
         )}
+
+        <div className='flex items-center gap-6'>
+          <ABadge
+            count={
+              getCart.cart?.cartItems?.reduce(
+                (total, item) => total + item.quantity,
+                0,
+              ) || undefined
+            }
+          >
+            <ShoppingCartOutlined
+              onClick={() => setModalOpen(true)}
+              className='text-xl'
+            />
+          </ABadge>
+
+          {!isMobile && (userData ? <DropdownUser /> : <ButtonSignIn />)}
+
+          {!!isMobile && <SidebarTrigger />}
+        </div>
       </HeaderUnderOverlay>
       <ModalCart
         open={modalOpen}

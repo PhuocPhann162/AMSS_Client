@@ -1,5 +1,6 @@
 import { AuthenticationLayout, HomeLayout } from '@/layouts';
 import { CartPage } from '@/pages/cart/cart-page';
+import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
@@ -7,7 +8,6 @@ import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
 import {
   AccessDenied,
   AllUsers,
-  CommodityDetailPage,
   CropDetail,
   CropTypeList,
   DashBoard,

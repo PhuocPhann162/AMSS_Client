@@ -1,14 +1,14 @@
-import { Breadcrumb } from '@/components/UI';
-import userOne from '../../../public/avatar.png';
-import React, { useState } from 'react';
-import { apiResponse, User } from '@/interfaces';
-import { inputHelper, toastNotify } from '@/helper';
-import { MiniLoader } from '@/components/Page/common';
-import { Modal } from '@/common';
-import { useNavigate } from 'react-router-dom';
-import { AButton } from '@/common/ui-common';
-import { useAppSelector } from '@/hooks';
 import { useUpdateInfoMutation } from '@/api';
+import { Modal } from '@/common';
+import { AButton } from '@/common/ui-common';
+import { MiniLoader } from '@/components/Page/common';
+import { Breadcrumb } from '@/components/UI';
+import { inputHelper, toastNotify } from '@/helper';
+import { apiResponse, User } from '@/interfaces';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import userOne from '../../../public/avatar.png';
 
 const Settings = () => {
   const userData = useAppSelector((state) => state.auth.user);

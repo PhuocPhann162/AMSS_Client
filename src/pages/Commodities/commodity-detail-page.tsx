@@ -1,6 +1,6 @@
 import { useGetCommodityByIdQuery } from '@/api';
 import { AButton, AImage } from '@/common/ui-common';
-import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
+import { useAddCartItem } from '@/hooks/cart/use-add-cart-item';
 import {
   CommodityCategory,
   CommodityStatus,
@@ -37,24 +37,17 @@ export const CommodityDetailPage = () => {
         };
 
   return (
-    <div>
-      <h3>{data.name}</h3>
+    <div className='flex flex-col gap-4 p-6'>
+      <h3 className='text-4xl font-bold'>{data.name}</h3>
       <div className='grid grid-cols-7 gap-4'>
         <AImage src={data.image} rootClassName='col-span-4' />
         <div className='col-span-3'>
-          <p>{data.description}</p>
-          <p>{data.specialTag}</p>
-          <p>{data.category}</p>
-          <p>{data.price}</p>
-          <p>{data.expirationDate}</p>
-          <p>{data.status}</p>
-          <p>{data.supplierId}</p>
-          <p>{data.cropId}</p>
-          <p>{data.createdAt}</p>
-          <p>{data.updatedAt}</p>
+          <p className='text-lg font-bold'>{data.description}</p>
+          <p className='text-xl font-bold text-gray-700'>{data.price}</p>
         </div>
       </div>
       <AButton
+        type='primary'
         onClick={() =>
           addCartItem({
             id: id ?? '',

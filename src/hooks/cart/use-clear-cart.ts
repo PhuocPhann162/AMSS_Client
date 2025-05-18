@@ -1,7 +1,7 @@
 import { useClearCartMutation } from '@/api/cart-api';
 import { setItems } from '@/features/cart/store/cart-slice';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { useCallback } from 'react';
 
 export const useClearCart = () => {

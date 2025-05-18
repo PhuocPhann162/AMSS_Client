@@ -1,6 +1,7 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
 import type {
   AddCartItemRequest,
+  MergeCartRequest,
   RemoveCartItemRequest,
   UpdateQuantityRequest,
 } from '@/models/request/cart/cart-request';
@@ -43,6 +44,14 @@ export const cartApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Cart],
     }),
+    mergeCart: build.mutation<void, MergeCartRequest>({
+      query: (props) => ({
+        url: 'shopping-cart/merge',
+        method: 'POST',
+        body: props,
+      }),
+      invalidatesTags: [TAG_TYPES.Cart],
+    }),
     clearCart: build.mutation<void, void>({
       query: () => ({
         url: 'shopping-cart/clear',
@@ -59,5 +68,6 @@ export const {
   useRemoveCartItemMutation,
   useUpdateQuantityMutation,
   useValidateCartMutation,
+  useMergeCartMutation,
   useClearCartMutation,
 } = cartApi;

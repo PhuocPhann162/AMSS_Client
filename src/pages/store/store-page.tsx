@@ -16,7 +16,7 @@ import {
   ListSortDirection,
 } from '@/models';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type CustomCommodityCategory = CommodityCategory | 'all';
@@ -50,7 +50,7 @@ const categoryLabel: Record<
   },
 };
 
-export const StorePage: FC = () => {
+export const StorePage = () => {
   const [sortValue, setSortValue] = useState<{
     sort: ListSortDirection;
     orderBy: CommodityOrderBy;
@@ -266,7 +266,7 @@ export const StorePage: FC = () => {
   ];
 
   return (
-    <div className='flex flex-col gap-12 p-6'>
+    <div className='flex flex-col gap-12'>
       <div className='flex flex-col gap-2'>
         <AInputDebounce
           defaultValue={search}

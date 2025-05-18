@@ -1,5 +1,5 @@
 import { AImage, AModal } from '@/common/ui-common';
-import { useGetCart } from '@/hooks/cart/useGetCart';
+import { useGetCart } from '@/hooks/cart/use-get-cart';
 import { Link, useNavigate } from 'react-router-dom';
 
 export interface ModalCartProps {
@@ -31,7 +31,7 @@ export const ModalCart = ({
         navigate('/store/cart');
       }}
       okText='Review Cart'
-      footer={(_, { OkBtn }) => <OkBtn />}
+      footer={(_, { OkBtn }) => (cartItems?.length ? <OkBtn /> : null)}
       title='Cart'
     >
       {!cartItems?.length && <p>Cart is empty</p>}

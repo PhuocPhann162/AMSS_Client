@@ -1,9 +1,9 @@
 import { HeaderPage } from '@/components/Layout/Header';
 import { AppSidebar } from '@/components/Layout/SideBar';
 import { SidebarProvider } from '@/components/ui/Sidebar';
-import { Outlet } from 'react-router-dom';
 import { useIsMobile } from '@/hooks';
 import { dashboardRoutes } from '@/routes';
+import { Outlet } from 'react-router-dom';
 
 export const HomeLayout = () => {
   const isMobile = useIsMobile();
@@ -23,7 +23,7 @@ export const HomeLayout = () => {
       )}
       <div className='relative flex flex-col'>
         <HeaderPage />
-        <main>
+        <main className='p-6'>
           <Outlet />
         </main>
       </div>
