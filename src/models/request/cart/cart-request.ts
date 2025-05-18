@@ -13,3 +13,7 @@ export interface UpdateQuantityRequest {
   id: CartItem['commodity']['id'];
   quantity: CartItem['quantity'];
 }
+
+export interface MergeCartRequest {
+  items: CartItem[];
+}

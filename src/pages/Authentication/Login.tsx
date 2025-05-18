@@ -1,4 +1,5 @@
 import { useLoginUserMutation } from '@/api';
+import { useMergeCartMutation } from '@/api/cart-api';
 import {
   setAccessToken,
   setRefreshToken,
@@ -6,6 +7,7 @@ import {
 } from '@/features/auth/store/auth-slice';
 import { inputHelper, toastNotify } from '@/helper';
 import type { LoginResponse } from '@/models';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,6 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cartState = useAppSelector((state) => state.cart);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -20,6 +23,7 @@ function Login() {
     password: '',
   });
   const [loginUser] = useLoginUserMutation();
+  const [mergeCart] = useMergeCartMutation();
 
   const handleUserInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, userInput);
@@ -45,6 +49,16 @@ function Login() {
       setLoading(false);
       toastNotify(response.successMessage || '');
       navigate('/app/dashBoard');
+
+      try {
+        if (cartState.items?.length) {
+          await mergeCart({
+            items: cartState.items,
+          });
+        }
+      } catch (error) {
+        console.error('Merge cart failed', error);
+      }
     } catch (error) {
       const _error = error as { data?: LoginResponse } | undefined;
       const errMessage = _error?.data?.errorMessages[0] || 'Something wrong';

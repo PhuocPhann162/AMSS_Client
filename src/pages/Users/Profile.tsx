@@ -1,9 +1,9 @@
 import { Breadcrumb } from '@/components/UI';
-import CoverOne from '../../../public/bg.jpg';
-import Avatar from '../../../public/avatar.png';
-import { Link } from 'react-router-dom';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
-import { useAppSelector } from '@/hooks';
+import { Link } from 'react-router-dom';
+import Avatar from '../../../public/avatar.png';
+import CoverOne from '../../../public/bg.jpg';
 
 const Profile = () => {
   const userData = useAppSelector((state) => state.auth.user);

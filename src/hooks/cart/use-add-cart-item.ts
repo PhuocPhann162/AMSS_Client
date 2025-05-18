@@ -1,8 +1,8 @@
 import { useAddCartItemMutation } from '@/api/cart-api';
 import { addItem } from '@/features/cart/store/cart-slice';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import type { CartItem } from '@/interfaces/cart/cart-item';
+import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { useCallback } from 'react';
 
 export const useAddCartItem = () => {

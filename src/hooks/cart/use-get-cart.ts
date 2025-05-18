@@ -1,6 +1,6 @@
 import { useGetCartQuery } from '@/api/cart-api';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import type { Cart } from '@/interfaces/cart/cart';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { useMemo } from 'react';
 
 export const useGetCart = () => {

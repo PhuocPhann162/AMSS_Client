@@ -1,8 +1,8 @@
 import { useUpdateQuantityMutation } from '@/api/cart-api';
-import { addItem } from '@/features/cart/store/cart-slice';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
+import { updateQuantity } from '@/features/cart/store/cart-slice';
 import type { CartItem } from '@/interfaces/cart/cart-item';
+import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { useCallback } from 'react';
 
 export const useUpdateQuantity = () => {
@@ -12,14 +12,17 @@ export const useUpdateQuantity = () => {
     useUpdateQuantityMutation();
 
   const handleUpdateQuantity = useCallback(
-    async (cartItem: CartItem) => {
+    async (cartItem: {
+      id: CartItem['commodity']['id'];
+      quantity: CartItem['quantity'];
+    }) => {
       if (auth.accessToken) {
         await updateQuantityAsync({
           id: cartItem.id,
           quantity: cartItem.quantity,
         });
       } else {
-        dispatch(addItem(cartItem));
+        dispatch(updateQuantity(cartItem));
       }
     },
     [auth.accessToken, dispatch, updateQuantityAsync],
