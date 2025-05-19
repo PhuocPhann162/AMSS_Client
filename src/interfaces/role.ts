@@ -5,3 +5,10 @@ export enum Role {
   OWNER_FARM,
   SUPPLIER_COMMODITY,
 }
+
+export function convertStringToRole(roleKey: string): Role | undefined {
+  if (roleKey in Role) {
+    return Role[roleKey as keyof typeof Role];
+  }
+  return undefined;
+}
