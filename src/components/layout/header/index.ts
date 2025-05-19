@@ -1,4 +1,2 @@
-export * from './HeaderApp';
-export * from './HeaderPage';
-export * from './DropdownUser';
-export * from './HeaderUnderOverlay';
+export * from './header-app';
+export * from './header-page';

@@ -1,2 +1,1 @@
-export * from './SidebarLinkGroup';
-export * from './SideBar';
+export * from './sidebar';
