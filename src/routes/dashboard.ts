@@ -1,4 +1,4 @@
-import { Item } from '@/components/Layout/SideBar';
+import { Item } from '@/components/layout/sidebar';
 
 export const dashboardRoutes: Item[] = [
   { path: '/store', label: 'Store' },

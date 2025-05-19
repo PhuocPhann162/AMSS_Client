@@ -1,10 +1,10 @@
-import { Outlet } from 'react-router-dom';
-import { AppSidebar } from '@/components/Layout/SideBar';
-import { withAdminAuth } from '@/HOC';
+import { HeaderApp } from '@/components/layout/header';
+import { AppSidebar } from '@/components/layout/sidebar';
+import { sidebarOptions } from '@/components/layout/sidebar/sidebar-helper';
 import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/Sidebar';
+import { withAdminAuth } from '@/HOC';
 import { useCookie } from '@/hooks/useCookie';
-import { HeaderApp } from '@/components/Layout/Header';
-import { sidebarOptions } from '@/components/Layout/SideBar/sidebar_helper';
+import { Outlet } from 'react-router-dom';
 
 function DefaultAppLayout() {
   const { value } = useCookie<boolean>(SIDEBAR_COOKIE_NAME);

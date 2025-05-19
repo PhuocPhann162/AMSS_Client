@@ -1,22 +1,21 @@
-import {
-  BarChartOutlined,
-  ShopOutlined,
-  SnippetsOutlined,
-  CloudUploadOutlined,
-} from '@ant-design/icons';
-import DashboardIcon from '@/components/Icon/icon-svg/dashboard-sidebar.svg?react';
 import CropIcon from '@/components/Icon/icon-svg/crop-sidebar.svg?react';
-import FarmMapIcon from '@/components/Icon/icon-svg/farmmap_sidebar.svg?react';
-import UserIcon from '@/components/Icon/icon-svg/user-sidebar.svg?react';
+import DashboardIcon from '@/components/Icon/icon-svg/dashboard-sidebar.svg?react';
 import FarmIcon from '@/components/Icon/icon-svg/farm-sidebar.svg?react';
+import FarmMapIcon from '@/components/Icon/icon-svg/farmmap_sidebar.svg?react';
 import FieldIcon from '@/components/Icon/icon-svg/field-sidebase.svg?react';
-import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
 import LandIcon from '@/components/Icon/icon-svg/land-sidebar.svg?react';
 import OwnerFarmIcon from '@/components/Icon/icon-svg/owner-farm-sidebar.svg?react';
 import CommoditySupplierIcon from '@/components/Icon/icon-svg/supplier-commodity-sidebar.svg?react';
+import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
 import SupplierIcon from '@/components/Icon/icon-svg/supplier-sidebar.svg?react';
-import CommodityIcon from '@/components/Icon/icon-svg/commodity-sidebar.svg?react';
-import { type Item } from '@/components/Layout/SideBar/SideBar';
+import UserIcon from '@/components/Icon/icon-svg/user-sidebar.svg?react';
+import { type Item } from '@/components/layout/sidebar/SideBar';
+import {
+  BarChartOutlined,
+  CloudUploadOutlined,
+  ShopOutlined,
+  SnippetsOutlined,
+} from '@ant-design/icons';
 
 export const sidebarOptions: Item[] = [
   {

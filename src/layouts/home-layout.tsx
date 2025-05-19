@@ -1,5 +1,5 @@
-import { HeaderPage } from '@/components/Layout/Header';
-import { AppSidebar } from '@/components/Layout/SideBar';
+import { HeaderPage } from '@/components/layout/header';
+import { AppSidebar } from '@/components/layout/sidebar';
 import { SidebarProvider } from '@/components/ui/Sidebar';
 import { useIsMobile } from '@/hooks';
 import { dashboardRoutes } from '@/routes';

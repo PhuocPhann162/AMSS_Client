@@ -4,7 +4,7 @@ import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
-import EnhancedDefaultAppLayout from './layouts/DefaultAppLayout';
+import EnhancedDefaultAppLayout from './layouts/default-app-layout';
 import {
   AccessDenied,
   AllUsers,
