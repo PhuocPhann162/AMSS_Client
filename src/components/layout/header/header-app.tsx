@@ -1,4 +1,5 @@
-import { DropdownUser, HeaderUnderOverlay } from '@/components/layout/header';
+import { DropdownUser } from '@/components/layout/header/dropdown-user';
+import { HeaderUnderOverlay } from '@/components/layout/header/header-under-overlay';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 
 export const HeaderApp = () => {

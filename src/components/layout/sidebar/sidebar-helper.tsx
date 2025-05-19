@@ -9,7 +9,7 @@ import CommoditySupplierIcon from '@/components/Icon/icon-svg/supplier-commodity
 import SupplierCropIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
 import SupplierIcon from '@/components/Icon/icon-svg/supplier-sidebar.svg?react';
 import UserIcon from '@/components/Icon/icon-svg/user-sidebar.svg?react';
-import { type Item } from '@/components/layout/sidebar/SideBar';
+import { type Item } from '@/components/layout/sidebar/sidebar';
 import {
   BarChartOutlined,
   CloudUploadOutlined,

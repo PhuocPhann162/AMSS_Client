@@ -5,7 +5,7 @@ import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import Dropdown from 'antd/es/dropdown';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export interface DropdownUserProps {
   showName?: boolean;
@@ -14,10 +14,11 @@ export interface DropdownUserProps {
 export const DropdownUser: FC<DropdownUserProps> = ({ showName }) => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.auth.user);
+  const navigate = useNavigate();
 
   const handleLockOut = () => {
     dispatch(clearAuth());
-    window.location.replace('/');
+    navigate('/');
   };
 
   const items: {
