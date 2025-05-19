@@ -1,5 +1,5 @@
 import { ABadge, AButton } from '@/common/ui-common';
-import { DropdownUser, HeaderUnderOverlay } from '@/components/Layout/Header';
+import { DropdownUser, HeaderUnderOverlay } from '@/components/layout/header';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { ModalCartWrapper } from '@/features/cart/components/modal-cart-wrapper';
 import { useIsMobile } from '@/hooks';
