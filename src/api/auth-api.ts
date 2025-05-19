@@ -1,7 +1,9 @@
 import { appBaseApi } from '@/api/instances';
+import { convertStringToRole } from '@/interfaces';
 import type {
   LoginRequest,
   LoginResponse,
+  LoginResponseRaw,
   RegisterResponse,
   RegisterSupplier,
 } from '@/models';
@@ -21,6 +23,18 @@ export const authApi = appBaseApi.injectEndpoints({
         method: 'POST',
         body: userCredentials,
       }),
+      transformResponse(apiResponse: LoginResponseRaw) {
+        return {
+          ...apiResponse,
+          result: {
+            ...apiResponse.result,
+            user: {
+              ...apiResponse.result.user,
+              role: convertStringToRole(apiResponse.result.user.role),
+            },
+          },
+        };
+      },
     }),
     // TODO: remove this endpoint
     refreshToken: builder.mutation({
