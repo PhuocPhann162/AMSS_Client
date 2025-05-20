@@ -2,7 +2,8 @@ import { useMotionValueEvent, useScroll } from 'framer-motion';
 import { useState, type RefObject } from 'react';
 
 export interface UseScrollProps<T extends HTMLElement = HTMLElement> {
-  element?: RefObject<T>;
+  container?: RefObject<T>;
+  target?: RefObject<T>;
 }
 
 export interface UseScrollPositionReturn {
@@ -11,9 +12,10 @@ export interface UseScrollPositionReturn {
 }
 
 export const useScrollPosition = ({
-  element,
+  container,
+  target,
 }: UseScrollProps = {}): UseScrollPositionReturn => {
-  const { scrollY, scrollX } = useScroll({ container: element });
+  const { scrollY, scrollX } = useScroll({ container, target });
 
   const [scrollXValue, setScrollXValue] = useState(scrollX.get());
   const [scrollYValue, setScrollYValue] = useState(scrollY.get());

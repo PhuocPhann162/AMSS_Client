@@ -41,7 +41,7 @@ export const HeaderUnderOverlay = memo<HeaderUnderOverlayProps>(
             } as CSSProperties
           }
           className={cn(
-            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/85 via-white/35 via-[length:var(--height-ratio)] opacity-0 transition-[height,opacity] duration-500 ease-out [backdrop-filter:saturate(180%)_blur(8px)] [mask:linear-gradient(white,white_var(--height-ratio),transparent)]',
+            'pointer-events-none absolute inset-x-0 top-0 h-[var(--overlay-height)] bg-gradient-to-b from-white/80 via-white/20 via-[length:var(--height-ratio)] opacity-0 transition-[height,opacity] duration-500 ease-out [backdrop-filter:saturate(180%)_blur(8px)] [mask:linear-gradient(white,white_var(--height-ratio),transparent)]',
             !shouldTransparent && 'opacity-100',
             classNames?.overlay,
           )}

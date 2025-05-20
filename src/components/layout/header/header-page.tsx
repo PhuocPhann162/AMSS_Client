@@ -1,18 +1,21 @@
-import { ABadge, AButton } from '@/common/ui-common';
+import { AButton } from '@/common/ui-common';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
 import { HeaderUnderOverlay } from '@/components/layout/header/header-under-overlay';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
-import { ModalCartWrapper } from '@/features/cart/components/modal-cart-wrapper';
+import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
 
 import { dashboardRoutes } from '@/routes';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 export const HeaderPage = () => {
   const userData = useAppSelector((state) => state.auth.user);
   const isMobile = useIsMobile();
+
+  const [openCartDrawer, setOpenCartDrawer] = useState(false);
 
   return (
     <>
@@ -42,29 +45,22 @@ export const HeaderPage = () => {
         )}
 
         <div className='flex items-center gap-6'>
-          <ModalCartWrapper>
-            {({ cart, toggleModal }) => (
-              <ABadge
-                count={
-                  cart?.cartItems?.reduce(
-                    (total, item) => total + item.quantity,
-                    0,
-                  ) || undefined
-                }
-              >
-                <ShoppingCartOutlined
-                  onClick={toggleModal}
-                  className='text-xl'
-                />
-              </ABadge>
-            )}
-          </ModalCartWrapper>
+          <ShoppingCartOutlined
+            onClick={() => setOpenCartDrawer(true)}
+            className='text-xl'
+          />
 
           {!isMobile && (userData ? <DropdownUser /> : <ButtonSignIn />)}
 
           {!!isMobile && <SidebarTrigger />}
         </div>
       </HeaderUnderOverlay>
+      <DrawerCart
+        open={openCartDrawer}
+        onCancel={() => setOpenCartDrawer(false)}
+        onNavigateCartPage={() => setOpenCartDrawer(false)}
+        onClickCartItem={() => setOpenCartDrawer(false)}
+      />
     </>
   );
 };

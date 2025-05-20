@@ -21,7 +21,7 @@ export const HomeLayout = () => {
           }}
         />
       )}
-      <div className='relative flex flex-col'>
+      <div className='relative flex min-h-screen flex-col bg-[#fafafc]'>
         <HeaderPage />
         <main className='p-6'>
           <Outlet />

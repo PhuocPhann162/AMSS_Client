@@ -1,10 +1,8 @@
 import Dropdown, { type DropdownProps } from 'antd/es/dropdown';
-import { type FC } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ADropdownProps extends DropdownProps {}
+export type ADropdownProps = DropdownProps;
 
-export const ADropdown: FC<ADropdownProps> = ({ ...props }) => {
+export const ADropdown = (props: ADropdownProps) => {
   return <Dropdown {...props} />;
 };
 ADropdown.displayName = 'ADropdown';
