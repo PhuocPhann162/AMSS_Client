@@ -1,6 +1,13 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import { PaginationRequest, PaginationResponse } from '@/models';
-import { CropResponse } from '@/models/response/crop-response';
+import {
+  BooleanResponse,
+  PaginationRequest,
+  PaginationResponse,
+} from '@/models';
+import {
+  AddPlatingCropsRequest,
+  CropResponse,
+} from '@/models/response/crop-response';
 
 export const cropApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,9 +25,9 @@ export const cropApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.Crops],
     }),
-    getCrops: builder.query({
+    getPlatingCrops: builder.query({
       query: (params: PaginationRequest) => ({
-        url: 'crop/get-all',
+        url: 'crop/plating-crops',
         method: 'GET',
         params,
       }),
@@ -33,11 +40,21 @@ export const cropApi = appBaseApi.injectEndpoints({
         };
       },
     }),
-    addCropPlating: builder.mutation({
-      query: (data) => ({
-        url: 'crop/planting-crop',
+    addCropPlating: builder.mutation<BooleanResponse, AddPlatingCropsRequest>({
+      query: (data: AddPlatingCropsRequest) => ({
+        url: 'crop/add-crop-planting',
         method: 'POST',
         body: data,
+      }),
+      invalidatesTags: [TAG_TYPES.Crops],
+    }),
+    removePlantingCrop: builder.mutation<
+      BooleanResponse,
+      { fieldId: string; cropId: string }
+    >({
+      query: ({ fieldId, cropId }) => ({
+        url: `crop/remove-planting-crop?fieldId=${fieldId}&cropId=${cropId}`,
+        method: 'DELETE',
       }),
       invalidatesTags: [TAG_TYPES.Crops],
     }),
@@ -63,8 +80,9 @@ export const cropApi = appBaseApi.injectEndpoints({
 export const {
   useGetCropByIdQuery,
   useGetCropsByFieldIdQuery,
-  useGetCropsQuery,
+  useGetPlatingCropsQuery,
   useCreateCropMutation,
   useUpdateCropMutation,
   useAddCropPlatingMutation,
+  useRemovePlantingCropMutation,
 } = cropApi;

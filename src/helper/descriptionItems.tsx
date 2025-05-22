@@ -6,6 +6,7 @@ import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import getStatusColor from './getStatusColor';
 import { GetSuppliersResponse } from '@/models';
 import { supplierModel } from '@/interfaces/supplierModel';
+import { CropResponse } from '@/models/response/crop-response';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {
   return [
@@ -192,6 +193,76 @@ export const supplierDescriptionItems = (supplierValue: supplierModel) => {
       key: '5',
       label: 'Contact Number',
       children: supplierValue.phoneCode + ' ' + supplierValue.phoneNumber,
+    },
+  ];
+};
+
+export const cropDescriptionItems = (crop: CropResponse) => {
+  return [
+    {
+      key: '1',
+      label: 'Crop Name',
+      children: crop.name,
+    },
+    {
+      key: '2',
+      label: 'Description',
+      children: crop.description || '-',
+    },
+    {
+      key: '3',
+      label: 'Crop Type',
+      children: crop.cropTypeName || '-',
+    },
+    {
+      key: '4',
+      label: 'Cycle',
+      children: crop.cycle || '-',
+    },
+    {
+      key: '5',
+      label: 'Edible',
+      children: crop.edible ? 'true' : 'false',
+    },
+    {
+      key: '6',
+      label: 'Soil',
+      children: crop.soil || '-',
+    },
+    {
+      key: '7',
+      label: 'Watering',
+      children: crop.watering || '-',
+    },
+    {
+      key: '8',
+      label: 'Maintenance',
+      children: crop.maintenance || '-',
+    },
+    {
+      key: '9',
+      label: 'Hardiness Zone',
+      children: crop.hardinessZone !== undefined ? crop.hardinessZone : '-',
+    },
+    {
+      key: '10',
+      label: 'Indoor',
+      children: crop.indoor ? 'true' : 'false',
+    },
+    {
+      key: '11',
+      label: 'Propagation',
+      children: crop.propagation || '-',
+    },
+    {
+      key: '12',
+      label: 'Care Level',
+      children: crop.careLevel || '-',
+    },
+    {
+      key: '13',
+      label: 'Growth Rate',
+      children: crop.growthRate || '-',
     },
   ];
 };

@@ -35,7 +35,7 @@ interface GrowLocationMapProps {
     area: number,
     points: pointModel[],
   ) => void;
-  farmsData?: farmModel[]; // Thêm prop farmsData
+  farmsData?: farmModel[];
 }
 
 type GetAddressDataType = {
@@ -54,7 +54,7 @@ type GetAddressDataType = {
 
 const GrowLocationMap: React.FC<GrowLocationMapProps> = ({
   onLocationSelected,
-  farmsData = [], // Đặt giá trị mặc định là mảng rỗng
+  farmsData = [],
 }) => {
   const [mapKey, setMapKey] = useState(0);
   const [drawnPolygon, setDrawnPolygon] = useState(null);
@@ -78,8 +78,6 @@ const GrowLocationMap: React.FC<GrowLocationMapProps> = ({
   } = useGeolocation();
 
   const mapRef = useRef<any>(null);
-  // Xóa dòng này vì chúng ta đã nhận dữ liệu từ props
-  // const { data: dataFarm } = useGetAllFarmsQuery('');
 
   useEffect(() => {
     if (

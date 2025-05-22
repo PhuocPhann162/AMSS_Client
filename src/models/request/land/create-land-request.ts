@@ -49,6 +49,7 @@ export interface CreateFieldRequest {
   name: string;
   area: number;
   farmId: string;
+  fieldId?: string;
   location: CreateLocationDto;
   polygon: CreatePolygonDto;
   growLocation?: CreateGrowLocationRequest;

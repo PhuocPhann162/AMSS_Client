@@ -1,26 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Table,
   Input,
   Select,
   Button,
-  Pagination,
-  Modal,
   Form,
   DatePicker,
   InputNumber,
-  Spin,
   Empty,
 } from 'antd';
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
-import { useAddCropPlatingMutation, useGetCropsQuery } from '@/api';
-import { toastNotify } from '@/helper';
-import { AButton } from '@/common/ui-common';
 import {
+  useAddCropPlatingMutation,
+  useGetPlatingCropsQuery,
+  useRemovePlantingCropMutation,
+} from '@/api';
+import { toastNotify } from '@/helper';
+import { AButton, ADescriptions, AModal, ATable } from '@/common/ui-common';
+import {
+  AddPlatingCropsRequest,
   CropResponse,
-  GetCropsRequest,
   PlantingModel,
 } from '@/models/response/crop-response';
+import { TableParams } from '@/utils/models/Tables';
+import { INITIAL_PAGINATION } from '@/configs/component.config';
+import { SearchInput } from '@/components/UI';
+import { ColumnsType } from 'antd/es/table';
+import { apiResponse } from '@/interfaces';
+import { cropDescriptionItems } from '@/helper/descriptionItems';
+import dayjs from 'dayjs';
+import { formatLocalDate } from '@/helper/dayFormat';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -40,39 +47,32 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
   bedId,
   bedName,
 }) => {
-  const [searchParams, setSearchParams] = useState<GetCropsRequest>({
-    pageNumber: 1,
-    pageSize: 10,
-    searchString: '',
-  });
   const [selectedCrops, setSelectedCrops] = useState<CropResponse[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentCrop, setCurrentCrop] = useState<CropResponse | null>(null);
+  const [currentViewCrop, setCurrentViewCrop] = useState<CropResponse>();
   const [form] = Form.useForm();
+  const [searchValue, setSearchValue] = useState<string>('');
 
-  const {
-    data: cropsData,
-    isLoading,
-    isFetching,
-  } = useGetCropsQuery(searchParams);
+  const [tableParams, setTableParams] =
+    useState<TableParams>(INITIAL_PAGINATION);
+  const [dataTable, setDataTable] = useState<CropResponse[]>([]);
+  const [totalRecord, setTotalRecord] = useState<number>(0);
+
+  const [isOpenViewPlatingCropsModal, setIsOpenViewPlatingCropsModal] =
+    useState<boolean>();
+
+  const { data: plantingCrops, isLoading } = useGetPlatingCropsQuery({
+    ...tableParams.filters,
+    currentPage: tableParams.pagination?.current ?? 1,
+    limit: tableParams.pagination?.pageSize ?? 10,
+    orderBy: tableParams.sortField?.toString() ?? 'CreatedAt',
+    orderByDirection: tableParams.sortOrder === 'ascend' ? 0 : 1,
+    search: searchValue,
+  });
   const [createPlanting, { isLoading: isCreating }] =
     useAddCropPlatingMutation();
-
-  const handleSearch = (value: string) => {
-    setSearchParams({
-      ...searchParams,
-      searchString: value,
-      pageNumber: 1,
-    });
-  };
-
-  const handlePageChange = (page: number, pageSize?: number) => {
-    setSearchParams({
-      ...searchParams,
-      pageNumber: page,
-      pageSize: pageSize || searchParams.pageSize,
-    });
-  };
+  const [removePlantingCrop] = useRemovePlantingCropMutation();
 
   const handleSelectCrop = (crop: CropResponse) => {
     setCurrentCrop(crop);
@@ -80,138 +80,177 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
     form.resetFields();
   };
 
-  const handleAddPlanting = async (values: any) => {
+  const handleAddPlanting = async (values: PlantingModel) => {
     if (!currentCrop) return;
 
-    const newPlanting: PlantingModel = {
+    const newPlanting: AddPlatingCropsRequest = {
+      fieldId: locationId,
       cropId: currentCrop.id,
-      cropName: currentCrop.name,
-      locationId,
-      bedId: bedId,
-      plantingDate: values.plantingDate?.format('YYYY-MM-DD'),
-      harvestDate: values.harvestDate?.format('YYYY-MM-DD'),
       quantity: values.quantity,
-      unit: values.unit,
+      notes: values.notes ?? '',
       status: values.status,
-      notes: values.notes,
+      unit: values.unit,
     };
 
     try {
       await createPlanting(newPlanting).unwrap();
 
       // Thêm vào danh sách đã chọn
-      setSelectedCrops([
-        ...selectedCrops,
-        { ...currentCrop, planting: newPlanting },
-      ]);
+      setSelectedCrops([...selectedCrops, { ...currentCrop }]);
 
-      // Đóng modal
       setIsModalVisible(false);
 
-      // Thông báo thành công
       toastNotify(
         `Added ${currentCrop.name} to ${bedName || locationName}`,
         'success',
       );
 
-      // Callback
       onPlantingAdded();
-    } catch (error) {
+    } catch {
       toastNotify('Failed to add planting', 'error');
     }
   };
 
-  const handleRemoveCrop = (cropId: string) => {
-    setSelectedCrops(selectedCrops.filter((crop) => crop.id !== cropId));
+  const handleViewCrop = (crop: CropResponse) => {
+    setCurrentViewCrop(crop);
+    setIsOpenViewPlatingCropsModal(true);
   };
 
-  const columns = [
-    {
-      title: 'Crop Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string, record: CropResponse) => (
-        <div className='flex items-center'>
-          {record.imageUrl && (
-            <img
-              src={record.imageUrl}
-              alt={record.name}
-              className='mr-2 h-8 w-8 rounded-full object-cover'
-            />
-          )}
-          <span>{record.name}</span>
-        </div>
-      ),
-    },
-    {
-      title: 'Type',
-      dataIndex: 'cropType',
-      key: 'cropType',
-    },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      ellipsis: true,
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_: any, record: CropResponse) => (
-        <AButton
-          type='primary'
-          size='small'
-          onClick={() => handleSelectCrop(record)}
-        >
-          Select
-        </AButton>
-      ),
-    },
-  ];
+  const handleRemoveCrop = async (cropId: string) => {
+    try {
+      await removePlantingCrop({
+        fieldId: locationId,
+        cropId: cropId,
+      }).unwrap();
+
+      setSelectedCrops(selectedCrops.filter((crop) => crop.id !== cropId));
+      toastNotify('Planting crop removed successfully', 'success');
+      onPlantingAdded();
+    } catch (error) {
+      toastNotify('Failed to remove planting crop', 'error');
+    }
+  };
+
+  const platingCropCols: ColumnsType = useMemo(() => {
+    return [
+      {
+        title: 'Crop Name',
+        dataIndex: 'name',
+        key: 'name',
+        render: (_, record) => (
+          <div className='flex items-center'>
+            {record.icon && (
+              <img
+                src={record.icon as string}
+                alt={record.name as string}
+                className='mr-2 h-8 w-8 rounded-full object-cover'
+              />
+            )}
+            <span>{record.name}</span>
+          </div>
+        ),
+      },
+      {
+        title: 'Type',
+        dataIndex: 'cropTypeName',
+        key: 'cropTypeName',
+      },
+      {
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+        ellipsis: true,
+      },
+      {
+        title: 'Action',
+        align: 'center',
+        key: 'action',
+        render: (_, record) => (
+          <div>
+            <div className='flex justify-center gap-2'>
+              <AButton
+                type='link'
+                size='small'
+                onClick={() => handleViewCrop(record as CropResponse)}
+              >
+                View
+              </AButton>
+              <AButton
+                type='primary'
+                size='small'
+                onClick={() => handleSelectCrop(record as CropResponse)}
+              >
+                Select
+              </AButton>
+            </div>
+          </div>
+        ),
+      },
+    ];
+  }, [isOpenViewPlatingCropsModal]);
+
+  useEffect(() => {
+    const getPlantingCrops = () => {
+      try {
+        setDataTable(plantingCrops?.apiResponse.result.collection ?? []);
+        setTotalRecord(plantingCrops?.apiResponse.result.totalRow ?? 0);
+      } catch (e) {
+        toastNotify(
+          (e as apiResponse).data?.errorMessages?.[0] ?? 'Something wrong!',
+        );
+      }
+    };
+    getPlantingCrops();
+  }, [searchValue, plantingCrops, tableParams]);
 
   return (
-    <div className='p-4'>
-      <div className='mb-4 flex items-center justify-between'>
-        <h2 className='text-lg font-semibold'>
-          Add Plantings to {bedName || locationName}
-        </h2>
-      </div>
-
-      <div className='mb-4 flex items-center'>
-        <Input
-          placeholder='Search crops...'
-          prefix={<SearchOutlined />}
-          onChange={(e) => handleSearch(e.target.value)}
-          className='mr-4 max-w-md'
-          allowClear
+    <div>
+      <AModal
+        open={isOpenViewPlatingCropsModal}
+        title={'Crop Detail'}
+        okButtonProps={{ hidden: true }}
+        cancelButtonProps={{ hidden: true }}
+        style={{ top: 20 }}
+        width={'50rem'}
+        onCancel={() => setIsOpenViewPlatingCropsModal(false)}
+      >
+        {currentViewCrop && (
+          <ADescriptions items={cropDescriptionItems(currentViewCrop)} />
+        )}
+      </AModal>
+      <div className='flex items-center'>
+        <SearchInput
+          onSearch={(value) => {
+            if (value !== searchValue) {
+              setSearchValue(value);
+              setTableParams((pre) => ({
+                ...pre,
+                pagination: {
+                  ...pre.pagination,
+                  current: 1,
+                },
+              }));
+            }
+          }}
+          placeholder={'Search by Crop Name'}
+          className='w-1/3 min-w-40'
         />
       </div>
 
-      {isLoading ? (
-        <div className='flex justify-center py-12'>
-          <Spin size='large' />
-        </div>
-      ) : cropsData?.apiResponse?.result?.length === 0 ? (
+      {plantingCrops?.apiResponse?.result?.collection?.length === 0 ? (
         <Empty description='No crops found' />
       ) : (
         <>
-          <Table
-            columns={columns}
-            dataSource={cropsData?.apiResponse?.result || []}
-            rowKey='id'
-            pagination={false}
-            loading={isFetching}
-            className='mb-4'
-          />
-
-          <Pagination
-            current={searchParams.pageNumber}
-            pageSize={searchParams.pageSize || 10}
-            total={cropsData?.totalRecords || 0}
-            onChange={handlePageChange}
-            showSizeChanger
-            showTotal={(total) => `Total ${total} items`}
-            className='mt-4 text-right'
+          <ATable
+            columns={platingCropCols}
+            dataSource={dataTable}
+            tableParams={tableParams}
+            totalRecord={totalRecord}
+            loading={isLoading}
+            scroll={{ y: '55vh' }}
+            onChange={(params: TableParams) => {
+              setTableParams(params);
+            }}
           />
         </>
       )}
@@ -219,39 +258,47 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
       {selectedCrops.length > 0 && (
         <div className='mt-6'>
           <h3 className='mb-3 text-lg font-semibold'>Selected Crops</h3>
-          <Table
-            columns={[
-              {
-                title: 'Crop Name',
-                dataIndex: 'name',
-                key: 'name',
-              },
-              {
-                title: 'Planting Date',
-                key: 'plantingDate',
-                render: (_, record: any) =>
-                  record.planting?.plantingDate || '-',
-              },
-              {
-                title: 'Quantity',
-                key: 'quantity',
-                render: (_, record: any) =>
-                  `${record.planting?.quantity || 0} ${record.planting?.unit || ''}`,
-              },
-              {
-                title: 'Action',
-                key: 'action',
-                render: (_: any, record: CropResponse) => (
-                  <Button
-                    danger
-                    size='small'
-                    onClick={() => handleRemoveCrop(record.id)}
-                  >
-                    Remove
-                  </Button>
-                ),
-              },
-            ]}
+          <ATable
+            columns={
+              [
+                {
+                  title: 'Crop Name',
+                  dataIndex: 'name',
+                  key: 'name',
+                },
+                {
+                  title: 'Planting Date',
+                  key: 'plantingDate',
+                  render: (_, record: CropResponse) =>
+                    formatLocalDate(record?.plantedDate) || '-',
+                },
+                {
+                  title: 'Expected Harvest Date',
+                  key: 'expectedHarvestDate',
+                  render: (_, record: CropResponse) =>
+                    formatLocalDate(record?.expectedDate) || '-',
+                },
+                {
+                  title: 'Quantity',
+                  key: 'quantity',
+                  render: (_, record: CropResponse) =>
+                    `${record?.quantity || 0}`,
+                },
+                {
+                  title: 'Action',
+                  key: 'action',
+                  render: (_, record: CropResponse) => (
+                    <Button
+                      danger
+                      size='small'
+                      onClick={() => handleRemoveCrop(record.id)}
+                    >
+                      Remove
+                    </Button>
+                  ),
+                },
+              ] as ColumnsType
+            }
             dataSource={selectedCrops}
             rowKey='id'
             pagination={false}
@@ -259,22 +306,24 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
         </div>
       )}
 
-      <Modal
+      <AModal
         title={`Add ${currentCrop?.name || 'Crop'} to ${bedName || locationName}`}
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
+        style={{ top: 20 }}
+        width={'40rem'}
         footer={[
-          <Button key='cancel' onClick={() => setIsModalVisible(false)}>
+          <AButton key='cancel' onClick={() => setIsModalVisible(false)}>
             Cancel
-          </Button>,
-          <Button
+          </AButton>,
+          <AButton
             key='submit'
             type='primary'
             loading={isCreating}
             onClick={() => form.submit()}
           >
             Add Planting
-          </Button>,
+          </AButton>,
         ]}
       >
         <Form
@@ -283,8 +332,10 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
           onFinish={handleAddPlanting}
           initialValues={{
             status: 'planned',
-            quantity: 1,
+            quantity: 2,
             unit: 'plants',
+            plantingDate: dayjs(currentCrop?.plantedDate),
+            harvestDate: dayjs(currentCrop?.expectedDate),
           }}
         >
           <Form.Item
@@ -292,11 +343,15 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
             label='Planting Date'
             rules={[{ required: true, message: 'Please select planting date' }]}
           >
-            <DatePicker className='w-full' />
+            <DatePicker className='w-full' disabled={true} />
           </Form.Item>
 
-          <Form.Item name='harvestDate' label='Expected Harvest Date'>
-            <DatePicker className='w-full' />
+          <Form.Item
+            name='harvestDate'
+            label='Expected Harvest Date'
+            rules={[{ required: true, message: 'Please select harvest date' }]}
+          >
+            <DatePicker className='w-full' disabled={true} />
           </Form.Item>
 
           <div className='grid grid-cols-2 gap-4'>
@@ -339,7 +394,7 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
             <TextArea rows={4} />
           </Form.Item>
         </Form>
-      </Modal>
+      </AModal>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import GrowLocationForm from '@/components/UI/grow-location-form';
 import GrowLocationMap from '@/components/Page/Maps/GrowLocationMap';
-import GrowLocationModal from '@/components/Page/Maps/GrowLocationModal';
+import GrowLocationModal, {
+  CreateGrowLocationFieldRequest,
+} from '@/components/Page/Maps/GrowLocationModal';
 import AddPlanting from '@/components/Page/Plantings/AddPlanting';
 import { Steps, Result, Button } from 'antd';
 import { useMemo, useState } from 'react';
@@ -8,7 +10,12 @@ import { apiResponse, locationModel, pointModel } from '@/interfaces';
 import { toastNotify } from '@/helper';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { GrowLocationModel } from '@/interfaces/growLocationModel';
-import { useCreateGrowLocationMutation, useGetAllFarmsQuery } from '@/api';
+import {
+  useCreateFieldMutation,
+  useCreateGrowLocationMutation,
+  useGetAllFarmsQuery,
+} from '@/api';
+import { CreateLocationDto, CreatePolygonDto } from '@/models';
 
 const growLocationSteps = [
   {
@@ -25,24 +32,32 @@ const growLocationSteps = [
   },
 ];
 
+const getGrowLocationId = () => localStorage.getItem('nov-location-id') || '';
+
 export const GrowLocation = () => {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(() => {
+    const savedStep = localStorage.getItem('nov-growlocation-step');
+    return savedStep ? Number(savedStep) : 0;
+  });
   const [isCreateGrowLocationLoading, setIsCreateGrowLocationLoading] =
     useState<boolean>(false);
   const [fieldInfo, setFielInfo] = useState<GrowLocationModel>();
-  const [growLocationId, setGrowLocationId] = useState<string>('');
-  const [formData, setFormData] = useState<GrowLocationModel>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] =
     useState<locationModel | null>(null);
   const [selectedArea, setSelectedArea] = useState<number>(0);
   const [selectedPoints, setSelectedPoints] = useState<pointModel[]>([]);
-  const [createdLocationId, setCreatedLocationId] = useState<string>('');
 
-  // Lấy dữ liệu farm một lần ở component cha
   const { data: dataFarm, isLoading: isLoadingFarms } = useGetAllFarmsQuery('');
   const [createGrowLocation] = useCreateGrowLocationMutation();
+  const [createField] = useCreateFieldMutation();
 
+  const handleSetCurrentStep = (step: number) => {
+    setCurrentStep(step);
+    localStorage.setItem('nov-growlocation-step', step.toString());
+  };
+
+  // Step 0
   const handleOnFinishDetails = async (values: GrowLocationModel) => {
     setFielInfo(values);
     setIsCreateGrowLocationLoading(true);
@@ -50,8 +65,8 @@ export const GrowLocation = () => {
       const response = await createGrowLocation(values).unwrap();
       if (response.result && response.isSuccess) {
         toastNotify(response.successMessage || 'Field created successfully');
-        setCurrentStep(1);
-        setGrowLocationId(response.result);
+        handleSetCurrentStep(1);
+        localStorage.setItem('nov-location-id', response.result);
       }
     } catch (e) {
       toastNotify(
@@ -63,6 +78,7 @@ export const GrowLocation = () => {
     }
   };
 
+  // Step 1
   const handleLocationSelected = (
     location: locationModel,
     area: number,
@@ -74,30 +90,60 @@ export const GrowLocation = () => {
     setIsModalOpen(true);
   };
 
-  const handleModalSubmit = (values: any) => {
-    // Giả định rằng API trả về ID của location mới tạo
-    const newLocationId = `loc-${Date.now()}`;
-
-    setFormData({
-      ...formData,
-      ...values,
-      id: newLocationId,
-    });
-
-    setCreatedLocationId(newLocationId);
+  const handleGrowLocationMapModalSubmit = async (
+    values: CreateGrowLocationFieldRequest,
+  ) => {
     setIsModalOpen(false);
-    toastNotify('Grow location created successfully!', 'success');
-    setCurrentStep(2);
+
+    const locationRequest: CreateLocationDto = {
+      address: values.location.address ?? '',
+      lat: values.location.lat ?? 0,
+      lng: values.location.lng ?? 0,
+      city: values.location.city,
+      state: values.location.state,
+      district: values.location.district,
+      road: values.location.road,
+      postCode: values.location.postCode,
+      countryCode: values.location.countryCode,
+    };
+
+    const polygonRequest: CreatePolygonDto = {
+      color: values.color,
+      type: 0,
+      positions: values.points,
+    };
+    try {
+      const response = await createField({
+        name: values.name,
+        area: values.area ?? 0,
+        farmId: values.farmId ?? '',
+        fieldId: getGrowLocationId(),
+        location: locationRequest,
+        polygon: polygonRequest,
+      });
+
+      if (response.data && response.data.isSuccess) {
+        toastNotify('Grow location created successfully!');
+        handleSetCurrentStep(2);
+      }
+    } catch (e) {
+      toastNotify(
+        (e as apiResponse).data?.errorMessages?.[0] ?? 'Something wrong!',
+        'error',
+      );
+    } finally {
+      setIsCreateGrowLocationLoading(false);
+    }
   };
 
-  const handlePlantingAdded = () => {
-    // Có thể thêm logic xử lý sau khi thêm planting
-    toastNotify('Planting added successfully!', 'success');
-  };
+  // Step 2
+  const handlePlantingAdded = () => {};
 
   const handleComplete = () => {
     toastNotify('Grow location setup completed!', 'success');
-    setCurrentStep(3);
+    handleSetCurrentStep(3);
+    localStorage.removeItem('nov-location-id');
+    localStorage.removeItem('nov-growlocation-step');
   };
 
   const renderStepContent = useMemo(() => {
@@ -132,7 +178,7 @@ export const GrowLocation = () => {
                 <GrowLocationModal
                   isOpen={isModalOpen}
                   onClose={() => setIsModalOpen(false)}
-                  onSubmit={handleModalSubmit}
+                  onSubmit={handleGrowLocationMapModalSubmit}
                   location={selectedLocation}
                   area={selectedArea}
                   points={selectedPoints}
@@ -160,8 +206,8 @@ export const GrowLocation = () => {
               </div>
 
               <AddPlanting
-                locationId={createdLocationId}
-                locationName={formData?.name || 'New Location'}
+                locationId={getGrowLocationId()}
+                locationName={fieldInfo?.name || 'New Location'}
                 onPlantingAdded={handlePlantingAdded}
               />
             </div>
@@ -171,7 +217,7 @@ export const GrowLocation = () => {
             <Result
               icon={<CheckCircleOutlined style={{ color: '#52c41a' }} />}
               title='Grow Location Created Successfully!'
-              subTitle={`Your new grow location "${formData?.name}" has been set up and is ready for use.`}
+              subTitle={`Your new grow location "${fieldInfo?.name}" has been set up and is ready for use.`}
               extra={[
                 <Button
                   type='primary'
@@ -183,7 +229,7 @@ export const GrowLocation = () => {
                 <Button
                   key='view'
                   onClick={() =>
-                    (window.location.href = `/app/crop/growLocation/${createdLocationId}`)
+                    (window.location.href = `/app/map?fieldId=${getGrowLocationId()}`)
                   }
                 >
                   View Location
@@ -205,11 +251,10 @@ export const GrowLocation = () => {
     selectedLocation,
     selectedArea,
     selectedPoints,
-    formData,
-    createdLocationId,
+    fieldInfo,
     isCreateGrowLocationLoading,
-    dataFarm, // Thêm dataFarm vào dependencies
-    isLoadingFarms, // Thêm isLoadingFarms vào dependencies
+    dataFarm,
+    isLoadingFarms,
   ]);
 
   return (

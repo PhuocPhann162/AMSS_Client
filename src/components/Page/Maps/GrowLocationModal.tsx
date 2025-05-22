@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Radio, Input, ColorPicker } from 'antd';
+import { Form, Input, ColorPicker } from 'antd';
 import { AInput, AModal, ASelect } from '@/common/ui-common';
 import { farmModel, locationModel, pointModel } from '@/interfaces';
 import * as turf from '@turf/turf';
@@ -15,14 +15,20 @@ interface GrowLocationModalProps {
   area: number;
   points: pointModel[];
   fieldName?: string;
-  farmsData?: farmModel[]; // Thêm prop farmsData
+  farmsData?: farmModel[];
 }
 
 interface GrowLocationFormState {
   name: string;
-  placeType: string;
   color: string;
+  farmId: string;
   growLocation: string;
+}
+
+export interface CreateGrowLocationFieldRequest extends GrowLocationFormState {
+  area: number;
+  location: locationModel;
+  points: pointModel[];
 }
 
 const GrowLocationModal: React.FC<GrowLocationModalProps> = ({
@@ -33,7 +39,7 @@ const GrowLocationModal: React.FC<GrowLocationModalProps> = ({
   area,
   points,
   fieldName,
-  farmsData = [], // Đặt giá trị mặc định là mảng rỗng
+  farmsData = [],
 }) => {
   const [form] = Form.useForm<GrowLocationFormState>();
 
@@ -41,8 +47,7 @@ const GrowLocationModal: React.FC<GrowLocationModalProps> = ({
     if (isOpen && location?.address) {
       form.setFieldsValue({
         growLocation: location.address,
-        color: '#4bc552', // Default color
-        placeType: 'bed',
+        color: '#4bc552',
       });
     }
   }, [isOpen, location, form]);
@@ -79,7 +84,6 @@ const GrowLocationModal: React.FC<GrowLocationModalProps> = ({
         initialValues={{
           name: fieldName,
           color: '#4bc552',
-          placeType: 'bed',
         }}
       >
         <Form.Item
