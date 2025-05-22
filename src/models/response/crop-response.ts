@@ -20,7 +20,8 @@ export interface CropResponse {
   expectedDate?: Date | string;
   quantity?: number;
   supplierId?: string;
-  imageUrl?: string;
+  cropTypeName?: string;
+  icon?: string;
 }
 
 export interface GetCropsRequest {
@@ -48,4 +49,13 @@ export interface PlantingModel {
   unit: string;
   status: 'planned' | 'planted' | 'growing' | 'harvested';
   notes?: string;
+}
+
+export interface AddPlatingCropsRequest {
+  cropId: string;
+  fieldId: string;
+  quantity: number;
+  notes: string;
+  status: string;
+  unit: string;
 }
