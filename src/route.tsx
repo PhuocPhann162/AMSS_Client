@@ -39,6 +39,7 @@ import { GrowLocation } from './pages/Crops/GrowLocation';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
+import { PaymentPage } from './pages/payment/payment-page';
 
 export interface Route {
   name: string;
@@ -78,6 +79,10 @@ const router = createBrowserRouter(
             {
               path: 'cart',
               element: <CartPage />,
+            },
+            {
+              path: 'payment',
+              element: <PaymentPage />,
             },
           ],
         },

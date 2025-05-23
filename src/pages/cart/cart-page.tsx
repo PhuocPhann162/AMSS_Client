@@ -59,9 +59,22 @@ export const CartPage = () => {
             ))}
           </div>
         ) : (
-          <AButton type='primary' onClick={() => navigate('/store')}>
-            Continue Shopping
-          </AButton>
+          <div className='grid grid-cols-2 gap-2'>
+            <AButton
+              variant='solid'
+              color='default'
+              onClick={() => navigate('/store')}
+            >
+              Continue Shopping
+            </AButton>
+            <AButton
+              variant='solid'
+              color='cyan'
+              onClick={() => navigate('/store/payment')}
+            >
+              Looks Good? Place Order!
+            </AButton>
+          </div>
         ))}
     </div>
   );
