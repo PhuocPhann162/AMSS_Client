@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  CardElement,
+  useStripe,
+  useElements,
+  PaymentElement,
+} from '@stripe/react-stripe-js';
 import { FaLock, FaCreditCard, FaShieldAlt } from 'react-icons/fa';
 
 interface PaymentFormProps {
@@ -66,6 +71,8 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
       </div>
 
       <form onSubmit={handleSubmit} className='space-y-6'>
+        <PaymentElement />
+
         <div className='space-y-4'>
           <div className='rounded-lg bg-gray-50 p-4'>
             <CardElement
@@ -103,7 +110,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
           <div className='mb-4 flex items-center justify-between'>
             <span className='text-gray-600'>Total Amount:</span>
             <span className='text-xl font-semibold text-gray-900'>
-              ${data.total.toFixed(2)}
+              ${data?.total?.toFixed(2)}
             </span>
           </div>
 
@@ -124,7 +131,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
             ) : (
               <>
                 <FaShieldAlt />
-                Pay ${data.total.toFixed(2)}
+                Pay ${data?.total?.toFixed(2)}
               </>
             )}
           </button>

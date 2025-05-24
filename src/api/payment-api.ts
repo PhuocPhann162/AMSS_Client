@@ -1,4 +1,5 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
+import { ApiResponse } from '@/interfaces';
 
 export interface CartItemDto {
   id: string;
@@ -8,7 +9,6 @@ export interface CartItemDto {
   quantity: number;
   imageUrl?: string;
 }
-
 export interface MakePaymentResponse {
   id: string;
   userId: string;
@@ -19,17 +19,19 @@ export interface MakePaymentResponse {
   stripePaymentIntentId: string;
   clientSecret: string;
 }
+export type MakePaymentApiResponse = ApiResponse<MakePaymentResponse>;
 
 export const paymentApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({
-    makePayment: build.mutation<MakePaymentResponse, void>({
+    makePayment: build.mutation<MakePaymentApiResponse, void>({
       query: () => ({
         url: 'payment',
         method: 'POST',
       }),
-      transformResponse(apiResponse: MakePaymentResponse) {
+      transformResponse(apiResponse: MakePaymentApiResponse) {
         return {
           ...apiResponse,
+          result: apiResponse.result,
         };
       },
       invalidatesTags: [TAG_TYPES.Payment],

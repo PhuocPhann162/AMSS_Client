@@ -24,7 +24,7 @@ export function PaymentPage() {
     const initializePayment = async () => {
       try {
         const response = await initialPayment();
-        setPaymentData(response.data);
+        setPaymentData(response.data?.result);
       } catch (error) {
         console.error('Failed to initialize payment:', error);
       } finally {
@@ -53,18 +53,15 @@ export function PaymentPage() {
   return (
     <Elements stripe={stripePromise} options={options}>
       <div className='container m-5 p-5'>
-        <div className='row'>
+        <div className='grid grid-cols-2 gap-5'>
           <div className='col-md-7'>
             <OrderSummary data={paymentData} userInput={userInput} />
           </div>
           <div className='col-md-4 offset-md-1'>
-            <h3 className='text-success'>Payment</h3>
-            <div className='mt-5'>
-              <PaymentForm
-                data={{ total: paymentData.cartTotal }}
-                userInput={userInput}
-              />
-            </div>
+            <PaymentForm
+              data={{ total: paymentData.cartTotal }}
+              userInput={userInput}
+            />
           </div>
         </div>
       </div>
