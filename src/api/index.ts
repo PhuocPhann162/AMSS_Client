@@ -11,3 +11,4 @@ export * from './polygonApi';
 export * from './socialMetricApi';
 export * from './supplierApi';
 export * from './userApi';
+export * from './payment-api';

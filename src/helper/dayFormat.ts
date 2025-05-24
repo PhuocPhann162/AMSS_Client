@@ -37,9 +37,7 @@ export const formatInputDateToISOString = (
   dateTime: DateTimeType,
 ): string | number | Date => dayjsUTC(dateTime).toISOString();
 
-export const formatLocalDate = (
-  dateTime: DateTimeType,
-): string | number | Date => {
+export const formatLocalDate = (dateTime: DateTimeType): string => {
   if (!dateTime) return '';
   return dayjsUTC(dateTime).local().format('YYYY-MM-DD');
 };
