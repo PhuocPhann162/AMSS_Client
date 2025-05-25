@@ -1,3 +1,4 @@
+import { Footer } from '@/components/layout/footer/footer';
 import { HeaderPage } from '@/components/layout/header';
 import { AppSidebar } from '@/components/layout/sidebar';
 import { SidebarProvider } from '@/components/ui/Sidebar';
@@ -21,12 +22,11 @@ export const HomeLayout = () => {
           }}
         />
       )}
-      <div className='relative flex flex-col'>
-        <HeaderPage />
-        <main className='p-6'>
-          <Outlet />
-        </main>
-      </div>
+      <HeaderPage />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </SidebarProvider>
   );
 };

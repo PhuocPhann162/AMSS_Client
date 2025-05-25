@@ -75,7 +75,7 @@
   }
 
   body {
-    @apply relative bg-white font-satoshi text-abbey-950;
+    @apply relative bg-white font-satoshi text-gray-900;
   }
 
   :root {

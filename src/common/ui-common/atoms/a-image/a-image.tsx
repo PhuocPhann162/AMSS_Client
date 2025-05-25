@@ -1,7 +1,8 @@
+import { cn } from '@/lib/utils';
 import Image, { type ImageProps } from 'antd/es/image';
-import { type FC } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AImageProps extends ImageProps {}
+export type AImageProps = ImageProps;
 
-export const AImage: FC<AImageProps> = ({ ...props }) => <Image {...props} />;
+export const AImage = (props: AImageProps) => (
+  <Image {...props} className={cn('object-cover', props.className)} />
+);

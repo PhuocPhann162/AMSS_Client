@@ -1,4 +1,5 @@
 import { AButton } from '@/common/ui-common';
+import { ContainerIgnoreHeader } from '@/components/layout/content/container-ignore-header';
 import { Hero } from '@/components/Page/HomePage';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { Link } from 'react-router-dom';
@@ -7,7 +8,7 @@ export default function HomePage() {
   const userState = useAppSelector((state) => state.auth.user);
 
   return (
-    <div className='flex max-w-full flex-col'>
+    <ContainerIgnoreHeader className='flex max-w-full flex-col'>
       <section className='relative p-12'>
         <img
           src='/homeLanding.png'
@@ -34,7 +35,6 @@ export default function HomePage() {
       <div className='bg-white'>
         <Hero />
       </div>
-      {/* <Footer /> */}
-    </div>
+    </ContainerIgnoreHeader>
   );
 }

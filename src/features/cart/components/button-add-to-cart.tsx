@@ -2,14 +2,20 @@ import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
 import { AButton } from '@/common/ui-common';
 import { useAuthenticationAction } from '@/features/auth/hooks/use-authentication-action';
 import type { CartItem } from '@/interfaces/cart/cart-item';
+import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined';
 import type { ReactNode } from 'react';
 
 export interface ButtonAddToCartProps {
   id: CartItem['commodityId'];
+  quantity?: CartItem['quantity'];
   children?: ReactNode;
 }
 
-export const ButtonAddToCart = ({ id, children }: ButtonAddToCartProps) => {
+export const ButtonAddToCart = ({
+  id,
+  quantity = 1,
+  children,
+}: ButtonAddToCartProps) => {
   const [addUpdateCartItem, addUpdateCartItemResult] =
     useAddUpdateCartItemMutation();
   const getCart = useGetCartQuery();
@@ -24,7 +30,7 @@ export const ButtonAddToCart = ({ id, children }: ButtonAddToCartProps) => {
       const handle = handleAction(async () => {
         await addUpdateCartItem({
           id,
-          quantity: cartItem ? cartItem.quantity + 1 : 1,
+          quantity: cartItem ? cartItem.quantity + quantity : quantity,
         });
       });
 
@@ -40,6 +46,7 @@ export const ButtonAddToCart = ({ id, children }: ButtonAddToCartProps) => {
       disabled={getCart.isFetching}
       loading={addUpdateCartItemResult.isLoading}
       onClick={handleClick}
+      icon={<PlusCircleOutlined />}
     >
       {children}
     </AButton>

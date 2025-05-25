@@ -7,7 +7,7 @@ export interface Commodity {
   id: string;
   name: string;
   description: string;
-  specialTag: string;
+  specialTag?: string;
   category: CommodityCategory;
   price: number;
   image: string;

@@ -1,12 +1,11 @@
-import { type GetRef } from 'antd/es/_util/type';
-import Avatar, { type AvatarProps } from 'antd/es/avatar';
+import type { GetRef } from 'antd/es/_util/type';
+import type { AvatarProps } from 'antd/es/avatar';
+import Avatar from 'antd/es/avatar';
 import { forwardRef } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AAvatarProps extends AvatarProps {}
+export type AAvatarProps = AvatarProps;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AAvatarRef extends GetRef<typeof Avatar> {}
+export type AAvatarRef = GetRef<typeof Avatar>;
 
 export const AAvatar = forwardRef<AAvatarRef, AAvatarProps>((props, ref) => (
   <Avatar ref={ref} {...props} />
