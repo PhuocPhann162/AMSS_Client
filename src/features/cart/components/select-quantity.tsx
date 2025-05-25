@@ -33,8 +33,8 @@ export const SelectQuantity = ({ id, ...props }: SelectQuantityProps) => {
           }
 
           await addUpdateCartItem({
-            id: cartItem.commodityId,
-            quantity: value as number,
+            commodityId: cartItem.commodityId,
+            updateQuantityBy: value as number,
           });
         } catch (error) {
           console.error(error);

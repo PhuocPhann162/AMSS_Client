@@ -25,7 +25,7 @@ export const CardStore = ({ commodity }: CardStoreProps) => {
       <AImage
         src={commodity.image}
         preview={false}
-        rootClassName='aspect-square'
+        rootClassName='aspect-square rounded-xl overflow-hidden'
       />
       <div className='flex flex-col gap-1'>
         <p className='text-xl font-medium'>{commodity.name}</p>

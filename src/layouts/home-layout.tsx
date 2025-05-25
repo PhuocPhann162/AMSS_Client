@@ -10,7 +10,7 @@ export const HomeLayout = () => {
   const isMobile = useIsMobile();
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className='flex flex-col'>
       {!!isMobile && (
         <AppSidebar
           content={{
@@ -23,7 +23,7 @@ export const HomeLayout = () => {
         />
       )}
       <HeaderPage />
-      <main>
+      <main className='grow'>
         <Outlet />
       </main>
       <Footer />
