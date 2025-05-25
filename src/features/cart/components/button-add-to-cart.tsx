@@ -36,8 +36,8 @@ export const ButtonAddToCart = ({
     try {
       const handle = handleAction(async () => {
         await addUpdateCartItem({
-          id,
-          quantity: cartItem ? cartItem.quantity + quantity : quantity,
+          commodityId: id,
+          updateQuantityBy: cartItem ? cartItem.quantity + quantity : quantity,
         });
       });
 

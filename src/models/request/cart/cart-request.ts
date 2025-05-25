@@ -2,8 +2,8 @@ import type { Commodity } from '@/interfaces';
 import type { CartItem } from '@/interfaces/cart/cart-item';
 
 export interface AddUpdateCartItemRequest {
-  id: Commodity['id'];
-  quantity?: CartItem['quantity'];
+  commodityId: Commodity['id'];
+  updateQuantityBy: CartItem['quantity'];
 }
 
 export interface ApplyCouponRequest {
