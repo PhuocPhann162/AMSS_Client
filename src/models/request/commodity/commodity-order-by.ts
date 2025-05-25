@@ -1,8 +1,10 @@
 import { Commodity } from '@/interfaces';
 
 export const COMMODITY_ORDER_BY = {
-  price: 'Price',
-  createdAt: 'CreatedAt',
+  price: 'price',
+  createdAt: 'createdAt',
+  name: 'name',
+  expirationDate: 'expirationDate',
 } as const satisfies Partial<Record<keyof Commodity, string>>;
 
 export type CommodityOrderBy =
