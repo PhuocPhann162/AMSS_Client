@@ -1,12 +1,18 @@
 import { DescriptionsProps } from 'antd';
 import { format } from 'date-fns';
 import { ATag } from '@/common/ui-common';
-import { farmModel, fieldModel, locationModel } from '@/interfaces';
+import {
+  CommodityCategory,
+  CommodityStatus,
+  farmModel,
+  fieldModel,
+  locationModel,
+} from '@/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
-import getStatusColor from './getStatusColor';
-import { GetSuppliersResponse } from '@/models';
 import { supplierModel } from '@/interfaces/supplierModel';
 import { CropResponse } from '@/models/response/crop-response';
+import { FilterOpstion } from '@/common/ui-common/atoms/a-table/filter-dropdown';
+import { getStatusColor } from './getStatusColor';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {
   return [
@@ -266,3 +272,50 @@ export const cropDescriptionItems = (crop: CropResponse) => {
     },
   ];
 };
+
+export const COMMODITIES_CATEGORY_SEGMENTED = [
+  { label: 'All', value: '' },
+  {
+    label: 'Vegetable',
+    value: CommodityCategory.Vegetable,
+  },
+  {
+    label: 'Fruit',
+    value: CommodityCategory.Fruit,
+  },
+  {
+    label: 'Grain',
+    value: CommodityCategory.Grain,
+  },
+  {
+    label: 'Seed',
+    value: CommodityCategory.Seed,
+  },
+];
+
+export const COMMODITY_STATUS_FILTER: FilterOpstion[] = [
+  {
+    title: 'Active',
+    key: CommodityStatus.Active,
+  },
+  {
+    title: 'Coming Soon',
+    key: CommodityStatus.ComingSoon,
+  },
+  {
+    title: 'Discontinued',
+    key: CommodityStatus.Discontinued,
+  },
+  {
+    title: 'Limited',
+    key: CommodityStatus.Limited,
+  },
+  {
+    title: 'Out Of Stock',
+    key: CommodityStatus.OutOfStock,
+  },
+  {
+    title: 'Pre-Order',
+    key: CommodityStatus.PreOrder,
+  },
+];

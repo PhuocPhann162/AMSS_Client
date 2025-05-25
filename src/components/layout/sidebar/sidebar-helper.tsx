@@ -63,6 +63,20 @@ export const sidebarOptions: Item[] = [
           },
         ],
       },
+      {
+        label: 'Market',
+        icon: <ShopOutlined className='size-4' />,
+        children: [
+          {
+            label: 'Online Store',
+            path: '/app/market/onlineStore',
+          },
+          {
+            path: '/app/commodity/managment',
+            label: 'Products',
+          },
+        ],
+      },
     ],
   },
   {
@@ -92,20 +106,7 @@ export const sidebarOptions: Item[] = [
       },
     ],
   },
-  {
-    label: 'Market',
-    icon: <ShopOutlined className='size-4' />,
-    children: [
-      {
-        label: 'Online Store',
-        path: '/app/market/onlineStore',
-      },
-      {
-        path: '/app/commodity/managment',
-        label: 'Products',
-      },
-    ],
-  },
+
   {
     label: 'Account',
     isGroup: true,
