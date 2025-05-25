@@ -1,5 +1,6 @@
 import { useAuthGetCartQuery } from '@/api/cart-api';
 import { AButton, ADrawer, AImage } from '@/common/ui-common';
+import { ButtonContinueShopping } from '@/features/cart/components/button-continue-shopping';
 import { formatUsd } from '@/utils/number/format-usd';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,7 +20,9 @@ export const DrawerCart = ({
 }: DrawerCart) => {
   const navigate = useNavigate();
 
-  const getCart = useAuthGetCartQuery();
+  const getCart = useAuthGetCartQuery(undefined, {
+    skip: !open,
+  });
 
   const cart = getCart.currentData?.result;
 
@@ -30,29 +33,36 @@ export const DrawerCart = ({
       destroyOnClose
       title='Cart'
       footer={
-        <div className='flex flex-col gap-4'>
-          <div className='flex items-center justify-between'>
-            <p className='text-lg font-medium'>Total</p>
-            <p className='text-xl font-bold'>
-              {formatUsd(cart?.cartTotal ?? 0)}
-            </p>
-          </div>
-          <AButton
-            type='primary'
-            icon={<CheckOutlined />}
-            onClick={() => {
-              onNavigateCartPage?.();
+        cart?.cartItems?.length ? (
+          <div className='flex flex-col gap-4'>
+            <div className='flex items-center justify-between'>
+              <p className='text-lg font-medium'>Total</p>
+              <p className='text-xl font-bold'>
+                {formatUsd(cart?.cartTotal ?? 0)}
+              </p>
+            </div>
+            <AButton
+              type='primary'
+              icon={<CheckOutlined />}
+              onClick={() => {
+                onNavigateCartPage?.();
 
-              navigate('/store/cart');
-            }}
-          >
-            Checkout
-          </AButton>
-        </div>
+                navigate('/store/cart');
+              }}
+            >
+              Checkout
+            </AButton>
+          </div>
+        ) : undefined
       }
     >
-      {!cart?.cartItems?.length && (
-        <p className='text-2xl font-bold'>Cart is empty</p>
+      {!cart?.cartItems?.length && !getCart.isFetching && (
+        <div className='flex flex-col gap-4'>
+          <p className='text-lg font-medium'>
+            Looks like you haven’t added anything yet, let’s get you started!
+          </p>
+          <ButtonContinueShopping onClick={onCancel} />
+        </div>
       )}
 
       {!!cart?.cartItems?.length && (

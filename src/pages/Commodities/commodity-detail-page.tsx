@@ -1,16 +1,13 @@
 import { useGetCommodityByIdQuery } from '@/api';
-import { ACardV2, ADivider, AImage, AQRCode, ATag } from '@/common/ui-common';
+import { ACardV2, ADivider, AImage, AQRCode } from '@/common/ui-common';
 import { ButtonAddToCart } from '@/features/cart/components/button-add-to-cart';
 import { QuantitySelector } from '@/features/cart/components/quantity-selector';
 import { TagCommodityCategory } from '@/features/commodity/components/tag-commodity-category';
 import { TagCommodityStatus } from '@/features/commodity/components/tag-commodity-status';
-import {
-  CommodityCategory,
-  CommodityStatus,
-  type Commodity,
-} from '@/interfaces';
+import { type Commodity } from '@/interfaces';
 import { formatUsd } from '@/utils/number/format-usd';
 import Collapse from 'antd/es/collapse';
+import { format } from 'date-fns';
 import React, { Fragment, useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -21,26 +18,7 @@ export const CommodityDetailPage = () => {
 
   const getCommodityById = useGetCommodityByIdQuery({ id: id ?? '' });
 
-  const data: Commodity =
-    getCommodityById.isSuccess && getCommodityById.currentData?.result
-      ? getCommodityById.currentData?.result
-      : {
-          id: 'c001',
-          name: 'Organic Rice',
-          description:
-            'Premium quality organic rice harvested from sustainable farms',
-          specialTag: 'organic',
-          category: CommodityCategory.Fruit,
-          price: 25.99,
-          image:
-            'https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-pro-model-unselect-gallery-1-202409_FMT_WHH?wid=1280&hei=492&fmt=webp&qlt=70&.v=aWs5czA5aDFXU0FlMGFGRlpYRXk2UWFRQXQ2R0JQTk5udUZxTkR3ZVlpTDBZWFRnV2wyTWZmOFczZysrOWJqeHVqay8zY0s4VHBsVmhRS2dCdnNPUGdtMENMdTZ6TWdSdXpYdHhkNkZjdVplNnlubXUzVTRJNEhLeHRadGtMWmNZWVlGTFd2cmdyUGlFSmo4RXNqbUV3&traceId=1',
-          expirationDate: '2024-12-31',
-          status: CommodityStatus.Active,
-          supplierId: 's12345',
-          cropId: 'cr789',
-          createdAt: '2023-01-15T08:30:00Z',
-          updatedAt: '2023-01-15T08:30:00Z',
-        };
+  const data = getCommodityById.currentData?.result;
 
   const infoItems: {
     label: ReactNode;
@@ -62,25 +40,24 @@ export const CommodityDetailPage = () => {
     },
   ];
 
+  if (!data) {
+    return undefined;
+  }
+
   return (
-    <div className='relative min-h-screen'>
+    <div className='relative'>
       <AImage
         src={data.image}
         preview={false}
         rootClassName='top-0 sticky h-screen -mt-[100vh] block'
         className='[&.ant-image-img]:h-full'
       />
-      <div className='flex min-h-screen flex-col-reverse items-center justify-between gap-6 px-4 pb-4 pt-[10%] md:flex-row md:items-start'>
+      <div className='flex min-h-screen flex-col-reverse items-center justify-between gap-6 px-6 pb-6 pt-[55vh] md:flex-row md:items-start'>
         <CustomCard>
           <AQRCode value={'https://www.facebook.com/'} />
         </CustomCard>
-        <div className='flex w-96 flex-col gap-4'>
+        <div className='flex w-96 max-w-full flex-col gap-4'>
           <CustomCard>
-            {data.specialTag && (
-              <ATag color='blue' bordered>
-                {data.specialTag}
-              </ATag>
-            )}
             <div className='flex flex-col gap-1'>
               <h3 className='text-2xl font-medium md:text-4xl'>{data.name}</h3>
               <p className='text-xl font-bold'>{formatUsd(data.price)}</p>
@@ -111,9 +88,7 @@ export const CommodityDetailPage = () => {
                 onChange={setQuantity}
               />
             </div>
-            <ButtonAddToCart id={data.id} quantity={quantity}>
-              Add To Cart
-            </ButtonAddToCart>
+            <ButtonAddToCart id={data.id} quantity={quantity} />
           </CustomCard>
           <CustomCard>
             <Collapse
@@ -125,7 +100,9 @@ export const CommodityDetailPage = () => {
                     <div className='flex flex-col gap-2'>
                       <p>
                         <span className='font-medium'>Expiration Date:</span>{' '}
-                        {data.expirationDate}
+                        {data.expirationDate
+                          ? format(new Date(data.expirationDate), 'dd/MM/yyyy')
+                          : 'N/A'}
                       </p>
                       <p>{data.description}</p>
                     </div>
