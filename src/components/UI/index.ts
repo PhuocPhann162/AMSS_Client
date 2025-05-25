@@ -5,5 +5,8 @@ import { MyDoughnut } from './Chart/AverageAirPollution';
 import StarRating from './Review/StarRating';
 
 export * from './search-input';
+export * from './tag';
+export * from './modal';
+export * from './';
 
 export { Breadcrumb, PageTitle, TableTwo, MyDoughnut, StarRating };
