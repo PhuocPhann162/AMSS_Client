@@ -1,5 +1,6 @@
-import { useGetCartQuery } from '@/api/cart-api';
+import { useAuthGetCartQuery } from '@/api/cart-api';
 import { AButton, ADrawer, AImage } from '@/common/ui-common';
+import { formatUsd } from '@/utils/number/format-usd';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -18,7 +19,7 @@ export const DrawerCart = ({
 }: DrawerCart) => {
   const navigate = useNavigate();
 
-  const getCart = useGetCartQuery();
+  const getCart = useAuthGetCartQuery();
 
   const cart = getCart.currentData?.result;
 
@@ -31,8 +32,10 @@ export const DrawerCart = ({
       footer={
         <div className='flex flex-col gap-4'>
           <div className='flex items-center justify-between'>
-            <p className='font-bold'>Total</p>
-            <p className='text-xl font-bold'>{cart?.cartTotal ?? 0}</p>
+            <p className='text-lg font-medium'>Total</p>
+            <p className='text-xl font-bold'>
+              {formatUsd(cart?.cartTotal ?? 0)}
+            </p>
           </div>
           <AButton
             type='primary'

@@ -4,6 +4,7 @@ import type {
   ApplyCouponRequest,
 } from '@/models/request/cart/cart-request';
 import type { GetCartResponse } from '@/models/response/cart/cart-response';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 
 export const cartApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -35,3 +36,12 @@ export const {
   useAddUpdateCartItemMutation,
   useApplyCouponMutation,
 } = cartApi;
+
+export const useAuthGetCartQuery: typeof useGetCartQuery = (args, opts) => {
+  const authState = useAppSelector((state) => state.auth);
+
+  return useGetCartQuery(args, {
+    skip: !authState.accessToken,
+    ...opts,
+  });
+};

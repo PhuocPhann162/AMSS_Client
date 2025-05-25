@@ -22,7 +22,7 @@ export const HeaderPage = () => {
       <HeaderUnderOverlay
         enableHiding
         classNames={{
-          root: 'sticky inset-x-0 top-0 z-50',
+          root: 'fixed inset-x-0 top-0 z-50',
           header: 'flex h-[--navbar-height] items-center justify-between px-6',
         }}
       >
@@ -35,7 +35,7 @@ export const HeaderPage = () => {
                 key={index}
                 to={route.path || ''}
                 className={({ isActive }) =>
-                  `font-medium uppercase text-abbey-800 transition-colors duration-300 hover:text-abbey-950 ${isActive ? 'text-abbey-950' : ''}`
+                  `font-medium uppercase text-gray-800 transition-colors duration-300 hover:text-gray-900 ${isActive ? 'text-gray-900' : ''}`
                 }
               >
                 {route.label}

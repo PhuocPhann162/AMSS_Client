@@ -7,8 +7,7 @@ export const themeConfig: ThemeConfig = {
     colorLink: colors['green-haze'][500],
     borderRadius: 8,
     fontSize: 14,
-    motionDurationSlow: '0.2s',
-    colorTextBase: colors['abbey'][950],
+    motionDurationMid: '0.3s',
   },
   components: {
     Table: {

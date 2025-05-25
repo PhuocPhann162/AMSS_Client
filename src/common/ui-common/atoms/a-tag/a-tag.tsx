@@ -3,23 +3,19 @@ import { type GetRef } from 'antd/es/_util/type';
 import Tag, { type TagProps } from 'antd/es/tag';
 import { forwardRef } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ATagProps extends TagProps {}
+export type ATagProps = TagProps;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ATagRef extends GetRef<typeof Tag> {}
+export type ATagRef = GetRef<typeof Tag>;
 
 export const ATag = forwardRef<ATagRef, ATagProps>(
-  ({ children, className, bordered = false, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     return (
       <Tag
         ref={ref}
-        bordered={bordered}
-        className={cn('px-3 py-1', className)}
+        bordered={false}
+        className={cn('max-w-fit px-3 py-1 font-bold', className)}
         {...props}
-      >
-        <span className='font-bold'>{children}</span>
-      </Tag>
+      />
     );
   },
 );
