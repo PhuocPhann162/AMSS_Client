@@ -1,11 +1,30 @@
 import { useEffect, useState } from 'react';
 import { AButton, AInput, AModal, ASelect } from '@/common/ui-common';
-import { cropModel } from '@/interfaces';
 import { SearchIcon } from '@/components/Icon';
 import { motion } from 'framer-motion';
 import { Spin, Tooltip } from 'antd';
 import { toastNotify } from '@/helper';
 import { useGetAllCropTypesQuery } from '@/api';
+
+// Define types for cropType and cropModel
+interface CropType {
+  type: string;
+}
+
+export interface CropModel {
+  id: string;
+  name: string;
+  description?: string;
+  icon?: string;
+  cropType?: CropType;
+}
+
+interface GetAllCropTypesResponse {
+  apiResponse: {
+    result: CropModel[];
+  };
+  totalRecords: any;
+}
 
 interface NewPlantedFieldCropModalProps {
   fieldId: string;
@@ -20,23 +39,26 @@ export const NewPlantedFieldCropModal = ({
   setIsOpen,
   onPlantCrop,
 }: NewPlantedFieldCropModalProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCropType, setSelectedCropType] = useState<string>('');
   const [selectedCrop, setSelectedCrop] = useState<string>('');
-  const { data, isLoading } = useGetAllCropTypesQuery('');
-  const [filteredCrops, setFilteredCrops] = useState<cropModel[]>([]);
+  const { data, isLoading } = useGetAllCropTypesQuery('', {
+    selectFromResult: (result) =>
+      result as { data?: GetAllCropTypesResponse; isLoading: boolean },
+  });
+  const [filteredCrops, setFilteredCrops] = useState<CropModel[]>([]);
   const [cropTypes, setCropTypes] = useState<string[]>([]);
 
   useEffect(() => {
-    if (data?.result) {
+    if (data?.apiResponse?.result) {
       // Extract unique crop types
       const types = [
-        ...new Set(data.result.map((crop) => crop.cropType?.type)),
+        ...new Set(data.apiResponse.result.map((crop) => crop.cropType?.type)),
       ].filter(Boolean) as string[];
       setCropTypes(types);
 
       // Apply filters
-      let filtered = [...data.result];
+      let filtered = [...data.apiResponse.result];
 
       if (searchTerm) {
         filtered = filtered.filter((crop) =>
@@ -51,6 +73,9 @@ export const NewPlantedFieldCropModal = ({
       }
 
       setFilteredCrops(filtered);
+    } else {
+      setFilteredCrops([]);
+      setCropTypes([]);
     }
   }, [data, searchTerm, selectedCropType]);
 
@@ -119,7 +144,7 @@ export const NewPlantedFieldCropModal = ({
             <ASelect
               placeholder='Filter by type'
               value={selectedCropType}
-              onChange={(value) => setSelectedCropType(value)}
+              onChange={(value) => setSelectedCropType(value as string)}
               allowClear
               options={cropTypes.map((type) => ({ label: type, value: type }))}
             />
@@ -148,7 +173,7 @@ export const NewPlantedFieldCropModal = ({
                       ? 'border-cyan-600 bg-cyan-50'
                       : 'border-gray-200 hover:border-cyan-300'
                   }`}
-                  onClick={() => setSelectedCrop(crop.id)}
+                  onClick={() => setSelectedCrop(crop.id || '')}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
