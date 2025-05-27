@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllFieldsQuery } from '@/api';
 import { Pagination } from '@/common';
-import { AButton, ATag } from '@/common/ui-common';
+import { AButton, ATag, AModal, ADescriptions } from '@/common/ui-common';
 import {
   CreateIcon,
   EditTableIcon,
@@ -17,6 +17,8 @@ import { Breadcrumb } from '@/components/UI';
 import { getStatusColor, inputHelper } from '@/helper';
 import { fieldModel, pageOptions } from '@/interfaces';
 import { SD_FieldStatus } from '@/utils/SD';
+import { FaEye } from 'react-icons/fa';
+import { fieldEditDescriptionItems } from '@/helper/descriptionItems';
 
 const filterOptions = [
   'View all',
@@ -45,6 +47,8 @@ export const FieldList = () => {
   });
   const [currentPageSize, setCurrentPageSize] = useState(pageOptions.pageSize);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedField, setSelectedField] = useState<fieldModel | null>(null);
   // End State
 
   const [debouncedFilter] = useDebounce(filters, 500);
@@ -65,6 +69,7 @@ export const FieldList = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setfieldList(data.apiResponse.result);
       const { TotalRecords } = JSON.parse(data.totalRecords);
       setTotalRecords(TotalRecords);
@@ -78,6 +83,28 @@ export const FieldList = () => {
   return (
     <div>
       {isLoading && <MainLoader />}
+
+      {/* Modal hiển thị chi tiết field */}
+      <AModal
+        open={isModalOpen}
+        onCancel={() => {
+          setIsModalOpen(false);
+          setSelectedField(null);
+        }}
+        title='Field Details'
+        footer={null}
+        width={'60rem'}
+        style={{ top: 20 }}
+      >
+        {selectedField && (
+          <ADescriptions
+            colon
+            bordered
+            items={fieldEditDescriptionItems(selectedField)}
+          />
+        )}
+      </AModal>
+      {/* End Modal */}
 
       {!isLoading && (
         <>
@@ -101,13 +128,10 @@ export const FieldList = () => {
               </div>
 
               <div className='mt-4 flex items-center gap-x-3'>
-                <Link
-                  to='/app/map'
-                  className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-5 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
-                >
+                <AButton type='primary' onClick={() => navigate('/app/map')}>
                   <CreateIcon />
                   <span>New field</span>
-                </Link>
+                </AButton>
               </div>
             </div>
 
@@ -156,6 +180,12 @@ export const FieldList = () => {
                             scope='col'
                             className='px-4 py-3.5 text-left text-sm font-semibold rtl:text-right'
                           >
+                            Internal ID
+                          </th>
+                          <th
+                            scope='col'
+                            className='px-4 py-3.5 text-left text-sm font-semibold rtl:text-right'
+                          >
                             <button className='flex items-center gap-x-3 focus:outline-none'>
                               <span>Name</span>
 
@@ -199,6 +229,13 @@ export const FieldList = () => {
                               <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
                                 <div>
                                   <h2 className='font-medium text-gray-800'>
+                                    {field.internalId}
+                                  </h2>
+                                </div>
+                              </td>
+                              <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
+                                <div>
+                                  <h2 className='font-medium text-gray-800'>
                                     {field.name}
                                   </h2>
                                 </div>
@@ -236,9 +273,28 @@ export const FieldList = () => {
                                 </div>
                               </td>
                               <td className='whitespace-nowrap px-4 py-4 text-sm font-medium'>
-                                <div className='flex items-center gap-2'>
+                                <div className='flex items-center'>
                                   <AButton
-                                    type='link'
+                                    variant='link'
+                                    color='default'
+                                    aria-label='View field details'
+                                    tabIndex={0}
+                                    onClick={() => {
+                                      setSelectedField(field);
+                                      setIsModalOpen(true);
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter' || e.key === ' ') {
+                                        setSelectedField(field);
+                                        setIsModalOpen(true);
+                                      }
+                                    }}
+                                  >
+                                    <FaEye size={16} />
+                                  </AButton>
+                                  <AButton
+                                    variant='link'
+                                    color='default'
                                     onClick={() =>
                                       navigate(
                                         `/app/land/field/updateField/${field.id}`,

@@ -131,16 +131,21 @@ export const fieldEditDescriptionItems = (fieldValue?: fieldModel) => {
   const items: DescriptionsProps['items'] = [
     {
       key: '1',
+      label: 'Internal ID',
+      children: fieldValue?.internalId,
+    },
+    {
+      key: '2',
       label: 'Name',
       children: fieldValue?.name,
     },
     {
-      key: '2',
+      key: '3',
       label: 'Farm Name',
       children: fieldValue?.farm?.name,
     },
     {
-      key: '3',
+      key: '4',
       label: 'Total Area',
       children:
         fieldValue?.area !== undefined
@@ -148,17 +153,37 @@ export const fieldEditDescriptionItems = (fieldValue?: fieldModel) => {
           : 'N/A',
     },
     {
-      key: '4',
+      key: '5',
       label: 'Location',
       children: fieldValue?.location?.address,
     },
     {
-      key: '5',
-      label: 'Owner Name',
-      children: fieldValue?.farm?.ownerName,
+      key: '6',
+      label: 'Planting Format',
+      children: fieldValue?.plantingFormat || 'N/A',
     },
     {
-      key: '6',
+      key: '7',
+      label: 'Location Type',
+      children: fieldValue?.locationType || 'N/A',
+    },
+    {
+      key: '8',
+      label: 'Light Profile',
+      children: fieldValue?.lightProfile || 'N/A',
+    },
+    {
+      key: '9',
+      label: 'Grazing Rest Days',
+      children: fieldValue?.grazingRestDays || 'N/A',
+    },
+    {
+      key: '10',
+      label: 'Owner Name',
+      children: fieldValue?.farm?.ownerName || 'N/A',
+    },
+    {
+      key: '11',
       label: 'Created Date',
       children: formatDateSafely(fieldValue?.createdAt ?? ''),
     },

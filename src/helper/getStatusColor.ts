@@ -4,7 +4,7 @@ import { SD_FieldStatus } from '@/utils/SD';
 export const getStatusColor = (status: string) => {
   switch (status) {
     case SD_FieldStatus.IDLE.toString():
-      return 'green';
+      return 'default';
     case SD_FieldStatus.PLANTED.toString():
       return 'green';
     case SD_FieldStatus.NEEDS_CARE.toString():

@@ -37,10 +37,11 @@ import {
 } from './pages';
 import { CommodityManagement } from './pages/Commodities/CommodityManagement';
 import { GrowLocation } from './pages/Crops/GrowLocation';
-import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
+import { PaymentPage } from './pages/payment/payment-page';
+import { CreateCommodity } from './pages/Commodities/CreateCommodity';
 
 export interface Route {
   name: string;
@@ -255,6 +256,10 @@ const router = createBrowserRouter(
             {
               path: 'managment',
               element: <CommodityManagement />,
+            },
+            {
+              path: 'create',
+              element: <CreateCommodity />,
             },
           ],
         },

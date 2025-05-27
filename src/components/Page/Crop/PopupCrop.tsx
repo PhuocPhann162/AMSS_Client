@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import { getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
 import { useGetCropsByFieldIdQuery } from '@/api';
-import { MiniLoader } from '../common';
 import { fieldCropModel } from '@/interfaces';
 import { PlusOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import { AModal } from '@/common/ui-common';
 import { NewPlantedFieldCropModal } from '@/components/UI/modal/new-planted-field-crop-modal';
 
 interface PopupCropProps {
