@@ -9,7 +9,6 @@ import {
 } from '@/common/ui-common';
 import { ContainerIgnoreHeader } from '@/components/layout/content/container-ignore-header';
 import { CardStore } from '@/features/commodity/components/card-store';
-import { Commodity, CommodityStatus } from '@/interfaces';
 import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
 import {
   COMMODITY_ORDER_BY,
@@ -17,6 +16,7 @@ import {
   ListSortDirection,
 } from '@/models';
 import DownOutlined from '@ant-design/icons/DownOutlined';
+import Empty from 'antd/es/empty';
 import { useState } from 'react';
 
 type CustomCommodityCategory = CommodityCategory | 'all';
@@ -78,29 +78,7 @@ export const StorePage = () => {
       label: value.label,
     }));
 
-  const fakeCommodities: Commodity[] = Array.from({ length: 10 }).map(
-    (_, index) => {
-      return {
-        id: `fake-${index}`,
-        name: `Fake Commodity ${index}`,
-        description: `Description for fake commodity ${index}`,
-        specialTag: `Tag ${index}`,
-        category: CommodityCategory.Fruit,
-        price: 100,
-        image:
-          'https://images.squarespace-cdn.com/content/v1/5ee52f7d9edc8a7ee635591a/8df50655-6b68-460e-ad6c-5230001b9d5a/240404+-+063944+-+001.jpg',
-        expirationDate: '2024-12-31',
-        status: CommodityStatus.Active,
-        supplierId: 'sup_01a2b3c4d5',
-        cropId: `crop_${index}`,
-        createdAt: '2023-01-15T08:30:00Z',
-        updatedAt: '2023-01-15T08:30:00Z',
-      };
-    },
-  );
-
-  const items: Commodity[] =
-    getCommoditiesQuery.currentData?.result.collection ?? fakeCommodities;
+  const items = getCommoditiesQuery.currentData?.result.collection;
 
   const sortOptions = [
     {
@@ -189,11 +167,23 @@ export const StorePage = () => {
           }
         />
       </div>
-      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
-        {items.map((item) => (
-          <CardStore key={item.id} commodity={item} />
+      {!getCommoditiesQuery.isFetching &&
+        (items?.length ? (
+          <div className='grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
+            {items.map((item) => (
+              <CardStore key={item.id} commodity={item} />
+            ))}
+          </div>
+        ) : (
+          <Empty>
+            <AButton
+              type='primary'
+              onClick={() => getCommoditiesQuery.refetch()}
+            >
+              Refresh
+            </AButton>
+          </Empty>
         ))}
-      </div>
     </ContainerIgnoreHeader>
   );
 };

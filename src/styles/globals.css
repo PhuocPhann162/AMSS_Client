@@ -21,7 +21,7 @@
   --navbar-height: 3rem;
 
   @media (min-width: 768px) {
-    --navbar-height: 4rem;
+    --navbar-height: 3.75rem;
   }
 }
 

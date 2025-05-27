@@ -1,6 +1,7 @@
 import { AuthenticationLayout, HomeLayout } from '@/layouts';
 import { CartPage } from '@/pages/cart/cart-page';
 import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
+import { LogisticsPage } from '@/pages/logistics/logistics-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
@@ -36,10 +37,10 @@ import {
 } from './pages';
 import { CommodityManagement } from './pages/Commodities/CommodityManagement';
 import { GrowLocation } from './pages/Crops/GrowLocation';
+import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
-import { PaymentPage } from './pages/payment/payment-page';
 
 export interface Route {
   name: string;
@@ -87,6 +88,10 @@ const router = createBrowserRouter(
           ],
         },
       ],
+    },
+    {
+      path: 'logistics',
+      element: <LogisticsPage />,
     },
     {
       path: '',

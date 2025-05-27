@@ -1,6 +1,6 @@
 import { AButton } from '@/common/ui-common';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
-import { HeaderUnderOverlay } from '@/components/layout/header/header-under-overlay';
+import { HeaderHome } from '@/components/layout/header/header-home';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
@@ -19,13 +19,8 @@ export const HeaderPage = () => {
 
   return (
     <>
-      <HeaderUnderOverlay
-        enableHiding
-        classNames={{
-          root: 'fixed inset-x-0 top-0 z-50',
-          header: 'flex h-[--navbar-height] items-center justify-between px-6',
-        }}
-      >
+      <HeaderHome rootClassName='fixed inset-x-0 top-0 z-50 flex h-[--navbar-height] gap-6 md:gap-20 items-center justify-between px-6'>
+        {!!isMobile && <SidebarTrigger />}
         <LogoLink />
 
         {!isMobile && (
@@ -35,7 +30,7 @@ export const HeaderPage = () => {
                 key={index}
                 to={route.path || ''}
                 className={({ isActive }) =>
-                  `font-medium uppercase text-gray-800 transition-colors duration-300 hover:text-gray-900 ${isActive ? 'text-gray-900' : ''}`
+                  `font-medium uppercase transition-colors duration-300`
                 }
               >
                 {route.label}
@@ -44,17 +39,15 @@ export const HeaderPage = () => {
           </div>
         )}
 
-        <div className='flex items-center gap-6'>
+        <div className='flex items-center gap-4'>
           <ShoppingCartOutlined
             onClick={() => setOpenCartDrawer(true)}
             className='text-xl'
           />
 
           {!isMobile && (userData ? <DropdownUser /> : <ButtonSignIn />)}
-
-          {!!isMobile && <SidebarTrigger />}
         </div>
-      </HeaderUnderOverlay>
+      </HeaderHome>
       <DrawerCart
         open={openCartDrawer}
         onCancel={() => setOpenCartDrawer(false)}
