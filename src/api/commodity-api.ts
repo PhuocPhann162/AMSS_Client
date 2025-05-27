@@ -5,6 +5,25 @@ import type {
   GetCommodityByIdRequest,
   GetCommodityByIdResponse,
 } from '@/models';
+import { CommodityCategory, CommodityStatus } from '@/interfaces';
+
+export interface CreateCommodityRequest {
+  name: string;
+  description: string;
+  specialTag?: string;
+  category: CommodityCategory;
+  price: number;
+  image: string;
+  expirationDate?: string;
+  status: CommodityStatus;
+  supplierId: string;
+  cropId: string;
+}
+
+export interface CreateCommodityResponse {
+  isSuccess: boolean;
+  errorMessages?: string[];
+}
 
 export const commodityApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -28,8 +47,22 @@ export const commodityApi = appBaseApi.injectEndpoints({
         { type: TAG_TYPES.Commodities, id: props.id },
       ],
     }),
+    createCommodity: build.mutation<
+      CreateCommodityResponse,
+      CreateCommodityRequest
+    >({
+      query: (data) => ({
+        url: 'commodity',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [TAG_TYPES.Commodities],
+    }),
   }),
 });
 
-export const { useGetCommoditiesQuery, useGetCommodityByIdQuery } =
-  commodityApi;
+export const {
+  useGetCommoditiesQuery,
+  useGetCommodityByIdQuery,
+  useCreateCommodityMutation,
+} = commodityApi;

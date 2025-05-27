@@ -16,6 +16,7 @@ import { Breadcrumb, CommodityStatusTag } from '@/components/UI';
 import { CommodityOrderBy } from '@/models';
 import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { ViewCommodityModal } from '@/components/UI/modal/view-commodity-modal';
+import { useNavigate } from 'react-router-dom';
 
 const getValidOrderBy = (sortField: unknown): CommodityOrderBy => {
   const value = (Array.isArray(sortField) ? sortField[0] : sortField) as string;
@@ -170,6 +171,8 @@ export function CommodityManagement() {
     getCommodities();
   }, [searchValue, data, segmentedCategory, tableParams]);
 
+  const navigate = useNavigate();
+
   return (
     <>
       <ViewCommodityModal
@@ -177,25 +180,34 @@ export function CommodityManagement() {
         onClose={handleCloseViewModal}
         commodityId={selectedCommodityId}
       />
-      <Breadcrumb pageParent='Market' pageName='Products' />
+      <Breadcrumb pageParent='Market' pageName='Commodities' />
 
       <div className='flex flex-col gap-1'>
-        <SearchInput
-          onSearch={(value) => {
-            if (value !== searchValue) {
-              setSearchValue(value);
-              setTableParams((pre) => ({
-                ...pre,
-                pagination: {
-                  ...pre.pagination,
-                  current: 1,
-                },
-              }));
-            }
-          }}
-          placeholder={'Search by Name'}
-          className='w-1/3 min-w-40'
-        />
+        <div className='flex items-center justify-between'>
+          <SearchInput
+            onSearch={(value) => {
+              if (value !== searchValue) {
+                setSearchValue(value);
+                setTableParams((pre) => ({
+                  ...pre,
+                  pagination: {
+                    ...pre.pagination,
+                    current: 1,
+                  },
+                }));
+              }
+            }}
+            placeholder={'Search by Name'}
+            className='w-1/3 min-w-40'
+          />
+          <AButton
+            type='primary'
+            onClick={() => navigate('/app/commodity/create')}
+          >
+            New Commodity
+          </AButton>
+        </div>
+
         <ASegmented
           options={COMMODITIES_CATEGORY_SEGMENTED}
           value={segmentedCategory}

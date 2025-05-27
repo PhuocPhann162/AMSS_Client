@@ -10,6 +10,14 @@ export default interface fieldModel {
   area?: number;
   status?: string;
   farmId?: string;
+  internalId?: string;
+  plantingFormat?: string;
+  locationType?: string;
+  lightProfile?: string;
+  grazingRestDays?: number;
+  numberOfBeds?: number;
+  bedLength?: number;
+  bedWidth?: number;
   farm?: farmModel;
   locationId?: string;
   location?: locationModel;

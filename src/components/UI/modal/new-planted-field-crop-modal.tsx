@@ -1,27 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AButton, AInput, AModal, ASelect } from '@/common/ui-common';
 import { SearchIcon } from '@/components/Icon';
 import { motion } from 'framer-motion';
 import { Spin, Tooltip } from 'antd';
-import { toastNotify } from '@/helper';
-import { useGetAllCropTypesQuery } from '@/api';
+import { getScrollAnimation, toastNotify } from '@/helper';
+import { useAddCropPlatingMutation, useGetAllCropTypesQuery } from '@/api';
+import { cropModel } from '@/interfaces';
+import { AddPlatingCropsRequest } from '@/models/response/crop-response';
 
-// Define types for cropType and cropModel
-interface CropType {
-  type: string;
-}
-
-export interface CropModel {
+export interface CropTypeModel {
   id: string;
   name: string;
   description?: string;
+  crops: cropModel[];
   icon?: string;
-  cropType?: CropType;
+  type?: string;
 }
 
 interface GetAllCropTypesResponse {
   apiResponse: {
-    result: CropModel[];
+    result: CropTypeModel[];
   };
   totalRecords: any;
 }
@@ -30,14 +28,12 @@ interface NewPlantedFieldCropModalProps {
   fieldId: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  onPlantCrop?: (cropId: string) => void;
 }
 
 export const NewPlantedFieldCropModal = ({
   fieldId,
   isOpen,
   setIsOpen,
-  onPlantCrop,
 }: NewPlantedFieldCropModalProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCropType, setSelectedCropType] = useState<string>('');
@@ -46,55 +42,77 @@ export const NewPlantedFieldCropModal = ({
     selectFromResult: (result) =>
       result as { data?: GetAllCropTypesResponse; isLoading: boolean },
   });
-  const [filteredCrops, setFilteredCrops] = useState<CropModel[]>([]);
+  const [filteredCrops, setFilteredCrops] = useState<
+    (cropModel & { type?: string; typeName?: string })[]
+  >([]);
   const [cropTypes, setCropTypes] = useState<string[]>([]);
+  const [allCrops, setAllCrops] = useState<
+    (cropModel & { type?: string; typeName?: string })[]
+  >([]);
+  const [createPlanting] = useAddCropPlatingMutation();
+  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   useEffect(() => {
     if (data?.apiResponse?.result) {
       // Extract unique crop types
       const types = [
-        ...new Set(data.apiResponse.result.map((crop) => crop.cropType?.type)),
+        ...new Set(data.apiResponse.result.map((cropType) => cropType?.type)),
       ].filter(Boolean) as string[];
       setCropTypes(types);
 
-      // Apply filters
-      let filtered = [...data.apiResponse.result];
+      // Flatten all crops and attach type/typeName
+      const crops: (cropModel & { type?: string; typeName?: string })[] = [];
+      data.apiResponse.result.forEach((cropType) => {
+        cropType.crops.forEach((crop) => {
+          crops.push({ ...crop, type: cropType.type, typeName: cropType.name });
+        });
+      });
+      setAllCrops(crops);
 
+      // Apply filters
+      let filtered = [...crops];
       if (searchTerm) {
         filtered = filtered.filter((crop) =>
-          crop.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          crop.name?.toLowerCase().includes(searchTerm.toLowerCase()),
         );
       }
-
       if (selectedCropType) {
-        filtered = filtered.filter(
-          (crop) => crop.cropType?.type === selectedCropType,
-        );
+        filtered = filtered.filter((crop) => crop?.type === selectedCropType);
       }
-
       setFilteredCrops(filtered);
     } else {
       setFilteredCrops([]);
       setCropTypes([]);
+      setAllCrops([]);
     }
   }, [data, searchTerm, selectedCropType]);
 
-  const handlePlantCrop = () => {
+  const handlePlantCrop = async () => {
     if (!selectedCrop) {
       toastNotify('Please select a crop to plant', 'error');
       return;
     }
 
-    if (onPlantCrop) {
-      onPlantCrop(selectedCrop);
+    const newPlanting: AddPlatingCropsRequest = {
+      fieldId: fieldId,
+      cropId: selectedCrop,
+      quantity: 1,
+      notes: '',
+      status: 'planned',
+      unit: 'seeds',
+    };
+
+    try {
+      await createPlanting(newPlanting).unwrap();
+      setIsOpen(false);
+      setSelectedCrop('');
+      setSearchTerm('');
+      setSelectedCropType('');
+
+      toastNotify('Crop planted successfully!', 'success');
+    } catch {
+      toastNotify('Failed to add planting', 'error');
     }
-
-    setIsOpen(false);
-    setSelectedCrop('');
-    setSearchTerm('');
-    setSelectedCropType('');
-
-    toastNotify('Crop planted successfully!', 'success');
   };
 
   return (
@@ -140,13 +158,14 @@ export const NewPlantedFieldCropModal = ({
           </div>
 
           {/* Crop type filter */}
-          <div className='w-48'>
+          <div className='w-40'>
             <ASelect
               placeholder='Filter by type'
               value={selectedCropType}
               onChange={(value) => setSelectedCropType(value as string)}
               allowClear
               options={cropTypes.map((type) => ({ label: type, value: type }))}
+              className='w-full'
             />
           </div>
         </div>
@@ -164,7 +183,7 @@ export const NewPlantedFieldCropModal = ({
             {filteredCrops.map((crop) => (
               <Tooltip
                 key={crop.id}
-                title={crop.description}
+                title={crop.description || crop.typeName}
                 placement='bottom'
               >
                 <motion.div
@@ -178,17 +197,23 @@ export const NewPlantedFieldCropModal = ({
                   whileTap={{ scale: 0.98 }}
                 >
                   <div className='mb-2 h-16 w-16 overflow-hidden rounded-full'>
-                    <img
-                      src={crop.icon || '/assets/images/default-crop.png'}
-                      alt={crop.name}
-                      className='h-full w-full object-cover'
+                    <motion.img
+                      variants={scrollAnimation}
+                      src={crop?.icon}
+                      className='h-12 w-12 rounded-full'
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      loading='lazy'
                     />
                   </div>
                   <h4 className='text-center text-sm font-medium'>
                     {crop.name}
                   </h4>
                   <span className='mt-1 rounded-full bg-gray-100 px-2 py-1 text-xs text-[#7b7b7b]'>
-                    {crop.cropType?.type || 'Unknown'}
+                    {crop?.type || 'Unknown'}
                   </span>
                 </motion.div>
               </Tooltip>
