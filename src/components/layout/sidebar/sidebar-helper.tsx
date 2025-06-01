@@ -45,6 +45,10 @@ export const sidebarOptions: Item[] = [
             path: '/app/crop/grow-location',
             label: 'Grow Locations',
           },
+          {
+            path: '/app/crop/identification',
+            label: 'Identification',
+          },
         ],
       },
       {

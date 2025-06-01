@@ -42,6 +42,7 @@ import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 import { PaymentPage } from './pages/payment/payment-page';
 import { CreateCommodity } from './pages/Commodities/CreateCommodity';
+import PlantIdentificationViewer from './pages/Crops/Identification';
 
 export interface Route {
   name: string;
@@ -158,6 +159,10 @@ const router = createBrowserRouter(
         {
           path: 'crop/grow-location',
           element: <GrowLocation />,
+        },
+        {
+          path: 'crop/identification',
+          element: <PlantIdentificationViewer />,
         },
         // Map Routes
         {

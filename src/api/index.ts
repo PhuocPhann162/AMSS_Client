@@ -12,3 +12,4 @@ export * from './socialMetricApi';
 export * from './supplierApi';
 export * from './userApi';
 export * from './payment-api';
+export * from './identification-api';
