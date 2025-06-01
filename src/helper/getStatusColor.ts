@@ -1,4 +1,4 @@
-import { CommodityStatus } from '@/interfaces';
+import { CommodityCategory, CommodityStatus } from '@/interfaces';
 import { SD_FieldStatus } from '@/utils/SD';
 
 export const getStatusColor = (status: string) => {
@@ -34,6 +34,21 @@ export const getCommodityStatusColor = (status: CommodityStatus) => {
       return 'red';
     case CommodityStatus.PreOrder:
       return 'magenta';
+    default:
+      return undefined;
+  }
+};
+
+export const getCommodityCategoryColor = (status: CommodityCategory) => {
+  switch (status) {
+    case CommodityCategory.Fruit:
+      return 'green';
+    case CommodityCategory.Grain:
+      return 'gold';
+    case CommodityCategory.Seed:
+      return 'volcano';
+    case CommodityCategory.Vegetable:
+      return 'cyan';
     default:
       return undefined;
   }

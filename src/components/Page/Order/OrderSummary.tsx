@@ -1,24 +1,20 @@
 import { MakePaymentResponse } from '@/api';
 import { formatLocalDate } from '@/helper/dayFormat';
+import { User } from '@/interfaces';
+import { ATag } from '@/common/ui-common/atoms/a-tag/a-tag';
 import dayjs from 'dayjs';
 import React from 'react';
-import { FaShoppingBag, FaTruck, FaCreditCard } from 'react-icons/fa';
+import { FaShoppingBag, FaTruck } from 'react-icons/fa';
+import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
 
 interface OrderSummaryProps {
   data: MakePaymentResponse;
-  userInput: {
-    name: string;
-    email: string;
-    address: string;
-    city: string;
-    country: string;
-    zipCode: string;
-  };
+  userInfo?: User;
 }
 
 export const OrderSummary: React.FC<OrderSummaryProps> = ({
   data,
-  userInput,
+  userInfo,
 }) => {
   return (
     <div className='rounded-lg bg-white p-6 shadow-lg'>
@@ -36,17 +32,22 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
               className='flex items-center gap-4 rounded-lg bg-gray-50 p-3'
             >
               <img
-                src={item.imageUrl}
-                alt={item.productName}
+                src={item.commodityImage}
+                alt={item.commodityName}
                 className='h-16 w-16 rounded-md object-cover'
               />
               <div className='flex-1'>
                 <h3 className='font-medium text-gray-800'>
-                  {item.productName}
+                  {item.commodityName}
                 </h3>
-                <p className='text-sm text-gray-600'>
-                  Quantity: {item.quantity}
-                </p>
+                <div className='mt-1 flex items-center gap-2'>
+                  <p className='text-sm text-gray-600'>
+                    Quantity: {item.quantity}
+                  </p>
+                  {item.commodityCategory && (
+                    <CommodityCategoryTag value={item.commodityCategory} />
+                  )}
+                </div>
               </div>
               <p className='font-semibold text-gray-900'>
                 ${item.price.toFixed(2)}
@@ -62,12 +63,74 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
           <h3 className='font-medium text-gray-800'>Delivery Information</h3>
         </div>
         <div className='rounded-lg bg-gray-50 p-4'>
-          <p className='text-gray-700'>{userInput.name}</p>
-          <p className='text-gray-700'>{userInput.address}</p>
-          <p className='text-gray-700'>
-            {userInput.city}, {userInput.country} {userInput.zipCode}
-          </p>
-          <p className='text-gray-700'>{userInput.email}</p>
+          {/* Personal Information */}
+          <div className='mb-4'>
+            <h4 className='mb-2 text-sm font-semibold text-gray-600'>
+              Personal Information
+            </h4>
+            <div className='space-y-2'>
+              {userInfo?.avatar && (
+                <div className='flex items-center gap-3'>
+                  <img
+                    src={userInfo.avatar}
+                    alt={userInfo.fullName || 'User avatar'}
+                    className='h-12 w-12 rounded-full object-cover'
+                  />
+                  <div>
+                    <p className='font-medium text-gray-800'>
+                      {userInfo.fullName}
+                    </p>
+                    <p className='text-sm text-gray-600'>{userInfo.userName}</p>
+                  </div>
+                </div>
+              )}
+              <div className='grid grid-cols-2 gap-4'>
+                <div>
+                  <p className='text-sm text-gray-500'>Email</p>
+                  <p className='text-gray-700'>{userInfo?.email}</p>
+                </div>
+                <div>
+                  <p className='text-sm text-gray-500'>Phone</p>
+                  <p className='text-gray-700'>
+                    {userInfo?.phoneCode && userInfo?.phoneNumber
+                      ? `${userInfo.phoneCode} ${userInfo.phoneNumber}`
+                      : 'Not provided'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Address Information */}
+          <div className='mb-4'>
+            <h4 className='mb-2 text-sm font-semibold text-gray-600'>
+              Address Information
+            </h4>
+            <div className='space-y-2'>
+              <div>
+                <p className='text-sm text-gray-500'>Street Address</p>
+                <p className='text-gray-700'>
+                  {userInfo?.streetAddress || 'Not provided'}
+                </p>
+              </div>
+              <div className='grid grid-cols-2 gap-4'>
+                <div>
+                  <p className='text-sm text-gray-500'>Province</p>
+                  <p className='text-gray-700'>
+                    {userInfo?.provinceName}{' '}
+                    {userInfo?.provinceCode && `(${userInfo.provinceCode})`}
+                  </p>
+                </div>
+                <div>
+                  <p className='text-sm text-gray-500'>Country</p>
+                  <p className='text-gray-700'>
+                    {userInfo?.countryName}{' '}
+                    {userInfo?.countryCode && `(${userInfo.countryCode})`}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -94,7 +157,8 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
         <div className='flex items-center gap-2'>
           <FaTruck className='text-green-600' />
           <p className='text-green-800'>
-            Estimated Delivery: {formatLocalDate(dayjs().toString())}
+            Estimated Delivery:{' '}
+            {formatLocalDate(dayjs().add(7, 'day').toString())}
           </p>
         </div>
       </div>

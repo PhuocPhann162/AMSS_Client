@@ -4,21 +4,14 @@ import { loadStripe } from '@stripe/stripe-js';
 import { OrderSummary } from '@/components/Page/Order/OrderSummary';
 import { PaymentForm } from '@/components/Page/Payment/PaymentForm';
 import { MakePaymentResponse, useMakePaymentMutation } from '@/api/payment-api';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 
 export function PaymentPage() {
   const [paymentData, setPaymentData] = useState<MakePaymentResponse>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [initialPayment] = useMakePaymentMutation();
 
-  // Fake user input data
-  const userInput = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    address: '123 Main Street',
-    city: 'New York',
-    country: 'United States',
-    zipCode: '10001',
-  };
+  const auth = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const initializePayment = async () => {
@@ -52,15 +45,15 @@ export function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      <div className='container m-5 p-5'>
+      <div className='container mt-16 bg-slate-100 p-5'>
         <div className='grid grid-cols-2 gap-5'>
           <div className='col-md-7'>
-            <OrderSummary data={paymentData} userInput={userInput} />
+            <OrderSummary data={paymentData} userInfo={auth.user} />
           </div>
           <div className='col-md-4 offset-md-1'>
             <PaymentForm
               data={{ total: paymentData.cartTotal }}
-              userInput={userInput}
+              userInfo={auth.user}
             />
           </div>
         </div>
