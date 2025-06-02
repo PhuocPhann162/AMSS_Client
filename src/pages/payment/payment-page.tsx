@@ -5,11 +5,16 @@ import { OrderSummary } from '@/components/Page/Order/OrderSummary';
 import { PaymentForm } from '@/components/Page/Payment/PaymentForm';
 import { MakePaymentResponse, useMakePaymentMutation } from '@/api/payment-api';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
+import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
+import { toastNotify } from '@/helper';
+import { setUser } from '@/features/auth/store/auth-slice';
+import { AddressData } from '@/components/Page/Maps';
 
 export function PaymentPage() {
   const [paymentData, setPaymentData] = useState<MakePaymentResponse>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [initialPayment] = useMakePaymentMutation();
+  const dispatch = useAppDispatch();
 
   const auth = useAppSelector((state) => state.auth);
 
@@ -27,6 +32,18 @@ export function PaymentPage() {
 
     initializePayment();
   }, []);
+
+  const handleAddressUpdate = (newAddress: AddressData) => {
+    if (auth.user) {
+      dispatch(
+        setUser({
+          ...auth.user,
+          streetAddress: newAddress.fullAddress,
+        }),
+      );
+      toastNotify('Delivery address updated successfully', 'success');
+    }
+  };
 
   const stripePromise = loadStripe(
     import.meta.env.VITE_STRIPE_PUBLISH_KEY as string,
@@ -48,13 +65,14 @@ export function PaymentPage() {
       <div className='container mt-16 bg-slate-100 p-5'>
         <div className='grid grid-cols-2 gap-5'>
           <div className='col-md-7'>
-            <OrderSummary data={paymentData} userInfo={auth.user} />
+            <OrderSummary
+              data={paymentData}
+              userInfo={auth.user}
+              onAddressUpdate={handleAddressUpdate}
+            />
           </div>
           <div className='col-md-4 offset-md-1'>
-            <PaymentForm
-              data={{ total: paymentData.cartTotal }}
-              userInfo={auth.user}
-            />
+            <PaymentForm data={paymentData} userInfo={auth.user} />
           </div>
         </div>
       </div>

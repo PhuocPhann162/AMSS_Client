@@ -16,6 +16,7 @@ export const TAG_TYPES = {
   Cart: 'Cart',
   Payment: 'Payment',
   Logistics: 'Logistics',
+  Orders: 'Orders',
 } as const;
 
 export const appBaseApi = createApi({
