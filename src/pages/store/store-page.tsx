@@ -18,6 +18,7 @@ import {
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import Empty from 'antd/es/empty';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 type CustomCommodityCategory = CommodityCategory | 'all';
 
@@ -51,6 +52,7 @@ const categoryLabel: Record<
 };
 
 export const StorePage = () => {
+  const [searchParams] = useSearchParams();
   const [sortValue, setSortValue] = useState<{
     sort: ListSortDirection;
     orderBy: CommodityOrderBy;
@@ -61,7 +63,7 @@ export const StorePage = () => {
   const [sortOpen, setSortOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState<CustomCommodityCategory[]>([
-    'all',
+    (searchParams.get('category') as CustomCommodityCategory) ?? 'all',
   ]);
 
   const getCommoditiesQuery = useGetCommoditiesQuery({

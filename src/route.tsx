@@ -1,4 +1,5 @@
-import { AuthenticationLayout, HomeLayout } from '@/layouts';
+import { AuthenticationLayout } from '@/layouts';
+import { HomeLayout } from '@/layouts/home-layout';
 import { CartPage } from '@/pages/cart/cart-page';
 import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
@@ -24,8 +25,6 @@ import {
   PageNotFound,
   Permission,
   PlantDetail,
-  Pricing,
-  Product,
   Profile,
   Register,
   RegisterCustomer,
@@ -36,13 +35,13 @@ import {
   WeatherSearch,
 } from './pages';
 import { CommodityManagement } from './pages/Commodities/CommodityManagement';
+import { CreateCommodity } from './pages/Commodities/CreateCommodity';
 import { GrowLocation } from './pages/Crops/GrowLocation';
+import PlantIdentificationViewer from './pages/Crops/Identification';
+import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
-import { PaymentPage } from './pages/payment/payment-page';
-import { CreateCommodity } from './pages/Commodities/CreateCommodity';
-import PlantIdentificationViewer from './pages/Crops/Identification';
 
 export interface Route {
   name: string;
@@ -53,21 +52,13 @@ export interface Route {
   children?: Route[];
 }
 
-const router = createBrowserRouter(
+export const router = createBrowserRouter(
   [
     {
       path: '',
       element: <HomeLayout />,
       children: [
         { index: true, element: <HomePage /> },
-        {
-          path: 'product',
-          element: <Pricing />,
-        },
-        {
-          path: 'about',
-          element: <Product />,
-        },
         {
           path: 'store',
           children: [
@@ -284,5 +275,3 @@ const router = createBrowserRouter(
     },
   },
 );
-
-export default router;
