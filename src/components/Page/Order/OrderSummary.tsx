@@ -1,21 +1,43 @@
 import { MakePaymentResponse } from '@/api';
 import { formatLocalDate } from '@/helper/dayFormat';
 import { User } from '@/interfaces';
-import { ATag } from '@/common/ui-common/atoms/a-tag/a-tag';
+import { ADrawer } from '@/common/ui-common/atoms/a-drawer/a-drawer';
+import { AButton } from '@/common/ui-common';
 import dayjs from 'dayjs';
-import React from 'react';
-import { FaShoppingBag, FaTruck } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaShoppingBag, FaTruck, FaEdit } from 'react-icons/fa';
 import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
+import MapboxAddressSearch, {
+  AddressData,
+} from '@/components/Page/Maps/MapBoxAddressSearch';
 
 interface OrderSummaryProps {
   data: MakePaymentResponse;
   userInfo?: User;
+  onAddressUpdate?: (newAddress: AddressData) => void;
 }
 
 export const OrderSummary: React.FC<OrderSummaryProps> = ({
   data,
   userInfo,
+  onAddressUpdate,
 }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<AddressData | null>(
+    null,
+  );
+
+  const handleAddressSelected = (address: AddressData | null) => {
+    setSelectedAddress(address);
+  };
+
+  const handleSaveAddress = () => {
+    if (selectedAddress && onAddressUpdate) {
+      onAddressUpdate(selectedAddress);
+      setIsDrawerOpen(false);
+    }
+  };
+
   return (
     <div className='rounded-lg bg-white p-6 shadow-lg'>
       <div className='mb-6 flex items-center gap-2'>
@@ -103,9 +125,20 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 
           {/* Address Information */}
           <div className='mb-4'>
-            <h4 className='mb-2 text-sm font-semibold text-gray-600'>
-              Address Information
-            </h4>
+            <div className='mb-2 flex items-center justify-between'>
+              <h4 className='text-sm font-semibold text-gray-600'>
+                Address Information
+              </h4>
+              <AButton
+                variant='text'
+                color='cyan'
+                icon={<FaEdit className='text-green-600' />}
+                onClick={() => setIsDrawerOpen(true)}
+                className='flex items-center gap-1'
+              >
+                Edit Address
+              </AButton>
+            </div>
             <div className='space-y-2'>
               <div>
                 <p className='text-sm text-gray-500'>Street Address</p>
@@ -162,6 +195,35 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
           </p>
         </div>
       </div>
+
+      {/* Add Drawer at the end of the component */}
+      <ADrawer
+        title='Edit Delivery Address'
+        placement='right'
+        onClose={() => setIsDrawerOpen(false)}
+        open={isDrawerOpen}
+        width={600}
+        extra={
+          <AButton type='primary' onClick={handleSaveAddress}>
+            Save Address
+          </AButton>
+        }
+      >
+        <div className='space-y-4'>
+          <MapboxAddressSearch
+            onAddressSelected={handleAddressSelected}
+            placeholder='Search your address...'
+          />
+          {selectedAddress && (
+            <div className='mt-4 rounded-lg bg-gray-50 p-4'>
+              <h4 className='mb-2 font-medium text-gray-800'>
+                Selected Address:
+              </h4>
+              <p className='text-gray-600'>{selectedAddress.fullAddress}</p>
+            </div>
+          )}
+        </div>
+      </ADrawer>
     </div>
   );
 };
