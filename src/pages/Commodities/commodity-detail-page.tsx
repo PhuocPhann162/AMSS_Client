@@ -1,5 +1,11 @@
 import { useGetCommodityByIdQuery } from '@/api';
-import { ACardV2, ADivider, AImage, AQRCode } from '@/common/ui-common';
+import {
+  ACardV2,
+  ADivider,
+  AQRCode,
+  ARawImage,
+  ATooltip,
+} from '@/common/ui-common';
 import { ButtonAddToCart } from '@/features/cart/components/button-add-to-cart';
 import { QuantitySelector } from '@/features/cart/components/quantity-selector';
 import { TagCommodityCategory } from '@/features/commodity/components/tag-commodity-category';
@@ -9,7 +15,7 @@ import { formatUsd } from '@/utils/number/format-usd';
 import Collapse from 'antd/es/collapse';
 import { format } from 'date-fns';
 import React, { Fragment, useState, type ReactNode } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export const CommodityDetailPage = () => {
   const { id } = useParams();
@@ -44,17 +50,21 @@ export const CommodityDetailPage = () => {
     return undefined;
   }
 
+  const qrValue = `/logistics?supplierId=${data.supplierId}&commodityId=${id}&cropId=${data.cropId}`;
+
   return (
-    <div className='relative'>
-      <AImage
-        src={data.image}
-        preview={false}
-        rootClassName='top-0 sticky h-screen -mt-[100vh] block'
-        className='[&.ant-image-img]:h-full'
-      />
-      <div className='flex min-h-screen flex-col-reverse items-center justify-between gap-6 px-6 pb-6 pt-[55vh] md:flex-row md:items-start'>
+    <section>
+      <ARawImage src={data.image} className='sticky top-0 h-screen' />
+      <div className='-mt-[100vh] flex min-h-screen flex-col-reverse items-center justify-between gap-6 px-6 pb-6 pt-[55vh] md:flex-row md:items-start'>
         <CustomCard>
-          <AQRCode value={'https://www.facebook.com/'} />
+          <ATooltip title='Click to open in new tab'>
+            <Link to={qrValue} target='_blank' rel='noopener noreferrer'>
+              <AQRCode
+                value={qrValue}
+                rootClassName='cursor-pointer p-[initial] border-0 [overflow:initial]'
+              />
+            </Link>
+          </ATooltip>
         </CustomCard>
         <div className='flex w-96 max-w-full flex-col gap-4'>
           <CustomCard>
@@ -81,11 +91,12 @@ export const CommodityDetailPage = () => {
                 );
               })}
             </div>
-            <div className='flex items-center gap-1'>
-              <p className='font-medium'>QTY:</p>
+            <div className='grid grid-cols-3 items-center'>
+              <p className='col-span-1 font-medium'>QTY:</p>
               <QuantitySelector
                 defaultValue={quantity}
                 onChange={setQuantity}
+                rootClassName='col-span-2'
               />
             </div>
             <ButtonAddToCart id={data.id} quantity={quantity} />
@@ -113,7 +124,7 @@ export const CommodityDetailPage = () => {
           </CustomCard>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

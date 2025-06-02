@@ -1,6 +1,6 @@
-import { AButton } from '@/common/ui-common';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
-import { HeaderHome } from '@/components/layout/header/header-home';
+import { HomeHeader } from '@/components/layout/header/home-header';
+import { ButtonSignIn } from '@/components/ui/button-sign-in';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
@@ -19,7 +19,7 @@ export const HeaderPage = () => {
 
   return (
     <>
-      <HeaderHome rootClassName='fixed inset-x-0 top-0 z-50 flex h-[--navbar-height] gap-6 md:gap-20 items-center justify-between px-6'>
+      <HomeHeader rootClassName='fixed inset-x-0 top-0 z-50 flex h-[--navbar-height] gap-12 items-center justify-between px-6 md:px-10'>
         {!!isMobile && <SidebarTrigger />}
         <LogoLink />
 
@@ -29,9 +29,7 @@ export const HeaderPage = () => {
               <NavLink
                 key={index}
                 to={route.path || ''}
-                className={({ isActive }) =>
-                  `font-medium uppercase transition-colors duration-300`
-                }
+                className={`font-medium uppercase transition-colors duration-300`}
               >
                 {route.label}
               </NavLink>
@@ -47,7 +45,7 @@ export const HeaderPage = () => {
 
           {!isMobile && (userData ? <DropdownUser /> : <ButtonSignIn />)}
         </div>
-      </HeaderHome>
+      </HomeHeader>
       <DrawerCart
         open={openCartDrawer}
         onCancel={() => setOpenCartDrawer(false)}
@@ -58,18 +56,10 @@ export const HeaderPage = () => {
   );
 };
 
-function ButtonSignIn() {
-  return (
-    <Link to={'login'}>
-      <AButton>Sign in</AButton>
-    </Link>
-  );
-}
-
 function LogoLink() {
   return (
-    <Link to='/' className='text-2xl font-bold uppercase'>
-      Novaris
+    <Link to='/'>
+      <h1 className='text-xl font-bold uppercase'>Novaris</h1>
     </Link>
   );
 }

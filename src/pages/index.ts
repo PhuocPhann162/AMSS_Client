@@ -10,8 +10,6 @@ import { DashBoard } from './DashBoard/DashBoard';
 import { GPASearch } from './GPASearch/GPASearch';
 import { ImportData } from './GPASearch/ImportData';
 import HomePage from './Home/HomePage';
-import Pricing from './Home/Pricing';
-import Product from './Home/Product';
 import { FarmList } from './Lands/Farms/FarmList';
 import { FieldList } from './Lands/Fields/FieldList';
 import { FieldSuggestion } from './Lands/Fields/FieldSuggestion';
@@ -47,8 +45,6 @@ export {
   PageNotFound,
   Permission,
   PlantDetail,
-  Pricing,
-  Product,
   Profile,
   Register,
   Schedule,

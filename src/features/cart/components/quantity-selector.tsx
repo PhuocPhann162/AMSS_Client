@@ -1,4 +1,5 @@
 import { AButton } from '@/common/ui-common';
+import { cn } from '@/lib/utils';
 import MinusOutlined from '@ant-design/icons/MinusOutlined';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import RestOutlined from '@ant-design/icons/RestOutlined';
@@ -10,6 +11,7 @@ export interface QuantitySelectorProps {
   enableClear?: boolean;
   onClear?: () => void;
   onChange?: (value: number) => void;
+  rootClassName?: string;
 }
 
 export const QuantitySelector = ({
@@ -17,6 +19,7 @@ export const QuantitySelector = ({
   enableClear,
   onClear,
   onChange,
+  rootClassName,
 }: QuantitySelectorProps) => {
   const [quantity, setQuantity] = useState(defaultValue);
 
@@ -26,7 +29,7 @@ export const QuantitySelector = ({
   };
 
   return (
-    <div className='flex items-center gap-1'>
+    <div className={cn('flex items-center gap-1', rootClassName)}>
       <AButton
         icon={
           quantity === 1 && enableClear ? <RestOutlined /> : <MinusOutlined />
