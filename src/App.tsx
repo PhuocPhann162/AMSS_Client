@@ -1,11 +1,11 @@
 import { RouterProvider } from 'react-router-dom';
 
 import { useGetCountriesQuery } from '@/api';
+import { router } from '@/route';
 import { cancelFrame, frame } from 'framer-motion';
 import { ReactLenis, type LenisRef } from 'lenis/react';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import router from './route';
 import { setCountries } from './storage/redux/countrySlice';
 
 function App() {

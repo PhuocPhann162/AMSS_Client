@@ -1,3 +1,4 @@
+import { AMenu, type AMenuProps } from '@/common/ui-common';
 import {
   Sidebar,
   SidebarContent,
@@ -5,11 +6,10 @@ import {
   SidebarHeader,
   useSidebar,
 } from '@/components/ui/Sidebar';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { type FC, type ReactNode, useMemo } from 'react';
-import { AMenu, type AMenuProps } from '@/common/ui-common';
-import { type SubMenuType } from 'antd/es/menu/interface';
 import { useIsMobile } from '@/hooks';
+import { type SubMenuType } from 'antd/es/menu/interface';
+import { type FC, type ReactNode, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export interface Item {
   path?: string;
@@ -80,7 +80,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
 
   return (
     <Sidebar className='[border:initial] md:pt-16'>
-      {!!header && <SidebarHeader />}
+      {!!header && <SidebarHeader>{header}</SidebarHeader>}
       <SidebarContent>
         <AMenu
           mode='inline'
@@ -89,7 +89,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
           items={contentItems}
         />
       </SidebarContent>
-      {!!footer && <SidebarFooter />}
+      {!!footer && <SidebarFooter>{footer}</SidebarFooter>}
     </Sidebar>
   );
 };

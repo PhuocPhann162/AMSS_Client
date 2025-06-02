@@ -1,5 +1,5 @@
 import { useMotionValueEvent, useScroll } from 'framer-motion';
-import { useState, useRef, type RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 
 export const DIRECTION_X = {
   left: 'left',
@@ -20,7 +20,7 @@ export type DirectionY = (typeof DIRECTION_Y)[keyof typeof DIRECTION_Y];
 export interface UseScrollDirectionProps<T extends HTMLElement = HTMLElement> {
   element?: RefObject<T>;
   threshold?: number;
-  initialValue?: {
+  defaultValue?: {
     directionX?: DirectionX;
     directionY?: DirectionY;
   };
@@ -35,14 +35,14 @@ export interface UseScrollDirectionReturn {
 export const useScrollDirection = ({
   element,
   threshold = 0,
-  initialValue,
+  defaultValue,
   enabled = true,
 }: UseScrollDirectionProps = {}): UseScrollDirectionReturn => {
   const [directionX, setDirectionX] = useState<DirectionX>(
-    initialValue?.directionX ?? DIRECTION_X.none,
+    defaultValue?.directionX ?? DIRECTION_X.none,
   );
   const [directionY, setDirectionY] = useState<DirectionY>(
-    initialValue?.directionY ?? DIRECTION_Y.none,
+    defaultValue?.directionY ?? DIRECTION_Y.none,
   );
 
   const { scrollX, scrollY } = useScroll({ container: element });

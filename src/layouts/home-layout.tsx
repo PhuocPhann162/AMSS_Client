@@ -1,13 +1,17 @@
 import { Footer } from '@/components/layout/footer/footer';
 import { HeaderPage } from '@/components/layout/header';
+import { DropdownUser } from '@/components/layout/header/dropdown-user';
 import { AppSidebar } from '@/components/layout/sidebar';
+import { ButtonSignIn } from '@/components/ui/button-sign-in';
 import { SidebarProvider } from '@/components/ui/Sidebar';
 import { useIsMobile } from '@/hooks';
 import { dashboardRoutes } from '@/routes';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { Outlet } from 'react-router-dom';
 
 export const HomeLayout = () => {
   const isMobile = useIsMobile();
+  const authState = useAppSelector((state) => state.auth);
 
   return (
     <SidebarProvider className='flex flex-col'>
@@ -20,6 +24,13 @@ export const HomeLayout = () => {
               icon: route.icon,
             })),
           }}
+          footer={
+            authState.accessToken ? (
+              <DropdownUser showName />
+            ) : (
+              <ButtonSignIn buttonProps={{ type: 'primary', block: true }} />
+            )
+          }
         />
       )}
       <HeaderPage />
