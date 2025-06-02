@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import {
-  CardElement,
   useStripe,
   useElements,
   PaymentElement,
 } from '@stripe/react-stripe-js';
 import { FaLock, FaCreditCard, FaShieldAlt } from 'react-icons/fa';
+import { User } from '@/interfaces';
+import { useNavigate } from 'react-router-dom';
 
 interface PaymentFormProps {
   data: {
     total: number;
   };
-  userInput: {
-    name: string;
-    email: string;
-  };
+  userInfo?: User;
 }
 
-export const PaymentForm: React.FC<PaymentFormProps> = ({
-  data,
-  userInput,
-}) => {
+export const PaymentForm: React.FC<PaymentFormProps> = ({ data, userInfo }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,24 +33,73 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
     setError(null);
 
     try {
-      const { error: stripeError, paymentMethod } =
-        await stripe.createPaymentMethod({
-          type: 'card',
-          card: elements.getElement(CardElement)!,
-          billing_details: {
-            name: userInput.name,
-            email: userInput.email,
+      const { error: submitError } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/payment-success`,
+          payment_method_data: {
+            billing_details: {
+              name: userInfo?.fullName,
+              email: userInfo?.email,
+              address: {
+                city: userInfo?.provinceName,
+                country: userInfo?.countryName,
+                line1: userInfo?.streetAddress,
+              },
+            },
           },
-        });
+        },
+        redirect: 'if_required',
+      });
 
-      if (stripeError) {
-        setError(stripeError.message || 'An error occurred');
+      if (submitError) {
+        setError(submitError.message || 'An error occurred during payment');
         return;
       }
 
-      // Here you would typically send the paymentMethod.id to your server
-      console.log('Payment successful:', paymentMethod);
+      // Place Order
+      // let totalItems = 0;
+
+      // const orderDetailsDTO: orderDetailsDTOModel[] = [];
+      // data.cartItems?.map((item: cartItemModel) => {
+      //   const tempOrderDetails: orderDetailsDTOModel = {
+      //     menuItemId: item.menuItemId!,
+      //     quantity: item.quantity!,
+      //     itemName: item.menuItem?.name!,
+      //     price: item.menuItem?.price!,
+      //   };
+      //   orderDetailsDTO.push(tempOrderDetails);
+      //   totalItems += item.quantity!;
+      //   return null;
+      // });
+
+      // const response: apiResponse = await createOrder({
+      //   pickupName: userInput.name,
+      //   pickupPhoneNumber: userInput.phoneNumber,
+      //   pickupEmail: userInput.email,
+      //   orderTotal: data.cartTotal,
+      //   totalItems: totalItems,
+      //   discountAmount: data.discount,
+      //   couponCode: data.couponCode,
+      //   applicationUserId: data.userId,
+      //   stripePaymentIntentID: data.stripePaymentIntentId,
+      //   status:
+      //     result.paymentIntent.status === 'succeeded'
+      //       ? SD_Status.CONFIRMED
+      //       : SD_Status.PENDING,
+      //   orderDetailsDTO: orderDetailsDTO,
+      // });
+
+      // if (response) {
+      //   if (response.data?.result.status === SD_Status.CONFIRMED) {
+      //     // navigate(
+      //     //   `/order/orderConfirmed/${response.data.result.orderHeaderId}`
+      //     // );
+      //     handleOpenModal();
+      //   }
+      // }
     } catch (err) {
+      console.error(err);
       setError('An unexpected error occurred');
     } finally {
       setIsProcessing(false);
@@ -71,27 +116,9 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
       </div>
 
       <form onSubmit={handleSubmit} className='space-y-6'>
-        <PaymentElement />
-
         <div className='space-y-4'>
           <div className='rounded-lg bg-gray-50 p-4'>
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                      color: '#aab7c4',
-                    },
-                  },
-                  invalid: {
-                    color: '#9e2146',
-                  },
-                },
-              }}
-              className='p-3'
-            />
+            <PaymentElement />
           </div>
 
           {error && (

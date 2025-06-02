@@ -3,11 +3,12 @@ import { ApiResponse } from '@/interfaces';
 
 export interface CartItemDto {
   id: string;
-  productId: string;
-  productName: string;
+  commodityId: string;
+  commodityName: string;
   price: number;
   quantity: number;
-  imageUrl?: string;
+  commodityImage?: string;
+  commodityCategory?: number;
 }
 export interface MakePaymentResponse {
   id: string;

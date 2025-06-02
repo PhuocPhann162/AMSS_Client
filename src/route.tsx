@@ -37,6 +37,7 @@ import {
 import { CommodityManagement } from './pages/Commodities/CommodityManagement';
 import { CreateCommodity } from './pages/Commodities/CreateCommodity';
 import { GrowLocation } from './pages/Crops/GrowLocation';
+import PlantIdentificationViewer from './pages/Crops/Identification';
 import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
@@ -149,6 +150,10 @@ export const router = createBrowserRouter(
         {
           path: 'crop/grow-location',
           element: <GrowLocation />,
+        },
+        {
+          path: 'crop/identification',
+          element: <PlantIdentificationViewer />,
         },
         // Map Routes
         {
