@@ -1,13 +1,10 @@
 import { useGetCommoditiesQuery } from '@/api';
-import {
-  ABadge,
-  AButton,
-  ADropdown,
-  AInputDebounce,
-  ATabs,
-  ATabsProps,
-} from '@/common/ui-common';
+import { AButton } from '@/common/ui-common';
 import { ContainerIgnoreHeader } from '@/components/layout/content/container-ignore-header';
+import {
+  TabNavigation,
+  type TabNavigationProps,
+} from '@/components/ui/tab-navigation';
 import { CardStore } from '@/features/commodity/components/card-store';
 import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
 import {
@@ -15,7 +12,6 @@ import {
   CommodityOrderBy,
   ListSortDirection,
 } from '@/models';
-import DownOutlined from '@ant-design/icons/DownOutlined';
 import Empty from 'antd/es/empty';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -52,7 +48,12 @@ const categoryLabel: Record<
 };
 
 export const StorePage = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams({
+    category: 'all',
+  });
+
+  const [sortOpen, setSortOpen] = useState(false);
+
   const [sortValue, setSortValue] = useState<{
     sort: ListSortDirection;
     orderBy: CommodityOrderBy;
@@ -60,27 +61,29 @@ export const StorePage = () => {
     sort: ListSortDirection.Descending,
     orderBy: COMMODITY_ORDER_BY['createdAt'],
   });
-  const [sortOpen, setSortOpen] = useState(false);
-  const [search, setSearch] = useState('');
+
   const [categories, setCategories] = useState<CustomCommodityCategory[]>([
     (searchParams.get('category') as CustomCommodityCategory) ?? 'all',
   ]);
 
-  const getCommoditiesQuery = useGetCommoditiesQuery({
+  const getCommodities = useGetCommoditiesQuery({
     orderBy: sortValue.orderBy,
     orderByDirection: sortValue.sort,
     categories: categories.filter((category) => category !== 'all'),
-    search,
   });
 
-  const tabsItems: ATabsProps['items'] = Object.entries(categoryLabel)
-    .sort(([, a], [, b]) => a.order - b.order)
-    .map(([key, value]) => ({
-      key,
-      label: value.label,
-    }));
+  const getCommoditiesData =
+    getCommodities.data && !getCommodities.isError
+      ? getCommodities.data
+      : undefined;
 
-  const items = getCommoditiesQuery.currentData?.result.collection;
+  const tabsItems: TabNavigationProps<CustomCommodityCategory>['tabs'] =
+    Object.entries(categoryLabel)
+      .sort(([, a], [, b]) => a.order - b.order)
+      .map(([key, value]) => ({
+        id: key as CustomCommodityCategory,
+        label: value.label,
+      }));
 
   const sortOptions = [
     {
@@ -119,73 +122,76 @@ export const StorePage = () => {
 
   return (
     <ContainerIgnoreHeader className='flex flex-col gap-4'>
-      <div className='flex flex-col gap-2'>
-        <AInputDebounce
-          defaultValue={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder='Search'
-        />
-        <ATabs
-          activeKey={categories[0].toString()}
-          onChange={(key) => {
-            const _key = key as CustomCommodityCategory;
-            setCategories([_key]);
+      <div className='flex justify-center gap-2 md:flex-row md:items-center'>
+        <TabNavigation
+          activeTab={categories[0]}
+          tabs={tabsItems.map((item) => ({
+            id: item.id,
+            label: item.label,
+            onClick: () => {
+              setCategories([item.id]);
+              setSearchParams(
+                {
+                  category: item.id as string,
+                },
+                {
+                  replace: true,
+                },
+              );
+            },
+          }))}
+          classNames={{
+            tab: 'px-2 py-1 md:px-4 md:py-2',
           }}
-          items={tabsItems}
-          tabBarExtraContent={
-            <ADropdown
-              trigger={['click']}
-              placement={'bottomRight'}
-              open={sortOpen}
-              onOpenChange={setSortOpen}
-              menu={{
-                selectable: true,
-                items: sortOptions.map((option) => ({
-                  label: option.label,
-                  key: option.key,
-                  onClick: () => {
-                    setSortValue(option.value);
-                  },
-                })),
-                selectedKeys: (function () {
-                  if (!sortValue) return [];
-
-                  const selectedKey = sortOptions.find(
-                    (option) =>
-                      option.value.sort === sortValue.sort &&
-                      option.value.orderBy === sortValue.orderBy,
-                  )?.key;
-
-                  return selectedKey ? [selectedKey] : [];
-                })(),
-              }}
-            >
-              <ABadge dot={!!sortValue}>
-                <AButton iconPosition={'end'} icon={<DownOutlined />}>
-                  Sort
-                </AButton>
-              </ABadge>
-            </ADropdown>
-          }
         />
-      </div>
-      {!getCommoditiesQuery.isFetching &&
-        (items?.length ? (
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
-            {items.map((item) => (
-              <CardStore key={item.id} commodity={item} />
-            ))}
-          </div>
-        ) : (
-          <Empty>
-            <AButton
-              type='primary'
-              onClick={() => getCommoditiesQuery.refetch()}
-            >
-              Refresh
+        {/* <ADropdown
+          trigger={['click']}
+          placement={'bottomRight'}
+          open={sortOpen}
+          onOpenChange={setSortOpen}
+          menu={{
+            selectable: true,
+            items: sortOptions.map((option) => ({
+              label: option.label,
+              key: option.key,
+              onClick: () => {
+                setSortValue(option.value);
+              },
+            })),
+            selectedKeys: (function () {
+              if (!sortValue) return [];
+
+              const selectedKey = sortOptions.find(
+                (option) =>
+                  option.value.sort === sortValue.sort &&
+                  option.value.orderBy === sortValue.orderBy,
+              )?.key;
+
+              return selectedKey ? [selectedKey] : [];
+            })(),
+          }}
+        >
+          <ABadge dot={!!sortValue}>
+            <AButton iconPosition={'end'} icon={<DownOutlined />}>
+              Sort
             </AButton>
-          </Empty>
-        ))}
+          </ABadge>
+        </ADropdown> */}
+      </div>
+
+      {getCommoditiesData?.result?.collection?.length ? (
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
+          {getCommoditiesData.result.collection.map((item) => (
+            <CardStore key={item.id} commodity={item} />
+          ))}
+        </div>
+      ) : (
+        <Empty>
+          <AButton type='primary' onClick={() => getCommodities.refetch()}>
+            Refresh
+          </AButton>
+        </Empty>
+      )}
     </ContainerIgnoreHeader>
   );
 };

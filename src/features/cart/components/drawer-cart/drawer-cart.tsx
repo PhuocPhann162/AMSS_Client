@@ -1,4 +1,7 @@
-import { useAuthGetCartQuery } from '@/api/cart-api';
+import {
+  useAddUpdateCartItemMutation,
+  useAuthGetCartQuery,
+} from '@/api/cart-api';
 import { AButton, ADrawer, AImage } from '@/common/ui-common';
 import { ButtonContinueShopping } from '@/features/cart/components/button-continue-shopping';
 import { QuantitySelector } from '@/features/cart/components/quantity-selector';
@@ -22,8 +25,11 @@ export const DrawerCart = ({
   const navigate = useNavigate();
 
   const getCart = useAuthGetCartQuery();
+  const getCartData =
+    getCart.data && !getCart.isError ? getCart.data : undefined;
 
-  const cart = getCart.currentData?.result;
+  const [addUpdateCartItem, addUpdateCartItemResult] =
+    useAddUpdateCartItemMutation();
 
   return (
     <ADrawer
@@ -32,13 +38,13 @@ export const DrawerCart = ({
       destroyOnClose
       title='Cart'
       footer={
-        cart?.cartItems?.length ? (
+        getCartData?.result.cartItems?.length ? (
           <div className='flex flex-col gap-4'>
             <div className='flex items-center justify-between'>
               <p className='text-lg font-medium'>Total</p>
               <p className='text-xl font-bold'>
                 {formatUsd(
-                  cart.cartItems.reduce(
+                  getCartData.result.cartItems.reduce(
                     (total, item) => total + item.price * item.quantity,
                     0,
                   ),
@@ -60,7 +66,7 @@ export const DrawerCart = ({
         ) : undefined
       }
     >
-      {!cart?.cartItems?.length && !getCart.isFetching && (
+      {!getCartData?.result.cartItems?.length && !getCart.isFetching && (
         <div className='flex flex-col gap-4'>
           <p className='text-lg font-medium'>
             Looks like you haven’t added anything yet, let’s get you started!
@@ -69,9 +75,9 @@ export const DrawerCart = ({
         </div>
       )}
 
-      {!!cart?.cartItems?.length && (
+      {!!getCartData?.result.cartItems?.length && (
         <div className='flex flex-col gap-4'>
-          {cart?.cartItems?.map((item) => (
+          {getCartData?.result.cartItems?.map((item) => (
             <div
               key={item.commodityId}
               className='flex gap-4'
@@ -85,7 +91,31 @@ export const DrawerCart = ({
               <div className='flex grow justify-between gap-2'>
                 <div className='flex flex-col gap-2'>
                   <p className='font-semibold'>{item.commodityName}</p>
-                  <QuantitySelector enableClear defaultValue={item.quantity} />
+                  <QuantitySelector
+                    enableClear
+                    defaultValue={item.quantity}
+                    disabled={addUpdateCartItemResult.isLoading}
+                    onClear={async () => {
+                      try {
+                        await addUpdateCartItem({
+                          commodityId: item.commodityId,
+                          updateQuantityBy: 0,
+                        });
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                    onChange={async (value) => {
+                      try {
+                        await addUpdateCartItem({
+                          commodityId: item.commodityId,
+                          updateQuantityBy: value,
+                        });
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                  />
                 </div>
                 <p className='font-bold'>{formatUsd(item.price)}</p>
               </div>

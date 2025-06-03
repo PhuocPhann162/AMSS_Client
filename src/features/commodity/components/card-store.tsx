@@ -1,4 +1,4 @@
-import { ACardV2, AImage } from '@/common/ui-common';
+import { ARawImage } from '@/common/ui-common';
 import type { Commodity } from '@/interfaces';
 import { formatUsd } from '@/utils/number/format-usd';
 import { useNavigate } from 'react-router-dom';
@@ -15,22 +15,18 @@ export const CardStore = ({ commodity }: CardStoreProps) => {
   };
 
   return (
-    <ACardV2
+    <div
       onClick={handleClick}
-      rootClassName='cursor-pointer bg-transparent'
-      classNames={{
-        body: '[&.ant-card-body]:p-[initial] flex flex-col gap-3',
-      }}
+      className='relative cursor-pointer bg-transparent'
     >
-      <AImage
+      <ARawImage
         src={commodity.image}
-        preview={false}
-        rootClassName='aspect-square rounded-xl overflow-hidden'
+        className='aspect-square overflow-hidden rounded-xl'
       />
-      <div className='flex flex-col gap-1'>
+      <div className='absolute left-3 top-3 flex flex-col gap-1 text-white1'>
         <p className='text-xl font-medium'>{commodity.name}</p>
         <p className='text-lg font-bold'>{formatUsd(commodity.price)}</p>
       </div>
-    </ACardV2>
+    </div>
   );
 };
