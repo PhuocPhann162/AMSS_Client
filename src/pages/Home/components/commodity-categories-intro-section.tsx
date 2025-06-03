@@ -35,7 +35,7 @@ export const CommodityCategoriesIntroSection = () => {
   };
 
   return (
-    <section className='relative flex flex-col bg-amber-50'>
+    <section className='relative flex flex-col'>
       <div className='flex flex-col items-center justify-center p-10 pb-0 text-3xl md:text-5xl'>
         <h1 className='font-bold'>WE HAVE 4</h1>
         <div className='flex flex-col md:flex-row'>
@@ -66,12 +66,7 @@ export const CommodityCategoriesIntroSection = () => {
         ))}
       </div>
       <div className='sticky bottom-0 flex items-center justify-center p-8'>
-        <AButton
-          type={'primary'}
-          variant={'filled'}
-          color={'primary'}
-          onClick={() => navigate('/store')}
-        >
+        <AButton type={'primary'} onClick={() => navigate('/store')}>
           SHOP IN STORE
         </AButton>
       </div>

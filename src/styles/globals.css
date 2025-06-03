@@ -17,12 +17,6 @@
   --color-light--1: #aaa;
   --color-light--2: #ececec;
   --color-light--3: #d6dee0;
-
-  --navbar-height: 3rem;
-
-  @media (min-width: 768px) {
-    --navbar-height: 3.75rem;
-  }
 }
 
 :global(.leaflet-popup .leaflet-popup-content-wrapper) {
@@ -75,10 +69,16 @@
   }
 
   body {
-    @apply relative bg-white font-satoshi text-gray-900;
+    @apply text-black1 bg-white1 relative font-satoshi;
   }
 
   :root {
+    --navbar-height: 3rem;
+
+    @media (min-width: 768px) {
+      --navbar-height: 3.75rem;
+    }
+
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;

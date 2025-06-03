@@ -12,14 +12,12 @@ export const FarmManagementIntroSection = () => {
         alt='Novaris'
         className='sticky top-0 h-screen'
       />
-      <div className='relative -mt-[100vh] flex min-h-screen flex-col items-center justify-center gap-4 text-center'>
-        <p className='text-2xl font-bold text-white md:text-4xl'>
-          Welcome to Novaris
-        </p>
-        <p className='text-4xl font-bold text-white md:text-6xl'>
+      <div className='text-white1 relative -mt-[100vh] flex min-h-screen flex-col items-center justify-center gap-4 text-center'>
+        <p className='text-2xl font-bold md:text-4xl'>Welcome to Novaris</p>
+        <p className='text-4xl font-bold md:text-6xl'>
           Agriculture & Eco Farming
         </p>
-        <p className='text-white md:text-lg'>
+        <p className='md:text-lg'>
           Connecting agriculture, ensuring transparent origins
         </p>
         <Link to={userState?.id ? '/app/dashBoard' : '/login'}>

@@ -14,7 +14,7 @@ export const HomeHeader = ({ children, rootClassName }: HeaderHomeProps) => {
     <header
       className={twMerge(
         directionY === DIRECTION_Y.down && '-translate-y-full',
-        'mx-auto w-fit rounded-b-3xl bg-[#353535]/50 text-white duration-500 ease-out [backdrop-filter:saturate(180%)_blur(80px)]',
+        'mx-auto w-fit rounded-b-3xl bg-black1/50 text-white1 duration-500 ease-out [backdrop-filter:saturate(180%)_blur(20px)]',
         rootClassName,
       )}
     >

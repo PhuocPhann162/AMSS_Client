@@ -9,6 +9,7 @@ import { useState } from 'react';
 export interface QuantitySelectorProps {
   defaultValue?: number;
   enableClear?: boolean;
+  disabled?: boolean;
   onClear?: () => void;
   onChange?: (value: number) => void;
   rootClassName?: string;
@@ -17,6 +18,7 @@ export interface QuantitySelectorProps {
 export const QuantitySelector = ({
   defaultValue = 1,
   enableClear,
+  disabled,
   onClear,
   onChange,
   rootClassName,
@@ -36,6 +38,7 @@ export const QuantitySelector = ({
         }
         danger
         type={'text'}
+        disabled={disabled}
         onClick={() => {
           if (quantity > 1) {
             updateQuantity(quantity - 1);
@@ -46,6 +49,7 @@ export const QuantitySelector = ({
       />
       <InputNumber
         controls={false}
+        disabled={disabled}
         style={{ width: 60 }}
         rootClassName='[&.ant-input-number_input]:text-center'
         value={quantity}
@@ -61,6 +65,7 @@ export const QuantitySelector = ({
       <AButton
         icon={<PlusOutlined />}
         type='text'
+        disabled={disabled}
         onClick={() => updateQuantity(quantity + 1)}
       />
     </div>
