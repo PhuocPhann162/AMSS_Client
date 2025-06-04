@@ -1,6 +1,9 @@
+import { useAuthGetCartQuery } from '@/api/cart-api';
+import { ABadge } from '@/common/ui-common';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
-import { HomeHeader } from '@/components/layout/header/home-header';
+import { HomeHeader } from '@/components/layout/header/HomeHeader';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
+import { semanticColors } from '@/configs/colors';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
 
@@ -17,9 +20,18 @@ export const HeaderPage = () => {
 
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
 
+  const getCart = useAuthGetCartQuery();
+  const getCartData =
+    getCart.data && !getCart.isError ? getCart.data : undefined;
+
   return (
     <>
-      <HomeHeader rootClassName='fixed inset-x-0 top-0 z-50 flex h-[--navbar-height] items-center justify-between px-6'>
+      <HomeHeader
+        className='fixed inset-x-0 top-0 z-50 h-[--navbar-height]'
+        classNames={{
+          content: 'flex items-center gap-12 justify-between',
+        }}
+      >
         {!!isMobile && <SidebarTrigger />}
         <Link to='/' className='text-xl font-bold uppercase'>
           Novaris
@@ -40,10 +52,23 @@ export const HeaderPage = () => {
         )}
 
         <div className='flex items-center gap-6'>
-          <ShoppingCartOutlined
-            onClick={() => setOpenCartDrawer(true)}
-            className='text-xl'
-          />
+          <ABadge
+            count={
+              getCartData?.result.cartItems?.length
+                ? getCartData?.result.cartItems.reduce(
+                    (total, item) => total + item.quantity,
+                    0,
+                  )
+                : undefined
+            }
+            size='small'
+            color={semanticColors['green']}
+          >
+            <ShoppingCartOutlined
+              onClick={() => setOpenCartDrawer(true)}
+              className='text-xl'
+            />
+          </ABadge>
 
           {!isMobile && (
             <DropdownUser>
