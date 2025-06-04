@@ -11,6 +11,7 @@ import { CartItemDto } from '@/api';
 import { useCreateOrderMutation } from '@/api/order-api';
 import { toastNotify } from '@/helper';
 import { CheckOutResultModal } from './checkout-result-modal';
+import { AButton } from '@/common/ui-common';
 
 export interface PaymentFormProps {
   data: {
@@ -50,7 +51,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({ data, userInfo }) => {
       const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/payment-success`,
+          return_url: 'https://example.com/order/123/complete',
           payment_method_data: {
             billing_details: {
               name: userInfo?.fullName,
@@ -110,6 +111,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({ data, userInfo }) => {
 
       if (response) {
         if (response.data?.result) {
+          navigate(`order/${response.data.result}/success`);
           setIsOpenPrintInvoiceModal(true);
         }
       }
@@ -162,8 +164,9 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({ data, userInfo }) => {
               </span>
             </div>
 
-            <button
-              type='submit'
+            <AButton
+              type='primary'
+              htmlType='submit'
               disabled={!stripe || isProcessing}
               className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 font-medium text-white ${
                 !stripe || isProcessing
@@ -172,17 +175,17 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({ data, userInfo }) => {
               }`}
             >
               {isProcessing ? (
-                <>
+                <div className='flex items-center gap-2'>
                   <div className='h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent' />
                   Processing...
-                </>
+                </div>
               ) : (
-                <>
+                <div className='flex items-center gap-2'>
                   <FaShieldAlt />
                   Pay ${data?.cartTotal?.toFixed(2)}
-                </>
+                </div>
               )}
-            </button>
+            </AButton>
           </div>
 
           <div className='flex items-center justify-center gap-2 text-sm text-gray-500'>

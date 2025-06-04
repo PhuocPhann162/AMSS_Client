@@ -1,9 +1,9 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import { BooleanResponse, CreateOrderRequest } from '@/models';
+import { CreateOrderRequest, GuidResponse } from '@/models';
 
 export const orderApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({
-    createOrder: build.mutation<BooleanResponse, CreateOrderRequest>({
+    createOrder: build.mutation<GuidResponse, CreateOrderRequest>({
       query: (data) => ({
         url: 'orders',
         method: 'POST',
