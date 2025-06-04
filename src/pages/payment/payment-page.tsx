@@ -9,11 +9,15 @@ import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { toastNotify } from '@/helper';
 import { setUser } from '@/features/auth/store/auth-slice';
 import { AddressData } from '@/components/Page/Maps';
+import { useUpdateAddressMutation } from '@/api';
+import { UpdateAddressRequest } from '@/models';
 
 export function PaymentPage() {
   const [paymentData, setPaymentData] = useState<MakePaymentResponse>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [initialPayment] = useMakePaymentMutation();
+  const [updateStreetAddress] = useUpdateAddressMutation();
+
   const dispatch = useAppDispatch();
 
   const auth = useAppSelector((state) => state.auth);
@@ -33,15 +37,26 @@ export function PaymentPage() {
     initializePayment();
   }, []);
 
-  const handleAddressUpdate = (newAddress: AddressData) => {
+  const handleAddressUpdate = async (newAddress: AddressData) => {
     if (auth.user) {
-      dispatch(
-        setUser({
-          ...auth.user,
+      try {
+        const response = await updateStreetAddress({
           streetAddress: newAddress.fullAddress,
-        }),
-      );
-      toastNotify('Delivery address updated successfully', 'success');
+          lat: newAddress.coordinates.lat,
+          lng: newAddress.coordinates.lng,
+        } as UpdateAddressRequest);
+        if (response.data?.isSuccess) {
+          dispatch(
+            setUser({
+              ...auth.user,
+              streetAddress: newAddress.fullAddress,
+            }),
+          );
+          toastNotify('Delivery address updated successfully', 'success');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

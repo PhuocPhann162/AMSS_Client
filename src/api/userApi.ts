@@ -1,6 +1,10 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import { GetUsersRequest } from '@/models/request';
-import { GetUsersResponse, PaginationResponse } from '@/models/response';
+import { GetUsersRequest, UpdateAddressRequest } from '@/models/request';
+import {
+  BooleanResponse,
+  GetUsersResponse,
+  PaginationResponse,
+} from '@/models/response';
 
 export const userApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -46,6 +50,17 @@ export const userApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Users],
     }),
+    updateAddress: builder.mutation<BooleanResponse, UpdateAddressRequest>({
+      query: (payload) => ({
+        url: `user/address`,
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: payload,
+      }),
+      invalidatesTags: [TAG_TYPES.Users],
+    }),
   }),
 });
 
@@ -54,4 +69,5 @@ export const {
   useLockUnLockUserMutation,
   useRoleManagementMutation,
   useUpdateInfoMutation,
+  useUpdateAddressMutation,
 } = userApi;

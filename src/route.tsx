@@ -42,6 +42,7 @@ import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
+import PaymentSuccess from './components/Page/Payment/PaymentSuccess';
 
 export interface Route {
   name: string;
@@ -256,6 +257,16 @@ export const router = createBrowserRouter(
             {
               path: 'create',
               element: <CreateCommodity />,
+            },
+          ],
+        },
+        // Order Routes
+        {
+          path: 'order',
+          children: [
+            {
+              path: ':id/success',
+              element: <PaymentSuccess />,
             },
           ],
         },
