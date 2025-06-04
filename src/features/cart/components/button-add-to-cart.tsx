@@ -1,6 +1,7 @@
 import { useGetCommodityByIdQuery } from '@/api';
 import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
-import { AButton } from '@/common/ui-common';
+import { ATooltip } from '@/common/ui-common';
+import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { useAuthenticationAction } from '@/features/auth/hooks/use-authentication-action';
 import { CommodityStatus } from '@/interfaces';
 import type { CartItem } from '@/interfaces/cart/cart-item';
@@ -30,7 +31,10 @@ export const ButtonAddToCart = ({
 
   const getCommodityById = useGetCommodityByIdQuery({ id });
 
-  const getCommodityByIdData = getCommodityById.currentData?.result;
+  const getCommodityByIdData =
+    getCommodityById.data && !getCommodityById.isError
+      ? getCommodityById.data
+      : undefined;
 
   const handleClick = async () => {
     try {
@@ -47,21 +51,31 @@ export const ButtonAddToCart = ({
     }
   };
 
-  const commodityStatus = getCommodityByIdData?.status;
+  const commodityStatus = getCommodityByIdData?.result?.status;
 
-  const disabled = commodityStatus === CommodityStatus.Discontinued;
+  const disabled =
+    commodityStatus === CommodityStatus.Discontinued ||
+    commodityStatus === CommodityStatus.OutOfStock;
 
-  if (commodityStatus === CommodityStatus.OutOfStock) return undefined;
+  let tooltipTitle = undefined;
+
+  if (commodityStatus === CommodityStatus.Discontinued) {
+    tooltipTitle = 'Discontinued';
+  } else if (commodityStatus === CommodityStatus.OutOfStock) {
+    tooltipTitle = 'Out of stock';
+  }
 
   return (
-    <AButton
-      type='primary'
-      disabled={disabled || getCommodityById.isFetching || getCart.isFetching}
-      loading={addUpdateCartItemResult.isLoading}
-      onClick={handleClick}
-      icon={<PlusCircleOutlined />}
-    >
-      {children ?? 'Add To Cart'}
-    </AButton>
+    <ATooltip title={tooltipTitle}>
+      <AHomeButton
+        type='primary'
+        disabled={disabled || getCommodityById.isFetching || getCart.isFetching}
+        loading={addUpdateCartItemResult.isLoading}
+        onClick={handleClick}
+        icon={<PlusCircleOutlined />}
+      >
+        {children ?? 'Add To Cart'}
+      </AHomeButton>
+    </ATooltip>
   );
 };

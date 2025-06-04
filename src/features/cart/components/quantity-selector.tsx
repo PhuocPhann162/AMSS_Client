@@ -50,7 +50,8 @@ export const QuantitySelector = ({
       <InputNumber
         controls={false}
         disabled={disabled}
-        style={{ width: 60 }}
+        style={{ width: 40 }}
+        variant={'borderless'}
         rootClassName='[&.ant-input-number_input]:text-center'
         value={quantity}
         onChange={(value) => {
