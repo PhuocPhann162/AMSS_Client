@@ -69,14 +69,14 @@
   }
 
   body {
-    @apply text-black1 bg-white1 relative font-satoshi;
+    @apply relative bg-white1 font-satoshi text-black1;
   }
 
   :root {
     --navbar-height: 3rem;
 
     @media (min-width: 768px) {
-      --navbar-height: 3.75rem;
+      --navbar-height: 3.25rem;
     }
 
     --background: 0 0% 100%;

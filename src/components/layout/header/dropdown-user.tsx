@@ -1,6 +1,7 @@
-import { AAvatar, ADropdown } from '@/common/ui-common';
+import { ADropdown } from '@/common/ui-common';
+import { AvatarWithUsername } from '@/components/ui/avatar-with-username.';
 import { clearAuth } from '@/features/auth/store/auth-slice';
-import { getFirstTwoCharacters } from '@/lib/string';
+import type { User } from '@/interfaces';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
@@ -11,9 +12,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export interface DropdownUserProps {
   showName?: boolean;
+  children?: ReactNode | ((user?: User) => ReactNode);
 }
 
-export const DropdownUser = ({ showName }: DropdownUserProps) => {
+export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -46,10 +48,9 @@ export const DropdownUser = ({ showName }: DropdownUserProps) => {
     },
   ];
 
-  if (!userState) return null;
-
   return (
     <ADropdown
+      disabled={!userState}
       trigger={['click']}
       menu={{
         items: items.map((item) => {
@@ -66,12 +67,17 @@ export const DropdownUser = ({ showName }: DropdownUserProps) => {
         }),
       }}
     >
-      <button className='flex items-center gap-2'>
-        <AAvatar src={userState?.avatar}>
-          {getFirstTwoCharacters(userState?.fullName || '')}
-        </AAvatar>
-        {showName && <p className='font-semibold'>{userState?.fullName}</p>}
-      </button>
+      {typeof children === 'function' ? (
+        children(userState)
+      ) : children ? (
+        children
+      ) : (
+        <AvatarWithUsername
+          showName={showName}
+          name={userState?.fullName}
+          avatar={userState?.avatar}
+        />
+      )}
     </ADropdown>
   );
 };

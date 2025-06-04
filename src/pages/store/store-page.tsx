@@ -1,5 +1,6 @@
 import { useGetCommoditiesQuery } from '@/api';
-import { AButton } from '@/common/ui-common';
+import { ABadge, AButton, ADropdown } from '@/common/ui-common';
+import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { ContainerIgnoreHeader } from '@/components/layout/content/container-ignore-header';
 import {
   TabNavigation,
@@ -12,6 +13,7 @@ import {
   CommodityOrderBy,
   ListSortDirection,
 } from '@/models';
+import SwapOutlined from '@ant-design/icons/SwapOutlined';
 import Empty from 'antd/es/empty';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -122,7 +124,7 @@ export const StorePage = () => {
 
   return (
     <ContainerIgnoreHeader className='flex flex-col gap-4'>
-      <div className='flex justify-center gap-2 md:flex-row md:items-center'>
+      <div className='flex flex-col justify-between gap-4 md:flex-row md:items-center'>
         <TabNavigation
           activeTab={categories[0]}
           tabs={tabsItems.map((item) => ({
@@ -144,7 +146,7 @@ export const StorePage = () => {
             tab: 'px-2 py-1 md:px-4 md:py-2',
           }}
         />
-        {/* <ADropdown
+        <ADropdown
           trigger={['click']}
           placement={'bottomRight'}
           open={sortOpen}
@@ -172,11 +174,15 @@ export const StorePage = () => {
           }}
         >
           <ABadge dot={!!sortValue}>
-            <AButton iconPosition={'end'} icon={<DownOutlined />}>
+            <AHomeButton
+              type='text'
+              iconPosition={'end'}
+              icon={<SwapOutlined className='rotate-90' />}
+            >
               Sort
-            </AButton>
+            </AHomeButton>
           </ABadge>
-        </ADropdown> */}
+        </ADropdown>
       </div>
 
       {getCommoditiesData?.result?.collection?.length ? (
