@@ -194,6 +194,12 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      backdropSaturate: {
+        180: '180%',
+      },
+      backdropBlur: {
+        60: '60px',
+      },
     },
   },
   // daisyui: {

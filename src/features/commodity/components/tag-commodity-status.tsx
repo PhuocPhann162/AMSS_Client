@@ -1,5 +1,7 @@
 import { ATag, type ATagProps } from '@/common/ui-common';
+import { colors } from '@/configs/colors';
 import { CommodityStatus } from '@/interfaces';
+import { twMerge } from 'tailwind-merge';
 
 export interface TagCommodityStatusProps extends ATagProps {
   status: CommodityStatus;
@@ -17,7 +19,7 @@ export const TagCommodityStatus = ({
     }
   > = {
     [CommodityStatus.Active]: {
-      color: 'green',
+      color: colors['green-pea'][700],
       label: 'Active',
     },
     [CommodityStatus.OutOfStock]: {
@@ -25,25 +27,32 @@ export const TagCommodityStatus = ({
       label: 'Out of Stock',
     },
     [CommodityStatus.Discontinued]: {
-      color: 'gray',
+      color: colors['woodsmoke'][700],
       label: 'Discontinued',
     },
     [CommodityStatus.ComingSoon]: {
-      color: 'blue',
+      color: colors['woodsmoke'][700],
       label: 'Coming Soon',
     },
     [CommodityStatus.PreOrder]: {
-      color: 'blue',
+      color: colors['woodsmoke'][700],
       label: 'Pre Order',
     },
     [CommodityStatus.Limited]: {
-      color: 'blue',
+      color: colors['woodsmoke'][700],
       label: 'Limited',
     },
   };
 
   return (
-    <ATag color={statusMap[status].color} bordered {...props}>
+    <ATag
+      color={statusMap[status].color}
+      {...props}
+      className={twMerge(
+        'rounded-2xl px-2.5 py-0.5 uppercase',
+        props.className,
+      )}
+    >
       {statusMap[status].label}
     </ATag>
   );
