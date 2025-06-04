@@ -1,7 +1,7 @@
 import { useGetCommodityByIdQuery } from '@/api';
 import { ADivider, AImage, AQRCode, ATooltip } from '@/common/ui-common';
 import { ButtonAddToCart } from '@/features/cart/components/button-add-to-cart';
-import { QuantitySelector } from '@/features/cart/components/quantity-selector';
+import { QuantityCounterInput } from '@/features/cart/components/QuantityCounterInput';
 import { SpecialTagTag } from '@/features/commodity/components/special-tag-tag';
 import { TagCommodityStatus } from '@/features/commodity/components/tag-commodity-status';
 import { type Commodity } from '@/interfaces';
@@ -77,7 +77,7 @@ export const CommodityDetailPage = () => {
             content={
               <>
                 <p
-                  className='w-max cursor-pointer text-xs font-bold uppercase text-green opacity-50 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
+                  className='w-max cursor-pointer text-xs font-bold uppercase text-green opacity-70 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
                   onClick={() => navigate(-1)}
                 >
                   Back to shop
@@ -112,9 +112,10 @@ export const CommodityDetailPage = () => {
               <>
                 <div className='flex items-center justify-between'>
                   <p className='font-medium'>Quantity</p>
-                  <QuantitySelector
-                    defaultValue={quantity}
-                    onChange={setQuantity}
+                  <QuantityCounterInput
+                    quantity={quantity}
+                    min={1}
+                    onQuantityChange={setQuantity}
                   />
                 </div>
                 <ButtonAddToCart id={data.id} quantity={quantity}>
@@ -150,7 +151,7 @@ const CustomCard = ({
   return (
     <article
       className={twMerge(
-        'backdrop-saturate-180 backdrop-blur-60 relative flex flex-col overflow-hidden rounded-2xl bg-ebb-50/80',
+        'relative flex flex-col overflow-hidden rounded-2xl bg-ebb-50/80 backdrop-blur-60 backdrop-saturate-180',
         rootClassName,
       )}
     >
@@ -161,7 +162,7 @@ const CustomCard = ({
         <footer
           className={twMerge(
             sharedClassName,
-            'bg-ebb-100/80',
+            'bg-ebb-100/50',
             classNames?.footer,
           )}
         >

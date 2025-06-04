@@ -1,7 +1,7 @@
 import { AuthenticationLayout } from '@/layouts';
-import { HomeLayout } from '@/layouts/home-layout';
+import { HomeLayout } from '@/layouts/HomeLayout';
 import { CartPage } from '@/pages/cart/cart-page';
-import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
+import { CommodityDetailPage } from '@/pages/Commodities/CommodityDetailPage';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';

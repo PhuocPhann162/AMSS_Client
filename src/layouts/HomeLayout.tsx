@@ -1,4 +1,4 @@
-import { Footer } from '@/components/layout/footer/footer';
+import { Footer } from '@/components/layout/footer/Footer';
 import { HeaderPage } from '@/components/layout/header';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
 import { AppSidebar } from '@/components/layout/sidebar';
