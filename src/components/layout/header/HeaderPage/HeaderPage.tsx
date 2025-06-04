@@ -1,28 +1,19 @@
-import { useAuthGetCartQuery } from '@/api/cart-api';
-import { ABadge } from '@/common/ui-common';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
+import { BadgeCartIcon } from '@/components/layout/header/HeaderPage/BadgeCartIcon';
+import { UserIcon } from '@/components/layout/header/HeaderPage/UserIcon';
 import { HomeHeader } from '@/components/layout/header/HomeHeader';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
-import { semanticColors } from '@/configs/colors';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
 
 import { dashboardRoutes } from '@/routes';
-import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
-import UserOutlined from '@ant-design/icons/UserOutlined';
-import type { GetProps, GetRef } from 'antd/es/_util/type';
-import { forwardRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { twMerge } from 'tailwind-merge';
 
 export const HeaderPage = () => {
   const isMobile = useIsMobile();
 
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
-
-  const getCart = useAuthGetCartQuery();
-  const getCartData =
-    getCart.data && !getCart.isError ? getCart.data : undefined;
 
   return (
     <>
@@ -52,23 +43,7 @@ export const HeaderPage = () => {
         )}
 
         <div className='flex items-center gap-6'>
-          <ABadge
-            count={
-              getCartData?.result.cartItems?.length
-                ? getCartData?.result.cartItems.reduce(
-                    (total, item) => total + item.quantity,
-                    0,
-                  )
-                : undefined
-            }
-            size='small'
-            color={semanticColors['green']}
-          >
-            <ShoppingCartOutlined
-              onClick={() => setOpenCartDrawer(true)}
-              className='text-xl'
-            />
-          </ABadge>
+          <BadgeCartIcon onIconClick={() => setOpenCartDrawer(true)} />
 
           {!isMobile && (
             <DropdownUser>
@@ -94,18 +69,3 @@ export const HeaderPage = () => {
     </>
   );
 };
-
-type UserIconRef = GetRef<typeof UserOutlined>;
-type UserIconProps = GetProps<typeof UserOutlined>;
-
-const UserIcon = forwardRef<UserIconRef, UserIconProps>((props, ref) => {
-  return (
-    <UserOutlined
-      ref={ref}
-      {...props}
-      className={twMerge('cursor-pointer p-2', props.className)}
-    />
-  );
-});
-
-UserIcon.displayName = 'UserIcon';
