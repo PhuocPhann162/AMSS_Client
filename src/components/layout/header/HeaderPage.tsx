@@ -62,7 +62,7 @@ export const HeaderPage = () => {
       </HomeHeader>
       <DrawerCart
         open={openCartDrawer}
-        onCancel={() => setOpenCartDrawer(false)}
+        onClose={() => setOpenCartDrawer(false)}
         onNavigateCartPage={() => setOpenCartDrawer(false)}
         onClickCartItem={() => setOpenCartDrawer(false)}
       />
