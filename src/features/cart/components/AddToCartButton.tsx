@@ -8,24 +8,26 @@ import type { CartItem } from '@/interfaces/cart/cart-item';
 import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined';
 import type { ReactNode } from 'react';
 
-export interface ButtonAddToCartProps {
+export interface AddToCartButtonProps {
   id: CartItem['commodityId'];
   quantity?: CartItem['quantity'];
   children?: ReactNode;
 }
 
-export const ButtonAddToCart = ({
+export const AddToCartButton = ({
   id,
   quantity = 1,
   children,
-}: ButtonAddToCartProps) => {
+}: AddToCartButtonProps) => {
   const [addUpdateCartItem, addUpdateCartItemResult] =
     useAddUpdateCartItemMutation();
   const { handleAction } = useAuthenticationAction();
 
   const getCart = useGetCartQuery();
+  const getCartData =
+    getCart.data && !getCart.isError ? getCart.data : undefined;
 
-  const cartItem = getCart.currentData?.result?.cartItems?.find(
+  const cartItem = getCartData?.result?.cartItems?.find(
     (item) => item.commodityId === id,
   );
 

@@ -1,6 +1,6 @@
 import { useGetCommodityByIdQuery } from '@/api';
 import { ADivider, AImage, AQRCode, ATooltip } from '@/common/ui-common';
-import { ButtonAddToCart } from '@/features/cart/components/button-add-to-cart';
+import { AddToCartButton } from '@/features/cart/components/AddToCartButton';
 import { QuantityCounterInput } from '@/features/cart/components/QuantityCounterInput';
 import { SpecialTagTag } from '@/features/commodity/components/special-tag-tag';
 import { TagCommodityStatus } from '@/features/commodity/components/tag-commodity-status';
@@ -118,9 +118,9 @@ export const CommodityDetailPage = () => {
                     onQuantityChange={setQuantity}
                   />
                 </div>
-                <ButtonAddToCart id={data.id} quantity={quantity}>
+                <AddToCartButton id={data.id} quantity={quantity}>
                   Add To Cart - {formatUsd(data.price)}
-                </ButtonAddToCart>
+                </AddToCartButton>
               </>
             }
             classNames={{
