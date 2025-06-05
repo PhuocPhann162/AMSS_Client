@@ -79,6 +79,10 @@ export const sidebarOptions: Item[] = [
             path: '/app/commodity/managment',
             label: 'Products',
           },
+          {
+            path: '/app/market/orders',
+            label: 'Orders',
+          },
         ],
       },
     ],
