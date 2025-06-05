@@ -1,11 +1,12 @@
 import { AuthenticationLayout } from '@/layouts';
 import { HomeLayout } from '@/layouts/HomeLayout';
-import { CartPage } from '@/pages/cart/cart-page';
+import { CartPage } from '@/pages/cart/CartPage';
 import { CommodityDetailPage } from '@/pages/Commodities/CommodityDetailPage';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
+import PaymentSuccess from './components/Page/Payment/PaymentSuccess';
 import EnhancedDefaultAppLayout from './layouts/default-app-layout';
 import {
   AccessDenied,
@@ -42,7 +43,6 @@ import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
-import PaymentSuccess from './components/Page/Payment/PaymentSuccess';
 
 export interface Route {
   name: string;

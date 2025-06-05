@@ -5,7 +5,6 @@ import {
 import { ADrawer, AImage } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { QuantityCounterInput } from '@/features/cart/components/QuantityCounterInput';
-import type { AddUpdateCartItemRequest } from '@/models/request/cart/cart-request';
 import { formatUsd } from '@/utils/number/format-usd';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
@@ -34,13 +33,7 @@ export const DrawerCart = ({
   const [addUpdateCartItem] = useAddUpdateCartItemMutation();
 
   const debouncedAddUpdateCartItem = useDebouncedCallback(
-    async (payload: AddUpdateCartItemRequest) => {
-      try {
-        await addUpdateCartItem(payload);
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    addUpdateCartItem,
     500,
   );
 
@@ -54,7 +47,7 @@ export const DrawerCart = ({
         getCartData?.result.cartItems?.length ? (
           <div className='flex flex-col gap-4'>
             <div className='flex items-center justify-between'>
-              <p className='text-lg font-medium'>Total</p>
+              <p className='text-lg font-medium'>Subtotal</p>
               <p className='text-xl font-bold'>
                 {formatUsd(
                   getCartData.result.cartItems.reduce(
@@ -73,7 +66,7 @@ export const DrawerCart = ({
                 navigate('/store/cart');
               }}
             >
-              Checkout
+              Review cart
             </AHomeButton>
           </div>
         ) : undefined
