@@ -111,7 +111,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({ data, userInfo }) => {
 
       if (response) {
         if (response.data?.result) {
-          navigate(`order/${response.data.result}/success`);
+          navigate(`/payment/${response.data.result}/success`);
           setIsOpenPrintInvoiceModal(true);
         }
       }

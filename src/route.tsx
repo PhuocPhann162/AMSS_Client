@@ -101,6 +101,16 @@ export const router = createBrowserRouter(
         },
       ],
     },
+    // Payment Routes
+    {
+      path: 'payment',
+      children: [
+        {
+          path: ':orderId/success',
+          element: <PaymentSuccess />,
+        },
+      ],
+    },
     {
       path: 'accessDenied',
       element: <AccessDenied />,
@@ -226,6 +236,10 @@ export const router = createBrowserRouter(
               path: 'onlineStore',
               element: <OnlineStore />,
             },
+            {
+              path: 'orders',
+              element: <OnlineStore />,
+            },
           ],
         },
         //Supplier Routes
@@ -257,16 +271,6 @@ export const router = createBrowserRouter(
             {
               path: 'create',
               element: <CreateCommodity />,
-            },
-          ],
-        },
-        // Order Routes
-        {
-          path: 'order',
-          children: [
-            {
-              path: ':id/success',
-              element: <PaymentSuccess />,
             },
           ],
         },

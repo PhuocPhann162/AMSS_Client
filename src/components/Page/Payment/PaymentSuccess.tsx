@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaCheckCircle, FaHome, FaShoppingBag } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { AButton } from '@/common/ui-common';
 
 const PaymentSuccess: React.FC = () => {
   const navigate = useNavigate();
@@ -13,11 +14,11 @@ const PaymentSuccess: React.FC = () => {
   }, []);
 
   const handleContinueShopping = () => {
-    navigate('/');
+    navigate('/store');
   };
 
   const handleViewOrder = () => {
-    navigate(`/${orderId}/order-success`);
+    navigate(`/orders`);
   };
 
   return (
@@ -35,7 +36,7 @@ const PaymentSuccess: React.FC = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
             >
-              <FaCheckCircle className='h-20 w-20 text-green-500' />
+              <FaCheckCircle className='h-20 w-20 text-green-haze-500' />
             </motion.div>
           </div>
 
@@ -57,23 +58,25 @@ const PaymentSuccess: React.FC = () => {
             </div>
 
             <div className='flex flex-col justify-center gap-4 sm:flex-row'>
-              <button
+              <AButton
+                variant='solid'
+                color='cyan'
                 onClick={handleViewOrder}
-                className='flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors duration-200 hover:bg-blue-700'
+                size='large'
                 aria-label='View order details'
               >
                 <FaShoppingBag />
                 View Order Details
-              </button>
+              </AButton>
 
-              <button
+              <AButton
                 onClick={handleContinueShopping}
-                className='flex items-center justify-center gap-2 rounded-lg bg-gray-100 px-6 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-200'
+                size='large'
                 aria-label='Continue shopping'
               >
                 <FaHome />
                 Continue Shopping
-              </button>
+              </AButton>
             </div>
           </div>
 
