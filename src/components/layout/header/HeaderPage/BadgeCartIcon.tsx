@@ -24,7 +24,7 @@ export const BadgeCartIcon = (props: BadgeCartIconProps) => {
       size='small'
       color={semanticColors['green']}
       {...props}
-      className={twMerge('cursor-pointer text-inherit', props.className)}
+      className={twMerge('m-1 cursor-pointer text-inherit', props.className)}
     >
       <ShoppingCartOutlined className='text-xl' />
     </ABadge>

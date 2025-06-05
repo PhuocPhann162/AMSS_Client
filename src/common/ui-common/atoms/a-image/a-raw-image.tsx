@@ -1,13 +1,18 @@
-import type { ImgHTMLAttributes } from 'react';
+import { forwardRef, type ImgHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export type ARawImageProps = ImgHTMLAttributes<HTMLImageElement>;
 
-export const ARawImage = (props: ARawImageProps) => {
-  return (
-    <img
-      {...props}
-      className={twMerge('w-full object-cover', props.className)}
-    />
-  );
-};
+export const ARawImage = forwardRef<HTMLImageElement, ARawImageProps>(
+  (props, ref) => {
+    return (
+      <img
+        ref={ref}
+        title={props.alt}
+        {...props}
+        className={twMerge('w-full object-cover', props.className)}
+      />
+    );
+  },
+);
+ARawImage.displayName = 'ARawImage';

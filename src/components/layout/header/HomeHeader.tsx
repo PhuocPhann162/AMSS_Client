@@ -1,4 +1,4 @@
-import { useScrollDirection, useScrollPosition } from '@/hooks';
+import { DIRECTION_Y, useScrollDirection, useScrollPosition } from '@/hooks';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -21,9 +21,9 @@ export const HomeHeader = ({
     >
       <div
         className={twMerge(
-          'rounded-3xl border border-woodsmoke-400/50 bg-woodsmoke-500/50 px-4 py-3 text-white backdrop-blur-60 backdrop-saturate-180 transition-[transform,opacity,box-shadow] duration-500 ease-out',
-          scrollPosition.scrollY > 0 ? 'shadow-xl' : '',
-          scrollDirection.directionY === 'down'
+          'rounded-[32px] border border-white/10 bg-woodsmoke-700/50 px-4 py-3 text-white1 backdrop-blur-20 backdrop-saturate-180 transition-[transform,opacity,box-shadow] duration-500 ease-out',
+          scrollPosition.scrollY > 0 ? 'shadow-sm' : '',
+          scrollDirection.directionY === DIRECTION_Y.down
             ? '-translate-y-full opacity-0'
             : '',
           classNames?.content,

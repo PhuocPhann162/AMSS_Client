@@ -67,6 +67,7 @@ export const CommodityDetailPage = () => {
                 <AQRCode
                   value={qrValue}
                   rootClassName='cursor-pointer p-[initial] border-0 [overflow:initial]'
+                  color='#fff'
                 />
               </Link>
             </ATooltip>
@@ -77,7 +78,7 @@ export const CommodityDetailPage = () => {
             content={
               <>
                 <p
-                  className='w-max cursor-pointer text-xs font-bold uppercase text-green opacity-70 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
+                  className='w-max cursor-pointer text-xs font-bold uppercase text-green-pea-500 opacity-70 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
                   onClick={() => navigate(-1)}
                 >
                   Back
@@ -151,7 +152,7 @@ const CustomCard = ({
   return (
     <article
       className={twMerge(
-        'relative flex flex-col overflow-hidden rounded-2xl bg-ebb-50/80 backdrop-blur-60 backdrop-saturate-180',
+        'relative flex flex-col overflow-hidden rounded-2xl bg-woodsmoke-700/70 text-white1 backdrop-blur-20 backdrop-saturate-180',
         rootClassName,
       )}
     >
@@ -162,7 +163,7 @@ const CustomCard = ({
         <footer
           className={twMerge(
             sharedClassName,
-            'bg-ebb-100/50',
+            'bg-woodsmoke-700/50',
             classNames?.footer,
           )}
         >
