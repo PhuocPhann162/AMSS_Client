@@ -21,8 +21,8 @@ export const HomeHeader = ({
     >
       <div
         className={twMerge(
-          'rounded-xl bg-white/80 px-4 py-3 backdrop-blur-60 backdrop-saturate-180 transition-[transform,opacity,box-shadow] duration-500 ease-out',
-          scrollPosition.scrollY > 0 ? 'shadow-lg' : '',
+          'rounded-3xl border border-woodsmoke-400/50 bg-woodsmoke-500/50 px-4 py-3 text-white backdrop-blur-60 backdrop-saturate-180 transition-[transform,opacity,box-shadow] duration-500 ease-out',
+          scrollPosition.scrollY > 0 ? 'shadow-xl' : '',
           scrollDirection.directionY === 'down'
             ? '-translate-y-full opacity-0'
             : '',

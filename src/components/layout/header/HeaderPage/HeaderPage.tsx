@@ -43,7 +43,7 @@ export const HeaderPage = () => {
         )}
 
         <div className='flex items-center gap-6'>
-          <BadgeCartIcon onIconClick={() => setOpenCartDrawer(true)} />
+          <BadgeCartIcon onClick={() => setOpenCartDrawer(true)} />
 
           {!isMobile && (
             <DropdownUser>

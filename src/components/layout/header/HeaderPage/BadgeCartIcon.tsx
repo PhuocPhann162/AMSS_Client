@@ -1,13 +1,12 @@
 import { useAuthGetCartQuery } from '@/api/cart-api';
-import { ABadge } from '@/common/ui-common';
+import { ABadge, type ABadgeProps } from '@/common/ui-common';
 import { semanticColors } from '@/configs/colors';
 import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
+import { twMerge } from 'tailwind-merge';
 
-export interface BadgeCartIconProps {
-  onIconClick?: () => void;
-}
+export type BadgeCartIconProps = ABadgeProps;
 
-export const BadgeCartIcon = ({ onIconClick }: BadgeCartIconProps) => {
+export const BadgeCartIcon = (props: BadgeCartIconProps) => {
   const getCart = useAuthGetCartQuery();
   const getCartData =
     getCart.data && !getCart.isError ? getCart.data : undefined;
@@ -24,11 +23,10 @@ export const BadgeCartIcon = ({ onIconClick }: BadgeCartIconProps) => {
       }
       size='small'
       color={semanticColors['green']}
+      {...props}
+      className={twMerge('cursor-pointer text-inherit', props.className)}
     >
-      <ShoppingCartOutlined
-        onClick={() => onIconClick?.()}
-        className='text-xl'
-      />
+      <ShoppingCartOutlined className='text-xl' />
     </ABadge>
   );
 };
