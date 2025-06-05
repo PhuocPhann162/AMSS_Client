@@ -1,6 +1,6 @@
 import { Footer } from '@/components/layout/footer/Footer';
-import { HeaderPage } from '@/components/layout/header';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
+import { HeaderPage } from '@/components/layout/header/HeaderPage/HeaderPage';
 import { AppSidebar } from '@/components/layout/sidebar';
 import { ButtonSignIn } from '@/components/ui/button-sign-in';
 import { SidebarProvider } from '@/components/ui/Sidebar';

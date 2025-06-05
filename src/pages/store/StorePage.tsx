@@ -123,7 +123,7 @@ export const StorePage = () => {
   ];
 
   return (
-    <ContainerIgnoreHeader className='flex flex-col gap-4'>
+    <ContainerIgnoreHeader className='flex flex-col gap-4 pt-0'>
       <div className='flex flex-col justify-between gap-4 md:flex-row md:items-center'>
         <TabNavigation
           activeTab={categories[0]}

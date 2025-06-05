@@ -1,16 +1,14 @@
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
-import { HomeHeader } from '@/components/layout/header/home-header';
+import { BadgeCartIcon } from '@/components/layout/header/HeaderPage/BadgeCartIcon';
+import { UserIcon } from '@/components/layout/header/HeaderPage/UserIcon';
+import { HomeHeader } from '@/components/layout/header/HomeHeader';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
 
 import { dashboardRoutes } from '@/routes';
-import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
-import UserOutlined from '@ant-design/icons/UserOutlined';
-import type { GetProps, GetRef } from 'antd/es/_util/type';
-import { forwardRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { twMerge } from 'tailwind-merge';
 
 export const HeaderPage = () => {
   const isMobile = useIsMobile();
@@ -19,7 +17,12 @@ export const HeaderPage = () => {
 
   return (
     <>
-      <HomeHeader rootClassName='fixed inset-x-0 top-0 z-50 flex h-[--navbar-height] items-center justify-between px-6'>
+      <HomeHeader
+        className='fixed inset-x-0 top-0 z-50 h-[--navbar-height]'
+        classNames={{
+          content: 'flex items-center gap-12 justify-between',
+        }}
+      >
         {!!isMobile && <SidebarTrigger />}
         <Link to='/' className='text-xl font-bold uppercase'>
           Novaris
@@ -40,10 +43,7 @@ export const HeaderPage = () => {
         )}
 
         <div className='flex items-center gap-6'>
-          <ShoppingCartOutlined
-            onClick={() => setOpenCartDrawer(true)}
-            className='text-xl'
-          />
+          <BadgeCartIcon onClick={() => setOpenCartDrawer(true)} />
 
           {!isMobile && (
             <DropdownUser>
@@ -69,18 +69,3 @@ export const HeaderPage = () => {
     </>
   );
 };
-
-type UserIconRef = GetRef<typeof UserOutlined>;
-type UserIconProps = GetProps<typeof UserOutlined>;
-
-const UserIcon = forwardRef<UserIconRef, UserIconProps>((props, ref) => {
-  return (
-    <UserOutlined
-      ref={ref}
-      {...props}
-      className={twMerge('cursor-pointer p-2', props.className)}
-    />
-  );
-});
-
-UserIcon.displayName = 'UserIcon';

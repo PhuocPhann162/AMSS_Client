@@ -80,7 +80,7 @@ export const CommodityDetailPage = () => {
                   className='w-max cursor-pointer text-xs font-bold uppercase text-green opacity-70 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
                   onClick={() => navigate(-1)}
                 >
-                  Back to shop
+                  Back
                 </p>
                 <div className='flex flex-col gap-1'>
                   {!!data.specialTag && (
