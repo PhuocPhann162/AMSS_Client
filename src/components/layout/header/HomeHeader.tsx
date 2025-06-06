@@ -17,11 +17,14 @@ export const HomeHeader = ({
   return (
     <header
       {...props}
-      className={twMerge('flex items-center justify-center', props.className)}
+      className={twMerge(
+        'pointer-events-none flex items-center justify-center',
+        props.className,
+      )}
     >
       <div
         className={twMerge(
-          'rounded-[32px] border border-ebb-200/20 bg-ebb-50/80 px-4 py-3 backdrop-blur-20 backdrop-saturate-180 transition-[transform,opacity,box-shadow] duration-500 ease-out',
+          'rounded-[32px] border border-ebb-200/20 bg-ebb-50/80 px-4 py-3 backdrop-blur-20 backdrop-saturate-180 transition-[transform,opacity,box-shadow] duration-500 ease-out [pointer-events:initial]',
           scrollPosition.scrollY > 0 ? 'shadow-lg shadow-woodsmoke-200/20' : '',
           scrollDirection.directionY === DIRECTION_Y.down
             ? '-translate-y-full opacity-0'

@@ -3,6 +3,7 @@ import { HomeLayout } from '@/layouts/HomeLayout';
 import { CartPage } from '@/pages/cart/CartPage';
 import { CommodityDetailPage } from '@/pages/Commodities/CommodityDetailPage';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
+import { OrderDetailPage } from '@/pages/Orders/OrderDetailPage';
 import { OrdersPage } from '@/pages/Orders/OrdersPage';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
@@ -101,6 +102,13 @@ export const router = createBrowserRouter(
                 hasHeaderOffset: true,
               } as RouteHandle,
               element: <OrdersPage />,
+            },
+            {
+              path: ':orderId',
+              handle: {
+                hasHeaderOffset: true,
+              } as RouteHandle,
+              element: <OrderDetailPage />,
             },
           ],
         },
