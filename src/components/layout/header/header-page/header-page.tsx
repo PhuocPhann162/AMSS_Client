@@ -1,7 +1,7 @@
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
-import { BadgeCartIcon } from '@/components/layout/header/HeaderPage/BadgeCartIcon';
-import { UserIcon } from '@/components/layout/header/HeaderPage/UserIcon';
-import { HomeHeader } from '@/components/layout/header/HomeHeader';
+import { BadgeCartIcon } from '@/components/layout/header/header-page/badge-cart-icon';
+import { UserIcon } from '@/components/layout/header/header-page/user-icon';
+import { HomeHeader } from '@/components/layout/header/home-header';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';

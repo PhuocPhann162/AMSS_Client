@@ -1,6 +1,6 @@
 import { useGetOrdersQuery } from '@/api/order-api';
 import { OrderStatus } from '@/interfaces';
-import type { GetOrdersResponse } from '@/models/response/order/getOrdersResponse';
+import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
 import { formatUsd } from '@/utils/number/format-usd';
 import { Link } from 'react-router-dom';
 

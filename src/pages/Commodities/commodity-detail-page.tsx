@@ -1,7 +1,7 @@
 import { useGetCommodityByIdQuery } from '@/api';
 import { ADivider, AImage, AQRCode, ATooltip } from '@/common/ui-common';
-import { AddToCartButton } from '@/features/cart/components/AddToCartButton';
-import { QuantityCounterInput } from '@/features/cart/components/QuantityCounterInput';
+import { AddToCartButton } from '@/features/cart/components/add-to-cart-button';
+import { QuantityCounterInput } from '@/features/cart/components/quantity-counter-input';
 import { SpecialTagTag } from '@/features/commodity/components/special-tag-tag';
 import { TagCommodityStatus } from '@/features/commodity/components/tag-commodity-status';
 import { type Commodity } from '@/interfaces';

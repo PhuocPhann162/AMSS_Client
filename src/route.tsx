@@ -1,10 +1,10 @@
 import { AuthenticationLayout } from '@/layouts';
-import { HomeLayout } from '@/layouts/HomeLayout';
-import { CartPage } from '@/pages/cart/CartPage';
-import { CommodityDetailPage } from '@/pages/Commodities/CommodityDetailPage';
+import { HomeLayout } from '@/layouts/home-layout';
+import { CartPage } from '@/pages/cart/cart-page';
+import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
-import { OrderDetailPage } from '@/pages/Orders/OrderDetailPage';
-import { OrdersPage } from '@/pages/Orders/OrdersPage';
+import { OrderDetailPage } from '@/pages/Orders/order-detail-page';
+import { OrdersPage } from '@/pages/Orders/orders-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
