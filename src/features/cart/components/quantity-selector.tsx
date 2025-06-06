@@ -2,7 +2,7 @@ import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import {
   QuantityCounterInput,
   type QuantityCounterInputProps,
-} from '@/features/cart/components/QuantityCounterInput';
+} from '@/features/cart/components/quantity-counter-input';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { type HTMLAttributes } from 'react';

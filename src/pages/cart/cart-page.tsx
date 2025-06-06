@@ -1,8 +1,8 @@
 import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
 import { ADivider, ARawImage } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
-import { QuantitySelector } from '@/features/cart/components/QuantitySelector';
-import { TitleContentSection } from '@/pages/cart/components/TitleContentSection';
+import { QuantitySelector } from '@/features/cart/components/quantity-selector';
+import { TitleContentSection } from '@/pages/cart/components/title-content-section';
 import { formatUsd } from '@/utils/number/format-usd';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';

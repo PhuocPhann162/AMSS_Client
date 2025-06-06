@@ -4,7 +4,7 @@ import {
 } from '@/api/cart-api';
 import { ADrawer, AImage } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
-import { QuantityCounterInput } from '@/features/cart/components/QuantityCounterInput';
+import { QuantityCounterInput } from '@/features/cart/components/quantity-counter-input';
 import { formatUsd } from '@/utils/number/format-usd';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';

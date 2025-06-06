@@ -1,9 +1,9 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
 import { CreateOrderRequest, GuidResponse } from '@/models';
-import type { GetOrderDetailRequest } from '@/models/request/order/getOrderDetailRequest';
-import type { GetOrdersRequest } from '@/models/request/order/getOrdersRequest';
-import type { GetOrderDetailResponse } from '@/models/response/order/getOrderDetailResponse';
-import type { GetOrdersResponse } from '@/models/response/order/getOrdersResponse';
+import type { GetOrderDetailRequest } from '@/models/request/order/get-order-detail-request';
+import type { GetOrdersRequest } from '@/models/request/order/get-orders-request';
+import type { GetOrderDetailResponse } from '@/models/response/order/get-order-detail-response';
+import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
 
 export const orderApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({

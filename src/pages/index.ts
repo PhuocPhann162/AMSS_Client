@@ -9,7 +9,7 @@ import { CropUpsertModal } from './Crops/CropUpsertModal';
 import { DashBoard } from './DashBoard/DashBoard';
 import { GPASearch } from './GPASearch/GPASearch';
 import { ImportData } from './GPASearch/ImportData';
-import HomePage from './Home/HomePage';
+import HomePage from './Home/home-page';
 import { FarmList } from './Lands/Farms/FarmList';
 import { FieldList } from './Lands/Fields/FieldList';
 import { FieldSuggestion } from './Lands/Fields/FieldSuggestion';
