@@ -47,13 +47,18 @@ export const OrdersPage = () => {
         <Link
           to={`/orders/${order.id}`}
           key={index}
-          className='flex flex-col gap-3 rounded-xl border bg-ebb-50/80 p-4 backdrop-blur-20 backdrop-saturate-180'
+          className='relative flex flex-col gap-3 overflow-hidden rounded-xl border bg-ebb-50/80 p-1 backdrop-blur-20 backdrop-saturate-180'
         >
-          <p className='self-end'>{order.status}</p>
-
-          <p className='self-end'>
-            Total ({order.totalItems} items): {formatUsd(order.orderTotal ?? 0)}
+          <p className='absolute left-0 top-0 rounded-br-xl bg-ebb-500 px-2 py-1 text-xs font-semibold uppercase'>
+            {order.status}
           </p>
+
+          <div className='flex flex-col gap-2 p-4'>
+            <p className='self-end'>
+              Total ({order.totalItems} items):{' '}
+              {formatUsd(order.orderTotal ?? 0)}
+            </p>
+          </div>
         </Link>
       ))}
     </div>
