@@ -1,7 +1,6 @@
 import { useGetCommoditiesQuery } from '@/api';
 import { ABadge, AButton, ADropdown } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
-import { ContainerIgnoreHeader } from '@/components/layout/content/container-ignore-header';
 import {
   TabNavigation,
   type TabNavigationProps,
@@ -123,7 +122,7 @@ export const StorePage = () => {
   ];
 
   return (
-    <ContainerIgnoreHeader className='flex flex-col gap-4 pt-0'>
+    <div className='flex flex-col gap-4 p-6 pt-0'>
       <div className='flex flex-col justify-between gap-4 md:flex-row md:items-center'>
         <TabNavigation
           activeTab={categories[0]}
@@ -198,6 +197,6 @@ export const StorePage = () => {
           </AButton>
         </Empty>
       )}
-    </ContainerIgnoreHeader>
+    </div>
   );
 };
