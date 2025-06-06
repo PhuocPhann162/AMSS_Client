@@ -3,6 +3,7 @@ import { HomeLayout } from '@/layouts/HomeLayout';
 import { CartPage } from '@/pages/cart/CartPage';
 import { CommodityDetailPage } from '@/pages/Commodities/CommodityDetailPage';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
+import { OrdersPage } from '@/pages/Orders/OrdersPage';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
@@ -53,6 +54,10 @@ export interface Route {
   children?: Route[];
 }
 
+export interface RouteHandle {
+  hasHeaderOffset?: boolean;
+}
+
 export const router = createBrowserRouter(
   [
     {
@@ -65,6 +70,9 @@ export const router = createBrowserRouter(
           children: [
             {
               index: true,
+              handle: {
+                hasHeaderOffset: true,
+              } as RouteHandle,
               element: <StorePage />,
             },
             {
@@ -73,11 +81,26 @@ export const router = createBrowserRouter(
             },
             {
               path: 'cart',
+              handle: {
+                hasHeaderOffset: true,
+              } as RouteHandle,
               element: <CartPage />,
             },
             {
               path: 'payment',
               element: <PaymentPage />,
+            },
+          ],
+        },
+        {
+          path: 'orders',
+          children: [
+            {
+              index: true,
+              handle: {
+                hasHeaderOffset: true,
+              } as RouteHandle,
+              element: <OrdersPage />,
             },
           ],
         },

@@ -9,8 +9,13 @@ import { useIsMobile } from '@/hooks';
 import { dashboardRoutes } from '@/routes';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
-export const HeaderPage = () => {
+export interface HeaderPageProps {
+  hasHeaderOffset?: boolean;
+}
+
+export const HeaderPage = ({ hasHeaderOffset }: HeaderPageProps) => {
   const isMobile = useIsMobile();
 
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
@@ -18,7 +23,10 @@ export const HeaderPage = () => {
   return (
     <>
       <HomeHeader
-        className='fixed inset-x-0 top-0 z-50 h-[--navbar-height]'
+        className={twMerge(
+          'inset-x-0 top-0 z-50 h-[--navbar-height]',
+          hasHeaderOffset ? 'sticky' : 'fixed',
+        )}
         classNames={{
           content: 'flex items-center gap-12 justify-between',
         }}

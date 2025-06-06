@@ -7,13 +7,19 @@ import { SidebarProvider } from '@/components/ui/Sidebar';
 import { HomeAntConfigProvider } from '@/contexts/home-ant-config/home-ant-config-provider';
 import { LenisProvider } from '@/contexts/lenis/lenis-provider';
 import { useIsMobile } from '@/hooks';
+import type { RouteHandle } from '@/route';
 import { dashboardRoutes } from '@/routes';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useMatches } from 'react-router-dom';
 
 export const HomeLayout = () => {
   const isMobile = useIsMobile();
   const authState = useAppSelector((state) => state.auth);
+
+  const matches = useMatches();
+
+  const currentMatch = matches[matches.length - 1];
+  const routeHandle = currentMatch?.handle as RouteHandle | undefined;
 
   return (
     <LenisProvider>
@@ -39,7 +45,7 @@ export const HomeLayout = () => {
               }
             />
           )}
-          <HeaderPage />
+          <HeaderPage hasHeaderOffset={routeHandle?.hasHeaderOffset} />
           <main className='grow'>
             <Outlet />
           </main>
