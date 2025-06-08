@@ -8,7 +8,11 @@ import type { GetOrdersResponse } from '@/models/response/order/get-orders-respo
 export const orderApi = appBaseApi.injectEndpoints({
   endpoints: (build) => ({
     getOrders: build.query<GetOrdersResponse, GetOrdersRequest>({
-      query: () => 'orders',
+      query: (props) => ({
+        url: 'orders',
+        params: props,
+        method: 'GET',
+      }),
       providesTags: [TAG_TYPES.Orders],
     }),
     getOrderDetail: build.query<GetOrderDetailResponse, GetOrderDetailRequest>({

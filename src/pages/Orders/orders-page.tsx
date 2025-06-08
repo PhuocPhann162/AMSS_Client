@@ -1,8 +1,13 @@
 import { useGetOrdersQuery } from '@/api/order-api';
+import { TabNavigation } from '@/components/ui/tab-navigation';
 import { OrderStatus } from '@/interfaces';
+import { ListSortDirection } from '@/models';
+import { GET_ORDERS_ORDER_BY } from '@/models/request/order/get-orders-request';
 import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
-import { formatUsd } from '@/utils/number/format-usd';
-import { Link } from 'react-router-dom';
+import { OrderCard } from '@/pages/Orders/order-card';
+import List from 'antd/es/list';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 function generateOrders(
   count: number,
@@ -24,7 +29,7 @@ function generateOrders(
       orderTotal: parseFloat((Math.random() * 1000 + 50).toFixed(2)), // Random total between 50 and 1050
       discountAmount: parseFloat((Math.random() * 50).toFixed(2)), // Random discount up to 50
       orderDate: orderDate.toISOString(),
-      status: randomStatus as string,
+      status: randomStatus as never,
       totalItems: Math.floor(Math.random() * 10) + 1, // Random items between 1 and 10
     });
   }
@@ -32,35 +37,90 @@ function generateOrders(
   return orders;
 }
 
+type OrderStatusFilter = 'all' | OrderStatus;
+const orderStatusTabs: { id: OrderStatusFilter; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: OrderStatus.Pending, label: 'Pending' },
+  { id: OrderStatus.Processing, label: 'Processing' },
+  { id: OrderStatus.Confirmed, label: 'Confirmed' },
+  { id: OrderStatus.ReadyForShipment, label: 'Ready for shipment' },
+  { id: OrderStatus.Delivered, label: 'Delivered' },
+  { id: OrderStatus.Completed, label: 'Completed' },
+  { id: OrderStatus.Cancelled, label: 'Cancelled' },
+];
+
 export const OrdersPage = () => {
-  const getOrders = useGetOrdersQuery({});
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [statusesFilter, setStatusesFilter] = useState<OrderStatusFilter[]>([
+    (searchParams.get('status') as OrderStatusFilter) ?? 'all',
+  ]);
+
+  const [page, setPage] = useState<number>(
+    Number(searchParams.get('page')) || 1,
+  );
+  const [limit, setLimit] = useState<number>(
+    Number(searchParams.get('limit')) || 10,
+  );
+
+  const getOrders = useGetOrdersQuery({
+    // default
+    orderBy: GET_ORDERS_ORDER_BY.orderDate,
+    orderByDirection: ListSortDirection.Descending,
+
+    statuses: statusesFilter.filter((status) => status !== 'all'),
+    currentPage: page,
+    limit,
+  });
 
   const getOrdersData =
     getOrders.data && !getOrders.isError ? getOrders.data : undefined;
-  const orders = getOrdersData?.result.collection?.length
-    ? getOrdersData?.result.collection
-    : generateOrders(10);
+  const orders = getOrdersData?.result.collection;
 
   return (
-    <div className='grid grid-cols-1 gap-4 p-6 pt-0'>
-      {orders?.map((order, index) => (
-        <Link
-          to={`/orders/${order.id}`}
-          key={index}
-          className='relative flex flex-col gap-3 overflow-hidden rounded-xl border bg-ebb-50/80 p-1 backdrop-blur-20 backdrop-saturate-180'
-        >
-          <p className='absolute left-0 top-0 rounded-br-xl bg-ebb-500 px-2 py-1 text-xs font-semibold uppercase'>
-            {order.status}
-          </p>
-
-          <div className='flex flex-col gap-2 p-4'>
-            <p className='self-end'>
-              Total ({order.totalItems} items):{' '}
-              {formatUsd(order.orderTotal ?? 0)}
-            </p>
-          </div>
-        </Link>
-      ))}
+    <div className='flex flex-col gap-6 p-6 pt-0'>
+      <div className='overflow-auto'>
+        <TabNavigation
+          activeTab={statusesFilter[0]}
+          tabs={orderStatusTabs.map((tab) => ({
+            id: tab.id,
+            label: tab.label,
+            onClick: () => {
+              setStatusesFilter([tab.id]);
+              setSearchParams(
+                {
+                  status: tab.id.toString(),
+                },
+                { replace: true },
+              );
+            },
+          }))}
+        />
+      </div>
+      <List
+        className='[&_.ant-list-items]:flex [&_.ant-list-items]:flex-col [&_.ant-list-items]:gap-6'
+        dataSource={orders ? orders : undefined}
+        renderItem={(item) => <OrderCard orderHeader={item} />}
+        pagination={{
+          showSizeChanger: true,
+          total: getOrdersData?.result.totalRow,
+          size: 'small',
+          current: page,
+          pageSize: limit,
+          align: 'end',
+          onChange: (page, pageSize) => {
+            setPage(page);
+            setLimit(pageSize);
+            setSearchParams(
+              {
+                page: page.toString(),
+                limit: pageSize.toString(),
+              },
+              { replace: true },
+            );
+          },
+        }}
+      />
     </div>
   );
 };

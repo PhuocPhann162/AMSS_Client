@@ -104,7 +104,7 @@ export const router = createBrowserRouter(
               element: <OrdersPage />,
             },
             {
-              path: ':orderId',
+              path: ':id',
               handle: {
                 hasHeaderOffset: true,
               } as RouteHandle,

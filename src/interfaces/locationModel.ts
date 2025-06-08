@@ -1,12 +1,18 @@
+import type { User } from '@/interfaces/user';
+
 export default interface locationModel {
+  id?: string;
   address?: string;
-  city?: string;
-  country?: string;
-  countryCode?: string;
-  postCode?: string;
-  state?: string;
-  road?: string;
-  district?: string;
   lat?: number;
   lng?: number;
+  countryCode?: string;
+  city?: string;
+  state?: string;
+  district?: string;
+  road?: string;
+  postCode?: string;
+  applicationUserId?: string;
+  user?: User;
+
+  country?: string;
 }
