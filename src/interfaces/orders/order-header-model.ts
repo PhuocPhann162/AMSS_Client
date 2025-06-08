@@ -1,3 +1,4 @@
+import type locationModel from '@/interfaces/locationModel';
 import { User } from '../user';
 import { OrderDetail } from './order-detail-model';
 
@@ -11,19 +12,23 @@ export enum OrderStatus {
   Cancelled,
 }
 
+export type OrderStatusKey = keyof typeof OrderStatus;
+
 export interface OrderHeader {
-  orderHeaderId?: string;
-  pickupName?: string;
-  pickupEmail?: string;
-  pickupPhoneNumber?: string;
+  id?: string;
   applicationUserId?: string;
+  pickupName?: string;
+  pickupPhoneNumber?: string;
+  pickupEmail?: string;
+  orderTotal?: number;
   couponCode?: string;
   discountAmount?: number;
-  user?: User;
-  orderTotal?: number;
-  orderDate?: Date;
+  orderDate?: string;
   stripePaymentIntentID?: string;
-  status?: string;
+  status?: OrderStatusKey;
   totalItems?: number;
+  locationId?: string;
+  location?: locationModel;
+  applicationUser?: User;
   orderDetails?: OrderDetail[];
 }

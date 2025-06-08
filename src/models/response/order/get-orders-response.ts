@@ -5,16 +5,15 @@ export type GetOrdersResponse = ApiResponse<
   PaginationResponse<
     Pick<
       OrderHeader,
+      | 'id'
       | 'pickupName'
       | 'pickupPhoneNumber'
       | 'pickupEmail'
       | 'orderTotal'
       | 'discountAmount'
+      | 'orderDate'
       | 'status'
       | 'totalItems'
-    > & {
-      id: string;
-      orderDate: string;
-    }
+    >
   >
 >;

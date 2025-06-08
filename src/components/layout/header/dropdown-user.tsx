@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import SettingOutlined from '@ant-design/icons/SettingOutlined';
+import ShoppingOutlined from '@ant-design/icons/ShoppingOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -31,6 +32,11 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
     icon?: ReactNode;
     onClick?: () => void;
   }[] = [
+    {
+      label: 'Orders',
+      path: '/orders',
+      icon: <ShoppingOutlined />,
+    },
     {
       label: 'My Profile',
       path: '/app/user/profile',
