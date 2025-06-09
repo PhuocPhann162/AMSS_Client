@@ -39,7 +39,7 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
     },
     {
       label: 'My Profile',
-      path: '/app/user/profile',
+      path: 'profile',
       icon: <UserOutlined />,
     },
     {
