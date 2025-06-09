@@ -198,6 +198,7 @@ export default {
         180: '180%',
       },
       backdropBlur: {
+        10: '10px',
         20: '20px',
         60: '60px',
       },

@@ -10,7 +10,7 @@ export const ARawImage = forwardRef<HTMLImageElement, ARawImageProps>(
         ref={ref}
         title={props.alt}
         {...props}
-        className={twMerge('w-full object-cover', props.className)}
+        className={twMerge('h-full w-full object-cover', props.className)}
       />
     );
   },

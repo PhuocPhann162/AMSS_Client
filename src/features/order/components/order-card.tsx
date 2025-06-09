@@ -1,5 +1,5 @@
 import { type OrderHeader, type OrderStatusKey } from '@/interfaces';
-import { formatUsd } from '@/utils/number/format-usd';
+import { formatCurrency } from '@/utils/format-currency';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
@@ -18,6 +18,7 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
     Completed: 'bg-green-pea-500',
     Pending: 'bg-red-500',
   };
+
   return (
     <Link
       to={`/orders/${orderHeader.id}`}
@@ -49,7 +50,7 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
           </div>
           <p className='self-end'>
             Total ({orderHeader.totalItems} items):{' '}
-            {formatUsd(orderHeader.orderTotal ?? 0)}
+            {formatCurrency(orderHeader.orderTotal ?? 0)}
           </p>
         </div>
       </div>

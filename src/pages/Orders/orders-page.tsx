@@ -1,10 +1,10 @@
 import { useGetOrdersQuery } from '@/api/order-api';
 import { TabNavigation } from '@/components/ui/tab-navigation';
+import { OrderCard } from '@/features/order/components/order-card';
 import { OrderStatus } from '@/interfaces';
 import { ListSortDirection } from '@/models';
 import { GET_ORDERS_ORDER_BY } from '@/models/request/order/get-orders-request';
 import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
-import { OrderCard } from '@/pages/Orders/order-card';
 import List from 'antd/es/list';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -59,6 +59,7 @@ export const OrdersPage = () => {
   const [page, setPage] = useState<number>(
     Number(searchParams.get('page')) || 1,
   );
+
   const [limit, setLimit] = useState<number>(
     Number(searchParams.get('limit')) || 10,
   );
@@ -72,10 +73,46 @@ export const OrdersPage = () => {
     currentPage: page,
     limit,
   });
-
   const getOrdersData =
     getOrders.data && !getOrders.isError ? getOrders.data : undefined;
   const orders = getOrdersData?.result.collection;
+
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams(
+      (prev) => {
+        prev.set('page', page.toString());
+        return prev;
+      },
+      {
+        replace: true,
+      },
+    );
+  };
+
+  const handleChangeLimit = (limit: number) => {
+    setLimit(limit);
+    setSearchParams(
+      (prev) => {
+        prev.set('limit', limit.toString());
+        return prev;
+      },
+      {
+        replace: true,
+      },
+    );
+  };
+
+  const handleChangeStatus = (status: OrderStatusFilter) => {
+    setStatusesFilter([status]);
+    setSearchParams(
+      (prev) => {
+        prev.set('status', status.toString());
+        return prev;
+      },
+      { replace: true },
+    );
+  };
 
   return (
     <div className='flex flex-col gap-6 p-6 pt-0'>
@@ -86,13 +123,8 @@ export const OrdersPage = () => {
             id: tab.id,
             label: tab.label,
             onClick: () => {
-              setStatusesFilter([tab.id]);
-              setSearchParams(
-                {
-                  status: tab.id.toString(),
-                },
-                { replace: true },
-              );
+              handleChangeStatus(tab.id);
+              handleChangePage(1);
             },
           }))}
         />
@@ -109,15 +141,8 @@ export const OrdersPage = () => {
           pageSize: limit,
           align: 'end',
           onChange: (page, pageSize) => {
-            setPage(page);
-            setLimit(pageSize);
-            setSearchParams(
-              {
-                page: page.toString(),
-                limit: pageSize.toString(),
-              },
-              { replace: true },
-            );
+            handleChangePage(page);
+            handleChangeLimit(pageSize);
           },
         }}
       />

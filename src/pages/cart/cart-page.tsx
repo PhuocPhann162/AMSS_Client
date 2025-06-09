@@ -3,7 +3,7 @@ import { ADivider, ARawImage } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { QuantitySelector } from '@/features/cart/components/quantity-selector';
 import { TitleContentSection } from '@/pages/cart/components/title-content-section';
-import { formatUsd } from '@/utils/number/format-usd';
+import { formatCurrency } from '@/utils/format-currency';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
@@ -62,7 +62,7 @@ export const CartPage = () => {
                     }}
                   />
                 </div>
-                <p>{formatUsd(item?.price)}</p>
+                <p>{formatCurrency(item?.price)}</p>
               </div>
               {index < arr.length - 1 && <ADivider />}
             </Fragment>
@@ -79,7 +79,7 @@ export const CartPage = () => {
           <div className='flex justify-between'>
             <p className='font-bold'>Subtotal</p>
             <p>
-              {formatUsd(
+              {formatCurrency(
                 getCartData?.result.cartItems?.reduce(
                   (total, item) => total + item.quantity * item.price,
                   0,
@@ -89,7 +89,7 @@ export const CartPage = () => {
           </div>
           <div className='flex justify-between'>
             <p className='font-bold'>Total</p>
-            <p>{formatUsd(getCartData?.result.cartTotal ?? 0)}</p>
+            <p>{formatCurrency(getCartData?.result.cartTotal ?? 0)}</p>
           </div>
           <AHomeButton
             type='primary'

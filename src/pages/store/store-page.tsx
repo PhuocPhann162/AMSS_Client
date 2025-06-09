@@ -1,5 +1,5 @@
 import { useGetCommoditiesQuery } from '@/api';
-import { ABadge, AButton, ADropdown } from '@/common/ui-common';
+import { ABadge, ADropdown, AList } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import {
   TabNavigation,
@@ -13,7 +13,6 @@ import {
   ListSortDirection,
 } from '@/models';
 import SwapOutlined from '@ant-design/icons/SwapOutlined';
-import Empty from 'antd/es/empty';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -67,12 +66,21 @@ export const StorePage = () => {
     (searchParams.get('category') as CustomCommodityCategory) ?? 'all',
   ]);
 
+  const [page, setPage] = useState<number>(
+    Number(searchParams.get('page')) || 1,
+  );
+
+  const [limit, setLimit] = useState<number>(
+    Number(searchParams.get('limit')) || 10,
+  );
+
   const getCommodities = useGetCommoditiesQuery({
     orderBy: sortValue.orderBy,
     orderByDirection: sortValue.sort,
     categories: categories.filter((category) => category !== 'all'),
+    currentPage: page,
+    limit,
   });
-
   const getCommoditiesData =
     getCommodities.data && !getCommodities.isError
       ? getCommodities.data
@@ -88,7 +96,7 @@ export const StorePage = () => {
 
   const sortOptions = [
     {
-      label: 'Newest to Oldest',
+      label: 'Newest',
       key: 'dateNewToOld',
       value: {
         sort: ListSortDirection.Descending,
@@ -96,7 +104,7 @@ export const StorePage = () => {
       },
     },
     {
-      label: 'Oldest to Newest',
+      label: 'Oldest',
       key: 'dateOldToNew',
       value: {
         sort: ListSortDirection.Ascending,
@@ -104,22 +112,61 @@ export const StorePage = () => {
       },
     },
     {
-      label: 'Price: Lowest to Highest',
-      key: 'priceLowToHigh',
-      value: {
-        sort: ListSortDirection.Ascending,
-        orderBy: COMMODITY_ORDER_BY['price'],
-      },
-    },
-    {
-      label: 'Price: Highest to Lowest',
+      label: 'Price: High to Low',
       key: 'priceHighToLow',
       value: {
         sort: ListSortDirection.Descending,
         orderBy: COMMODITY_ORDER_BY['price'],
       },
     },
+    {
+      label: 'Price: Low to High',
+      key: 'priceLowToHigh',
+      value: {
+        sort: ListSortDirection.Ascending,
+        orderBy: COMMODITY_ORDER_BY['price'],
+      },
+    },
   ];
+
+  const handleChangeCategories = (category: CustomCommodityCategory) => {
+    setCategories([category]);
+    setSearchParams(
+      (prev) => {
+        prev.set('category', category.toString());
+        return prev;
+      },
+      {
+        replace: true,
+      },
+    );
+  };
+
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams(
+      (prev) => {
+        prev.set('page', page.toString());
+        return prev;
+      },
+      {
+        replace: true,
+      },
+    );
+  };
+
+  const handleChangeLimit = (limit: number) => {
+    setLimit(limit);
+    setSearchParams(
+      (prev) => {
+        prev.set('limit', limit.toString());
+        return prev;
+      },
+      {
+        replace: true,
+      },
+    );
+  };
 
   return (
     <div className='flex flex-col gap-4 p-6 pt-0'>
@@ -130,15 +177,8 @@ export const StorePage = () => {
             id: item.id,
             label: item.label,
             onClick: () => {
-              setCategories([item.id]);
-              setSearchParams(
-                {
-                  category: item.id as string,
-                },
-                {
-                  replace: true,
-                },
-              );
+              handleChangeCategories(item.id);
+              handleChangePage(1);
             },
           }))}
           classNames={{
@@ -184,19 +224,24 @@ export const StorePage = () => {
         </ADropdown>
       </div>
 
-      {getCommoditiesData?.result?.collection?.length ? (
-        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3'>
-          {getCommoditiesData.result.collection.map((item) => (
-            <CardStore key={item.id} commodity={item} />
-          ))}
-        </div>
-      ) : (
-        <Empty>
-          <AButton type='primary' onClick={() => getCommodities.refetch()}>
-            Refresh
-          </AButton>
-        </Empty>
-      )}
+      <AList
+        className='[&_.ant-list-items]:grid [&_.ant-list-items]:grid-cols-1 [&_.ant-list-items]:gap-6 md:[&_.ant-list-items]:grid-cols-2 lg:[&_.ant-list-items]:grid-cols-3 xl:[&_.ant-list-items]:grid-cols-4'
+        dataSource={getCommoditiesData?.result?.collection ?? undefined}
+        renderItem={(item) => <CardStore key={item.id} commodity={item} />}
+        loading={getCommodities.isFetching}
+        pagination={{
+          showSizeChanger: true,
+          total: getCommoditiesData?.result?.totalRow,
+          size: 'small',
+          current: page,
+          pageSize: limit,
+          align: 'end',
+          onChange: (page, pageSize) => {
+            handleChangePage(page);
+            handleChangeLimit(pageSize);
+          },
+        }}
+      />
     </div>
   );
 };

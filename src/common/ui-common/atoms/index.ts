@@ -11,6 +11,7 @@ export * from './a-dropdown';
 export * from './a-image';
 export * from './a-information';
 export * from './a-input';
+export * from './a-list';
 export * from './a-menu';
 export * from './a-modal';
 export * from './a-qr-code';
