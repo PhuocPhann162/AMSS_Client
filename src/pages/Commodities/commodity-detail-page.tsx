@@ -5,7 +5,7 @@ import { QuantityCounterInput } from '@/features/cart/components/quantity-counte
 import { SpecialTagTag } from '@/features/commodity/components/special-tag-tag';
 import { TagCommodityStatus } from '@/features/commodity/components/tag-commodity-status';
 import { type Commodity } from '@/interfaces';
-import { formatUsd } from '@/utils/number/format-usd';
+import { formatCurrency } from '@/utils/format-currency';
 import { format } from 'date-fns';
 import { Fragment, useState, type ReactNode } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -119,7 +119,7 @@ export const CommodityDetailPage = () => {
                   />
                 </div>
                 <AddToCartButton id={data.id} quantity={quantity}>
-                  Add To Cart - {formatUsd(data.price)}
+                  Add To Cart - {formatCurrency(data.price)}
                 </AddToCartButton>
               </>
             }

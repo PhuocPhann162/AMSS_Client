@@ -1,10 +1,10 @@
 import { useGetOrdersQuery } from '@/api/order-api';
 import { TabNavigation } from '@/components/ui/tab-navigation';
+import { OrderCard } from '@/features/order/components/order-card';
 import { OrderStatus } from '@/interfaces';
 import { ListSortDirection } from '@/models';
 import { GET_ORDERS_ORDER_BY } from '@/models/request/order/get-orders-request';
 import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
-import { OrderCard } from '@/pages/Orders/order-card';
 import List from 'antd/es/list';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';

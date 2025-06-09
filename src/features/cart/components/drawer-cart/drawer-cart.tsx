@@ -5,7 +5,7 @@ import {
 import { ADrawer, AImage } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { QuantityCounterInput } from '@/features/cart/components/quantity-counter-input';
-import { formatUsd } from '@/utils/number/format-usd';
+import { formatCurrency } from '@/utils/format-currency';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
@@ -49,7 +49,7 @@ export const DrawerCart = ({
             <div className='flex items-center justify-between'>
               <p className='text-lg font-medium'>Subtotal</p>
               <p className='text-xl font-bold'>
-                {formatUsd(
+                {formatCurrency(
                   getCartData.result.cartItems.reduce(
                     (total, item) => total + item.price * item.quantity,
                     0,
@@ -137,7 +137,7 @@ export const DrawerCart = ({
                     />
                   </div>
                 </div>
-                <p className='font-bold'>{formatUsd(item.price)}</p>
+                <p className='font-bold'>{formatCurrency(item.price)}</p>
               </div>
             </div>
           ))}

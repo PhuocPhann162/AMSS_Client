@@ -76,7 +76,7 @@
     --navbar-height: 5.25rem;
 
     @media (min-width: 768px) {
-      --navbar-height: 6rem;
+      --navbar-height: 5.5rem;
     }
 
     --background: 0 0% 100%;

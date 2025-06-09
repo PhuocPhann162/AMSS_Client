@@ -5,6 +5,8 @@ export const homeThemeConfig: ThemeConfig = {
   token: {
     colorPrimary: colors['green-pea'][700],
     colorTextBase: semanticColors['black1'],
+    colorLink: colors['green-pea'][700],
+    borderRadiusLG: 18,
   },
   components: {
     Button: {
@@ -13,6 +15,10 @@ export const homeThemeConfig: ThemeConfig = {
     Tag: {
       defaultBg: colors['green-pea'][100],
       defaultColor: semanticColors['green'],
+    },
+    Typography: {
+      titleMarginBottom: 0,
+      titleMarginTop: 0,
     },
   },
 };

@@ -1,6 +1,6 @@
 import { ARawImage } from '@/common/ui-common';
 import type { Commodity } from '@/interfaces';
-import { formatUsd } from '@/utils/number/format-usd';
+import { formatCurrency } from '@/utils/format-currency';
 import { useNavigate } from 'react-router-dom';
 
 export interface CardStoreProps {
@@ -25,7 +25,7 @@ export const CardStore = ({ commodity }: CardStoreProps) => {
       />
       <div className='absolute left-3 top-3 flex flex-col gap-1 text-white1'>
         <p className='text-xl font-medium'>{commodity.name}</p>
-        <p className='text-lg font-bold'>{formatUsd(commodity.price)}</p>
+        <p className='text-lg font-bold'>{formatCurrency(commodity.price)}</p>
       </div>
     </div>
   );
