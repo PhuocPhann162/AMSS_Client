@@ -5,6 +5,7 @@ import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
 import { OrderDetailPage } from '@/pages/Orders/order-detail-page';
 import { OrdersPage } from '@/pages/Orders/orders-page';
+import { HomeProfilePage } from '@/pages/Users/home-profile-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Map, WeatherMap } from './components/Page/Maps';
@@ -111,6 +112,13 @@ export const router = createBrowserRouter(
               element: <OrderDetailPage />,
             },
           ],
+        },
+        {
+          path: 'profile',
+          element: <HomeProfilePage />,
+          handle: {
+            hasHeaderOffset: true,
+          } as RouteHandle,
         },
       ],
     },
