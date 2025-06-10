@@ -25,7 +25,7 @@ export interface OrderHeader {
   discountAmount?: number;
   orderDate?: string;
   stripePaymentIntentID?: string;
-  status?: OrderStatusKey;
+  status?: OrderStatus;
   totalItems?: number;
   locationId?: string;
   location?: locationModel;
