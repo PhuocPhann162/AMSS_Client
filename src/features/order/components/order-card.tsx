@@ -9,14 +9,32 @@ export interface OrderCardProps {
 }
 
 export const OrderCard = ({ orderHeader }: OrderCardProps) => {
-  const statusClassNameMap: Record<OrderStatus, string> = {
-    [OrderStatus.Cancelled]: 'bg-green-pea-500',
-    [OrderStatus.Confirmed]: 'bg-blue-500',
-    [OrderStatus.Processing]: 'bg-yellow-500',
-    [OrderStatus.ReadyForShipment]: 'bg-green-pea-500',
-    [OrderStatus.Delivered]: 'bg-green-pea-500',
-    [OrderStatus.Completed]: 'bg-green-pea-500',
-    [OrderStatus.Pending]: 'bg-red-500',
+  const statusClassNameMap: Record<
+    OrderStatus,
+    { label: string; bgClassName: string }
+  > = {
+    [OrderStatus.Cancelled]: {
+      label: 'Cancelled',
+      bgClassName: 'bg-green-pea-500',
+    },
+    [OrderStatus.Confirmed]: { label: 'Confirmed', bgClassName: 'bg-blue-500' },
+    [OrderStatus.Processing]: {
+      label: 'Processing',
+      bgClassName: 'bg-yellow-500',
+    },
+    [OrderStatus.ReadyForShipment]: {
+      label: 'Ready for shipment',
+      bgClassName: 'bg-green-pea-500',
+    },
+    [OrderStatus.Delivered]: {
+      label: 'Delivered',
+      bgClassName: 'bg-green-pea-500',
+    },
+    [OrderStatus.Completed]: {
+      label: 'Completed',
+      bgClassName: 'bg-green-pea-500',
+    },
+    [OrderStatus.Pending]: { label: 'Pending', bgClassName: 'bg-red-500' },
   };
 
   return (
@@ -24,18 +42,24 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
       to={`/orders/${orderHeader.id}`}
       className={twMerge(
         'relative block overflow-hidden rounded-xl border bg-ebb-500 p-1 shadow-lg backdrop-blur-20 backdrop-saturate-180',
-        orderHeader.status ? statusClassNameMap[orderHeader.status] : '',
+        orderHeader.status
+          ? statusClassNameMap[orderHeader.status].bgClassName
+          : '',
       )}
     >
       <div className='rounded-lg bg-ebb-50'>
-        <p
-          className={twMerge(
-            'w-fit rounded-br-xl px-2 py-1 text-xs font-semibold uppercase text-white1',
-            orderHeader.status ? statusClassNameMap[orderHeader.status] : '',
-          )}
-        >
-          {orderHeader.status}
-        </p>
+        {!!orderHeader.status && (
+          <p
+            className={twMerge(
+              'w-fit rounded-br-xl px-2 py-1 text-xs font-semibold uppercase text-white1',
+              orderHeader.status
+                ? statusClassNameMap[orderHeader.status].bgClassName
+                : '',
+            )}
+          >
+            {statusClassNameMap[orderHeader.status].label}
+          </p>
+        )}
 
         <div className='flex flex-col gap-2 p-4'>
           <div className='flex flex-col gap-1'>
