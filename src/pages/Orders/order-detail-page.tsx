@@ -7,10 +7,7 @@ import {
   ATag,
 } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
-import {
-  OrderStatus,
-  type OrderStatusKey,
-} from '@/interfaces/orders/order-header-model';
+import { OrderStatus } from '@/interfaces/orders/order-header-model';
 import { formatCurrency } from '@/utils/format-currency';
 import {
   CreditCardOutlined,
@@ -30,7 +27,7 @@ import Typography from 'antd/es/typography';
 import { format } from 'date-fns';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const OrderStatusBadge = ({ status }: { status: OrderStatusKey }) => {
+const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   const statusMap: Record<
     OrderStatus,
     { color: string; icon: JSX.Element; text: string }
@@ -72,7 +69,7 @@ const OrderStatusBadge = ({ status }: { status: OrderStatusKey }) => {
     },
   };
 
-  const statusInfo = statusMap[OrderStatus[status]];
+  const statusInfo = statusMap[status];
 
   return <ABadge color={statusInfo.color} text={statusInfo.text} />;
 };

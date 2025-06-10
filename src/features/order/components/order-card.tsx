@@ -1,4 +1,4 @@
-import { type OrderHeader, type OrderStatusKey } from '@/interfaces';
+import { type OrderHeader, OrderStatus } from '@/interfaces';
 import { formatCurrency } from '@/utils/format-currency';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
@@ -9,14 +9,14 @@ export interface OrderCardProps {
 }
 
 export const OrderCard = ({ orderHeader }: OrderCardProps) => {
-  const statusClassNameMap: Record<OrderStatusKey, string> = {
-    Cancelled: 'bg-green-pea-500',
-    Confirmed: 'bg-blue-500',
-    Processing: 'bg-yellow-500',
-    ReadyForShipment: 'bg-green-pea-500',
-    Delivered: 'bg-green-pea-500',
-    Completed: 'bg-green-pea-500',
-    Pending: 'bg-red-500',
+  const statusClassNameMap: Record<OrderStatus, string> = {
+    [OrderStatus.Cancelled]: 'bg-green-pea-500',
+    [OrderStatus.Confirmed]: 'bg-blue-500',
+    [OrderStatus.Processing]: 'bg-yellow-500',
+    [OrderStatus.ReadyForShipment]: 'bg-green-pea-500',
+    [OrderStatus.Delivered]: 'bg-green-pea-500',
+    [OrderStatus.Completed]: 'bg-green-pea-500',
+    [OrderStatus.Pending]: 'bg-red-500',
   };
 
   return (
