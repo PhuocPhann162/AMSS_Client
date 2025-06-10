@@ -1,9 +1,11 @@
 import { useUpdateAddressMutation } from '@/api';
 import { AAvatar, AHomeCard } from '@/common/ui-common';
 import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
+import { setUser } from '@/features/auth/store/auth-slice';
 import { RoleName } from '@/interfaces';
 import { InfoItem } from '@/pages/Users/components/info-item';
 import { UpdateAddressModal } from '@/pages/Users/components/update-address-modal';
+import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import CalendarOutlined from '@ant-design/icons/CalendarOutlined';
 import CheckCircleOutlined from '@ant-design/icons/CheckCircleOutlined';
@@ -16,6 +18,7 @@ import { useState } from 'react';
 
 export const HomeProfilePage = () => {
   const userData = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
 
   const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
 
@@ -118,6 +121,12 @@ export const HomeProfilePage = () => {
           try {
             await updateAddress(data);
             setOpenUpdateAddressModal(false);
+            dispatch(
+              setUser({
+                ...userData,
+                streetAddress: data.streetAddress,
+              }),
+            );
           } catch (error) {
             console.log(error);
           }
