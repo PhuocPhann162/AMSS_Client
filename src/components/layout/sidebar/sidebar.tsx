@@ -87,6 +87,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
           selectedKeys={[location.pathname]}
           onClick={handleClickNav}
           items={contentItems}
+          className='grow'
         />
       </SidebarContent>
       {!!footer && <SidebarFooter>{footer}</SidebarFooter>}

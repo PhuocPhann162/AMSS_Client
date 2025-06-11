@@ -21,7 +21,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className='flex flex-col justify-between gap-12 bg-black1 p-6 text-white1 md:flex-row-reverse'>
+    <footer className='flex flex-col justify-between gap-12 bg-gray-950 p-6 text-gray-50 md:flex-row-reverse'>
       <nav>
         <ul className='flex flex-col gap-4 md:gap-2'>
           {navLinks.map((link) => (

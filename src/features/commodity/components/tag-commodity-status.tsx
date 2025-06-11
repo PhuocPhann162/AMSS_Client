@@ -27,19 +27,19 @@ export const TagCommodityStatus = ({
       label: 'Out of Stock',
     },
     [CommodityStatus.Discontinued]: {
-      color: colors['woodsmoke'][700],
+      color: colors['Gray'][700],
       label: 'Discontinued',
     },
     [CommodityStatus.ComingSoon]: {
-      color: colors['woodsmoke'][700],
+      color: colors['Gray'][700],
       label: 'Coming Soon',
     },
     [CommodityStatus.PreOrder]: {
-      color: colors['woodsmoke'][700],
+      color: colors['Gray'][700],
       label: 'Pre Order',
     },
     [CommodityStatus.Limited]: {
-      color: colors['woodsmoke'][700],
+      color: colors['Gray'][700],
       label: 'Limited',
     },
   };

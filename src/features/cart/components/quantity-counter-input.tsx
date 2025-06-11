@@ -60,7 +60,7 @@ export const QuantityCounterInput = ({
     <div
       {...props}
       className={twMerge(
-        'flex items-center gap-1 rounded-full bg-white1 p-1 shadow-md',
+        'flex items-center gap-1 rounded-full bg-gray-50 p-1 shadow-md',
         props.className,
       )}
     >
