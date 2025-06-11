@@ -13,6 +13,7 @@ import { supplierModel } from '@/interfaces/supplierModel';
 import { CropResponse } from '@/models/response/crop-response';
 import { FilterOpstion } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { getStatusColor } from './getStatusColor';
+import { OrderStatus } from '@/interfaces';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {
   return [
@@ -343,4 +344,25 @@ export const COMMODITY_STATUS_FILTER: FilterOpstion[] = [
     title: 'Pre-Order',
     key: CommodityStatus.PreOrder,
   },
+];
+
+export const ORDER_STATUS_SEGMENTED = [
+  { label: 'All', value: '' },
+  { label: 'Pending', value: OrderStatus.Pending },
+  { label: 'Confirmed', value: OrderStatus.Confirmed },
+  { label: 'Processing', value: OrderStatus.Processing },
+  { label: 'Ready For Shipment', value: OrderStatus.ReadyForShipment },
+  { label: 'Delivered', value: OrderStatus.Delivered },
+  { label: 'Completed', value: OrderStatus.Completed },
+  { label: 'Cancelled', value: OrderStatus.Cancelled },
+];
+
+export const ORDER_STATUS_FILTER: FilterOpstion[] = [
+  { title: 'Pending', key: OrderStatus.Pending },
+  { title: 'Confirmed', key: OrderStatus.Confirmed },
+  { title: 'Processing', key: OrderStatus.Processing },
+  { title: 'Ready For Shipment', key: OrderStatus.ReadyForShipment },
+  { title: 'Delivered', key: OrderStatus.Delivered },
+  { title: 'Completed', key: OrderStatus.Completed },
+  { title: 'Cancelled', key: OrderStatus.Cancelled },
 ];
