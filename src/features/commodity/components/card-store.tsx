@@ -23,7 +23,7 @@ export const CardStore = ({ commodity }: CardStoreProps) => {
         src={commodity.image}
         className='aspect-square overflow-hidden rounded-xl'
       />
-      <div className='absolute left-3 top-3 flex flex-col gap-1 text-white1'>
+      <div className='absolute left-3 top-3 flex flex-col gap-1 text-gray-50'>
         <p className='text-xl font-medium'>{commodity.name}</p>
         <p className='text-lg font-bold'>{formatCurrency(commodity.price)}</p>
       </div>

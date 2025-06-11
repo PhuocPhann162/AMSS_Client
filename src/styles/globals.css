@@ -69,7 +69,7 @@
   }
 
   body {
-    @apply relative bg-white1 font-satoshi text-black1;
+    @apply relative bg-gray-50 font-satoshi text-gray-950;
   }
 
   :root {

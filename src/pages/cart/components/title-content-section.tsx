@@ -22,7 +22,7 @@ export const TitleContentSection = ({
       </h1>
       <div
         className={twMerge(
-          'flex flex-col gap-3 rounded-lg bg-ebb-50 p-4',
+          'flex flex-col gap-3 rounded-lg p-4',
           classNames?.content,
         )}
       >
