@@ -21,9 +21,9 @@ export const InfoItem = ({
     {...props}
     className={twMerge('flex items-center gap-3', props.className)}
   >
-    <Icon className='rounded-lg bg-black1/20 p-2 text-white backdrop-blur-60 backdrop-saturate-180' />
+    <Icon className='rounded-lg bg-gray-950/20 p-2 text-white backdrop-blur-60 backdrop-saturate-180' />
     <div className='flex grow flex-col gap-1'>
-      <p className='text-sm font-medium text-woodsmoke-400'>{label}</p>
+      <p className='text-sm font-medium text-gray-400'>{label}</p>
       <AParagraph strong ellipsis={{ rows: 2, tooltip: value }}>
         {value || 'N/A'}
       </AParagraph>

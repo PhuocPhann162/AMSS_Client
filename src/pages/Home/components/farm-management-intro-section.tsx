@@ -13,7 +13,7 @@ export const FarmManagementIntroSection = () => {
         alt='Novaris'
         className='sticky top-0 h-screen'
       />
-      <div className='relative -mt-[100vh] flex min-h-screen flex-col items-center justify-center gap-4 text-center text-white1'>
+      <div className='relative -mt-[100vh] flex min-h-screen flex-col items-center justify-center gap-4 text-center text-gray-50'>
         <p className='text-2xl font-bold md:text-4xl'>Welcome to Novaris</p>
         <p className='text-4xl font-bold md:text-6xl'>
           Agriculture & Eco Farming

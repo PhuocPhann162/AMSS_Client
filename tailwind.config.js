@@ -202,6 +202,9 @@ export default {
         20: '20px',
         60: '60px',
       },
+      screens: {
+        xs: '30em',
+      },
     },
   },
   // daisyui: {

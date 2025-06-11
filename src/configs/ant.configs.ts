@@ -3,8 +3,9 @@ import { ThemeConfig } from 'antd';
 
 export const themeConfig: ThemeConfig = {
   token: {
-    colorPrimary: colors['green-haze'][500],
-    colorLink: colors['green-haze'][500],
+    colorPrimary: colors['Green'][700],
+    colorTextBase: colors['Gray'][950],
+    colorLink: colors['Green'][700],
     borderRadius: 8,
     fontSize: 14,
     motionDurationMid: '0.3s',
