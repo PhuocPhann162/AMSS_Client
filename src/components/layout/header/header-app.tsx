@@ -1,4 +1,4 @@
-import { DropdownUser } from '@/components/layout/header/dropdown-user';
+import { AppUserDropdown } from '@/components/layout/header/app-user-dropdown';
 import { HeaderUnderOverlay } from '@/components/layout/header/header-under-overlay';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 
@@ -17,7 +17,7 @@ export const HeaderApp = () => {
         {/* TODO: Add logo */}
         <p className='text-lg font-bold'>Novaris</p>
       </div>
-      <DropdownUser />
+      <AppUserDropdown />
     </HeaderUnderOverlay>
   );
 };

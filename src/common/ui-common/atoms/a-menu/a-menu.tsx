@@ -2,21 +2,17 @@ import { cn } from '@/lib/utils';
 import Menu, { type MenuProps, type MenuRef } from 'antd/es/menu';
 import { forwardRef } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AMenuProps extends MenuProps {}
+export type AMenuProps = MenuProps;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AMenuRef extends MenuRef {}
+export type AMenuRef = MenuRef;
 
-export const AMenu = forwardRef<AMenuRef, AMenuProps>(
-  ({ rootClassName, ...props }, ref) => {
-    return (
-      <Menu
-        ref={ref}
-        rootClassName={cn('overflow-y-auto', rootClassName)}
-        {...props}
-      />
-    );
-  },
-);
+export const AMenu = forwardRef<AMenuRef, AMenuProps>((props, ref) => {
+  return (
+    <Menu
+      ref={ref}
+      {...props}
+      rootClassName={cn('overflow-y-auto', props.rootClassName)}
+    />
+  );
+});
 AMenu.displayName = 'AMenu';
