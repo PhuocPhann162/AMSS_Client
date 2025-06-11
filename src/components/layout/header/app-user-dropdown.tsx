@@ -1,21 +1,15 @@
 import { ADropdown } from '@/common/ui-common';
 import { AvatarWithUsername } from '@/components/ui/avatar-with-username.';
 import { clearAuth } from '@/features/auth/store/auth-slice';
-import type { User } from '@/interfaces';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
-import ShoppingOutlined from '@ant-design/icons/ShoppingOutlined';
+import SettingOutlined from '@ant-design/icons/SettingOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-export interface DropdownUserProps {
-  showName?: boolean;
-  children?: ReactNode | ((user?: User) => ReactNode);
-}
-
-export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
+export const AppUserDropdown = () => {
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -32,14 +26,14 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
     onClick?: () => void;
   }[] = [
     {
-      label: 'Orders',
-      path: '/orders',
-      icon: <ShoppingOutlined />,
+      label: 'My Profile',
+      path: 'user/profile',
+      icon: <UserOutlined />,
     },
     {
-      label: 'My Profile',
-      path: 'profile',
-      icon: <UserOutlined />,
+      label: 'Account Settings',
+      path: 'user/settings',
+      icon: <SettingOutlined />,
     },
     {
       label: 'Log Out',
@@ -67,17 +61,11 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
         }),
       }}
     >
-      {typeof children === 'function' ? (
-        children(userState)
-      ) : children ? (
-        children
-      ) : (
-        <AvatarWithUsername
-          showName={showName}
-          name={userState?.fullName}
-          avatar={userState?.avatar}
-        />
-      )}
+      <AvatarWithUsername
+        showName={false}
+        name={userState?.fullName}
+        avatar={userState?.avatar}
+      />
     </ADropdown>
   );
 };

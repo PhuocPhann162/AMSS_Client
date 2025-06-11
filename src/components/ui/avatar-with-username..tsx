@@ -22,9 +22,13 @@ export const AvatarWithUsername = forwardRef<
       className={twMerge('flex items-center gap-2', props.className)}
     >
       {showAvatar && (
-        <AAvatar src={avatar}>{getFirstTwoCharacters(name || '')}</AAvatar>
+        <AAvatar src={avatar}>
+          {typeof name === 'string' ? getFirstTwoCharacters(name) : undefined}
+        </AAvatar>
       )}
-      {showName && name && <p className='font-semibold'>{name}</p>}
+      {showName && typeof name === 'string' && (
+        <p className='font-semibold'>{name}</p>
+      )}
     </button>
   );
 });
