@@ -45,11 +45,15 @@ export const ChatFloatButton: React.FC = () => {
             <motion.img
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              src='/novaris_logo.png'
+              src='/novaris_logo_n.png'
               alt='Novaris Chat'
               width={40}
               height={40}
-              className='h-14 w-14 rounded-full object-contain'
+              className='h-14 w-14 rounded-full bg-black object-contain'
+              style={{
+                boxShadow:
+                  'rgba(255, 255, 255, 0.6) 0px 0px 15px, rgba(255, 255, 255, 0.5) 0px 0px 3px 1px',
+              }}
             />
           </AButton>
         </FloatButton.Group>
@@ -57,10 +61,10 @@ export const ChatFloatButton: React.FC = () => {
       <AnimatePresence mode='wait'>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            initial={{ opacity: 0, y: 80, scale: 0.95 }}
             animate={{
               opacity: 1,
-              y: 0,
+              y: -5,
               scale: 1,
               transition: {
                 type: 'spring',
