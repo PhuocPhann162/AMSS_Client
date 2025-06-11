@@ -16,12 +16,15 @@ import { MainLoader } from '@/components/Page/common';
 import { cropModel } from '@/interfaces';
 import { AButton, ACard, ADescriptions } from '@/common/ui-common';
 import { supplierDescriptionItems } from '@/helper/descriptionItems';
+import { ExperienceModal } from '@/components/Page/GPASearch/ExperienceModal';
 
 export const CropDetail = () => {
   const navigate = useNavigate();
   const [cropDetail, setCropDetail] = useState<cropModel>();
   const { id } = useParams();
   const { data, isLoading } = useGetCropByIdQuery(id);
+  const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
+
   useEffect(() => {
     if (data) {
       setCropDetail(data.result);
@@ -141,13 +144,24 @@ export const CropDetail = () => {
                 </ACard>
               )}
               <div className='mt-4 flex items-center gap-2'>
-                <AButton type='primary'>Leave your experience</AButton>
+                <AButton
+                  type='primary'
+                  onClick={() => setIsExperienceModalOpen(true)}
+                  className='bg-brown hover:bg-brown/90'
+                >
+                  Leave your experience
+                </AButton>
                 <AButton onClick={() => navigate(-1)}>Back to list</AButton>
               </div>
             </div>
           </div>
         </div>
       )}
+
+      <ExperienceModal
+        isOpen={isExperienceModalOpen}
+        onClose={() => setIsExperienceModalOpen(false)}
+      />
     </>
   );
 };
