@@ -2,6 +2,7 @@ import { DropdownUser } from '@/components/layout/header/dropdown-user';
 import { BadgeCartIcon } from '@/components/layout/header/header-page/badge-cart-icon';
 import { UserIcon } from '@/components/layout/header/header-page/user-icon';
 import { HomeHeader } from '@/components/layout/header/home-header';
+import { NovarisLogo } from '@/components/UI';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks';
@@ -32,7 +33,8 @@ export const HeaderPage = ({ hasHeaderOffset }: HeaderPageProps) => {
         }}
       >
         {!!isMobile && <SidebarTrigger />}
-        <Link to='/' className='text-xl font-bold uppercase'>
+        <Link to='/' className='flex items-center text-xl font-bold uppercase'>
+          <NovarisLogo className='bg-none' />
           Novaris
         </Link>
 

@@ -230,7 +230,8 @@ export const AllUsers = () => {
           <div className='flex flex-col items-end gap-2'>
             <div className='mt-4 flex items-center gap-x-3'>
               <AButton
-                type='primary'
+                variant='solid'
+                color='cyan'
                 onClick={() => navigate('/app/user/register')}
               >
                 <CreateIcon />

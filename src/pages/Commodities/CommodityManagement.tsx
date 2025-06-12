@@ -17,6 +17,7 @@ import { CommodityOrderBy } from '@/models';
 import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { ViewCommodityModal } from '@/components/UI/modal/view-commodity-modal';
 import { useNavigate } from 'react-router-dom';
+import { CreateIcon } from '@/components/Icon';
 
 const getValidOrderBy = (sortField: unknown): CommodityOrderBy => {
   const value = (Array.isArray(sortField) ? sortField[0] : sortField) as string;
@@ -201,10 +202,11 @@ export function CommodityManagement() {
             className='w-1/3 min-w-40'
           />
           <AButton
-            type='primary'
+            variant='solid'
+            color='cyan'
             onClick={() => navigate('/app/commodity/create')}
           >
-            New Commodity
+            <CreateIcon /> New Commodity
           </AButton>
         </div>
 

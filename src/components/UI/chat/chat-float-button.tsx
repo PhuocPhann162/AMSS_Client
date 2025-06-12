@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AButton } from '@/common/ui-common';
 import { FaExpand, FaCompress, FaAngleDown } from 'react-icons/fa';
 import { GooeyAiChat } from '@/components/UI/chat/chat-box';
+import { NovarisLogo } from '../logo';
 
 export const ChatFloatButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,7 @@ export const ChatFloatButton: React.FC = () => {
             <motion.img
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              src='/novaris_logo_n.png'
+              src='/logo_official.png'
               alt='Novaris Chat'
               width={40}
               height={40}
@@ -95,7 +96,10 @@ export const ChatFloatButton: React.FC = () => {
               transition={{ delay: 0.1 }}
               className='flex items-center justify-between border-b border-neutral-800 bg-neutral-900 px-4 py-2'
             >
-              <span className='font-semibold text-white'>Novaris</span>
+              <span className='flex items-center font-semibold text-white'>
+                <NovarisLogo />
+                Novaris
+              </span>
               <div className='flex items-center gap-2'>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
