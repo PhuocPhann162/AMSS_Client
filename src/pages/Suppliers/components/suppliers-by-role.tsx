@@ -15,7 +15,9 @@ import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { TableParams } from '@/utils/models/Tables';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
+import { FaRegPaperPlane } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 interface SuppliersByRoleProps {
   supplierRole: Role;
@@ -23,6 +25,7 @@ interface SuppliersByRoleProps {
 
 export function SuppliersByRole(props: SuppliersByRoleProps) {
   const { supplierRole } = props;
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState<string>('');
   const [tableParams, setTableParams] =
     useState<TableParams>(INITIAL_PAGINATION);
@@ -158,22 +161,31 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
 
   return (
     <div className='flex flex-col gap-1'>
-      <SearchInput
-        onSearch={(value) => {
-          if (value !== searchValue) {
-            setSearchValue(value);
-            setTableParams((pre) => ({
-              ...pre,
-              pagination: {
-                ...pre.pagination,
-                current: 1,
-              },
-            }));
-          }
-        }}
-        placeholder={'Search by Contact Name and Company Name'}
-        className='w-1/3 min-w-40'
-      />
+      <div className='flex items-center justify-between'>
+        <SearchInput
+          onSearch={(value) => {
+            if (value !== searchValue) {
+              setSearchValue(value);
+              setTableParams((pre) => ({
+                ...pre,
+                pagination: {
+                  ...pre.pagination,
+                  current: 1,
+                },
+              }));
+            }
+          }}
+          placeholder={'Search by Contact Name and Company Name'}
+          className='w-1/3 min-w-40'
+        />
+        <AButton
+          variant='solid'
+          color='cyan'
+          onClick={() => navigate('/app/user/register')}
+        >
+          <FaRegPaperPlane /> Send Invitation
+        </AButton>
+      </div>
       <ATable
         columns={supplierCropCol}
         dataSource={dataTable}

@@ -1,27 +1,30 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ScrollAnimationWrapper } from '@/components/Animation';
-import {
-  DeleteFileIcon,
-  DownloadIcon,
-  FileBackgroundIcon,
-  FileIcon,
-  UploadIcon,
-} from '@/components/Icon';
+import { DeleteFileIcon, DownloadIcon } from '@/components/Icon';
 import { Breadcrumb } from '@/components/UI';
-import { motion } from 'framer-motion';
 import { getScrollAnimation, toastNotify } from '@/helper';
 import { useImportDataSocialMetricMutation } from '@/api';
 import { apiResponse } from '@/interfaces';
+import { AButton } from '@/common/ui-common/atoms/a-button/a-button';
+import { Card, Upload, Typography, Space, Alert, Row, Col } from 'antd';
+import {
+  InboxOutlined,
+  FileExcelOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
+import { RcFile } from 'antd/es/upload';
+
+const { Title, Text, Paragraph } = Typography;
+const { Dragger } = Upload;
 
 export const ImportData: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [tempDownloadUrl, setTempDownloadUrl] = useState<string | null>(null);
-  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
+  const [uploading, setUploading] = useState(false);
 
   const [importDataSocialMetric] = useImportDataSocialMetricMutation();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleFileChange = (info: any) => {
+    const file = info.file.originFileObj;
     if (file) {
       const allowedTypes = [
         'text/csv',
@@ -34,7 +37,6 @@ export const ImportData: React.FC = () => {
       }
 
       setSelectedFile(file);
-
       const url = URL.createObjectURL(file);
       setTempDownloadUrl(url);
     }
@@ -42,14 +44,14 @@ export const ImportData: React.FC = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('Please select a file to upload.');
+      toastNotify('Please select a file to upload.', 'error');
       return;
     }
 
+    setUploading(true);
     const formData = new FormData();
     formData.append('File', selectedFile);
 
-    // Send request import data
     try {
       const response: apiResponse = await importDataSocialMetric(formData);
       if (response.data && response.data?.isSuccess) {
@@ -59,13 +61,12 @@ export const ImportData: React.FC = () => {
         }
         setSelectedFile(null);
         setTempDownloadUrl(null);
-        const inputFile = document.getElementById(
-          'chooseFile',
-        ) as HTMLInputElement;
-        if (inputFile) inputFile.value = '';
       }
     } catch (error: any) {
       console.error(Error(error.message));
+      toastNotify('Failed to import data. Please try again.', 'error');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -75,11 +76,8 @@ export const ImportData: React.FC = () => {
     }
     setSelectedFile(null);
     setTempDownloadUrl(null);
-    const inputFile = document.getElementById('chooseFile') as HTMLInputElement;
-    if (inputFile) inputFile.value = '';
   };
 
-  // Hủy URL tạm khi component unmount
   useEffect(() => {
     return () => {
       if (tempDownloadUrl) {
@@ -88,90 +86,133 @@ export const ImportData: React.FC = () => {
     };
   }, [tempDownloadUrl]);
 
-  return (
-    <div className='w-full'>
-      <Breadcrumb pageParent='GPA' pageName='Import Data' />
-      <div className='mt-8 flex w-full justify-center gap-40 bg-white py-10'>
-        <ScrollAnimationWrapper>
-          <motion.div
-            variants={scrollAnimation}
-            className='relative mx-auto flex h-full min-w-80 items-center justify-center rounded-xl border-2 border-dashed border-bodydark bg-white'
-          >
-            <div className='flex min-h-[300px] cursor-pointer items-center justify-center p-4 text-gray-600'>
-              <div className='flex flex-col items-center'>
-                <label
-                  className='flex cursor-pointer flex-col items-center'
-                  htmlFor='chooseFile'
-                >
-                  <UploadIcon />
+  const uploadProps = {
+    name: 'file',
+    multiple: false,
+    accept: '.csv,.xls,.xlsx',
+    beforeUpload: (file: RcFile) => {
+      handleFileChange({ file: { originFileObj: file } });
+      return false;
+    },
+    showUploadList: false,
+  };
 
-                  <h4 className='mt-5 text-base font-semibold text-gray-600'>
-                    Drag & Drop file here
-                  </h4>
-                  <h4 className='py-6 text-base font-semibold text-gray-600'>
-                    OR
-                  </h4>
-                  <label
-                    htmlFor='chooseFile'
-                    className='cursor-pointer rounded-md bg-clr-4 px-8 py-2 text-base font-semibold text-white shadow-lg hover:bg-yellow-600'
-                  >
-                    Browser
-                  </label>
-                </label>
-                <input
-                  type='file'
-                  id='chooseFile'
-                  className='hidden'
-                  onChange={handleFileChange}
-                />
-                <a
-                  href='/template/SocialMetricData.csv'
-                  download='SocialMetricDataTemplate.csv'
-                  className='mt-6 font-bold text-aqua underline underline-offset-8 hover:decoration-2'
-                >
-                  Download Template
-                </a>
+  return (
+    <div className='w-full p-6'>
+      <Breadcrumb pageParent='GPA' pageName='Import Data' />
+
+      <Row gutter={[24, 24]} className='mt-8'>
+        <Col span={8}>
+          <Card className='h-full'>
+            <Space direction='vertical' size='large' className='w-full'>
+              <Title level={4}>Import Social Metric Data</Title>
+
+              <Alert
+                message='Data Import Guidelines'
+                description={
+                  <ul className='list-disc pl-4'>
+                    <li>Download the template file below</li>
+                    <li>Fill in your data following the template format</li>
+                    <li>Upload your completed file</li>
+                    <li>Review the data before final submission</li>
+                  </ul>
+                }
+                type='info'
+                showIcon
+                icon={<InfoCircleOutlined />}
+              />
+
+              <div className='flex flex-col gap-4'>
+                <Text strong>Template Information:</Text>
+                <Paragraph>
+                  The template includes the following metrics:
+                  <ul className='mt-2 list-disc pl-4'>
+                    <li>Population statistics</li>
+                    <li>Economic indicators</li>
+                    <li>Social development metrics</li>
+                    <li>Environmental data</li>
+                  </ul>
+                </Paragraph>
               </div>
-            </div>
-          </motion.div>
-        </ScrollAnimationWrapper>
-        <div className='min-h-100 flex flex-col items-center bg-white'>
-          <FileBackgroundIcon />
-          {selectedFile && (
-            <div className='flex gap-4 border-b-2 border-brown py-4 text-center'>
-              <div className='flex justify-center gap-4 text-file'>
-                <div className='flex max-w-40 flex-col items-center justify-center gap-2 rounded-lg p-5 shadow-md'>
-                  <FileIcon />
-                  <p className='w-32 break-words text-center text-xs'>
-                    <b>{selectedFile.name}</b>
-                  </p>
-                </div>
-                {tempDownloadUrl && (
-                  <div className='flex flex-col'>
-                    <div className='mt-4 flex h-8 w-8 items-center justify-center rounded-md px-2 py-2 shadow-md'>
-                      <a href={tempDownloadUrl} download={selectedFile.name}>
-                        <DownloadIcon />
-                      </a>
-                    </div>
-                    <button
-                      className='mt-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-md px-2 py-2 text-danger shadow-md'
-                      onClick={handleDelete}
-                    >
-                      <DeleteFileIcon />
-                    </button>
-                  </div>
-                )}
-              </div>
-              <button
-                onClick={handleUpload}
-                className='mt-4 h-10 max-w-40 shrink-0 rounded-lg bg-brown px-8 py-2 text-sm font-semibold tracking-wide text-white transition-colors duration-200 hover:bg-yellow-800 hover:shadow-brown sm:w-auto'
+
+              <AButton
+                type='primary'
+                icon={<FileExcelOutlined />}
+                href='/template/SocialMetricData.csv'
+                download='SocialMetricDataTemplate.csv'
+                className='w-full'
               >
-                Upload
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+                Download Template
+              </AButton>
+            </Space>
+          </Card>
+        </Col>
+
+        <Col span={16}>
+          <Card>
+            <Space direction='vertical' size='large' className='w-full'>
+              <Title level={4}>Upload Your Data</Title>
+
+              <Dragger
+                {...uploadProps}
+                className='rounded-lg border-2 border-dashed border-gray-300'
+              >
+                <p className='ant-upload-drag-icon'>
+                  <InboxOutlined />
+                </p>
+                <p className='ant-upload-text'>
+                  Click or drag file to this area to upload
+                </p>
+                <p className='ant-upload-hint'>
+                  Support for CSV and Excel files only
+                </p>
+              </Dragger>
+
+              {selectedFile && (
+                <Card className='bg-gray-50'>
+                  <Space direction='vertical' className='w-full'>
+                    <div className='flex items-center justify-between'>
+                      <Space>
+                        <FileExcelOutlined className='text-2xl text-green-600' />
+                        <div>
+                          <Text strong>{selectedFile.name}</Text>
+                          <br />
+                          <Text type='secondary'>
+                            {(selectedFile.size / 1024).toFixed(2)} KB
+                          </Text>
+                        </div>
+                      </Space>
+                      <Space>
+                        {tempDownloadUrl && (
+                          <AButton
+                            icon={<DownloadIcon />}
+                            href={tempDownloadUrl}
+                            download={selectedFile.name}
+                          />
+                        )}
+                        <AButton
+                          danger
+                          icon={<DeleteFileIcon />}
+                          onClick={handleDelete}
+                        />
+                      </Space>
+                    </div>
+
+                    <AButton
+                      type='primary'
+                      onClick={handleUpload}
+                      loading={uploading}
+                      className='w-full'
+                    >
+                      {uploading ? 'Uploading...' : 'Upload Data'}
+                    </AButton>
+                  </Space>
+                </Card>
+              )}
+            </Space>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -46,6 +46,7 @@ import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
+import { OrdersManagement } from './pages/Orders/orders-admin-page';
 
 export interface Route {
   name: string;
@@ -277,7 +278,7 @@ export const router = createBrowserRouter(
             },
             {
               path: 'orders',
-              element: <OnlineStore />,
+              element: <OrdersManagement />,
             },
           ],
         },

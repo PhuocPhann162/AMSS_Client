@@ -72,8 +72,8 @@ export const sidebarOptions: Item[] = [
         icon: <ShopOutlined className='size-4' />,
         children: [
           {
+            path: '/store',
             label: 'Online Store',
-            path: '/app/market/onlineStore',
           },
           {
             path: '/app/commodity/managment',
@@ -116,7 +116,7 @@ export const sidebarOptions: Item[] = [
   },
 
   {
-    label: 'Account',
+    label: 'Accounts',
     isGroup: true,
     children: [
       {

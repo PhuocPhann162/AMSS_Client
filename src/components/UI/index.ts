@@ -10,5 +10,6 @@ export * from './modal';
 export * from './';
 export * from './order-status-tag';
 export * from './chat';
+export * from './logo';
 
 export { Breadcrumb, PageTitle, TableTwo, MyDoughnut, StarRating };

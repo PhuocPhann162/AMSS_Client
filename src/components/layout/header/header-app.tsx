@@ -1,5 +1,6 @@
 import { AppUserDropdown } from '@/components/layout/header/app-user-dropdown';
 import { HeaderUnderOverlay } from '@/components/layout/header/header-under-overlay';
+import { NovarisLogo } from '@/components/UI';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
 
 export const HeaderApp = () => {
@@ -15,7 +16,9 @@ export const HeaderApp = () => {
       <div className='flex items-center gap-2'>
         <SidebarTrigger />
         {/* TODO: Add logo */}
-        <p className='text-lg font-bold'>Novaris</p>
+        <p className='flex items-center font-rubik text-lg'>
+          <NovarisLogo /> Novaris
+        </p>
       </div>
       <AppUserDropdown />
     </HeaderUnderOverlay>
