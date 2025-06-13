@@ -8,6 +8,7 @@ import WeatherMap from './WeatherMap';
 import MapBox from './MapBox';
 
 export * from './MapBoxAddressSearch';
+export * from './MapDirection';
 
 export {
   Map,

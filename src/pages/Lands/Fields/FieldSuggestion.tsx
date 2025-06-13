@@ -24,7 +24,7 @@ export const FieldSuggestion = () => {
   useEffect(() => {
     async function fetchPlantSuggest() {
       try {
-        const randomPageIndex = Math.floor(Math.random() * 9) + 1;
+        const randomPageIndex = Math.floor(Math.random() * 38) + 1;
         const response = await getPlanListSuggest(randomPageIndex);
         setPlantList(response.data);
       } catch (error) {

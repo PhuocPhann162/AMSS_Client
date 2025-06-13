@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { ScrollAnimationWrapper } from '@/components/Animation';
 import { getScrollAnimation } from '@/helper';
 import { motion } from 'framer-motion';
@@ -9,7 +9,7 @@ import {
   WateringIcon,
 } from '@/components/Icon';
 import { plantSuggestModel } from '@/interfaces';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AButton } from '@/common/ui-common';
 
 interface PlantSugesstionProps {
@@ -19,6 +19,7 @@ interface PlantSugesstionProps {
 export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   const navigate = useNavigate();
+
   return (
     <ScrollAnimationWrapper>
       <motion.div className='px-7.5 w-full rounded-sm border border-stroke bg-white py-6 shadow-default'>
@@ -63,7 +64,7 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
           </thead>
           <tbody className='bg-white'>
             {plantList &&
-              plantList.map((plant: plantSuggestModel) => (
+              plantList?.map((plant: plantSuggestModel) => (
                 <tr key={plant.id}>
                   <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
                     <NavLink
@@ -97,7 +98,7 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
                     {plant.watering}
                   </td>
                   <td className='border-r border-type-1 px-4 py-4 text-sm text-body'>
-                    {plant.sunlight[0]}
+                    {plant?.sunlight[0]}
                   </td>
                   <td className='px-4 py-4 text-sm text-body'>
                     <AButton
