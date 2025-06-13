@@ -2,6 +2,7 @@ import { AppUserDropdown } from '@/components/layout/header/app-user-dropdown';
 import { HeaderUnderOverlay } from '@/components/layout/header/header-under-overlay';
 import { NovarisLogo } from '@/components/UI';
 import { SidebarTrigger } from '@/components/ui/Sidebar';
+import { HeaderSearch } from './header-search';
 
 export const HeaderApp = () => {
   return (
@@ -20,6 +21,7 @@ export const HeaderApp = () => {
           <NovarisLogo /> Novaris
         </p>
       </div>
+      <HeaderSearch />
       <AppUserDropdown />
     </HeaderUnderOverlay>
   );

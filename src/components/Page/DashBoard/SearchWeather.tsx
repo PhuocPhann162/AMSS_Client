@@ -26,7 +26,9 @@ const SearchWeather = ({
 
       <Suggestions options={options} onSelect={onOptionSelect} />
 
-      <AButton onClick={onSubmit}>Search City</AButton>
+      <AButton variant='solid' color='cyan' onClick={onSubmit} className='w-32'>
+        Search City
+      </AButton>
     </div>
   </section>
 );

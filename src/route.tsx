@@ -8,7 +8,7 @@ import { OrdersPage } from '@/pages/Orders/orders-page';
 import { HomeProfilePage } from '@/pages/Users/home-profile-page';
 import { type ReactNode } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import { Map, WeatherMap } from './components/Page/Maps';
+import { Map, MapboxDirections, WeatherMap } from './components/Page/Maps';
 import PaymentSuccess from './components/Page/Payment/PaymentSuccess';
 import EnhancedDefaultAppLayout from './layouts/default-app-layout';
 import {
@@ -111,6 +111,13 @@ export const router = createBrowserRouter(
                 hasHeaderOffset: true,
               } as RouteHandle,
               element: <OrderDetailPage />,
+            },
+            {
+              path: ':id/tracking',
+              handle: {
+                hasHeaderOffset: true,
+              } as RouteHandle,
+              element: <MapboxDirections />,
             },
           ],
         },
@@ -279,6 +286,10 @@ export const router = createBrowserRouter(
             {
               path: 'orders',
               element: <OrdersManagement />,
+            },
+            {
+              path: 'orders/:id',
+              element: <OrderDetailPage />,
             },
           ],
         },

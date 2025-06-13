@@ -8,6 +8,7 @@ import SettingOutlined from '@ant-design/icons/SettingOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 
 export const AppUserDropdown = () => {
   const dispatch = useAppDispatch();
@@ -61,11 +62,28 @@ export const AppUserDropdown = () => {
         }),
       }}
     >
-      <AvatarWithUsername
-        showName={false}
-        name={userState?.fullName}
-        avatar={userState?.avatar}
-      />
+      <div className='flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50'>
+        <AvatarWithUsername
+          showName={false}
+          name={userState?.fullName}
+          avatar={userState?.avatar}
+        />
+        <div className='flex flex-col'>
+          <span className='text-sm font-medium text-gray-900'>
+            {userState?.fullName}
+          </span>
+          {userState?.countryCode && (
+            <div className='flex items-center gap-1'>
+              <span className='text-xs text-gray-500'>
+                {flagemojiToPNG(convertToEmoji(userState.countryCode))}
+              </span>
+              <span className='text-xs text-gray-500'>
+                {userState.countryName}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
     </ADropdown>
   );
 };

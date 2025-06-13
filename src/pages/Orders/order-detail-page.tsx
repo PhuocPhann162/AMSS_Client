@@ -1,6 +1,7 @@
 import { useGetOrderDetailQuery } from '@/api/order-api';
 import {
   ABadge,
+  AButton,
   ADivider,
   AHomeCard,
   ARawImage,
@@ -25,7 +26,7 @@ import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import Skeleton from 'antd/es/skeleton';
 import Typography from 'antd/es/typography';
 import { format } from 'date-fns';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   const statusMap: Record<
@@ -77,6 +78,7 @@ const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
 export const OrderDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { data: orderResponse, isLoading } = useGetOrderDetailQuery(
     { id: id ?? '' },
     { skip: !id },
@@ -212,16 +214,38 @@ export const OrderDetailPage = () => {
                   <TruckOutlined className='mr-2' />
                   Shipping Method
                 </div>
-                <div>
-                  <Typography.Text strong>Standard Shipping</Typography.Text>
-                  <Typography.Text type='secondary' className='block'>
-                    Estimated delivery:{' '}
-                    {orderDate &&
-                      format(
-                        new Date(orderDate.setDate(orderDate.getDate() + 3)),
-                        'EEEE, MMM d, yyyy',
-                      )}
-                  </Typography.Text>
+                <div className='flex w-full items-center justify-between'>
+                  <div>
+                    <Typography.Text strong>Standard Shipping</Typography.Text>
+                    <Typography.Text type='secondary' className='block'>
+                      Estimated delivery:{' '}
+                      {orderDate &&
+                        format(
+                          new Date(orderDate.setDate(orderDate.getDate() + 3)),
+                          'EEEE, MMM d, yyyy',
+                        )}
+                    </Typography.Text>
+                  </div>
+                  <AButton
+                    type='link'
+                    onClick={() => {
+                      const queryParams = new URLSearchParams({
+                        startLat: '10.867043',
+                        startLng: '106.583047',
+                        endLat: order.location?.lat?.toString() || '0',
+                        endLng: order.location?.lng?.toString() || '0',
+                        startLocationName:
+                          `Kho Nông sản Hóc Môn, Quốc lộ 22, Xã Tân Xuân, Huyện Hóc Môn, TP. Hồ Chí Minh, Việt Nam`.trim(),
+                        endLocationName:
+                          `${order.location?.address || ''}`.trim(),
+                      });
+                      navigate(
+                        `${location.pathname}/tracking?${queryParams.toString()}`,
+                      );
+                    }}
+                  >
+                    Details
+                  </AButton>
                 </div>
               </div>
             </AHomeCard>

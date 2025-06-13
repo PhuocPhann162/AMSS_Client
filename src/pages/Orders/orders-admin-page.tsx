@@ -15,7 +15,7 @@ import { Breadcrumb, OrderStatusTag } from '@/components/UI';
 import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { useGetOrdersQuery } from '@/api/order-api';
 import { GetOrdersOrderBy } from '@/models/request/order/get-orders-request';
-import { FaJediOrder } from 'react-icons/fa';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const getValidOrderBy = (sortField: unknown): GetOrdersOrderBy => {
   const value = (Array.isArray(sortField) ? sortField[0] : sortField) as string;
@@ -32,6 +32,8 @@ const getValidOrderBy = (sortField: unknown): GetOrdersOrderBy => {
 };
 
 export function OrdersManagement() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [searchValue, setSearchValue] = useState<string>('');
   const [tableParams, setTableParams] =
     useState<TableParams>(INITIAL_PAGINATION);
@@ -57,7 +59,7 @@ export function OrdersManagement() {
     search: searchValue,
   });
 
-  const ordersCol: ColumnsType = useMemo(() => {
+  const ordersCol: ColumnsType<OrderHeader> = useMemo(() => {
     return [
       {
         width: '10rem',
@@ -121,7 +123,9 @@ export function OrdersManagement() {
           <AButton
             type='link'
             className='color-primary hover:underline'
-            onClick={() => {}}
+            onClick={() => {
+              navigate(`${location.pathname}/${record.id}`);
+            }}
             aria-label='View order'
           >
             View
