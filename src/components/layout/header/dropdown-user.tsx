@@ -1,7 +1,7 @@
 import { ADropdown } from '@/common/ui-common';
 import { AvatarWithUsername } from '@/components/ui/avatar-with-username.';
 import { clearAuth } from '@/features/auth/store/auth-slice';
-import type { User } from '@/interfaces';
+import { Role, type User } from '@/interfaces';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
@@ -20,17 +20,25 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
   const userState = useAppSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
+  const canAccessAdmin =
+    userState?.role === Role.ADMIN ||
+    userState?.role === Role.OWNER_FARM ||
+    userState?.role === Role.SUPPLIER_COMMODITY ||
+    userState?.role === Role.SUPPLIER_CROP;
+
   const handleLogOut = () => {
     dispatch(clearAuth());
     navigate('/');
   };
 
-  const items: {
-    label: string;
-    path?: string;
-    icon?: ReactNode;
-    onClick?: () => void;
-  }[] = [
+  const items = [
+    canAccessAdmin
+      ? {
+          label: 'Admin',
+          path: '/app/dashBoard',
+          icon: <UserOutlined />,
+        }
+      : null,
     {
       label: 'Orders',
       path: '/orders',
@@ -53,18 +61,20 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
       disabled={!userState}
       trigger={['click']}
       menu={{
-        items: items.map((item) => {
-          return {
-            key: item.label,
-            label: item.path ? (
-              <Link to={item.path}>{item.label}</Link>
-            ) : (
-              item.label
-            ),
-            icon: item.icon,
-            onClick: item.onClick,
-          };
-        }),
+        items: items
+          .filter((item) => !!item)
+          .map((item) => {
+            return {
+              key: item.label,
+              label: item.path ? (
+                <Link to={item.path}>{item.label}</Link>
+              ) : (
+                item.label
+              ),
+              icon: item.icon,
+              onClick: item.onClick,
+            };
+          }),
       }}
     >
       {typeof children === 'function' ? (
