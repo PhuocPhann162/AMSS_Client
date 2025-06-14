@@ -3,12 +3,12 @@ import {
   useAuthGetCartQuery,
 } from '@/api/cart-api';
 import { ADrawer, AImage } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { QuantityCounterInput } from '@/features/cart/components/quantity-counter-input';
 import { formatCurrency } from '@/utils/format-currency';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
+import Button from 'antd/es/button';
 import { useNavigate } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -57,7 +57,7 @@ export const DrawerCart = ({
                 )}
               </p>
             </div>
-            <AHomeButton
+            <Button
               type='primary'
               icon={<CheckOutlined />}
               onClick={() => {
@@ -67,7 +67,7 @@ export const DrawerCart = ({
               }}
             >
               Review cart
-            </AHomeButton>
+            </Button>
           </div>
         ) : undefined
       }
@@ -77,7 +77,7 @@ export const DrawerCart = ({
           <p className='text-lg font-medium'>
             Looks like you haven’t added anything yet, let’s get you started!
           </p>
-          <AHomeButton
+          <Button
             type='primary'
             iconPosition='end'
             icon={<DoubleRightOutlined />}
@@ -88,7 +88,7 @@ export const DrawerCart = ({
             }}
           >
             Continue Shopping
-          </AHomeButton>
+          </Button>
         </div>
       )}
 
@@ -120,7 +120,7 @@ export const DrawerCart = ({
                         }
                       }}
                     />
-                    <AHomeButton
+                    <Button
                       icon={<CloseOutlined />}
                       variant='text'
                       color='primary'

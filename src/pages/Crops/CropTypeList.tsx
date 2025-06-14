@@ -235,7 +235,7 @@ export const CropTypeList = () => {
                                 <td className='w-64 whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
                                   <div>
                                     <div className='flex items-center gap-2'>
-                                      <h2 className='font-bold text-pearl'>
+                                      <h2 className='font-bold text-sky-500'>
                                         {crop.name}
                                       </h2>
                                       <span

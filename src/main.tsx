@@ -9,12 +9,19 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { store } from './storage/index.ts';
 import { StrictMode } from 'react';
+import { AntMessageProvider } from '@/contexts/ant-message/ant-message-provider.tsx';
+import ConfigProvider from 'antd/es/config-provider/index';
+import { themeConfig } from '@/configs/ant.configs.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer />
+      <ConfigProvider theme={themeConfig}>
+        <AntMessageProvider>
+          <App />
+          <ToastContainer />
+        </AntMessageProvider>
+      </ConfigProvider>
     </Provider>
   </StrictMode>,
 );
