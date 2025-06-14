@@ -6,9 +6,11 @@ export const themeConfig: ThemeConfig = {
     colorPrimary: colors['Green'][700],
     colorTextBase: colors['Gray'][950],
     colorLink: colors['Green'][700],
-    borderRadius: 8,
-    fontSize: 14,
-    motionDurationMid: '0.3s',
+    borderRadiusXS: 10,
+    borderRadiusSM: 14,
+    borderRadius: 16,
+    borderRadiusLG: 20,
+    fontSize: 16,
   },
   components: {
     Table: {
@@ -23,6 +25,20 @@ export const themeConfig: ThemeConfig = {
       trackBg: '#ffffff',
       trackPadding: 0,
       itemColor: 'rgba(0, 0, 0, 0.33)',
+    },
+    Menu: {
+      itemBorderRadius: 8,
+    },
+    Button: {
+      fontWeight: 600,
+    },
+    Tag: {
+      defaultBg: colors['Green'][100],
+      defaultColor: colors['Green'][700],
+    },
+    Typography: {
+      titleMarginBottom: 0,
+      titleMarginTop: 0,
     },
   },
 };

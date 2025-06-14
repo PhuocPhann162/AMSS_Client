@@ -17,8 +17,8 @@ import { getScrollAnimation, inputHelper } from '@/helper';
 import { cropModel, cropTypeModel, pageOptions } from '@/interfaces';
 import { CropUpsertModal } from './CropUpsertModal';
 import { motion } from 'framer-motion';
-import { Dropdown } from 'antd';
-import { AButton } from '@/common/ui-common';
+import Button from 'antd/es/button';
+import Dropdown from 'antd/es/dropdown';
 
 export const CropTypeList = () => {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ export const CropTypeList = () => {
   const dropDownMenuItems = (cropId: string) => [
     {
       label: (
-        <AButton
+        <Button
           type='link'
           onClick={() => {
             navigate(`/app/crop/myCrops/cropDetail/${cropId}`);
@@ -63,13 +63,13 @@ export const CropTypeList = () => {
           style={{ color: '#5D3D2E' }}
         >
           <DetailIcon /> Detail
-        </AButton>
+        </Button>
       ),
       key: '0',
     },
     {
       label: (
-        <AButton
+        <Button
           type='link'
           onClick={() => {
             setSelectedCropId(cropId);
@@ -78,7 +78,7 @@ export const CropTypeList = () => {
           style={{ color: '#5D3D2E' }}
         >
           <EditTableIcon /> Edit
-        </AButton>
+        </Button>
       ),
       key: '1',
     },
@@ -145,13 +145,13 @@ export const CropTypeList = () => {
 
               <div className='md: mt-6 flex-col gap-4 md:flex md:items-center'>
                 <div className='mt-4 flex items-center md:mt-0'>
-                  <AButton
+                  <Button
                     type='primary'
                     onClick={() => setIsOpenCropUpsertModal(true)}
                   >
                     <CreateIcon />
                     <span>New Crop</span>
-                  </AButton>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -282,12 +282,12 @@ export const CropTypeList = () => {
                                       items: dropDownMenuItems(crop.id!),
                                     }}
                                   >
-                                    <AButton
+                                    <Button
                                       type='link'
                                       style={{ color: '#000000' }}
                                     >
                                       <ExpandIcon />
-                                    </AButton>
+                                    </Button>
                                   </Dropdown>
                                 </td>
                               </tr>
