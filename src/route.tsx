@@ -1,5 +1,6 @@
 import { AuthenticationLayout } from '@/layouts';
 import { HomeLayout } from '@/layouts/home-layout';
+import { CareProcessPage } from '@/pages/CareProcess/care-process-page';
 import { CartPage } from '@/pages/cart/cart-page';
 import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
@@ -42,11 +43,11 @@ import { CommodityManagement } from './pages/Commodities/CommodityManagement';
 import { CreateCommodity } from './pages/Commodities/CreateCommodity';
 import { GrowLocation } from './pages/Crops/GrowLocation';
 import PlantIdentificationViewer from './pages/Crops/Identification';
+import { OrdersManagement } from './pages/Orders/orders-admin-page';
 import { PaymentPage } from './pages/payment/payment-page';
 import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
-import { OrdersManagement } from './pages/Orders/orders-admin-page';
 
 export interface Route {
   name: string;
@@ -64,10 +65,9 @@ export interface RouteHandle {
 export const router = createBrowserRouter(
   [
     {
-      path: '',
-      element: <HomeLayout />,
+      Component: HomeLayout,
       children: [
-        { index: true, element: <HomePage /> },
+        { index: true, Component: HomePage },
         {
           path: 'store',
           children: [
@@ -76,22 +76,22 @@ export const router = createBrowserRouter(
               handle: {
                 hasHeaderOffset: true,
               } as RouteHandle,
-              element: <StorePage />,
+              Component: StorePage,
             },
             {
               path: 'commodity/:id',
-              element: <CommodityDetailPage />,
+              Component: CommodityDetailPage,
             },
             {
               path: 'cart',
               handle: {
                 hasHeaderOffset: true,
               } as RouteHandle,
-              element: <CartPage />,
+              Component: CartPage,
             },
             {
               path: 'payment',
-              element: <PaymentPage />,
+              Component: PaymentPage,
             },
           ],
         },
@@ -103,14 +103,14 @@ export const router = createBrowserRouter(
               handle: {
                 hasHeaderOffset: true,
               } as RouteHandle,
-              element: <OrdersPage />,
+              Component: OrdersPage,
             },
             {
               path: ':id',
               handle: {
                 hasHeaderOffset: true,
               } as RouteHandle,
-              element: <OrderDetailPage />,
+              Component: OrderDetailPage,
             },
             {
               path: ':id/tracking',
@@ -123,7 +123,7 @@ export const router = createBrowserRouter(
         },
         {
           path: 'profile',
-          element: <HomeProfilePage />,
+          Component: HomeProfilePage,
           handle: {
             hasHeaderOffset: true,
           } as RouteHandle,
@@ -132,19 +132,18 @@ export const router = createBrowserRouter(
     },
     {
       path: 'logistics',
-      element: <LogisticsPage />,
+      Component: LogisticsPage,
     },
     {
-      path: '',
-      element: <AuthenticationLayout />,
+      Component: AuthenticationLayout,
       children: [
         {
           path: 'login',
-          element: <Login />,
+          Component: Login,
         },
         {
           path: 'register',
-          element: <RegisterCustomer />,
+          Component: RegisterCustomer,
         },
       ],
     },
@@ -198,20 +197,32 @@ export const router = createBrowserRouter(
         },
         // Crop Routes
         {
-          path: 'crop/myCrops',
-          element: <CropTypeList />,
-        },
-        {
-          path: 'crop/myCrops/cropDetail/:id',
-          element: <CropDetail />,
-        },
-        {
-          path: 'crop/grow-location',
-          element: <GrowLocation />,
-        },
-        {
-          path: 'crop/identification',
-          element: <PlantIdentificationViewer />,
+          path: 'crop',
+          children: [
+            {
+              path: 'myCrops',
+              children: [
+                { index: true, Component: CropTypeList },
+                {
+                  path: 'cropDetail/:id',
+                  Component: CropDetail,
+                },
+              ],
+            },
+
+            {
+              path: 'grow-location',
+              Component: GrowLocation,
+            },
+            {
+              path: 'identification',
+              Component: PlantIdentificationViewer,
+            },
+            {
+              path: 'care-process',
+              Component: CareProcessPage,
+            },
+          ],
         },
         // Map Routes
         {

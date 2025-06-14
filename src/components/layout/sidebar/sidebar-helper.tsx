@@ -49,6 +49,10 @@ export const sidebarOptions: Item[] = [
             path: '/app/crop/identification',
             label: 'Identification',
           },
+          {
+            path: '/app/crop/care-process',
+            label: 'Care Process',
+          },
         ],
       },
       {

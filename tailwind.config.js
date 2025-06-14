@@ -1,4 +1,4 @@
-import { colors, semanticColors } from './src/configs/colors';
+import { colors } from './src/configs/colors';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -14,7 +14,6 @@ export default {
       },
       colors: {
         ...colors,
-        ...semanticColors,
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

@@ -130,9 +130,3 @@ export const colors = {
     '950': '#030712',
   },
 } as const;
-
-export const semanticColors = {
-  // green: colors['green-pea'][800],
-  // white1: colors['ebb'][100],
-  // black1: colors['woodsmoke'][950],
-} as const;

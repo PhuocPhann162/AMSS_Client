@@ -1,6 +1,6 @@
 import { useAuthGetCartQuery } from '@/api/cart-api';
 import { ABadge, type ABadgeProps } from '@/common/ui-common';
-import { semanticColors } from '@/configs/colors';
+import { colors } from '@/configs/colors';
 import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
 import { twMerge } from 'tailwind-merge';
 
@@ -22,7 +22,7 @@ export const BadgeCartIcon = (props: BadgeCartIconProps) => {
           : undefined
       }
       size='small'
-      color={semanticColors['green']}
+      color={colors['Green'][700]}
       {...props}
       className={twMerge('m-1 cursor-pointer text-inherit', props.className)}
     >

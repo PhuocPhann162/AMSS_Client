@@ -4,10 +4,12 @@ import {
   PaginationRequest,
   PaginationResponse,
 } from '@/models';
+import type { GetCropsBySupplierIdRequest } from '@/models/request/crop/get-crops-by-supplier-id';
 import {
   AddPlatingCropsRequest,
   CropResponse,
 } from '@/models/response/crop-response';
+import type { GetCropsBySupplierIdResponse } from '@/models/response/crop/get-crops-by-supplier-id-response';
 
 export const cropApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -23,6 +25,13 @@ export const cropApi = appBaseApi.injectEndpoints({
         url: 'crop/getAllByFieldId/' + fieldId,
         method: 'GET',
       }),
+      providesTags: [TAG_TYPES.Crops],
+    }),
+    getCropsBySupplierId: builder.query<
+      GetCropsBySupplierIdResponse,
+      GetCropsBySupplierIdRequest
+    >({
+      query: (args) => `crop/getAllBySupplierId/${args.id}`,
       providesTags: [TAG_TYPES.Crops],
     }),
     getPlatingCrops: builder.query({
@@ -81,6 +90,7 @@ export const {
   useGetCropByIdQuery,
   useGetCropsByFieldIdQuery,
   useGetPlatingCropsQuery,
+  useGetCropsBySupplierIdQuery,
   useCreateCropMutation,
   useUpdateCropMutation,
   useAddCropPlatingMutation,
