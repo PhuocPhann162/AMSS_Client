@@ -3,7 +3,11 @@
 @import 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
 @import 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap';
 
-@tailwind base;
+@layer tailwind-base, antd;
+
+@layer tailwind-base {
+  @tailwind base;
+}
 @tailwind components;
 @tailwind utilities;
 
@@ -66,6 +70,10 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  html {
+    font-size: 16px;
   }
 
   body {

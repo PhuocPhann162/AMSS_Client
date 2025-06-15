@@ -1,6 +1,6 @@
 import { ARawImage } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
+import Button from 'antd/es/button';
 import { Link } from 'react-router-dom';
 
 export const FarmManagementIntroSection = () => {
@@ -22,9 +22,9 @@ export const FarmManagementIntroSection = () => {
           Connecting agriculture, ensuring transparent origins
         </p>
         <Link to={userState?.id ? '/app/dashBoard' : '/login'}>
-          <AHomeButton type='primary'>
+          <Button type='primary'>
             {userState?.id ? 'Manage Farm Now' : 'Discover More'}
-          </AHomeButton>
+          </Button>
         </Link>
       </div>
     </section>

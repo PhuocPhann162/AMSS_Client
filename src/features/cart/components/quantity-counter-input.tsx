@@ -1,6 +1,6 @@
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import MinusOutlined from '@ant-design/icons/MinusOutlined';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
+import Button from 'antd/es/button';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import InputNumber from 'antd/es/input-number';
 import { useState, type HTMLAttributes } from 'react';
@@ -64,7 +64,7 @@ export const QuantityCounterInput = ({
         props.className,
       )}
     >
-      <AHomeButton
+      <Button
         disabled={typeof min === 'number' && currentValue <= min}
         icon={<MinusOutlined />}
         shape='circle'
@@ -86,7 +86,7 @@ export const QuantityCounterInput = ({
           updateQuantityLogic(value);
         }}
       />
-      <AHomeButton
+      <Button
         disabled={typeof max === 'number' && currentValue >= max}
         icon={<PlusOutlined />}
         shape='circle'

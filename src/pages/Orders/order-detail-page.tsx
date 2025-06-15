@@ -7,7 +7,6 @@ import {
   ARawImage,
   ATag,
 } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { OrderStatus } from '@/interfaces/orders/order-header-model';
 import { formatCurrency } from '@/utils/format-currency';
 import {
@@ -23,6 +22,7 @@ import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import CheckCircleOutlined from '@ant-design/icons/CheckCircleOutlined';
 import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
 import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
+import Button from 'antd/es/button';
 import Skeleton from 'antd/es/skeleton';
 import Typography from 'antd/es/typography';
 import { format } from 'date-fns';
@@ -103,9 +103,9 @@ export const OrderDetailPage = () => {
       <div className='container mx-auto p-4'>
         <div className='flex flex-col items-center justify-center py-10'>
           <Typography.Title level={3}>Order not found</Typography.Title>
-          <AHomeButton type='primary' onClick={() => navigate('/orders')}>
+          <Button type='primary' onClick={() => navigate('/orders')}>
             Back to Orders
-          </AHomeButton>
+          </Button>
         </div>
       </div>
     );
@@ -113,14 +113,14 @@ export const OrderDetailPage = () => {
 
   return (
     <div className='flex flex-col gap-2 p-6 pt-0'>
-      <AHomeButton
+      <Button
         type='link'
         icon={<ArrowLeftOutlined />}
         onClick={() => navigate(-1)}
         className='self-start p-0'
       >
         Back
-      </AHomeButton>
+      </Button>
 
       <div className='flex flex-col gap-6'>
         <div className='flex items-center justify-between'>

@@ -50,8 +50,8 @@ export const sidebarOptions: Item[] = [
             label: 'Identification',
           },
           {
-            path: '/app/crop/care-process',
-            label: 'Care Process',
+            path: '/app/crop/care-logs',
+            label: 'Care Logs',
           },
         ],
       },

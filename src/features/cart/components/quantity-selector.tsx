@@ -1,9 +1,9 @@
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import {
   QuantityCounterInput,
   type QuantityCounterInputProps,
 } from '@/features/cart/components/quantity-counter-input';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
+import Button from 'antd/es/button';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -41,7 +41,7 @@ export const QuantitySelector = ({
         max={max}
         onQuantityChange={onQuantityChange}
       />
-      <AHomeButton
+      <Button
         icon={<CloseOutlined />}
         size={size}
         variant='text'
