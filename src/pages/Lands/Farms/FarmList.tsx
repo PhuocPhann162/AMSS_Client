@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllFarmsQuery } from '@/api';
 import { Pagination } from '@/common';
@@ -18,6 +18,7 @@ import { farmModel, pageOptions } from '@/interfaces';
 import { AButton } from '@/common/ui-common';
 
 export const FarmList = () => {
+  const navigate = useNavigate();
   // Start State
   const [farmList, setFarmList] = useState<farmModel[]>([]);
 
@@ -86,13 +87,10 @@ export const FarmList = () => {
               </div>
 
               <div className='mt-4 flex items-center gap-x-3'>
-                <Link
-                  to='/app/map'
-                  className='hover:shadow-green flex w-1/2 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-green-500 px-4 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-green-600 sm:w-auto'
-                >
+                <AButton type='primary' onClick={() => navigate('/app/map')}>
                   <CreateIcon />
                   <span>New farm</span>
-                </Link>
+                </AButton>
               </div>
             </div>
 
