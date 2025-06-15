@@ -13,7 +13,7 @@ function DefaultAppLayout() {
     <SidebarProvider defaultOpen={value}>
       <div className='flex min-h-screen flex-col'>
         <HeaderApp />
-        <div className='flex flex-grow'>
+        <div className='flex grow'>
           <AppSidebar content={{ items: sidebarOptions }} />
           <main className='min-w-0 grow p-4'>
             <Outlet />

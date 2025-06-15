@@ -10,18 +10,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import { store } from './storage/index.ts';
 import { StrictMode } from 'react';
 import { AntMessageProvider } from '@/contexts/ant-message/ant-message-provider.tsx';
-import ConfigProvider from 'antd/es/config-provider/index';
-import { themeConfig } from '@/configs/ant.configs.ts';
+import { AntStyleConfigProviders } from '@/contexts/ant-style-config/ant-style-config-providers.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <ConfigProvider theme={themeConfig}>
+      <AntStyleConfigProviders>
         <AntMessageProvider>
           <App />
           <ToastContainer />
         </AntMessageProvider>
-      </ConfigProvider>
+      </AntStyleConfigProviders>
     </Provider>
   </StrictMode>,
 );
