@@ -1,4 +1,5 @@
 import { ARawImage } from '@/common/ui-common';
+import { AddToCartButton } from '@/features/cart/components/add-to-cart-button';
 import type { Commodity } from '@/interfaces';
 import { formatCurrency } from '@/utils/format-currency';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +28,10 @@ export const CardStore = ({ commodity }: CardStoreProps) => {
         <p className='text-xl font-medium'>{commodity.name}</p>
         <p className='text-lg font-bold'>{formatCurrency(commodity.price)}</p>
       </div>
+      <AddToCartButton
+        id={commodity.id}
+        className='absolute bottom-3 right-3 shadow-xl'
+      />
     </div>
   );
 };
