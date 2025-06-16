@@ -121,7 +121,7 @@ export const CouponCard = (props: CouponCardProps) => {
         </AButton>
         <AButton
           variant='link'
-          color='danger'
+          color='default'
           onClick={handleDeleteClick}
           onKeyDown={handleDeleteKeyDown}
           tabIndex={0}

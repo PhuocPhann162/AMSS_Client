@@ -7,5 +7,6 @@ export interface CartItem {
   price: Commodity['price'];
   commodityImage: Commodity['image'];
   commodityCategory: CommodityCategory;
+  commodityDescription: string;
   commodityId: Commodity['id'];
 }

@@ -1,4 +1,5 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
+import { BooleanResponse } from '@/models';
 import type {
   AddUpdateCartItemRequest,
   ApplyCouponRequest,
@@ -20,7 +21,7 @@ export const cartApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Cart],
     }),
-    applyCoupon: build.mutation<void, ApplyCouponRequest>({
+    applyCoupon: build.mutation<BooleanResponse, ApplyCouponRequest>({
       query: (props) => ({
         url: 'shopping-cart/apply-coupon',
         method: 'POST',
