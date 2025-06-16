@@ -172,7 +172,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
         <div className='space-y-2'>
           <div className='flex justify-between text-gray-600'>
             <span>Subtotal</span>
-            <span>${data.cartTotal?.toFixed(2)}</span>
+            <span>${(data.cartTotal + data.discount)?.toFixed(2)}</span>
           </div>
           <div className='flex justify-between text-gray-600'>
             <span>Discount</span>
