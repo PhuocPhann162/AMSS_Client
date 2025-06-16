@@ -1,6 +1,5 @@
 import { useUpdateAddressMutation } from '@/api';
 import { AAvatar, AHomeCard } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { setUser } from '@/features/auth/store/auth-slice';
 import { RoleName } from '@/interfaces';
 import { InfoItem } from '@/pages/Users/components/info-item';
@@ -13,6 +12,7 @@ import GlobalOutlined from '@ant-design/icons/GlobalOutlined';
 import MailOutlined from '@ant-design/icons/MailOutlined';
 import PhoneOutlined from '@ant-design/icons/PhoneOutlined';
 import PushpinOutlined from '@ant-design/icons/PushpinOutlined';
+import Button from 'antd/es/button';
 import { format } from 'date-fns';
 import { useState } from 'react';
 
@@ -83,13 +83,13 @@ export const HomeProfilePage = () => {
                     : null
                 }
                 action={
-                  <AHomeButton
+                  <Button
                     onClick={() => {
                       setOpenUpdateAddressModal(true);
                     }}
                   >
                     Edit
-                  </AHomeButton>
+                  </Button>
                 }
               />
               <InfoItem

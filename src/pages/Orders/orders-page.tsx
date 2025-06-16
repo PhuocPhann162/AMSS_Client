@@ -4,38 +4,9 @@ import { OrderCard } from '@/features/order/components/order-card';
 import { OrderStatus } from '@/interfaces';
 import { ListSortDirection } from '@/models';
 import { GET_ORDERS_ORDER_BY } from '@/models/request/order/get-orders-request';
-import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
 import List from 'antd/es/list';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-function generateOrders(
-  count: number,
-): GetOrdersResponse['result']['collection'] {
-  const orders: GetOrdersResponse['result']['collection'] = [];
-  const statuses = Object.values(OrderStatus);
-
-  for (let i = 0; i < count; i++) {
-    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-    const orderDate = new Date(
-      Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000,
-    ); // Random date within the last 30 days
-
-    orders.push({
-      id: `order-${i + 1}`,
-      pickupName: `Customer ${i + 1}`,
-      pickupPhoneNumber: `+1-${Math.floor(1000000000 + Math.random() * 9000000000)}`,
-      pickupEmail: `customer${i + 1}@example.com`,
-      orderTotal: parseFloat((Math.random() * 1000 + 50).toFixed(2)), // Random total between 50 and 1050
-      discountAmount: parseFloat((Math.random() * 50).toFixed(2)), // Random discount up to 50
-      orderDate: orderDate.toISOString(),
-      status: randomStatus as never,
-      totalItems: Math.floor(Math.random() * 10) + 1, // Random items between 1 and 10
-    });
-  }
-
-  return orders;
-}
 
 type OrderStatusFilter = 'all' | OrderStatus;
 const orderStatusTabs: { id: OrderStatusFilter; label: string }[] = [

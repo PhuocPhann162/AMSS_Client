@@ -1,11 +1,12 @@
 import { useGetCommodityByIdQuery } from '@/api';
 import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
-import { ATooltip } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
+import { useAntMessage } from '@/contexts/ant-message/use-ant-message';
 import { useAuthenticationAction } from '@/features/auth/hooks/use-authentication-action';
 import { CommodityStatus } from '@/interfaces';
 import type { CartItem } from '@/interfaces/cart/cart-item';
 import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined';
+import Button from 'antd/es/button';
+import Tooltip from 'antd/es/tooltip';
 import type { ReactNode } from 'react';
 
 export interface AddToCartButtonProps {
@@ -22,6 +23,8 @@ export const AddToCartButton = ({
   const [addUpdateCartItem, addUpdateCartItemResult] =
     useAddUpdateCartItemMutation();
   const { handleAction } = useAuthenticationAction();
+
+  const antMessage = useAntMessage();
 
   const getCart = useGetCartQuery();
   const getCartData =
@@ -45,6 +48,8 @@ export const AddToCartButton = ({
           commodityId: id,
           updateQuantityBy: cartItem ? cartItem.quantity + quantity : quantity,
         });
+
+        antMessage.api.success('Added to cart');
       });
 
       await handle();
@@ -68,8 +73,8 @@ export const AddToCartButton = ({
   }
 
   return (
-    <ATooltip title={tooltipTitle}>
-      <AHomeButton
+    <Tooltip title={tooltipTitle}>
+      <Button
         type='primary'
         disabled={disabled || getCommodityById.isFetching || getCart.isFetching}
         loading={addUpdateCartItemResult.isLoading}
@@ -77,7 +82,7 @@ export const AddToCartButton = ({
         icon={<PlusCircleOutlined />}
       >
         {children ?? 'Add To Cart'}
-      </AHomeButton>
-    </ATooltip>
+      </Button>
+    </Tooltip>
   );
 };

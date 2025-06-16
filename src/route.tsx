@@ -1,6 +1,6 @@
 import { AuthenticationLayout } from '@/layouts';
 import { HomeLayout } from '@/layouts/home-layout';
-import { CareProcessPage } from '@/pages/CareProcess/care-process-page';
+import { CareLogsPage } from '@/pages/CareLogs/care-logs-page';
 import { CartPage } from '@/pages/cart/cart-page';
 import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
 import { LogisticsPage } from '@/pages/logistics/logistics-page';
@@ -220,8 +220,8 @@ export const router = createBrowserRouter(
               Component: PlantIdentificationViewer,
             },
             {
-              path: 'care-process',
-              Component: CareProcessPage,
+              path: 'care-logs',
+              Component: CareLogsPage,
             },
           ],
         },

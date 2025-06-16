@@ -49,11 +49,9 @@ function Login() {
       setLoading(false);
       toastNotify(response.successMessage || '');
 
-      if (user.role === Role.ADMIN) {
-        navigate('/app/dashBoard');
-      } else {
-        navigate(from);
-      }
+      const redirect = user.role === Role.ADMIN ? '/app/dashBoard' : from;
+
+      navigate(redirect, { replace: true });
     } catch (error) {
       const _error = error as { data?: LoginResponse } | undefined;
       const errMessage = _error?.data?.errorMessages[0] || 'Something wrong';

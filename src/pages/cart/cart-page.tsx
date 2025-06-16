@@ -1,11 +1,11 @@
 import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
 import { ADivider, ARawImage } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
 import { QuantitySelector } from '@/features/cart/components/quantity-selector';
 import { CouponsSection } from '@/pages/cart/components/coupons-section';
 import { TitleContentSection } from '@/pages/cart/components/title-content-section';
 import { formatCurrency } from '@/utils/format-currency';
+import Button from 'antd/es/button';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
@@ -108,14 +108,14 @@ export const CartPage = () => {
             <p className='font-bold'>Total</p>
             <p>{formatCurrency(getCartData?.result.cartTotal ?? 0)}</p>
           </div>
-          <AHomeButton
+          <Button
             type='primary'
             onClick={() => {
               navigate('/store/payment');
             }}
           >
             Checkout
-          </AHomeButton>
+          </Button>
         </TitleContentSection>
       </div>
     </div>

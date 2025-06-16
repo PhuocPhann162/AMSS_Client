@@ -1,6 +1,5 @@
 import { useGetCommoditiesQuery } from '@/api';
 import { ABadge, ADropdown, AList } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import {
   TabNavigation,
   type TabNavigationProps,
@@ -13,6 +12,7 @@ import {
   ListSortDirection,
 } from '@/models';
 import SwapOutlined from '@ant-design/icons/SwapOutlined';
+import Button from 'antd/es/button';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -213,13 +213,13 @@ export const StorePage = () => {
           }}
         >
           <ABadge dot={!!sortValue}>
-            <AHomeButton
+            <Button
               type='text'
               iconPosition={'end'}
               icon={<SwapOutlined className='rotate-90' />}
             >
               Sort
-            </AHomeButton>
+            </Button>
           </ABadge>
         </ADropdown>
       </div>

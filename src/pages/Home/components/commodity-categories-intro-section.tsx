@@ -3,8 +3,8 @@ import GrainImage from '@/assets/images/commodity-category/grain.png';
 import SeedImage from '@/assets/images/commodity-category/seed.png';
 import VegetableImage from '@/assets/images/commodity-category/vegetable.png';
 import { ARawImage } from '@/common/ui-common';
-import { AHomeButton } from '@/common/ui-common/atoms/a-button/a-home-button';
 import { CommodityCategory } from '@/interfaces';
+import Button from 'antd/es/button';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const CommodityCategoriesIntroSection = () => {
@@ -68,9 +68,9 @@ export const CommodityCategoriesIntroSection = () => {
           ))}
         </div>
         <div className='sticky bottom-0 flex items-center justify-center pb-6'>
-          <AHomeButton type={'primary'} onClick={() => navigate('/store')}>
+          <Button type={'primary'} onClick={() => navigate('/store')}>
             SHOP IN STORE
-          </AHomeButton>
+          </Button>
         </div>
       </div>
     </section>
