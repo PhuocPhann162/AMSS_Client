@@ -5,7 +5,7 @@ import { useAuthenticationAction } from '@/features/auth/hooks/use-authenticatio
 import { CommodityStatus } from '@/interfaces';
 import type { CartItem } from '@/interfaces/cart/cart-item';
 import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined';
-import Button from 'antd/es/button';
+import Button, { type ButtonProps } from 'antd/es/button';
 import Tooltip from 'antd/es/tooltip';
 import type { ReactNode } from 'react';
 
@@ -13,12 +13,14 @@ export interface AddToCartButtonProps {
   id: CartItem['commodityId'];
   quantity?: CartItem['quantity'];
   children?: ReactNode;
+  className?: string;
 }
 
 export const AddToCartButton = ({
   id,
   quantity = 1,
   children,
+  className,
 }: AddToCartButtonProps) => {
   const [addUpdateCartItem, addUpdateCartItemResult] =
     useAddUpdateCartItemMutation();
@@ -41,8 +43,9 @@ export const AddToCartButton = ({
       ? getCommodityById.data
       : undefined;
 
-  const handleClick = async () => {
+  const handleClick: ButtonProps['onClick'] = async (e) => {
     try {
+      e.stopPropagation();
       const handle = handleAction(async () => {
         await addUpdateCartItem({
           commodityId: id,
@@ -80,6 +83,7 @@ export const AddToCartButton = ({
         loading={addUpdateCartItemResult.isLoading}
         onClick={handleClick}
         icon={<PlusCircleOutlined />}
+        className={className}
       >
         {children ?? 'Add To Cart'}
       </Button>

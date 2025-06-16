@@ -1,11 +1,9 @@
+import { forwardRef } from 'react';
 import type { GetRef } from 'antd/es/_util/type';
 import type { TooltipProps } from 'antd/es/tooltip';
-import Typography from 'antd/es/typography';
 import type { TextProps } from 'antd/es/typography/Text';
-import { forwardRef } from 'react';
+import Text from 'antd/es/typography/Text';
 import { twMerge } from 'tailwind-merge';
-
-const { Text } = Typography;
 
 export type EllipsisTextProps = TextProps & {
   tooltipTile?: TooltipProps['title'];
