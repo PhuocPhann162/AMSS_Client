@@ -44,7 +44,12 @@ export const PageCommon = ({
       ) : (
         <HeaderComp>{titleElement}</HeaderComp>
       )}
-      <div className={twMerge('grow p-4 pt-0', classNames?.body)}>
+      <div
+        className={twMerge(
+          'min-h-0 grow overflow-y-auto p-4 pt-0',
+          classNames?.body,
+        )}
+      >
         {children}
       </div>
     </div>
