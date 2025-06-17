@@ -121,9 +121,6 @@ export const CareLogsPage = () => {
           </Button>
         </HeaderComp>
       )}
-      classNames={{
-        body: 'min-h-0',
-      }}
     >
       <div className='flex h-full flex-col rounded-2xl bg-white'>
         <div className='px-4 py-3'>
