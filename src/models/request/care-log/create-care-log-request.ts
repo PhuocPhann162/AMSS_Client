@@ -1,4 +1,4 @@
-import type { CareLog } from '@/interfaces/care-log';
+import type { CareLog } from '@/interfaces/care-log/care-log';
 
 export type CreateCareLogRequest = Pick<
   CareLog,

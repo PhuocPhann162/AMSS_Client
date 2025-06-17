@@ -9,6 +9,7 @@ import { getScrollAnimation } from '@/helper';
 import { useForecast } from '@/hooks';
 import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import { PageCommon } from '@/components/layout/page/page-common';
 
 export const DashBoard = () => {
   const [activeLink, setActiveLink] = useState('hourly');
@@ -17,7 +18,7 @@ export const DashBoard = () => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   return (
-    <>
+    <PageCommon headerTitle='Dashboard'>
       <motion.div variants={scrollAnimation} className='flex flex-col gap-3'>
         <div className='flex w-full flex-col gap-2 rounded-sm border border-stroke bg-white p-6 shadow-default'>
           <SearchWeather
@@ -55,6 +56,6 @@ export const DashBoard = () => {
         </div>
         <FieldStatusList />
       </motion.div>
-    </>
+    </PageCommon>
   );
 };
