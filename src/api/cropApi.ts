@@ -4,12 +4,12 @@ import {
   PaginationRequest,
   PaginationResponse,
 } from '@/models';
-import type { GetCropsBySupplierIdRequest } from '@/models/request/crop/get-crops-by-supplier-id';
+import type { GetFieldsByCropRequest } from '@/models/request/crop/get-fields-by-crop-request';
 import {
   AddPlatingCropsRequest,
   CropResponse,
 } from '@/models/response/crop-response';
-import type { GetCropsBySupplierIdResponse } from '@/models/response/crop/get-crops-by-supplier-id-response';
+import type { GetFieldsByCropResponse } from '@/models/response/crop/get-fields-by-crop-response';
 
 export const cropApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -27,13 +27,6 @@ export const cropApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.Crops],
     }),
-    getCropsBySupplierId: builder.query<
-      GetCropsBySupplierIdResponse,
-      GetCropsBySupplierIdRequest
-    >({
-      query: (args) => `crop/getAllBySupplierId/${args.id}`,
-      providesTags: [TAG_TYPES.Crops],
-    }),
     getPlatingCrops: builder.query({
       query: (params: PaginationRequest) => ({
         url: 'crop/plating-crops',
@@ -48,6 +41,16 @@ export const cropApi = appBaseApi.injectEndpoints({
           apiResponse,
         };
       },
+    }),
+    getFieldsByCrop: builder.query<
+      GetFieldsByCropResponse,
+      GetFieldsByCropRequest
+    >({
+      query: (props) => ({
+        url: `crop/${props.id}/fields`,
+        method: 'GET',
+      }),
+      providesTags: [TAG_TYPES.Crops],
     }),
     addCropPlating: builder.mutation<BooleanResponse, AddPlatingCropsRequest>({
       query: (data: AddPlatingCropsRequest) => ({
@@ -90,7 +93,7 @@ export const {
   useGetCropByIdQuery,
   useGetCropsByFieldIdQuery,
   useGetPlatingCropsQuery,
-  useGetCropsBySupplierIdQuery,
+  useGetFieldsByCropQuery,
   useCreateCropMutation,
   useUpdateCropMutation,
   useAddCropPlatingMutation,

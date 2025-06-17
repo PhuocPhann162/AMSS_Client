@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Breadcrumb } from '@/components/UI';
 import { toastNotify } from '@/helper';
 import type { RegisterResponse, RegisterSupplier } from '@/models';
 import { AButton, AInput, ASelect } from '@/common/ui-common';
@@ -14,6 +13,7 @@ import MapboxAddressSearch, {
   AddressData,
 } from '@/components/Page/Maps/MapBoxAddressSearch';
 import { useGetProvincesQuery } from '@/api';
+import { PageCommon } from '@/components/layout/page/page-common';
 
 export const Register = () => {
   const [form] = Form.useForm<RegisterSupplier>();
@@ -78,199 +78,183 @@ export const Register = () => {
   }, [country, provinceOptions]);
 
   return (
-    <div>
-      <>
-        <Breadcrumb pageParent='Users' pageName='Registration' />
-        <div className='mx-auto max-w-2xl rounded-lg border border-white bg-white px-6 py-6 shadow-lg'>
-          <Form
-            form={form}
-            layout='vertical'
-            onFinish={handleSubmit}
-            autoComplete='off'
-          >
-            <Row gutter={24}>
-              <Col span={12}>
-                <Form.Item
-                  name='contactName'
-                  label={'Contact Name'}
-                  rules={[
-                    {
-                      required: true,
-                      whitespace: true,
-                    },
-                    { max: 150 },
-                  ]}
-                >
-                  <AInput
-                    placeholder={renderPlaceholder(
-                      'input',
-                      'ContactName',
-                      true,
-                    )}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name='companyName'
-                  label={'Company Name'}
-                  rules={[
-                    {
-                      required: true,
-                      whitespace: true,
-                    },
-                    { max: 150 },
-                  ]}
-                >
-                  <AInput
-                    placeholder={renderPlaceholder(
-                      'input',
-                      'CompanyName',
-                      true,
-                    )}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Form.Item
-                  name='userName'
-                  label={'Email Address'}
-                  rules={[
-                    { required: true },
-                    {
-                      type: 'email',
-                      message:
-                        'Please enter valid email format (name@fuco.com)',
-                    },
-                  ]}
-                >
-                  <AInput
-                    placeholder={renderPlaceholder(
-                      'input',
-                      'Emaill Address',
-                      true,
-                    )}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={opsProvince?.length > 0 ? 12 : 24}>
-                <Form.Item
-                  name='country'
-                  label={'Country'}
-                  rules={[{ required: true }]}
-                >
-                  <SelectCountry
-                    placeholder={renderPlaceholder('select', 'Country', true)}
-                    onChange={(_, ops) => {
-                      form.setFieldValue('provinceCode', null);
-                      form.setFieldValue(
-                        'phoneCode',
-                        (ops as Country).phoneCode?.split(',')[0],
-                      );
-                      form.validateFields(['phoneCode']);
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={opsProvince.length > 0 ? 12 : 0}>
-                <Form.Item name='provinceCode' label={'Province'}>
-                  <ASelect
-                    options={opsProvince}
-                    loading={isLoadingProvinces}
-                    fieldNames={{ value: 'value', label: 'name' }}
-                    optionFilterProp='name'
-                    placeholder={renderPlaceholder('select', 'Province', true)}
-                  />
-                </Form.Item>
-              </Col>
-
-              <Col span={12}>
-                <Form.Item
-                  name='phoneCode'
-                  label={'Phone Code'}
-                  rules={[{ required: true }]}
-                >
-                  <SelectPhoneCode
-                    placeholder={renderPlaceholder(
-                      'select',
-                      'Phone Code',
-                      true,
-                    )}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name='phoneNumber'
-                  label={'Contact Number'}
-                  rules={[
-                    {
-                      pattern: /^\d+$/,
-                      message: 'Contact Number must be numeric (allowed: 0-9)',
-                    },
-                    { required: true, max: 15 },
-                  ]}
-                >
-                  <AInput
-                    placeholder={renderPlaceholder(
-                      'input',
-                      'Contact Number',
-                      true,
-                    )}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Form.Item
-                  name='role'
-                  label={'Role'}
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <ASelect
-                    placeholder={renderPlaceholder('select', 'Role', true)}
-                    options={NOVARIS_ROLE_OPTIONS}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Form.Item
-                  name='streetAddress'
-                  label={'Street Address'}
-                  rules={[{ required: true, max: 255 }]}
-                >
-                  <AInput
-                    placeholder={renderPlaceholder(
-                      'input',
-                      'Street Address',
-                      true,
-                    )}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <MapboxAddressSearch
-              onAddressSelected={handleAddressSelected}
-              placeholder='Search your address...'
-            />
-            <Form.Item className='mt-5 flex justify-center'>
-              <AButton
-                type='primary'
-                variant='solid'
-                loading={isLoading}
-                color='default'
-                htmlType='submit'
+    <PageCommon headerTitle='Registration'>
+      <div className='mx-auto max-w-2xl rounded-lg border border-white bg-white px-6 py-6 shadow-lg'>
+        <Form
+          form={form}
+          layout='vertical'
+          onFinish={handleSubmit}
+          autoComplete='off'
+        >
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                name='contactName'
+                label={'Contact Name'}
+                rules={[
+                  {
+                    required: true,
+                    whitespace: true,
+                  },
+                  { max: 150 },
+                ]}
               >
-                Submit
-              </AButton>
-            </Form.Item>
-          </Form>
-        </div>
-      </>
-    </div>
+                <AInput
+                  placeholder={renderPlaceholder('input', 'ContactName', true)}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name='companyName'
+                label={'Company Name'}
+                rules={[
+                  {
+                    required: true,
+                    whitespace: true,
+                  },
+                  { max: 150 },
+                ]}
+              >
+                <AInput
+                  placeholder={renderPlaceholder('input', 'CompanyName', true)}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name='userName'
+                label={'Email Address'}
+                rules={[
+                  { required: true },
+                  {
+                    type: 'email',
+                    message: 'Please enter valid email format (name@fuco.com)',
+                  },
+                ]}
+              >
+                <AInput
+                  placeholder={renderPlaceholder(
+                    'input',
+                    'Emaill Address',
+                    true,
+                  )}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={opsProvince?.length > 0 ? 12 : 24}>
+              <Form.Item
+                name='country'
+                label={'Country'}
+                rules={[{ required: true }]}
+              >
+                <SelectCountry
+                  placeholder={renderPlaceholder('select', 'Country', true)}
+                  onChange={(_, ops) => {
+                    form.setFieldValue('provinceCode', null);
+                    form.setFieldValue(
+                      'phoneCode',
+                      (ops as Country).phoneCode?.split(',')[0],
+                    );
+                    form.validateFields(['phoneCode']);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={opsProvince.length > 0 ? 12 : 0}>
+              <Form.Item name='provinceCode' label={'Province'}>
+                <ASelect
+                  options={opsProvince}
+                  loading={isLoadingProvinces}
+                  fieldNames={{ value: 'value', label: 'name' }}
+                  optionFilterProp='name'
+                  placeholder={renderPlaceholder('select', 'Province', true)}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name='phoneCode'
+                label={'Phone Code'}
+                rules={[{ required: true }]}
+              >
+                <SelectPhoneCode
+                  placeholder={renderPlaceholder('select', 'Phone Code', true)}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name='phoneNumber'
+                label={'Contact Number'}
+                rules={[
+                  {
+                    pattern: /^\d+$/,
+                    message: 'Contact Number must be numeric (allowed: 0-9)',
+                  },
+                  { required: true, max: 15 },
+                ]}
+              >
+                <AInput
+                  placeholder={renderPlaceholder(
+                    'input',
+                    'Contact Number',
+                    true,
+                  )}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name='role'
+                label={'Role'}
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <ASelect
+                  placeholder={renderPlaceholder('select', 'Role', true)}
+                  options={NOVARIS_ROLE_OPTIONS}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name='streetAddress'
+                label={'Street Address'}
+                rules={[{ required: true, max: 255 }]}
+              >
+                <AInput
+                  placeholder={renderPlaceholder(
+                    'input',
+                    'Street Address',
+                    true,
+                  )}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <MapboxAddressSearch
+            onAddressSelected={handleAddressSelected}
+            placeholder='Search your address...'
+          />
+          <Form.Item className='mt-5 flex justify-center'>
+            <AButton
+              type='primary'
+              variant='solid'
+              loading={isLoading}
+              color='default'
+              htmlType='submit'
+            >
+              Submit
+            </AButton>
+          </Form.Item>
+        </Form>
+      </div>
+    </PageCommon>
   );
 };

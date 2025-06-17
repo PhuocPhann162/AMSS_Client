@@ -10,6 +10,7 @@ import { useIsMobile } from '@/hooks';
 import { type SubMenuType } from 'antd/es/menu/interface';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 export interface Item {
   path?: string;
@@ -25,12 +26,14 @@ export interface AppSidebarProps {
     items?: Item[];
   };
   footer?: ReactNode;
+  className?: string;
 }
 
 export const AppSidebar: FC<AppSidebarProps> = ({
   header,
   content,
   footer,
+  className,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -79,7 +82,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
   };
 
   return (
-    <Sidebar className='[border:initial] md:pt-16'>
+    <Sidebar className={twMerge('[border:initial]', className)}>
       {!!header && <SidebarHeader>{header}</SidebarHeader>}
       <SidebarContent>
         <AMenu
@@ -87,7 +90,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
           selectedKeys={[location.pathname]}
           onClick={handleClickNav}
           items={contentItems}
-          className='grow'
+          className='grow [&.ant-menu-root.ant-menu-inline]:[border-inline-end:initial]'
         />
       </SidebarContent>
       {!!footer && <SidebarFooter>{footer}</SidebarFooter>}

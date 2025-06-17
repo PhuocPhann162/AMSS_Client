@@ -78,6 +78,7 @@
 
   :root {
     --navbar-height: 5.25rem;
+    --admin-header-height: 3.375rem;
 
     @media (min-width: 768px) {
       --navbar-height: 5.5rem;

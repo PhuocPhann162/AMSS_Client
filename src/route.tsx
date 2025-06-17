@@ -221,7 +221,12 @@ export const router = createBrowserRouter(
             },
             {
               path: 'care-logs',
-              Component: CareLogsPage,
+              children: [
+                {
+                  index: true,
+                  Component: CareLogsPage,
+                },
+              ],
             },
           ],
         },
