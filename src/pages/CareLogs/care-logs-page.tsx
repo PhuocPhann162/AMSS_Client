@@ -5,11 +5,9 @@ import PaginationCommon from '@/components/pagination/pagination-common';
 import { SimpleTable } from '@/components/table/simple-table';
 import { formatDateTime } from '@/utils/date-utils';
 import Input from 'antd/es/input';
-import SearchOutlined from '@ant-design/icons/SearchOutlined';
 import { ListSortDirection } from '@/models';
 import { useStateSearchParams } from '@/hooks/use-state-search-params';
 import type { GetCareLogsRequest } from '@/models/request/care-log/get-care-logs-request';
-import PlusCircleFilled from '@ant-design/icons/lib/icons/PlusCircleFilled';
 import { CreateCareLogModal } from '@/pages/CareLogs/create-care-log-modal';
 import { useState } from 'react';
 import Button from 'antd/es/button';
@@ -18,6 +16,7 @@ import {
   type CareLogType,
 } from '@/interfaces/care-log/care-log-type';
 import { PageCommon } from '@/components/layout/page/page-common';
+import { PlusCircleFilled, SearchOutlined } from '@ant-design/icons';
 
 function generateCareLogs(count: number): CareLog[] {
   const careLogs: CareLog[] = [];

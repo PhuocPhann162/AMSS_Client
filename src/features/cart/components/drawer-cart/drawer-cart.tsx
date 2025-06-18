@@ -5,9 +5,11 @@ import {
 import { ADrawer, AImage } from '@/common/ui-common';
 import { QuantityCounterInput } from '@/features/cart/components/quantity-counter-input';
 import { formatCurrency } from '@/utils/format-currency';
-import CheckOutlined from '@ant-design/icons/CheckOutlined';
-import CloseOutlined from '@ant-design/icons/CloseOutlined';
-import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DoubleRightOutlined,
+} from '@ant-design/icons';
 import Button from 'antd/es/button';
 import { useNavigate } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';

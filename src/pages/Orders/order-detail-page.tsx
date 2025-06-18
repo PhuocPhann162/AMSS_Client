@@ -10,6 +10,10 @@ import {
 import { OrderStatus } from '@/interfaces/orders/order-header-model';
 import { formatCurrency } from '@/utils/format-currency';
 import {
+  ArrowLeftOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
   CreditCardOutlined,
   EnvironmentOutlined,
   MailOutlined,
@@ -18,10 +22,6 @@ import {
   TruckOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
-import CheckCircleOutlined from '@ant-design/icons/CheckCircleOutlined';
-import ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';
-import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import Button from 'antd/es/button';
 import Skeleton from 'antd/es/skeleton';
 import Typography from 'antd/es/typography';

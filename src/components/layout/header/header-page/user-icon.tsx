@@ -1,4 +1,4 @@
-import UserOutlined from '@ant-design/icons/UserOutlined';
+import { UserOutlined } from '@ant-design/icons';
 import type { GetProps, GetRef } from 'antd/es/_util/type';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';

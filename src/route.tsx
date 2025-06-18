@@ -1,5 +1,4 @@
 import { AuthenticationLayout } from '@/layouts';
-import { HomeLayout } from '@/layouts/home-layout';
 import { CareLogsPage } from '@/pages/CareLogs/care-logs-page';
 import { CartPage } from '@/pages/cart/cart-page';
 import { CommodityDetailPage } from '@/pages/Commodities/commodity-detail-page';
@@ -49,6 +48,7 @@ import { CommoditySuppliers } from './pages/Suppliers/Commodities';
 import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 import { CouponManagment } from './pages/coupons/coupon-management';
+import { HomeLayout } from '@/layouts/home-layout';
 
 export interface Route {
   name: string;
@@ -164,7 +164,7 @@ export const router = createBrowserRouter(
     },
     {
       path: 'app',
-      element: <EnhancedDefaultAppLayout />,
+      Component: EnhancedDefaultAppLayout,
       children: [
         {
           path: 'dashBoard',
