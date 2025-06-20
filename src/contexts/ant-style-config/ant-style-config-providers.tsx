@@ -13,7 +13,7 @@ export const AntStyleConfigProviders = ({
   children,
 }: AntStyleConfigProvidersProps) => {
   return (
-    <StyleProvider transformers={[px2rem]}>
+    <StyleProvider layer transformers={[px2rem]}>
       <ConfigProvider theme={themeConfig}>{children}</ConfigProvider>
     </StyleProvider>
   );

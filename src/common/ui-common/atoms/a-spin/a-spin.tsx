@@ -1,6 +1,6 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import Spin, { type SpinProps } from 'antd/es/spin';
 import { type FC } from 'react';
-import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ASpinProps extends SpinProps {}

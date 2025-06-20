@@ -1,5 +1,4 @@
-import MinusOutlined from '@ant-design/icons/MinusOutlined';
-import PlusOutlined from '@ant-design/icons/PlusOutlined';
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import Button from 'antd/es/button';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import InputNumber from 'antd/es/input-number';

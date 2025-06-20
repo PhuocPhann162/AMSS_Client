@@ -11,7 +11,7 @@ import {
   CommodityOrderBy,
   ListSortDirection,
 } from '@/models';
-import SwapOutlined from '@ant-design/icons/SwapOutlined';
+import { SwapOutlined } from '@ant-design/icons';
 import Button from 'antd/es/button';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';

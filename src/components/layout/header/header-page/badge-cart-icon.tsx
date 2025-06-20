@@ -1,7 +1,7 @@
 import { useAuthGetCartQuery } from '@/api/cart-api';
 import { ABadge, type ABadgeProps } from '@/common/ui-common';
 import { colors } from '@/configs/colors';
-import ShoppingCartOutlined from '@ant-design/icons/ShoppingCartOutlined';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import { twMerge } from 'tailwind-merge';
 
 export type BadgeCartIconProps = ABadgeProps;

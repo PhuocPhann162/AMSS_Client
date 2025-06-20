@@ -4,7 +4,7 @@ import { useAntMessage } from '@/contexts/ant-message/use-ant-message';
 import { useAuthenticationAction } from '@/features/auth/hooks/use-authentication-action';
 import { CommodityStatus } from '@/interfaces';
 import type { CartItem } from '@/interfaces/cart/cart-item';
-import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import Button, { type ButtonProps } from 'antd/es/button';
 import Tooltip from 'antd/es/tooltip';
 import type { ReactNode } from 'react';

@@ -3,12 +3,14 @@ import { AvatarWithUsername } from '@/components/ui/avatar-with-username.';
 import { clearAuth } from '@/features/auth/store/auth-slice';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
-import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
-import SettingOutlined from '@ant-design/icons/SettingOutlined';
-import UserOutlined from '@ant-design/icons/UserOutlined';
 import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
+import {
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 
 export const AppUserDropdown = () => {
   const dispatch = useAppDispatch();

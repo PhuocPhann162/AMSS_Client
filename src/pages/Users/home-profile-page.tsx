@@ -6,16 +6,17 @@ import { InfoItem } from '@/pages/Users/components/info-item';
 import { UpdateAddressModal } from '@/pages/Users/components/update-address-modal';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
-import CalendarOutlined from '@ant-design/icons/CalendarOutlined';
-import CheckCircleOutlined from '@ant-design/icons/CheckCircleOutlined';
-import GlobalOutlined from '@ant-design/icons/GlobalOutlined';
-import MailOutlined from '@ant-design/icons/MailOutlined';
-import PhoneOutlined from '@ant-design/icons/PhoneOutlined';
-import PushpinOutlined from '@ant-design/icons/PushpinOutlined';
+import {
+  CalendarOutlined,
+  CheckCircleOutlined,
+  GlobalOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  PushpinOutlined,
+} from '@ant-design/icons';
 import Button from 'antd/es/button';
 import { format } from 'date-fns';
 import { useState } from 'react';
-
 export const HomeProfilePage = () => {
   const userData = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
