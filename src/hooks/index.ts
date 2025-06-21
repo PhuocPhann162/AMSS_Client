@@ -7,7 +7,6 @@ import { useUrlPosition } from './useUrlPosition';
 export * from './use-scroll-direction';
 export * from './use-scroll-position';
 export * from './useElementOffsetSize';
-export * from './useIsMobile';
 
 export {
   baseQueryWithReauth,

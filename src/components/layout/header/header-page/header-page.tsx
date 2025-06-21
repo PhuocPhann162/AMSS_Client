@@ -3,9 +3,9 @@ import { BadgeCartIcon } from '@/components/layout/header/header-page/badge-cart
 import { UserIcon } from '@/components/layout/header/header-page/user-icon';
 import { HomeHeader } from '@/components/layout/header/home-header';
 import { NovarisLogo } from '@/components/UI';
-import { SidebarTrigger } from '@/components/ui/Sidebar';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
-import { useIsMobile } from '@/hooks';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import { dashboardRoutes } from '@/routes';
 import { useState } from 'react';

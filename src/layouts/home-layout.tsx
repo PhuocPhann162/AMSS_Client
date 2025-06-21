@@ -3,13 +3,13 @@ import { DropdownUser } from '@/components/layout/header/dropdown-user';
 import { HeaderPage } from '@/components/layout/header/header-page/header-page';
 import { AppSidebar } from '@/components/layout/sidebar';
 import { ButtonSignIn } from '@/components/button/button-sign-in';
-import { SidebarProvider } from '@/components/ui/Sidebar';
 import { LenisProvider } from '@/contexts/lenis/lenis-provider';
-import { useIsMobile } from '@/hooks';
 import type { RouteHandle } from '@/route';
 import { dashboardRoutes } from '@/routes';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { Outlet, useMatches } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const HomeLayout = () => {
   const isMobile = useIsMobile();

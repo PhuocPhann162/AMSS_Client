@@ -1,7 +1,7 @@
 import { HeaderApp } from '@/components/layout/header';
 import { AppSidebar } from '@/components/layout/sidebar';
 import { sidebarOptions } from '@/components/layout/sidebar/sidebar-helper';
-import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/Sidebar';
+import { SIDEBAR_COOKIE_NAME, SidebarProvider } from '@/components/ui/sidebar';
 import { withAdminAuth } from '@/HOC';
 import { useCookie } from '@/hooks/useCookie';
 import { Outlet } from 'react-router-dom';

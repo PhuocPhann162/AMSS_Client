@@ -1,7 +1,7 @@
 import { AppUserDropdown } from '@/components/layout/header/app-user-dropdown';
 import { NovarisLogo } from '@/components/UI';
-import { SidebarTrigger } from '@/components/ui/Sidebar';
 import { HeaderSearch } from './header-search';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export const HeaderApp = () => {
   return (
