@@ -25,8 +25,9 @@ export const SimpleTable = <T extends AnyObject = AnyObject>(
   return (
     <Table<T>
       size={'small'}
+      tableLayout='fixed'
       {...props}
-      scroll={{ y: '100%', x: 'max-content', ...props.scroll }}
+      scroll={{ x: 'max-content', y: '100%', ...props.scroll }}
       pagination={
         props.pagination
           ? {

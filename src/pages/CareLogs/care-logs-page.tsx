@@ -3,20 +3,19 @@ import { EllipsisText } from '@/components/text/ellipsis-text';
 import { CareLog } from '@/interfaces/care-log/care-log';
 import PaginationCommon from '@/components/pagination/pagination-common';
 import { SimpleTable } from '@/components/table/simple-table';
-import { formatDateTime } from '@/utils/date-utils';
-import Input from 'antd/es/input';
 import { ListSortDirection } from '@/models';
 import { useStateSearchParams } from '@/hooks/use-state-search-params';
 import type { GetCareLogsRequest } from '@/models/request/care-log/get-care-logs-request';
-import { CreateCareLogModal } from '@/pages/CareLogs/create-care-log-modal';
+import { CreateCareLogModal } from '@/features/care-log/components/create-care-log-modal';
 import { useState } from 'react';
-import Button from 'antd/es/button';
 import {
   CARE_LOG_TYPE,
   type CareLogType,
 } from '@/interfaces/care-log/care-log-type';
 import { PageCommon } from '@/components/layout/page/page-common';
 import { PlusCircleFilled, SearchOutlined } from '@ant-design/icons';
+import { formatDateTime } from '@/utils/date-utils';
+import { Button, Input } from 'antd';
 
 function generateCareLogs(count: number): CareLog[] {
   const careLogs: CareLog[] = [];
@@ -95,11 +94,11 @@ export const CareLogsPage = () => {
     orderBy: filter.orderBy,
     orderByDirection: filter.orderByDirection,
   });
+  const [fakeTenCareLogs] = useState(generateCareLogs(10));
+  const [fakeTwentyCareLogs] = useState(generateCareLogs(20));
 
   const getCareLogsData =
     getCareLogs.data && !getCareLogs.isError ? getCareLogs.data : undefined;
-
-  const careLogs = generateCareLogs(filter.limit ?? 10);
 
   const [openCreateCareLogModal, setOpenCreateCareLogModal] = useState(false);
 
@@ -125,7 +124,6 @@ export const CareLogsPage = () => {
         <div className='px-4 py-3'>
           <Input
             className='w-[20rem] max-w-full'
-            size='small'
             placeholder='Search'
             prefix={<SearchOutlined />}
             value={filter.search}
@@ -143,37 +141,62 @@ export const CareLogsPage = () => {
               title: 'Date',
               dataIndex: 'date',
               fixed: 'left',
-              width: '9.5rem',
+              width: '8rem',
+              ellipsis: {
+                showTitle: false,
+              },
+              render: (_, row) => (
+                <EllipsisText className='w-[8rem]'>
+                  {formatDateTime(row.date)}
+                </EllipsisText>
+              ),
+            },
+            {
+              title: 'Created by',
+              dataIndex: 'createdBy',
+              width: '10rem',
               ellipsis: {
                 showTitle: false,
               },
               className: 'text-green-700',
-              render: (_, row) => formatDateTime(row.date),
-            },
-            {
-              title: 'Created by',
-              fixed: 'left',
-              width: '12.5rem',
-              ellipsis: {
-                showTitle: false,
-              },
-              dataIndex: 'createdBy',
-              render: (_, row) => <EllipsisText>{row.createdBy}</EllipsisText>,
+              render: (_, row) => (
+                <EllipsisText className='w-[10rem] font-semibold text-inherit'>
+                  {row.createdBy}
+                </EllipsisText>
+              ),
             },
             {
               title: 'Crop ID',
-              width: '7.5rem',
               dataIndex: 'cropId',
+              width: '10rem',
+              ellipsis: {
+                showTitle: false,
+              },
+              render: (_, row) => (
+                <EllipsisText className='w-[10rem]'>{row.cropId}</EllipsisText>
+              ),
             },
             {
               title: 'Field ID',
-              width: '7.5rem',
               dataIndex: 'fieldId',
+              width: '10rem',
+              ellipsis: {
+                showTitle: false,
+              },
+              render: (_, row) => (
+                <EllipsisText className='w-[10rem]'>{row.fieldId}</EllipsisText>
+              ),
             },
             {
               title: 'Type',
-              width: '7.5rem',
               dataIndex: 'type',
+              width: '6rem',
+              ellipsis: {
+                showTitle: false,
+              },
+              render: (_, row) => (
+                <EllipsisText className='w-[6rem]'>{row.type}</EllipsisText>
+              ),
             },
             {
               title: 'Description',
@@ -182,12 +205,16 @@ export const CareLogsPage = () => {
                 showTitle: false,
               },
               render: (_, row) => (
-                <EllipsisText>{row.description}</EllipsisText>
+                <EllipsisText className='max-w-[80vw]'>
+                  {row.description}
+                </EllipsisText>
               ),
             },
           ]}
           rowKey={(row) => row.id}
-          dataSource={careLogs}
+          dataSource={
+            filter.limit === 10 ? fakeTenCareLogs : fakeTwentyCareLogs
+          }
           className='grow'
         />
         <PaginationCommon

@@ -1,11 +1,11 @@
 import { useGetCropsBySupplierQuery } from '@/api';
 import type { cropModel } from '@/interfaces';
 import Modal, { type ModalProps } from 'antd/es/modal';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export interface SelectCropModalProps extends Omit<ModalProps, 'onOk'> {
-  defaultValue?: cropModel;
+  defaultValue?: cropModel['id'];
   onOk?: (data: cropModel) => void;
 }
 
@@ -22,13 +22,41 @@ export const SelectCropModal = ({
       ? getCropsBySupplier.data
       : undefined;
 
-  const [selectedCrop, setSelectedCrop] = useState<cropModel | undefined>(
-    defaultValue,
+  const findCrop = useCallback(
+    (id: cropModel['id']) => {
+      return getCropsBySupplierData?.collection?.find((crop) => crop.id === id);
+    },
+    [getCropsBySupplierData?.collection],
   );
+
+  const [selectedCrop, setSelectedCrop] = useState<cropModel | undefined>(
+    () => {
+      if (defaultValue) {
+        return findCrop(defaultValue);
+      }
+
+      return undefined;
+    },
+  );
+
+  useEffect(() => {
+    if (props.open) {
+      if (!getCropsBySupplier.isFetching) {
+        setSelectedCrop(() => {
+          if (defaultValue) {
+            return findCrop(defaultValue);
+          }
+
+          return undefined;
+        });
+      }
+    }
+  }, [defaultValue, findCrop, getCropsBySupplier.isFetching, props.open]);
 
   return (
     <Modal
-      title='Select Crop'
+      title='Select Crop 🌱'
+      destroyOnClose
       {...props}
       classNames={{
         ...props.classNames,

@@ -1,13 +1,13 @@
 import { useGetFieldsByCropQuery } from '@/api';
-import type { cropModel, fieldModel } from '@/interfaces';
+import type { fieldModel } from '@/interfaces';
 import Modal, { type ModalProps } from 'antd/es/modal';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export interface SelectFieldModalProps extends Omit<ModalProps, 'onOk'> {
   cropId?: string;
-  defaultValue?: fieldModel;
-  onOk?: (data: cropModel) => void;
+  defaultValue?: fieldModel['id'];
+  onOk?: (data: fieldModel) => void;
 }
 
 export const SelectFieldModal = ({
@@ -27,13 +27,41 @@ export const SelectFieldModal = ({
       ? getFieldsByCrop.data
       : undefined;
 
-  const [selectedField, setSelectedField] = useState<fieldModel | undefined>(
-    defaultValue,
+  const findField = useCallback(
+    (id: fieldModel['id']) => {
+      return getFieldsByCropData?.collection?.find((field) => field.id === id);
+    },
+    [getFieldsByCropData?.collection],
   );
+
+  const [selectedField, setSelectedField] = useState<fieldModel | undefined>(
+    () => {
+      if (defaultValue) {
+        return findField(defaultValue);
+      }
+
+      return undefined;
+    },
+  );
+
+  useEffect(() => {
+    if (props.open) {
+      if (!getFieldsByCrop.isFetching) {
+        setSelectedField(() => {
+          if (defaultValue) {
+            return findField(defaultValue);
+          }
+
+          return undefined;
+        });
+      }
+    }
+  }, [defaultValue, findField, getFieldsByCrop.isFetching, props.open]);
 
   return (
     <Modal
-      title='Select Field'
+      title='Select Field 🌾'
+      destroyOnClose
       {...props}
       classNames={{
         ...props.classNames,
@@ -49,7 +77,7 @@ export const SelectFieldModal = ({
         }
       }}
     >
-      {!!getFieldsByCropData?.collection?.length &&
+      {getFieldsByCropData?.collection?.length ? (
         getFieldsByCropData.collection.map((field) => (
           <div
             key={field.id}
@@ -59,7 +87,10 @@ export const SelectFieldModal = ({
           >
             {field.name}
           </div>
-        ))}
+        ))
+      ) : (
+        <p className='text-3xl font-medium'>No fields found</p>
+      )}
     </Modal>
   );
 };

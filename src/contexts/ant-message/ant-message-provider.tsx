@@ -1,5 +1,5 @@
 import { AntMessageContext } from '@/contexts/ant-message/use-ant-message';
-import message from 'antd/es/message';
+import { message } from 'antd';
 import type { ReactNode } from 'react';
 
 export interface AntMessageProviderProps {
@@ -11,8 +11,8 @@ export const AntMessageProvider = ({ children }: AntMessageProviderProps) => {
 
   return (
     <AntMessageContext.Provider value={{ api: messageApi }}>
-      {children}
       {contextHolder}
+      {children}
     </AntMessageContext.Provider>
   );
 };

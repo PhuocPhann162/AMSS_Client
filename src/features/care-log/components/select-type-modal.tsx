@@ -1,6 +1,6 @@
+import { TypeTag } from '@/features/care-log/components/type-tag';
 import {
   CARE_LOG_TYPE,
-  CARE_LOG_TYPE_LABEL,
   type CareLogType,
 } from '@/interfaces/care-log/care-log-type';
 import Modal, { type ModalProps } from 'antd/es/modal';
@@ -29,7 +29,8 @@ export const SelectTypeModal = ({
 
   return (
     <Modal
-      title='Select Type'
+      title='Select Type 💧'
+      destroyOnClose
       {...props}
       classNames={{
         ...props.classNames,
@@ -40,24 +41,24 @@ export const SelectTypeModal = ({
         ...props.okButtonProps,
       }}
       onOk={() => {
-        if (selectedType && onOk) {
+        if (typeof selectedType === 'number' && onOk) {
           onOk(selectedType);
         }
       }}
     >
       {Object.values(CARE_LOG_TYPE).map((type) => (
-        <div
+        <TypeTag
           key={type}
+          type={type}
           onClick={() => {
             setSelectedType(type);
           }}
           className={twMerge(
-            'cursor-pointer rounded-2xl border border-white/20 px-4 py-2 shadow-lg transition-colors duration-500 hover:bg-gray-100',
-            selectedType === type && 'bg-gray-100',
+            'cursor-pointer transition-[box-shadow,opacity] hover:opacity-100',
+            typeof selectedType === 'number' ? 'opacity-50' : '',
+            selectedType === type ? 'opacity-100 shadow-lg' : '',
           )}
-        >
-          {CARE_LOG_TYPE_LABEL[type]}
-        </div>
+        />
       ))}
     </Modal>
   );

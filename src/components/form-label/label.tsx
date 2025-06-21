@@ -17,7 +17,10 @@ export const Label: FC<LabelProps> = ({
   classNames,
 }) => {
   return (
-    <label htmlFor={name} className={cn('text-sm font-bold', classNames?.root)}>
+    <label
+      htmlFor={name}
+      className={cn('text-sm font-medium', classNames?.root)}
+    >
       {children}
       {required && <span className='text-red-500'>*</span>}
       {colon && <span>:</span>}

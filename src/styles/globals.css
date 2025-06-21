@@ -72,10 +72,6 @@
     @apply border-border;
   }
 
-  html {
-    font-size: 16px;
-  }
-
   body {
     @apply relative bg-gray-50 font-satoshi text-gray-950;
   }
