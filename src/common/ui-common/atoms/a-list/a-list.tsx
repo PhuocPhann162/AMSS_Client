@@ -15,3 +15,5 @@ export const AList = <T = unknown,>(props: AListProps<T>) => {
     />
   );
 };
+
+AList.Item = List.Item;

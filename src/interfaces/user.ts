@@ -17,4 +17,6 @@ export interface User {
   isActive?: boolean;
   role?: Role;
   createdAt?: string;
+  isOnline?: boolean;
+  lastSeen?: string;
 }

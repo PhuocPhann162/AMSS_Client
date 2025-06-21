@@ -49,6 +49,7 @@ import { OwnerFarmSuppliers } from './pages/Suppliers/OwnerFarm';
 import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 import { CouponManagment } from './pages/coupons/coupon-management';
 import { HomeLayout } from '@/layouts/home-layout';
+import { ChatApp } from './pages/chat-room/chat-app';
 
 export interface Route {
   name: string;
@@ -125,6 +126,13 @@ export const router = createBrowserRouter(
         {
           path: 'profile',
           Component: HomeProfilePage,
+          handle: {
+            hasHeaderOffset: true,
+          } as RouteHandle,
+        },
+        {
+          path: 'chat-room',
+          Component: ChatApp,
           handle: {
             hasHeaderOffset: true,
           } as RouteHandle,
