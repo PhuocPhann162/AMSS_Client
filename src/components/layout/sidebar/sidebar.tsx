@@ -5,8 +5,8 @@ import {
   SidebarFooter,
   SidebarHeader,
   useSidebar,
-} from '@/components/ui/Sidebar';
-import { useIsMobile } from '@/hooks';
+} from '@/components/ui/sidebar';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { type SubMenuType } from 'antd/es/menu/interface';
 import { type FC, type ReactNode, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';

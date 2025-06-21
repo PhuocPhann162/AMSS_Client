@@ -3,7 +3,7 @@ import { ABadge, ADropdown, AList } from '@/common/ui-common';
 import {
   TabNavigation,
   type TabNavigationProps,
-} from '@/components/ui/tab-navigation';
+} from '@/components/tabs/tab-navigation';
 import { CardStore } from '@/features/commodity/components/card-store';
 import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
 import {

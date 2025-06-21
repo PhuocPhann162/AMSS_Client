@@ -1,12 +1,11 @@
-import { AButton } from '@/common/ui-common';
 import { DropdownUser } from '@/components/layout/header/dropdown-user';
 import { BadgeCartIcon } from '@/components/layout/header/header-page/badge-cart-icon';
 import { UserIcon } from '@/components/layout/header/header-page/user-icon';
 import { HomeHeader } from '@/components/layout/header/home-header';
 import { NovarisLogo } from '@/components/UI';
-import { SidebarTrigger } from '@/components/ui/Sidebar';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
-import { useIsMobile } from '@/hooks';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { MessageChatIcon } from './message-chat-icon';
 
 import { dashboardRoutes } from '@/routes';

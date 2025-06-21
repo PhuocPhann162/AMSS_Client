@@ -1,5 +1,5 @@
 import { useGetOrdersQuery } from '@/api/order-api';
-import { TabNavigation } from '@/components/ui/tab-navigation';
+import { TabNavigation } from '@/components/tabs/tab-navigation';
 import { OrderCard } from '@/features/order/components/order-card';
 import { OrderStatus } from '@/interfaces';
 import { ListSortDirection } from '@/models';
