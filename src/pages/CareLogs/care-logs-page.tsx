@@ -16,6 +16,8 @@ import { PageCommon } from '@/components/layout/page/page-common';
 import { PlusCircleFilled, SearchOutlined } from '@ant-design/icons';
 import { formatDateTime } from '@/utils/date-utils';
 import { Button, Input } from 'antd';
+import { CopyableEllipsisText } from '@/components/text/copyable-ellipsis-text';
+import { TypeTag } from '@/features/care-log/components/type-tag';
 
 function generateCareLogs(count: number): CareLog[] {
   const careLogs: CareLog[] = [];
@@ -194,9 +196,7 @@ export const CareLogsPage = () => {
               ellipsis: {
                 showTitle: false,
               },
-              render: (_, row) => (
-                <EllipsisText className='w-[6rem]'>{row.type}</EllipsisText>
-              ),
+              render: (_, row) => <TypeTag type={row.type} />,
             },
             {
               title: 'Description',
@@ -205,9 +205,9 @@ export const CareLogsPage = () => {
                 showTitle: false,
               },
               render: (_, row) => (
-                <EllipsisText className='max-w-[80vw]'>
+                <CopyableEllipsisText className='max-w-[80vw]'>
                   {row.description}
-                </EllipsisText>
+                </CopyableEllipsisText>
               ),
             },
           ]}
