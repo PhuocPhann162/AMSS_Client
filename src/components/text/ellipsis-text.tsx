@@ -6,13 +6,13 @@ import Text from 'antd/es/typography/Text';
 import { twMerge } from 'tailwind-merge';
 
 export type EllipsisTextProps = TextProps & {
-  tooltipTile?: TooltipProps['title'];
+  tooltipTitle?: TooltipProps['title'];
 };
 
 export type EllipsisTextRef = GetRef<typeof Text>;
 
 export const EllipsisText = forwardRef<EllipsisTextRef, EllipsisTextProps>(
-  (props, ref) => {
+  ({ tooltipTitle, ...props }, ref) => {
     return (
       <Text
         {...props}
@@ -26,13 +26,13 @@ export const EllipsisText = forwardRef<EllipsisTextRef, EllipsisTextProps>(
                   typeof props.ellipsis?.tooltip === 'undefined'
                     ? {
                         destroyTooltipOnHide: true,
-                        title: props.tooltipTile ?? props.children,
+                        title: tooltipTitle ?? props.children,
                         ...props.ellipsis?.tooltip,
                       }
                     : props.ellipsis?.tooltip,
               }
         }
-        className={twMerge('w-full', props.className)}
+        className={twMerge('duration-500 ease-out', props.className)}
         ref={ref}
       />
     );
