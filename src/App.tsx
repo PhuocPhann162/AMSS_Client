@@ -5,10 +5,12 @@ import { router } from '@/route';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCountries } from './storage/redux/countrySlice';
+import { useSignalRConnection } from '@/hooks/useSignalRConnection';
 
 function App() {
   const dispatch = useDispatch();
   const { data } = useGetCountriesQuery();
+  useSignalRConnection();
 
   useEffect(() => {
     if (data) {

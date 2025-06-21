@@ -5,12 +5,14 @@ export interface AuthState {
   user?: User;
   accessToken?: string;
   refreshToken?: string;
+  isAuthenticated?: boolean;
 }
 
 const initialState: AuthState = {
   user: undefined,
   accessToken: undefined,
   refreshToken: undefined,
+  isAuthenticated: false,
 };
 
 export const authSlice = createSlice({
