@@ -2,5 +2,6 @@
   "endOfLine": "auto",
   "singleQuote": true,
   "jsxSingleQuote": true,
+  "tailwindFunctions": ["clsx", "twMerge", "cva"],
   "plugins": ["prettier-plugin-tailwindcss"]
 }

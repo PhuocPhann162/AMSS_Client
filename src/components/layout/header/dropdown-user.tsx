@@ -1,5 +1,5 @@
 import { ADropdown } from '@/common/ui-common';
-import { AvatarWithUsername } from '@/components/ui/avatar-with-username.';
+import { AvatarWithUsername } from '@/components/avatar/avatar-with-username';
 import { clearAuth } from '@/features/auth/store/auth-slice';
 import { Role, type User } from '@/interfaces';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
