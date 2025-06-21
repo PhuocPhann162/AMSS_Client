@@ -6,6 +6,7 @@ import { NovarisLogo } from '@/components/UI';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { DrawerCart } from '@/features/cart/components/drawer-cart';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { MessageChatIcon } from './message-chat-icon';
 
 import { dashboardRoutes } from '@/routes';
 import { useState } from 'react';
@@ -54,6 +55,8 @@ export const HeaderPage = ({ hasHeaderOffset }: HeaderPageProps) => {
 
         <div className='flex items-center gap-6'>
           <BadgeCartIcon onClick={() => setOpenCartDrawer(true)} />
+
+          <MessageChatIcon />
 
           {!isMobile && (
             <DropdownUser>

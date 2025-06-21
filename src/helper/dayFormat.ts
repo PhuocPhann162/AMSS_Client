@@ -66,9 +66,7 @@ export const formatDateTime = (
   dateTime: DateTimeType,
 ): string | number | Date => dayjs(dateTime).format('YYYY-MM-DD HH:mm:ss');
 
-export const formatLocalDateTime = (
-  dateTime: DateTimeType,
-): string | number | Date =>
+export const formatLocalDateTime = (dateTime: DateTimeType): string =>
   dayjsUTC(dateTime).local().format('HH:mm DD/MM/YYYY');
 
 export const getYear = (dateTime: DateType): string | number | Date =>

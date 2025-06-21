@@ -5,11 +5,13 @@ import { countryReducer } from '@/storage/redux/countrySlice';
 import { authListenerMiddleware } from '@/storage/redux/middleware/auth-listener';
 import { authStorage } from '@/utils/auth-storage';
 import { configureStore } from '@reduxjs/toolkit';
+import { chatReducer } from './chatSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     countryStore: countryReducer,
+    chatStore: chatReducer,
     [appBaseApi.reducerPath]: appBaseApi.reducer,
     [polygonAgroApi.reducerPath]: polygonAgroApi.reducer,
   },
@@ -22,6 +24,8 @@ export const store = configureStore({
       user: authStorage.getUser(),
       accessToken: authStorage.getAccessToken(),
       refreshToken: authStorage.getRefreshToken(),
+      isAuthenticated:
+        !!authStorage.getAccessToken() && !!authStorage.getUser(),
     },
   },
 });
