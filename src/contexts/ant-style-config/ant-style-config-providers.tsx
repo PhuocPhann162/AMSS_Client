@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { px2remTransformer, StyleProvider } from '@ant-design/cssinjs';
-import ConfigProvider from 'antd/es/config-provider';
 import { themeConfig } from '@/configs/ant.configs';
+import { ConfigProvider } from 'antd';
 
 interface AntStyleConfigProvidersProps {
   children: ReactNode;

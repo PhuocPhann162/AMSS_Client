@@ -6,11 +6,6 @@ export const themeConfig: ThemeConfig = {
     colorPrimary: colors['Green'][700],
     colorTextBase: colors['Gray'][950],
     colorLink: colors['Green'][700],
-    borderRadiusXS: 10,
-    borderRadiusSM: 14,
-    borderRadius: 16,
-    borderRadiusLG: 20,
-    fontSize: 16,
   },
   components: {
     Table: {
