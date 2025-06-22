@@ -8,7 +8,7 @@ export const HeaderApp = () => {
     <div className='sticky inset-x-0 top-0 z-50 flex h-[--admin-header-height] shrink-0 items-center justify-between px-4'>
       <div className='flex items-center gap-2'>
         <SidebarTrigger />
-        <p className='flex items-center font-rubik text-lg'>
+        <p className='flex items-center text-lg font-bold'>
           <NovarisLogo /> Novaris
         </p>
       </div>
