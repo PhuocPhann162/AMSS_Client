@@ -39,12 +39,16 @@
 }
 
 @layer base {
+  html {
+    @apply font-satoshi;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
-    @apply relative bg-background font-satoshi text-foreground;
+    @apply relative bg-background text-foreground;
   }
 
   :root {
@@ -435,13 +439,4 @@ span.flatpickr-weekday,
 
 .custom-zebra tbody tr:hover {
   @apply bg-status-danger-light;
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
