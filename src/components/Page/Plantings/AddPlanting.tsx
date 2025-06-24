@@ -247,7 +247,7 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
             tableParams={tableParams}
             totalRecord={totalRecord}
             loading={isLoading}
-            scroll={{ y: '55vh' }}
+            scroll={{ y: '42vh' }}
             onChange={(params: TableParams) => {
               setTableParams(params);
             }}
