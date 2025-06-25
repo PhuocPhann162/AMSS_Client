@@ -55,7 +55,7 @@ export const PlantDetail = () => {
             {plantDetail?.scientific_name}.
           </p>
           <p className='text-justify text-sm'>{plantDetail?.description}</p>
-          <div className='mt-4 grid grid-cols-2 bg-be text-black'>
+          <div className='mt-4 grid grid-cols-2 bg-stone-500 text-black'>
             <div className='px-6 py-4 text-sm'>
               <div className='flex items-center gap-1'>
                 <CycleIcon /> Cycle:

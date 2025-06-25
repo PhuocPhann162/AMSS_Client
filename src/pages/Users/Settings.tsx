@@ -90,8 +90,8 @@ const Settings = () => {
 
       <div className='grid grid-cols-5 gap-8'>
         <div className='col-span-5 xl:col-span-3'>
-          <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
-            <div className='border-b border-stroke px-7 py-4 dark:border-strokedark'>
+          <div className='shadow-default rounded-sm border border-gray-300 bg-white dark:border-slate-800 dark:bg-slate-900'>
+            <div className='border-b border-gray-300 px-7 py-4 dark:border-slate-800'>
               <h3 className='font-medium text-black dark:text-white'>
                 Personal Information
               </h3>
@@ -133,7 +133,7 @@ const Settings = () => {
                         </svg>
                       </span>
                       <input
-                        className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                        className='bg-gray w-full rounded border border-gray-300 py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-slate-800 dark:bg-gray-900 dark:text-white dark:focus:border-primary'
                         type='text'
                         id='fullName'
                         placeholder='Devid Jhon'
@@ -153,7 +153,7 @@ const Settings = () => {
                       Phone Number
                     </label>
                     <input
-                      className='bg-gray w-full rounded border border-stroke py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-gray-300 py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-slate-800 dark:bg-gray-900 dark:text-white dark:focus:border-primary'
                       type='tel'
                       pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
                       id='phoneNumber'
@@ -200,7 +200,7 @@ const Settings = () => {
                       </svg>
                     </span>
                     <input
-                      className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-gray-300 py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-slate-800 dark:bg-gray-900 dark:text-white dark:focus:border-primary'
                       type='email'
                       id='email'
                       placeholder='devidjond45@gmail.com'
@@ -220,7 +220,7 @@ const Settings = () => {
                     Username
                   </label>
                   <input
-                    className='bg-gray w-full rounded border border-stroke py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                    className='bg-gray w-full rounded border border-gray-300 py-3 pl-4 text-black focus:border-primary focus-visible:outline-none dark:border-slate-800 dark:bg-gray-900 dark:text-white dark:focus:border-primary'
                     type='email'
                     id='Username'
                     placeholder='sample@fuco.com'
@@ -270,7 +270,7 @@ const Settings = () => {
                       </svg>
                     </span>
                     <textarea
-                      className='bg-gray w-full rounded border border-stroke py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+                      className='bg-gray w-full rounded border border-gray-300 py-3 pl-10 text-black focus:border-primary focus-visible:outline-none dark:border-slate-800 dark:bg-gray-900 dark:text-white dark:focus:border-primary'
                       name='bio'
                       id='bio'
                       rows={6}
@@ -295,8 +295,8 @@ const Settings = () => {
           </div>
         </div>
         <div className='col-span-5 xl:col-span-2'>
-          <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
-            <div className='border-b border-stroke px-7 py-4 dark:border-strokedark'>
+          <div className='shadow-default rounded-sm border border-gray-300 bg-white dark:border-slate-800 dark:bg-slate-900'>
+            <div className='border-b border-gray-300 px-7 py-4 dark:border-slate-800'>
               <h3 className='font-medium text-black dark:text-white'>
                 Your Photo
               </h3>
@@ -324,7 +324,7 @@ const Settings = () => {
 
                 <div
                   id='FileUpload'
-                  className='mb-5.5 bg-gray sm:py-7.5 relative block w-full cursor-pointer appearance-none rounded border border-dashed border-primary px-4 py-4 dark:bg-meta-4'
+                  className='mb-5.5 bg-gray sm:py-7.5 relative block w-full cursor-pointer appearance-none rounded border border-dashed border-primary px-4 py-4 dark:bg-gray-900'
                 >
                   <input
                     type='file'
@@ -332,7 +332,7 @@ const Settings = () => {
                     className='absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none'
                   />
                   <div className='flex flex-col items-center justify-center space-y-3'>
-                    <span className='flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark'>
+                    <span className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white dark:border-slate-800 dark:bg-slate-900'>
                       <svg
                         width='16'
                         height='16'

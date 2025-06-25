@@ -59,7 +59,7 @@ const PlantIdentificationViewer: React.FC = () => {
   const formatScore = (score: number) => (score * 100).toFixed(2) + '%';
 
   return (
-    <div className='mx-auto min-h-screen max-w-6xl bg-gray-50 p-6'>
+    <div className='mx-auto max-w-6xl bg-gray-50 p-6'>
       <div className='mb-6 rounded-lg bg-white p-6 shadow-lg'>
         <h1 className='mb-4 text-3xl font-bold text-green-700'>
           🌱 What Plant is This? – Detection Results from Photo

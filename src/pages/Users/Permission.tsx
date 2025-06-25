@@ -90,8 +90,8 @@ export const Permission = () => {
               readOnly
               value={userData?.phoneNumber}
             />
-            <kbd className='kbd kbd-sm bg-whiten'>⌘</kbd>
-            <kbd className='kbd kbd-sm bg-whiten'>K</kbd>
+            <kbd className='kbd kbd-sm bg-gray-50'>⌘</kbd>
+            <kbd className='kbd kbd-sm bg-gray-50'>K</kbd>
           </label>
           <label className='input input-bordered flex items-center gap-2 bg-white'>
             <span className='font-bold'>StreetAddress</span>

@@ -16,6 +16,7 @@ import {
   useGetAllFarmsQuery,
 } from '@/api';
 import { CreateLocationDto, CreatePolygonDto } from '@/models';
+import { PageCommon } from '@/components/layout/page/page-common';
 
 const growLocationSteps = [
   {
@@ -258,14 +259,13 @@ export const GrowLocation = () => {
   ]);
 
   return (
-    <div className='px-4'>
-      <p className='mb-4 font-semibold'>New Grow Location</p>
+    <PageCommon headerTitle='New Grow Location'>
       <Steps
         current={currentStep}
         items={growLocationSteps}
         className='max-w-4xl py-4'
       />
       {renderStepContent()}
-    </div>
+    </PageCommon>
   );
 };

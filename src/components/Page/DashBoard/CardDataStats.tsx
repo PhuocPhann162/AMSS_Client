@@ -9,29 +9,38 @@ interface CardDataStatsProps {
   children: ReactNode;
 }
 
-const CardDataStats: React.FC<CardDataStatsProps> = ({ title, total, rate, levelUp, levelDown, children }) => {
+const CardDataStats: React.FC<CardDataStatsProps> = ({
+  title,
+  total,
+  rate,
+  levelUp,
+  levelDown,
+  children,
+}) => {
   return (
-    <div className='rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark'>
-      <div className='flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4'>
+    <div className='px-7.5 shadow-default rounded-sm border border-gray-300 bg-white py-6 dark:border-slate-800 dark:bg-slate-900'>
+      <div className='h-11.5 w-11.5 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-gray-900'>
         {children}
       </div>
 
       <div className='mt-4 flex items-end justify-between'>
         <div>
-          <h4 className='text-title-md font-bold text-black dark:text-white'>{total}</h4>
+          <h4 className='text-2xl font-bold text-black dark:text-white'>
+            {total}
+          </h4>
           <span className='text-sm font-medium'>{title}</span>
         </div>
 
         <span
           className={`flex items-center gap-1 text-sm font-medium ${
-            levelUp && 'text-meta-3'
-          } ${levelDown && 'text-meta-5'} `}
+            levelUp && 'text-emerald-500'
+          } ${levelDown && 'text-sky-600'} `}
         >
           {rate}
 
           {levelUp && (
             <svg
-              className='fill-meta-3'
+              className='fill-emerald-500'
               width='10'
               height='11'
               viewBox='0 0 10 11'
@@ -46,7 +55,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({ title, total, rate, level
           )}
           {levelDown && (
             <svg
-              className='fill-meta-5'
+              className='fill-sky-600'
               width='10'
               height='11'
               viewBox='0 0 10 11'

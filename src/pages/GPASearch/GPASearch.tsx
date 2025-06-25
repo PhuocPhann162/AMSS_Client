@@ -248,7 +248,7 @@ export const GPASearch = () => {
                 className='h-full shadow-lg transition-shadow duration-300 hover:shadow-xl'
                 title={
                   <div className='flex items-center gap-2'>
-                    <FaInfoCircle className='text-brown' />
+                    <FaInfoCircle className='text-amber-950' />
                     <span>{`${type === '0' ? 'Farm' : 'Field'} Information`}</span>
                   </div>
                 }
@@ -266,7 +266,7 @@ export const GPASearch = () => {
                 className='h-full shadow-lg transition-shadow duration-300 hover:shadow-xl'
                 title={
                   <div className='flex items-center gap-2'>
-                    <FaMapMarkedAlt className='text-brown' />
+                    <FaMapMarkedAlt className='text-amber-950' />
                     <span>Location Information</span>
                   </div>
                 }
@@ -371,7 +371,7 @@ export const GPASearch = () => {
                       transition={{ delay: groupIndex * 0.1 }}
                       className='space-y-2'
                     >
-                      <div className='text-lg font-semibold text-brown'>
+                      <div className='text-lg font-semibold text-amber-950'>
                         Analysis for:{' '}
                         {sentenceFilters.find((f) => f.value === key)?.label}
                       </div>
@@ -383,18 +383,18 @@ export const GPASearch = () => {
                           transition={{ delay: index * 0.05 }}
                           className='flex items-center gap-4 rounded-lg border border-gray-200 p-4 transition-colors duration-200 hover:bg-gray-50'
                         >
-                          <div className='flex h-10 w-10 items-center justify-center rounded-full bg-brown font-semibold text-white'>
+                          <div className='flex h-10 w-10 items-center justify-center rounded-full bg-amber-950 font-semibold text-white'>
                             {index + 1}
                           </div>
                           <div className='flex-1 space-y-1'>
                             <div className='flex items-center gap-2'>
-                              <span className='font-semibold text-brown'>
+                              <span className='font-semibold text-amber-950'>
                                 Position:
                               </span>
                               <span>{item.pos}</span>
                             </div>
                             <div className='flex items-center gap-2'>
-                              <span className='font-semibold text-brown'>
+                              <span className='font-semibold text-amber-950'>
                                 Word:
                               </span>
                               <span>{item.word}</span>

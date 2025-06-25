@@ -40,11 +40,11 @@ export const FieldSuggestion = () => {
       <div className='flex flex-col gap-6'>
         <ScrollAnimationWrapper>
           <motion.div variants={scrollAnimation} className='grid grid-cols-1'>
-            <div className='w-full rounded-sm border border-stroke bg-white py-6 shadow-default'>
+            <div className='shadow-default w-full rounded-sm border border-gray-300 bg-white py-6'>
               <div className='px-7 font-semibold'>Soil Quality</div>
               <div className='grid grid-cols-3 px-6 py-4'>
                 <img src={LandImage} className='col-span-1 h-full' />
-                <div className='col-span-2 grid grid-cols-2 bg-be'>
+                <div className='col-span-2 grid grid-cols-2 bg-stone-500'>
                   <div className='px-16 py-4'>
                     <div className='flex items-center gap-1'>
                       <p className='font-medium text-black'>Chlorophyll:</p>

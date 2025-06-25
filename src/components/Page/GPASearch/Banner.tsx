@@ -42,14 +42,14 @@ const Banner = ({ searchSectionRef }: BannerInterface) => {
                     });
                   }
                 }}
-                className='flex max-w-80 shrink-0 items-center justify-center rounded-lg bg-brown px-4 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-yellow-800 hover:shadow-brown sm:w-auto'
+                className='flex max-w-80 shrink-0 items-center justify-center rounded-lg bg-amber-950 px-4 py-2 text-sm tracking-wide text-white shadow-lg transition-colors duration-200 hover:bg-yellow-800 hover:shadow-amber-950 sm:w-auto'
               >
                 Start Search Now
               </AButton>
 
               <AButton
                 onClick={() => navigate(`/app/gpaSearch/importData`)}
-                className='mb-2 mr-2 inline-flex w-full items-center justify-center rounded-lg border border-brown bg-white px-5 py-3 text-sm font-medium text-brown hover:bg-black hover:bg-gray-100 hover:text-white focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 sm:w-auto'
+                className='mb-2 mr-2 inline-flex w-full items-center justify-center rounded-lg border border-amber-950 bg-white px-5 py-3 text-sm font-medium text-amber-950 hover:bg-black hover:bg-gray-100 hover:text-white focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 sm:w-auto'
               >
                 <ImportIcon />
                 Import Data

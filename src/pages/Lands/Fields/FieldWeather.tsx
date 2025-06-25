@@ -44,7 +44,7 @@ export const FieldWeather = () => {
             variants={scrollAnimation}
             className='grid grid-cols-2 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-6 2xl:gap-4'
           >
-            <div className='col-span-4 w-full rounded-sm border border-stroke bg-white px-8 py-6 shadow-default'>
+            <div className='shadow-default col-span-4 w-full rounded-sm border border-gray-300 bg-white px-8 py-6'>
               <div className='flex items-center gap-4'>
                 <NavLink
                   to='#'
@@ -81,7 +81,7 @@ export const FieldWeather = () => {
                 )}
               </div>
             </div>
-            <div className='col-span-2 w-full rounded-sm border border-stroke bg-white px-8 py-6 shadow-default'>
+            <div className='shadow-default col-span-2 w-full rounded-sm border border-gray-300 bg-white px-8 py-6'>
               <h3 className='mb-7 mt-3 font-bold text-black'>Air Quality</h3>
               {airPollution && (
                 <div className='flex flex-col gap-8'>

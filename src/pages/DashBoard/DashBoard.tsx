@@ -20,7 +20,7 @@ export const DashBoard = () => {
   return (
     <PageCommon headerTitle='Dashboard'>
       <motion.div variants={scrollAnimation} className='flex flex-col gap-3'>
-        <div className='flex w-full flex-col gap-2 rounded-sm border border-stroke bg-white p-6 shadow-default'>
+        <div className='shadow-default flex w-full flex-col gap-2 rounded-sm border border-gray-300 bg-white p-6'>
           <SearchWeather
             term={term}
             options={options}
@@ -30,7 +30,7 @@ export const DashBoard = () => {
           />
           {forecast && <CardWeather forecast={forecast} />}
         </div>
-        <div className='flex w-full flex-col gap-4 rounded-sm border border-stroke bg-white p-6 shadow-default'>
+        <div className='shadow-default flex w-full flex-col gap-4 rounded-sm border border-gray-300 bg-white p-6'>
           <div className='flex gap-4'>
             {['hourly', 'daily'].map((link) => (
               <NavLink
