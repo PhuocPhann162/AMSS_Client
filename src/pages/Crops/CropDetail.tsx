@@ -147,7 +147,7 @@ export const CropDetail = () => {
                 <AButton
                   type='primary'
                   onClick={() => setIsExperienceModalOpen(true)}
-                  className='bg-brown hover:bg-brown/90'
+                  className='bg-amber-950 hover:bg-amber-950/90'
                 >
                   Leave your experience
                 </AButton>

@@ -42,7 +42,7 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
       <div className='flex w-80 flex-col gap-1'>
         <PopupCrop fieldId={fieldInfo.id!} />
 
-        <div className='flex items-center gap-1 text-lg font-bold text-brown'>
+        <div className='flex items-center gap-1 text-lg font-bold text-amber-950'>
           <MarkerPopupIcon />
           {fieldInfo.name}
         </div>
@@ -50,7 +50,7 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
         <div className='flex items-center justify-between'>
           <Link
             to={`/app/land/field/suggestion/${fieldInfo.id}`}
-            className='flex items-center gap-1 text-sm font-bold text-brown underline'
+            className='flex items-center gap-1 text-sm font-bold text-amber-950 underline'
           >
             {fieldInfo.name} <LightIcon />
           </Link>

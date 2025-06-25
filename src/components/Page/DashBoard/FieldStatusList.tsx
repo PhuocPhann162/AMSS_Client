@@ -77,12 +77,12 @@ export const FieldStatusList = () => {
               </div>
             </div>
 
-            <div className='mt-6 flex flex-col shadow-default'>
+            <div className='shadow-default mt-6 flex flex-col'>
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6'>
                   <div className='overflow-hidden md:rounded-lg'>
                     <table className='min-w-full'>
-                      <thead className='bg-status-white-light text-status-white-dark'>
+                      <thead className='bg-status-white-light text-gray-600'>
                         <tr className='font-bold'>
                           <th
                             scope='col'

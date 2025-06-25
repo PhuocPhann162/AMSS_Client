@@ -115,8 +115,8 @@ export const FarmList = () => {
                 <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                   <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
                     <div className='overflow-hidden shadow-md md:rounded-lg'>
-                      <table className='min-w-full divide-y divide-res-draft dark:divide-gray-700'>
-                        <thead className='bg-status-white-light text-status-white-dark'>
+                      <table className='min-w-full divide-y divide-gray-400 dark:divide-gray-700'>
+                        <thead className='bg-status-white-light text-gray-600'>
                           <tr>
                             <th
                               scope='col'
@@ -159,7 +159,7 @@ export const FarmList = () => {
                             </th>
                           </tr>
                         </thead>
-                        <tbody className='divide-y divide-res-draft bg-white'>
+                        <tbody className='divide-y divide-gray-400 bg-white'>
                           {farmList &&
                             farmList.map((farm: farmModel) => (
                               <tr key={farm.id}>

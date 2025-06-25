@@ -1,6 +1,10 @@
 import * as turf from '@turf/turf';
 import { Link } from 'react-router-dom';
-import { EditTableIcon, ForecastIcon, SearchWorldIcon } from '@/components/Icon';
+import {
+  EditTableIcon,
+  ForecastIcon,
+  SearchWorldIcon,
+} from '@/components/Icon';
 import { farmModel } from '@/interfaces';
 
 interface PopupFarmProps {
@@ -9,8 +13,8 @@ interface PopupFarmProps {
 
 export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
   return (
-    <div className='flex flex-col w-72 gap-1'>
-      <div className='flex items-center font-bold text-lg text-brown gap-1'>
+    <div className='flex w-72 flex-col gap-1'>
+      <div className='flex items-center gap-1 text-lg font-bold text-amber-950'>
         {farmInfo.name}
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -18,9 +22,13 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
           viewBox='0 0 24 24'
           strokeWidth='1.5'
           stroke='currentColor'
-          className='w-6 h-6'
+          className='h-6 w-6'
         >
-          <path strokeLinecap='round' strokeLinejoin='round' d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+          />
           <path
             strokeLinecap='round'
             strokeLinejoin='round'
@@ -28,23 +36,34 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
           />
         </svg>
       </div>
-      <Link to='/app/map' className='flex items-center font-bold underline text-sm text-brown gap-1'>
+      <Link
+        to='/app/map'
+        className='flex items-center gap-1 text-sm font-bold text-amber-950 underline'
+      >
         {farmInfo.name}
       </Link>
-      <div className='flex items-center text-sm gap-2 mt-1'>
+      <div className='mt-1 flex items-center gap-2 text-sm'>
         <div className='font-bold'>Total area:</div>
         <div className='text-zinc-500'>
-          {farmInfo.area!.toFixed(2)} m² ({turf.convertArea(farmInfo.area!, 'meters', 'acres').toFixed(2)} acres)
+          {farmInfo.area!.toFixed(2)} m² (
+          {turf.convertArea(farmInfo.area!, 'meters', 'acres').toFixed(2)}{' '}
+          acres)
         </div>
       </div>
-      <div className='text-sm mt-2'>
-        <Link to={`/app/gpaSearch/home/${farmInfo.id}?type=0`} className='flex items-center gap-1'>
+      <div className='mt-2 text-sm'>
+        <Link
+          to={`/app/gpaSearch/home/${farmInfo.id}?type=0`}
+          className='flex items-center gap-1'
+        >
           <SearchWorldIcon />
           <div className='underline'>Search Social Indicators</div>
         </Link>
       </div>
       <div className='text-sm'>
-        <Link to={`/app/land/field/updateField/${farmInfo.id}`} className='flex items-center gap-1'>
+        <Link
+          to={`/app/land/field/updateField/${farmInfo.id}`}
+          className='flex items-center gap-1'
+        >
           <ForecastIcon />
           <div className='underline'>Weather Forecast</div>
         </Link>
@@ -61,7 +80,7 @@ export const PopupFarm = ({ farmInfo }: PopupFarmProps) => {
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'
             fill='currentColor'
-            className='w-5 h-5 text-error'
+            className='text-error h-5 w-5'
           >
             <path
               fillRule='evenodd'

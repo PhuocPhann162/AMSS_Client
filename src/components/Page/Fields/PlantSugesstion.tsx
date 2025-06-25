@@ -22,18 +22,18 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
 
   return (
     <ScrollAnimationWrapper>
-      <motion.div className='px-7.5 w-full rounded-sm border border-stroke bg-white py-6 shadow-default'>
+      <motion.div className='px-7.5 shadow-default w-full rounded-sm border border-gray-300 bg-white py-6'>
         <div className='px-7 font-semibold'>Plant Suggesstion</div>
         <table className='min-w-full'>
-          <thead className='bg-white font-bold text-type-2'>
+          <thead className='bg-white font-bold text-slate-600'>
             <tr>
               <th
                 scope='col'
-                className='border-r border-type-1 px-4 py-4 text-sm'
+                className='border-r border-zinc-100 px-4 py-4 text-sm'
               ></th>
               <th
                 scope='col'
-                className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
+                className='border-r border-zinc-100 px-4 py-3.5 text-left text-sm rtl:text-right'
               >
                 <button className='flex items-center gap-x-1 focus:outline-none'>
                   <CycleIcon /> Cycle
@@ -42,7 +42,7 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
 
               <th
                 scope='col'
-                className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
+                className='border-r border-zinc-100 px-4 py-3.5 text-left text-sm rtl:text-right'
               >
                 <button className='flex items-center gap-x-1 focus:outline-none'>
                   <WateringIcon /> Watering
@@ -51,7 +51,7 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
 
               <th
                 scope='col'
-                className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
+                className='border-r border-zinc-100 px-4 py-3.5 text-left text-sm rtl:text-right'
               >
                 <button className='flex items-center gap-x-1 focus:outline-none'>
                   <SunIcon /> Sunlight
@@ -66,7 +66,7 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
             {plantList &&
               plantList?.map((plant: plantSuggestModel) => (
                 <tr key={plant.id}>
-                  <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
+                  <td className='whitespace-nowrap border-r border-zinc-100 px-4 py-4 text-sm'>
                     <NavLink
                       to={`/app/land/field/suggestion/plantDetail/${plant.id}`}
                       className='flex items-center gap-2'
@@ -85,22 +85,22 @@ export const PlantSugesstion = ({ plantList }: PlantSugesstionProps) => {
                         <h1 className='font-semibold text-[#5D3D2E]'>
                           {plant.common_name}
                         </h1>
-                        <p className='text-sm text-body'>
+                        <p className='text-sm text-slate-500'>
                           {plant.scientific_name}
                         </p>
                       </span>
                     </NavLink>
                   </td>
-                  <td className='border-r border-type-1 px-4 py-4 text-sm text-body'>
+                  <td className='border-r border-zinc-100 px-4 py-4 text-sm text-slate-500'>
                     {plant.cycle}
                   </td>
-                  <td className='border-r border-type-1 px-4 py-4 text-sm text-body'>
+                  <td className='border-r border-zinc-100 px-4 py-4 text-sm text-slate-500'>
                     {plant.watering}
                   </td>
-                  <td className='border-r border-type-1 px-4 py-4 text-sm text-body'>
+                  <td className='border-r border-zinc-100 px-4 py-4 text-sm text-slate-500'>
                     {plant?.sunlight[0]}
                   </td>
-                  <td className='px-4 py-4 text-sm text-body'>
+                  <td className='px-4 py-4 text-sm text-slate-500'>
                     <AButton
                       type='link'
                       variant='link'

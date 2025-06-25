@@ -74,7 +74,7 @@ export const ExperienceModal = ({ isOpen, onClose }: ExperienceModalProps) => {
             type='primary'
             onClick={handleSubmit}
             loading={isSubmitting}
-            className='bg-brown hover:bg-brown/90'
+            className='bg-amber-950 hover:bg-amber-950/90'
           >
             Submit
           </Button>

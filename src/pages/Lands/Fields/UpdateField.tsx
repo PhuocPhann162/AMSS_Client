@@ -3,12 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useGetFieldByIdQuery, useUpdateFieldMutation } from '@/api';
 import EditAreaIcon from '@/components/Icon/icon-svg/edit-area.svg?react';
 import { Breadcrumb } from '@/components/UI';
-import { getStatusColor, inputHelper, toastNotify } from '@/helper';
+import { getStatusColor, toastNotify } from '@/helper';
 import { apiResponse, fieldModel } from '@/interfaces';
 import { SD_FieldStatus } from '@/utils/SD';
-import { AButton, ADescriptions, ATag } from '@/common/ui-common';
+import { AButton, ATag } from '@/common/ui-common';
 import { PopupConfirmation } from '@/components/UI/modal';
-import { fieldEditDescriptionItems } from '@/helper/descriptionItems';
 import { PopupCrop } from '@/components/Page/Crop';
 
 type NextStatusType = {
@@ -118,7 +117,7 @@ export const UpdateField = () => {
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
                 <div className='text-sm font-semibold underline underline-offset-8'>
-                  <span className='text-danger'>*</span> Current status:{' '}
+                  <span className='text-red-500'>*</span> Current status:{' '}
                 </div>
                 <ATag color={getStatusColor(fieldData?.status ?? '')}>
                   {fieldData?.status}
@@ -126,7 +125,7 @@ export const UpdateField = () => {
               </div>
               <div className='flex items-center gap-2'>
                 <div className='text-sm font-semibold underline underline-offset-8'>
-                  <span className='text-danger'>*</span> Next status:{' '}
+                  <span className='text-red-500'>*</span> Next status:{' '}
                 </div>
                 <div
                   className='tooltip tooltip-bottom'

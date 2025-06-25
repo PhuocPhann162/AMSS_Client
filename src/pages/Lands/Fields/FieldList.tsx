@@ -136,7 +136,7 @@ export const FieldList = () => {
             </div>
 
             <div className='mt-6 md:flex md:items-center md:justify-between'>
-              <div className='inline-flex divide-x divide-res-draft overflow-hidden rounded-lg bg-white shadow-md rtl:flex-row-reverse'>
+              <div className='inline-flex divide-x divide-gray-400 overflow-hidden rounded-lg bg-white shadow-md rtl:flex-row-reverse'>
                 {filterOptions.map((opt: string) => (
                   <button
                     key={opt}
@@ -173,8 +173,8 @@ export const FieldList = () => {
               <div className='-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
                   <div className='overflow-hidden shadow-md md:rounded-lg'>
-                    <table className='min-w-full divide-y divide-res-draft dark:divide-gray-700'>
-                      <thead className='bg-status-white-light text-status-white-dark'>
+                    <table className='min-w-full divide-y divide-gray-400 dark:divide-gray-700'>
+                      <thead className='bg-status-white-light text-gray-600'>
                         <tr>
                           <th
                             scope='col'
@@ -222,7 +222,7 @@ export const FieldList = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className='divide-y divide-res-draft bg-white'>
+                      <tbody className='divide-y divide-gray-400 bg-white'>
                         {fieldList &&
                           fieldList.map((field: fieldModel) => (
                             <tr key={field.id}>

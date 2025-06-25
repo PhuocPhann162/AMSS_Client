@@ -173,16 +173,16 @@
 }
 
 .apexcharts-legend-text {
-  @apply !text-body dark:!text-bodydark;
+  @apply !text-slate-500 dark:!text-slate-400;
 }
 .apexcharts-text {
-  @apply !fill-body dark:!fill-bodydark;
+  @apply !fill-slate-500 dark:!fill-slate-400;
 }
 .apexcharts-xcrosshairs {
-  @apply !fill-stroke dark:!fill-strokedark;
+  @apply !fill-gray-300 dark:!fill-slate-800;
 }
 .apexcharts-gridline {
-  @apply !stroke-stroke dark:!stroke-strokedark;
+  @apply !stroke-gray-300 dark:!stroke-slate-800;
 }
 .apexcharts-series.apexcharts-pie-series path {
   @apply dark:!stroke-transparent;
@@ -191,20 +191,20 @@
   @apply !inline-flex gap-1.5;
 }
 .apexcharts-tooltip.apexcharts-theme-light {
-  @apply dark:!border-strokedark dark:!bg-boxdark;
+  @apply dark:!border-slate-800 dark:!bg-slate-900;
 }
 .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
-  @apply dark:!border-strokedark dark:!bg-meta-4;
+  @apply dark:!border-slate-800 dark:!bg-gray-900;
 }
 .apexcharts-xaxistooltip,
 .apexcharts-yaxistooltip {
-  @apply dark:!border-meta-4 dark:!bg-meta-4 dark:!text-bodydark1;
+  @apply dark:!border-gray-900 dark:!bg-gray-900 dark:!text-slate-300;
 }
 .apexcharts-xaxistooltip-bottom:after {
-  @apply !border-b-gray-800 dark:!border-b-meta-4;
+  @apply !border-b-gray-800 dark:!border-b-gray-900;
 }
 .apexcharts-xaxistooltip-bottom:before {
-  @apply !border-b-gray-800 dark:!border-b-meta-4;
+  @apply !border-b-gray-800 dark:!border-b-gray-900;
 }
 .apexcharts-xaxistooltip-bottom {
   @apply !rounded !border-none !bg-gray-800 !text-xs !font-medium !text-black dark:!text-white;
@@ -221,16 +221,16 @@
   @apply !fill-primary;
 }
 .flatpickr-calendar.arrowTop:before {
-  @apply dark:!border-b-boxdark;
+  @apply dark:!border-b-slate-900;
 }
 .flatpickr-calendar.arrowTop:after {
-  @apply dark:!border-b-boxdark;
+  @apply dark:!border-b-slate-900;
 }
 .flatpickr-calendar {
-  @apply !p-6 dark:!bg-boxdark dark:!text-bodydark dark:!shadow-8 md:!w-auto;
+  @apply !p-6 dark:!bg-slate-900 dark:!text-slate-400 dark:!shadow-xl md:!w-auto;
 }
 .flatpickr-day {
-  @apply dark:!text-bodydark dark:hover:!border-meta-4 dark:hover:!bg-meta-4;
+  @apply dark:!text-slate-400 dark:hover:!border-gray-900 dark:hover:!bg-gray-900;
 }
 .flatpickr-months .flatpickr-prev-month,
 .flatpickr-months .flatpickr-next-month {
@@ -249,7 +249,7 @@ span.flatpickr-weekday,
   @apply dark:!fill-white dark:!text-white;
 }
 .flatpickr-day.inRange {
-  @apply dark:!shadow-7;
+  @apply dark:!shadow-lg;
   box-shadow:
     -5px 0 0 #eff4fb,
     5px 0 0 #eff4fb;
@@ -266,7 +266,7 @@ span.flatpickr-weekday,
 .flatpickr-day:focus,
 .flatpickr-day.prevMonthDay:focus,
 .flatpickr-day.nextMonthDay:focus {
-  @apply border-gray-800 bg-gray-800 dark:!border-meta-4 dark:!bg-meta-4;
+  @apply border-gray-800 bg-gray-800 dark:!border-gray-900 dark:!bg-gray-900;
 }
 .flatpickr-day.selected,
 .flatpickr-day.startRange,
@@ -302,7 +302,7 @@ span.flatpickr-weekday,
 }
 
 .map-btn .jvm-zoom-btn {
-  @apply flex size-7 items-center justify-center rounded border border-stroke bg-white px-0 pb-0.5 pt-0 text-2xl leading-none text-body hover:border-primary hover:bg-primary hover:text-white dark:border-strokedark dark:text-bodydark dark:hover:border-primary dark:hover:text-white;
+  @apply flex size-7 items-center justify-center rounded border border-gray-300 bg-white px-0 pb-0.5 pt-0 text-2xl leading-none text-gray-950 hover:border-primary hover:bg-primary hover:text-white dark:border-slate-800 dark:text-slate-400 dark:hover:border-primary dark:hover:text-white;
 }
 .mapOne .jvm-zoom-btn {
   @apply bottom-0 left-auto top-auto;
@@ -421,7 +421,7 @@ span.flatpickr-weekday,
   transition:
     width 0.3s ease 0s,
     left 0.3s ease 0s;
-  @apply absolute bottom-0 left-1/2 block w-0 bg-res-pending;
+  @apply absolute bottom-0 left-1/2 block w-0 bg-yellow-100;
 }
 .animation-home-active:after {
   @apply left-0 w-full;
@@ -431,12 +431,12 @@ span.flatpickr-weekday,
 }
 
 .custom-zebra tbody tr:nth-child(odd) {
-  @apply bg-status-danger-light;
+  @apply bg-gray-200;
 }
 .custom-zebra tbody tr:nth-child(even) {
   @apply bg-white;
 }
 
 .custom-zebra tbody tr:hover {
-  @apply bg-status-danger-light;
+  @apply bg-gray-200;
 }

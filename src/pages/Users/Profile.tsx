@@ -12,7 +12,7 @@ const Profile = () => {
     <div>
       <Breadcrumb pageParent='Account' pageName='Profile' />
 
-      <div className='overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
+      <div className='shadow-default overflow-hidden rounded-sm border border-gray-300 bg-white dark:border-slate-800 dark:bg-slate-900'>
         <div className='h-35 md:h-65 relative z-20'>
           <img
             src={CoverOne}
@@ -54,7 +54,7 @@ const Profile = () => {
         </div>
         <div className='xl:pb-11.5 px-4 pb-6 text-center lg:pb-8'>
           <div className='-mt-22 h-30 max-w-30 relative z-30 mx-auto w-full rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3'>
-            <div className='relative drop-shadow-2'>
+            <div className='relative shadow-sm'>
               <img
                 src={userData?.avatar ? userData.avatar : Avatar}
                 alt='profile'
@@ -103,8 +103,8 @@ const Profile = () => {
               </span>{' '}
               {userData?.userName}
             </p>
-            <div className='mt-4.5 mb-5.5 mx-auto grid grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]'>
-              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark'>
+            <div className='mt-4.5 mb-5.5 mx-auto grid grid-cols-3 rounded-md border border-gray-300 py-2.5 shadow-sm dark:border-slate-800 dark:bg-[#37404F]'>
+              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-gray-300 px-4 dark:border-slate-800'>
                 <span className='font-semibold text-black dark:text-white'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -123,7 +123,7 @@ const Profile = () => {
                 </span>
                 <span className='text-sm'>+{userData?.phoneNumber}</span>
               </div>
-              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark'>
+              <div className='xsm:flex-row flex flex-col items-center justify-center gap-1 border-r border-gray-300 px-4 dark:border-slate-800'>
                 <span className='font-semibold text-black dark:text-white'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'

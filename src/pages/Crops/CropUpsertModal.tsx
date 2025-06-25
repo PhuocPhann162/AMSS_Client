@@ -256,7 +256,7 @@ export const CropUpsertModal = ({
           <div className='grid grid-cols-6 gap-6'>
             <div
               id='FileUpload'
-              className='bg-gray relative col-span-6 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary px-4 py-4 dark:bg-meta-4 sm:col-span-6'
+              className='bg-gray relative col-span-6 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary px-4 py-4 dark:bg-gray-900 sm:col-span-6'
             >
               {imageToDisplay == '' ? (
                 <>
@@ -266,7 +266,7 @@ export const CropUpsertModal = ({
                     onChange={handleFileChange}
                   />
                   <div className='flex flex-col items-center justify-center space-y-3'>
-                    <span className='flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark'>
+                    <span className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white dark:border-slate-800 dark:bg-slate-900'>
                       <UploadIcon />
                     </span>
                     <p>

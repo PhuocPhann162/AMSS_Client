@@ -158,15 +158,15 @@ export const CropTypeList = () => {
                   <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
                     <div className='overflow-hidden'>
                       <table className='min-w-full'>
-                        <thead className='bg-white font-bold text-type-2'>
+                        <thead className='bg-white font-bold text-slate-600'>
                           <tr>
                             <th
                               scope='col'
-                              className='h-24 w-24 border-r border-type-1 px-3 py-4 text-sm'
+                              className='h-24 w-24 border-r border-zinc-100 px-3 py-4 text-sm'
                             ></th>
                             <th
                               scope='col'
-                              className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
+                              className='border-r border-zinc-100 px-4 py-3.5 text-left text-sm rtl:text-right'
                             >
                               <button className='flex items-center gap-x-3 focus:outline-none'>
                                 <span>CropType</span>
@@ -176,14 +176,14 @@ export const CropTypeList = () => {
 
                             <th
                               scope='col'
-                              className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
+                              className='border-r border-zinc-100 px-4 py-3.5 text-left text-sm rtl:text-right'
                             >
                               Planted
                             </th>
 
                             <th
                               scope='col'
-                              className='border-r border-type-1 px-4 py-3.5 text-left text-sm rtl:text-right'
+                              className='border-r border-zinc-100 px-4 py-3.5 text-left text-sm rtl:text-right'
                             >
                               Expected
                             </th>
@@ -197,12 +197,12 @@ export const CropTypeList = () => {
                             <>
                               <tr
                                 key={ct.id}
-                                className='border-b border-type-1 bg-type-1 font-bold'
+                                className='border-b border-zinc-100 bg-zinc-100 font-bold'
                               >
-                                <td className='whitespace-nowrap border-r border-type-1 px-3 py-4 text-sm'></td>
+                                <td className='whitespace-nowrap border-r border-zinc-100 px-3 py-4 text-sm'></td>
                                 <td className='whitespace-nowrap px-4 py-4 text-sm'>
                                   <div>
-                                    <h2 className='text-type-2'>
+                                    <h2 className='text-slate-600'>
                                       {ct.name} ({ct.type})
                                     </h2>
                                   </div>
@@ -214,9 +214,9 @@ export const CropTypeList = () => {
                               {ct.crops.map((crop: cropModel) => (
                                 <tr
                                   key={crop.id}
-                                  className='border-b border-type-1'
+                                  className='border-b border-zinc-100'
                                 >
-                                  <td className='whitespace-nowrap border-r border-type-1 px-3 py-4 text-sm'>
+                                  <td className='whitespace-nowrap border-r border-zinc-100 px-3 py-4 text-sm'>
                                     <motion.img
                                       variants={scrollAnimation}
                                       src={crop.icon}
@@ -229,14 +229,14 @@ export const CropTypeList = () => {
                                       className='h-16 w-16 rounded-full object-cover'
                                     />
                                   </td>
-                                  <td className='w-64 whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
+                                  <td className='w-64 whitespace-nowrap border-r border-zinc-100 px-4 py-4 text-sm'>
                                     <div>
                                       <div className='flex items-center gap-2'>
                                         <h2 className='font-bold text-sky-500'>
                                           {crop.name}
                                         </h2>
                                         <span
-                                          className={`mr-auto inline-flex items-center rounded-lg bg-type-1 px-3 py-2 text-center align-baseline text-xs leading-none text-type-2`}
+                                          className={`mr-auto inline-flex items-center rounded-lg bg-zinc-100 px-3 py-2 text-center align-baseline text-xs leading-none text-slate-600`}
                                         >
                                           {ct.code}
                                         </span>
@@ -246,7 +246,7 @@ export const CropTypeList = () => {
                                       </h4>
                                     </div>
                                   </td>
-                                  <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-base'>
+                                  <td className='whitespace-nowrap border-r border-zinc-100 px-4 py-4 text-base'>
                                     <div className='flex items-center gap-2'>
                                       {crop.cultivatedArea?.toFixed(2)} sqft
                                       <div className='flex items-center gap-1'>
@@ -256,7 +256,7 @@ export const CropTypeList = () => {
                                             <Link
                                               key={fieldCrop.id}
                                               to={`/app/map?lat=${fieldCrop.field.location?.lat}&lng=${fieldCrop.field.location?.lng}`}
-                                              className={`mr-auto inline-flex items-center rounded-lg bg-type-1 px-4 py-3 text-center align-baseline text-sm leading-none text-type-2 underline hover:text-primary`}
+                                              className={`mr-auto inline-flex items-center rounded-lg bg-zinc-100 px-4 py-3 text-center align-baseline text-sm leading-none text-slate-600 underline hover:text-primary`}
                                             >
                                               {fieldCrop.field?.name}
                                             </Link>
@@ -264,7 +264,7 @@ export const CropTypeList = () => {
                                       </div>
                                     </div>
                                   </td>
-                                  <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-sm'>
+                                  <td className='whitespace-nowrap border-r border-zinc-100 px-4 py-4 text-sm'>
                                     <div>
                                       Expected{' '}
                                       {format(
@@ -273,7 +273,7 @@ export const CropTypeList = () => {
                                       )}
                                     </div>
                                   </td>
-                                  <td className='whitespace-nowrap border-r border-type-1 px-4 py-4 text-base'>
+                                  <td className='whitespace-nowrap border-r border-zinc-100 px-4 py-4 text-base'>
                                     <Dropdown
                                       menu={{
                                         items: dropDownMenuItems(crop.id!),

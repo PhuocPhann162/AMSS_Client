@@ -7,7 +7,7 @@ const productData: Product[] = [
     category: 'Electronics',
     price: 296,
     sold: 22,
-    profit: 45
+    profit: 45,
   },
   {
     image: imgTemp,
@@ -15,7 +15,7 @@ const productData: Product[] = [
     category: 'Electronics',
     price: 546,
     sold: 12,
-    profit: 125
+    profit: 125,
   },
   {
     image: imgTemp,
@@ -23,7 +23,7 @@ const productData: Product[] = [
     category: 'Electronics',
     price: 443,
     sold: 64,
-    profit: 247
+    profit: 247,
   },
   {
     image: imgTemp,
@@ -31,18 +31,20 @@ const productData: Product[] = [
     category: 'Electronics',
     price: 499,
     sold: 72,
-    profit: 103
-  }
+    profit: 103,
+  },
 ];
 
 const TableTwo = () => {
   return (
-    <div className='rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
-      <div className='py-6 px-4 md:px-6 xl:px-7.5'>
-        <h4 className='text-xl font-semibold text-black dark:text-white'>Top Products</h4>
+    <div className='shadow-default rounded-sm border border-gray-300 bg-white dark:border-slate-800 dark:bg-slate-900'>
+      <div className='xl:px-7.5 px-4 py-6 md:px-6'>
+        <h4 className='text-xl font-semibold text-black dark:text-white'>
+          Top Products
+        </h4>
       </div>
 
-      <div className='grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5'>
+      <div className='py-4.5 2xl:px-7.5 grid grid-cols-6 border-t border-gray-300 px-4 dark:border-slate-800 sm:grid-cols-8 md:px-6'>
         <div className='col-span-3 flex items-center'>
           <p className='font-medium'>Product Name</p>
         </div>
@@ -62,7 +64,7 @@ const TableTwo = () => {
 
       {productData.map((product, key) => (
         <div
-          className='grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5'
+          className='py-4.5 2xl:px-7.5 grid grid-cols-6 border-t border-gray-300 px-4 dark:border-slate-800 sm:grid-cols-8 md:px-6'
           key={key}
         >
           <div className='col-span-3 flex items-center'>
@@ -70,20 +72,26 @@ const TableTwo = () => {
               <div className='h-12.5 w-15 rounded-md'>
                 <img src={product.image} alt='Product' />
               </div>
-              <p className='text-sm text-black dark:text-white'>{product.name}</p>
+              <p className='text-sm text-black dark:text-white'>
+                {product.name}
+              </p>
             </div>
           </div>
           <div className='col-span-2 hidden items-center sm:flex'>
-            <p className='text-sm text-black dark:text-white'>{product.category}</p>
+            <p className='text-sm text-black dark:text-white'>
+              {product.category}
+            </p>
           </div>
           <div className='col-span-1 flex items-center'>
-            <p className='text-sm text-black dark:text-white'>${product.price}</p>
+            <p className='text-sm text-black dark:text-white'>
+              ${product.price}
+            </p>
           </div>
           <div className='col-span-1 flex items-center'>
             <p className='text-sm text-black dark:text-white'>{product.sold}</p>
           </div>
           <div className='col-span-1 flex items-center'>
-            <p className='text-sm text-meta-3'>${product.profit}</p>
+            <p className='text-sm text-emerald-500'>${product.profit}</p>
           </div>
         </div>
       ))}

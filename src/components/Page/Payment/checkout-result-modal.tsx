@@ -34,7 +34,7 @@ const PrintComponent: React.FC<PrintComponentProps> = ({ order }) => {
               Phone : {order.userInfo?.phoneNumber}
             </div>
             <div className='border px-2 py-3'>
-              <h4 className='text-success'>Menu Items</h4>
+              <h4 className='text-emerald-600'>Menu Items</h4>
               <div className='p-3'>
                 {order.data.cartItems?.map(
                   (cartItem: CartItemDto, index: number) => (
@@ -67,7 +67,7 @@ const PrintComponent: React.FC<PrintComponentProps> = ({ order }) => {
                 </div>
                 <div className='d-flex align-items-center justify-content-between'>
                   <span>Total Price After Discount: </span>
-                  <h4 className='text-danger' style={{ textAlign: 'right' }}>
+                  <h4 className='text-red-500' style={{ textAlign: 'right' }}>
                     ${totalPrice.toFixed(2)}
                   </h4>
                 </div>
