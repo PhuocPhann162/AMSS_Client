@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { DeleteFileIcon, DownloadIcon } from '@/components/Icon';
 import { Breadcrumb } from '@/components/UI';
-import { getScrollAnimation, toastNotify } from '@/helper';
+import { toastNotify } from '@/helper';
 import { useImportDataSocialMetricMutation } from '@/api';
 import { apiResponse } from '@/interfaces';
 import { AButton } from '@/common/ui-common/atoms/a-button/a-button';

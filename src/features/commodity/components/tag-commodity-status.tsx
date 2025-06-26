@@ -19,7 +19,7 @@ export const TagCommodityStatus = ({
     }
   > = {
     [CommodityStatus.Active]: {
-      color: colors['green-pea'][700],
+      color: colors['Green'][700],
       label: 'Active',
     },
     [CommodityStatus.OutOfStock]: {

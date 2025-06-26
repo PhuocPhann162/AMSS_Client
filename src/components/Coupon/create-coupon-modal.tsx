@@ -4,7 +4,6 @@ import { CreateCouponRequest } from '@/models/request/coupon/create-coupon-reque
 import dayjs, { Dayjs } from 'dayjs';
 import { FaDollarSign, FaPercentage, FaTicketAlt } from 'react-icons/fa';
 import { AModal } from '@/common/ui-common';
-import { HiTicket } from 'react-icons/hi';
 
 interface CreateCouponModalProps {
   isOpen: boolean;

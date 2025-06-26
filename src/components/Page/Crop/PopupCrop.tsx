@@ -57,7 +57,7 @@ export const PopupCrop = ({ fieldId, isPlantedCrop }: PopupCropProps) => {
           ))}
           {isPlantedCrop && (
             <div
-              className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-black hover:border-green-haze-500 hover:text-green-500'
+              className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-black hover:border-green-500 hover:text-green-500'
               onClick={() => setIsOpenNewPlantedCrop(true)}
             >
               <PlusOutlined />

@@ -33,7 +33,7 @@ export const ChatApp = () => {
   return (
     <div className='flex h-screen'>
       {/* Room List Sidebar */}
-      <div className='w-80 rounded-lg border-r border-gray-200 bg-white shadow-woodsmoke-500'>
+      <div className='w-80 rounded-lg border-r border-gray-200 bg-white shadow-neutral-500'>
         <RoomList
           rooms={rooms}
           currentRoom={currentRoom}
