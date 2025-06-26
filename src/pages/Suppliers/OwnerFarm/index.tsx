@@ -1,12 +1,18 @@
 import { Role } from '@/interfaces';
 import { SuppliersByRole } from '../components';
-import { Breadcrumb } from '@/components/UI';
+import { PageCommon } from '@/components/layout/page/page-common';
 
 export function OwnerFarmSuppliers() {
   return (
-    <div>
-      <Breadcrumb pageParent='Suppliers' pageName='Owner Farm' />
+    <PageCommon
+      headerTitle='Owner Farms'
+      renderHeader={(HeaderComp, title) => (
+        <HeaderComp className='flex items-center justify-between'>
+          {title}
+        </HeaderComp>
+      )}
+    >
       <SuppliersByRole supplierRole={Role.OWNER_FARM} />
-    </div>
+    </PageCommon>
   );
 }

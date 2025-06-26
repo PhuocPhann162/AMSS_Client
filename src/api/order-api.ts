@@ -1,7 +1,8 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import { CreateOrderRequest, GuidResponse } from '@/models';
+import { BooleanResponse, CreateOrderRequest, GuidResponse } from '@/models';
 import type { GetOrderDetailRequest } from '@/models/request/order/get-order-detail-request';
 import type { GetOrdersRequest } from '@/models/request/order/get-orders-request';
+import { UpdateOrderRequest } from '@/models/request/order/update-order-request';
 import type { GetOrderDetailResponse } from '@/models/response/order/get-order-detail-response';
 import type { GetOrdersResponse } from '@/models/response/order/get-orders-response';
 
@@ -32,6 +33,14 @@ export const orderApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Orders],
     }),
+    updateOrder: build.mutation<BooleanResponse, UpdateOrderRequest>({
+      query: (data) => ({
+        url: `orders/${data.orderId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: [TAG_TYPES.Orders],
+    }),
   }),
 });
 
@@ -39,4 +48,5 @@ export const {
   useCreateOrderMutation,
   useGetOrdersQuery,
   useGetOrderDetailQuery,
+  useUpdateOrderMutation,
 } = orderApi;

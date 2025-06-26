@@ -5,6 +5,7 @@ import {
   FilterOpstion,
 } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { CreateIcon } from '@/components/Icon';
+import { PageCommon } from '@/components/layout/page/page-common';
 import { Breadcrumb, SearchInput } from '@/components/UI';
 import { PopupConfirmation } from '@/components/UI/modal';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
@@ -206,40 +207,38 @@ export const AllUsers = () => {
 
   return (
     <>
-      <div>
-        <Breadcrumb pageParent='Customers' pageName='All Users' />
-        <div className='mb-2 flex items-center justify-between'>
-          <div className='flex flex-col gap-4'>
-            <div>
-              <div className='flex items-center gap-x-3'>
-                <h2 className='text-lg font-medium text-gray-800 dark:text-white'>
-                  Customers
-                </h2>
-
-                <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
-                  {totalRecord} accounts
-                </span>
+      <PageCommon
+        headerTitle='Customers'
+        renderHeader={(HeaderComp, title) => (
+          <>
+            <HeaderComp className='flex flex-col gap-2'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <div className='flex items-center gap-2'>
+                    {title}
+                    <span className='rounded-full bg-green-100 px-3 py-1 text-xs text-green-600 shadow-md'>
+                      {totalRecord} accounts
+                    </span>
+                  </div>
+                  <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
+                    These accounts have managed in the last 12 months.
+                  </p>
+                </div>
+                <div>
+                  <AButton
+                    variant='solid'
+                    color='cyan'
+                    onClick={() => navigate('/app/user/register')}
+                  >
+                    <CreateIcon />
+                    <span>New Customer</span>
+                  </AButton>
+                </div>
               </div>
-
-              <p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
-                These accounts have managed in the last 12 months.
-              </p>
-            </div>
-          </div>
-
-          <div className='flex flex-col items-end gap-2'>
-            <div className='mt-4 flex items-center gap-x-3'>
-              <AButton
-                variant='solid'
-                color='cyan'
-                onClick={() => navigate('/app/user/register')}
-              >
-                <CreateIcon />
-                <span>New Customer</span>
-              </AButton>
-            </div>
-          </div>
-        </div>
+            </HeaderComp>
+          </>
+        )}
+      >
         <div className='flex flex-col gap-1'>
           <SearchInput
             onSearch={(value) => {
@@ -269,7 +268,7 @@ export const AllUsers = () => {
             }}
           />
         </div>
-      </div>
+      </PageCommon>
     </>
   );
 };

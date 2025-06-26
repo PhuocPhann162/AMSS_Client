@@ -50,6 +50,7 @@ import { SeedCropSuppliers } from './pages/Suppliers/SeedCrops';
 import { CouponManagment } from './pages/coupons/coupon-management';
 import { HomeLayout } from '@/layouts/home-layout';
 import { ChatApp } from './pages/chat-room/chat-app';
+import { Reports } from './pages/Reports/report-page';
 
 export interface Route {
   name: string;
@@ -177,6 +178,10 @@ export const router = createBrowserRouter(
         {
           path: 'dashBoard',
           element: <DashBoard />,
+        },
+        {
+          path: 'reports',
+          element: <Reports />,
         },
         // User Routes
         {

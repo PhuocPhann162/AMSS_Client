@@ -54,7 +54,7 @@ export const CropDetail = () => {
               <p className='text-justify text-sm italic text-gray-600'>
                 {cropDetail?.description}
               </p>
-              <div className='mt-4 grid grid-cols-2 bg-be text-black'>
+              <div className='mt-4 grid grid-cols-2 bg-slate-100 text-black'>
                 <div className='flex flex-col gap-1 px-6 py-4 text-sm'>
                   <div className='flex items-center gap-4'>
                     <div className='flex gap-1'>
