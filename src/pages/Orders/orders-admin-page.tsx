@@ -16,6 +16,7 @@ import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdow
 import { useGetOrdersQuery } from '@/api/order-api';
 import { GetOrdersOrderBy } from '@/models/request/order/get-orders-request';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { PageCommon } from '@/components/layout/page/page-common';
 
 const getValidOrderBy = (sortField: unknown): GetOrdersOrderBy => {
   const value = (Array.isArray(sortField) ? sortField[0] : sortField) as string;
@@ -151,56 +152,64 @@ export function OrdersManagement() {
 
   return (
     <>
-      <div className='flex flex-col gap-1'>
-        <Breadcrumb pageParent='Market' pageName='All Orders' />
-        <div className='flex items-center justify-between'>
-          <SearchInput
-            onSearch={(value) => {
-              if (value !== searchValue) {
-                setSearchValue(value);
-                setTableParams((pre) => ({
-                  ...pre,
-                  pagination: {
-                    ...pre.pagination,
-                    current: 1,
-                  },
-                }));
-              }
-            }}
-            placeholder={'Search by Pickup Name or Email'}
-            className='w-1/3 min-w-40'
-          />
-        </div>
+      <PageCommon
+        headerTitle='All Orders'
+        renderHeader={(HeaderComp, title) => (
+          <HeaderComp className='flex items-center justify-between'>
+            {title}
+          </HeaderComp>
+        )}
+      >
+        <div className='flex flex-col gap-1'>
+          <div className='flex items-center justify-between'>
+            <SearchInput
+              onSearch={(value) => {
+                if (value !== searchValue) {
+                  setSearchValue(value);
+                  setTableParams((pre) => ({
+                    ...pre,
+                    pagination: {
+                      ...pre.pagination,
+                      current: 1,
+                    },
+                  }));
+                }
+              }}
+              placeholder={'Search by Pickup Name or Email'}
+              className='w-1/3 min-w-40'
+            />
+          </div>
 
-        <ASegmented
-          options={ORDER_STATUS_SEGMENTED}
-          value={segmentedStatus}
-          onChange={(value) => {
-            if (isLoading) return;
-            setSegmentedStatus(value);
-            setTableParams((prev) => ({
-              ...prev,
-              pagination: {
-                ...prev.pagination,
-                current: 1,
-              },
-            }));
-          }}
-        />
-        <div className='mt-2'>
-          <ATable
-            columns={ordersCol}
-            dataSource={dataTable}
-            tableParams={tableParams}
-            totalRecord={totalRecord}
-            loading={isLoading}
-            scroll={{ y: '55vh' }}
-            onChange={(params: TableParams) => {
-              setTableParams(params);
+          <ASegmented
+            options={ORDER_STATUS_SEGMENTED}
+            value={segmentedStatus}
+            onChange={(value) => {
+              if (isLoading) return;
+              setSegmentedStatus(value);
+              setTableParams((prev) => ({
+                ...prev,
+                pagination: {
+                  ...prev.pagination,
+                  current: 1,
+                },
+              }));
             }}
           />
+          <div className='mt-2'>
+            <ATable
+              columns={ordersCol}
+              dataSource={dataTable}
+              tableParams={tableParams}
+              totalRecord={totalRecord}
+              loading={isLoading}
+              scroll={{ y: '55vh' }}
+              onChange={(params: TableParams) => {
+                setTableParams(params);
+              }}
+            />
+          </div>
         </div>
-      </div>
+      </PageCommon>
     </>
   );
 }

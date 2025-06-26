@@ -1,5 +1,6 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
 import { GetUsersRequest, UpdateAddressRequest } from '@/models/request';
+import { ChangePasswordRequest } from '@/models/request/order/change-password-request';
 import {
   BooleanResponse,
   GetUsersResponse,
@@ -61,6 +62,14 @@ export const userApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Users],
     }),
+    changePassword: builder.mutation<BooleanResponse, ChangePasswordRequest>({
+      query: (payload) => ({
+        url: `user/change-password`,
+        method: 'PUT',
+        body: payload,
+      }),
+      invalidatesTags: [TAG_TYPES.Users],
+    }),
   }),
 });
 
@@ -70,4 +79,5 @@ export const {
   useRoleManagementMutation,
   useUpdateInfoMutation,
   useUpdateAddressMutation,
+  useChangePasswordMutation,
 } = userApi;

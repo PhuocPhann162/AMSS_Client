@@ -13,7 +13,7 @@ import {
   useGetPlatingCropsQuery,
   useRemovePlantingCropMutation,
 } from '@/api';
-import { toastNotify } from '@/helper';
+import { getScrollAnimation, toastNotify } from '@/helper';
 import { AButton, ADescriptions, AModal, ATable } from '@/common/ui-common';
 import {
   AddPlatingCropsRequest,
@@ -28,6 +28,7 @@ import { apiResponse } from '@/interfaces';
 import { cropDescriptionItems } from '@/helper/descriptionItems';
 import dayjs from 'dayjs';
 import { formatLocalDate } from '@/helper/dayFormat';
+import { motion } from 'framer-motion';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -47,6 +48,7 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
   bedId,
   bedName,
 }) => {
+  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   const [selectedCrops, setSelectedCrops] = useState<CropResponse[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentCrop, setCurrentCrop] = useState<CropResponse | null>(null);
@@ -140,10 +142,17 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
         render: (_, record) => (
           <div className='flex items-center'>
             {record.icon && (
-              <img
+              <motion.img
+                variants={scrollAnimation}
                 src={record.icon as string}
                 alt={record.name as string}
-                className='mr-2 h-8 w-8 rounded-full object-cover'
+                className='mr-2 h-8 w-8 rounded-full'
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                loading='lazy'
               />
             )}
             <span>{record.name}</span>

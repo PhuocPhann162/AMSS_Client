@@ -16,6 +16,7 @@ import {
   ShopOutlined,
   SnippetsOutlined,
 } from '@ant-design/icons';
+import { FaChartLine } from 'react-icons/fa';
 
 export const sidebarOptions: Item[] = [
   {
@@ -26,6 +27,11 @@ export const sidebarOptions: Item[] = [
         path: '/app/dashBoard',
         label: 'Dashboard',
         icon: <DashboardIcon />,
+      },
+      {
+        path: '/app/reports',
+        label: 'Reports',
+        icon: <FaChartLine />,
       },
     ],
   },

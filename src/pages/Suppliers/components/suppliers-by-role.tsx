@@ -1,4 +1,4 @@
-import { useGetSeedCropSuppliersQuery } from '@/api';
+import { useGetSeedCropSuppliersQuery, useChangePasswordMutation } from '@/api';
 import { AButton, ATable } from '@/common/ui-common';
 import {
   AFilterDropdown,
@@ -15,9 +15,13 @@ import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { TableParams } from '@/utils/models/Tables';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
-import { FaRegPaperPlane } from 'react-icons/fa';
+import { FaRedoAlt, FaRegPaperPlane } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ADrawer } from '@/common/ui-common/atoms/a-drawer/a-drawer';
+import { Supplier } from '@/interfaces/supplier/supplier';
+import { Descriptions } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 
 interface SuppliersByRoleProps {
   supplierRole: Role;
@@ -49,6 +53,12 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
     (state: RootState) => state.countryStore,
   );
   const [countryFilters, setCountryFilters] = useState<FilterOpstion[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
+    null,
+  );
+  const [changePassword, { isLoading: isResetting }] =
+    useChangePasswordMutation();
 
   const supplierCropCol: ColumnsType = useMemo(() => {
     return [
@@ -119,18 +129,44 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
       },
       {
         title: 'Action',
-        width: '8rem',
+        width: '12rem',
         align: 'center',
         fixed: 'right',
         dataIndex: '_',
         render: (_, record) => (
-          <AButton type='link' className='color-primary hover:underline'>
-            View
-          </AButton>
+          <div className='flex items-center justify-center'>
+            <AButton
+              type='link'
+              className='color-primary hover:underline'
+              aria-label='View supplier details'
+              tabIndex={0}
+              onClick={() => handleViewSupplier(record)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ')
+                  handleViewSupplier(record);
+              }}
+            >
+              <EyeOutlined /> View
+            </AButton>
+            <AButton
+              type='link'
+              className='color-primary hover:underline'
+              aria-label='Reset supplier password'
+              tabIndex={0}
+              disabled={isResetting}
+              onClick={() => handleResetPassword()}
+              onKeyDown={(e) => {
+                if ((e.key === 'Enter' || e.key === ' ') && !isResetting)
+                  handleResetPassword();
+              }}
+            >
+              <FaRedoAlt /> {isResetting ? 'Resetting...' : 'Reset Password'}
+            </AButton>
+          </div>
         ),
       },
     ];
-  }, [countryFilters]);
+  }, [countryFilters, isResetting]);
 
   useEffect(() => {
     const countryOptions = allCountries
@@ -158,6 +194,48 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
     };
     getSeedCropSuppliers();
   }, [searchValue, data, tableParams]);
+
+  const handleViewSupplier = (record: any) => {
+    setSelectedSupplier({
+      id: record.Id,
+      name: record.Name,
+      contactName: record.ContactName,
+      phoneCode: record.PhoneCode,
+      phoneNumber: record.PhoneNumber,
+      email: record.Email,
+      address: record.Address,
+      countryCode: record.CountryCode,
+      countryName: record.CountryName,
+      provinceCode: record.ProvinceCode,
+      provinceName: record.ProvinceName,
+      supplierRole: record.SupplierRole,
+      createdAt: record.CreatedAt,
+      updatedAt: record.UpdatedAt,
+    });
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+    setSelectedSupplier(null);
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      await changePassword({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      }).unwrap();
+      toastNotify('Password reset successfully', 'success');
+    } catch (e) {
+      toastNotify(
+        (e as apiResponse)?.data?.errorMessages?.[0] ||
+          'Reset password failed!',
+        'error',
+      );
+    }
+  };
 
   return (
     <div className='flex flex-col gap-1'>
@@ -197,6 +275,76 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
           setTableParams(params);
         }}
       />
+      <ADrawer
+        open={isDrawerOpen}
+        onClose={handleDrawerClose}
+        title='Supplier Details'
+        width={480}
+        aria-label='Supplier details drawer'
+      >
+        {selectedSupplier && (
+          <Descriptions
+            bordered
+            column={1}
+            size='middle'
+            className='rounded-md bg-white'
+          >
+            <Descriptions.Item
+              label={<span className='font-semibold'>Company Name</span>}
+            >
+              {selectedSupplier.name}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Contact Name</span>}
+            >
+              {selectedSupplier.contactName || 'N/A'}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Email</span>}
+            >
+              {selectedSupplier.email || 'N/A'}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Phone</span>}
+            >
+              {`${selectedSupplier.phoneCode || ''} ${selectedSupplier.phoneNumber || ''}`}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Address</span>}
+            >
+              {selectedSupplier.address || 'N/A'}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Country</span>}
+            >
+              <span className='flex items-center gap-2'>
+                {flagemojiToPNG(convertToEmoji(selectedSupplier.countryCode))}
+                {selectedSupplier.countryName}
+              </span>
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Province</span>}
+            >
+              {selectedSupplier.provinceName || 'N/A'}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Role</span>}
+            >
+              {selectedSupplier.supplierRole || 'N/A'}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Created At</span>}
+            >
+              {displayDateTimeByLocale(selectedSupplier.createdAt)}
+            </Descriptions.Item>
+            <Descriptions.Item
+              label={<span className='font-semibold'>Updated At</span>}
+            >
+              {displayDateTimeByLocale(selectedSupplier.updatedAt)}
+            </Descriptions.Item>
+          </Descriptions>
+        )}
+      </ADrawer>
     </div>
   );
 }
