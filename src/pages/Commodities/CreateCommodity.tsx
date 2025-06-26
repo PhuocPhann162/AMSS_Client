@@ -7,7 +7,6 @@ import {
   COMMODITIES_CATEGORY_SEGMENTED,
   COMMODITY_STATUS_FILTER,
 } from '@/helper/descriptionItems';
-import { Breadcrumb } from '@/components/UI';
 import { useNavigate } from 'react-router-dom';
 import { DatePicker, Form, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
@@ -16,6 +15,8 @@ import { useState } from 'react';
 import dayjs from 'dayjs';
 import type { CreateCommodityRequest } from '@/api/commodity-api';
 import TextArea from 'antd/es/input/TextArea';
+import { PageCommon } from '@/components/layout/page/page-common';
+import { apiResponse } from '@/interfaces';
 
 export function CreateCommodity() {
   const [form] = Form.useForm<CreateCommodityRequest>();
@@ -162,7 +163,8 @@ export function CreateCommodity() {
       }
     } catch (error) {
       const errMessage =
-        (error as any)?.data?.errorMessages?.[0] || 'Something went wrong';
+        (error as apiResponse)?.data?.errorMessages?.[0] ||
+        'Something went wrong';
       toastNotify(errMessage, 'error');
     } finally {
       setIsLoading(false);
@@ -170,48 +172,53 @@ export function CreateCommodity() {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
-      <Breadcrumb pageParent='Commodities' pageName='Create Commodity' />
+    <PageCommon
+      headerTitle='Create New Commodity'
+      renderHeader={(HeaderComp, title) => (
+        <HeaderComp className='flex items-center justify-between'>
+          {title}
+        </HeaderComp>
+      )}
+    >
+      <div className='flex flex-col gap-4'>
+        <div className='mx-auto flex min-w-[60rem] max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0'>
+          <Form form={form} onFinish={onFinish}>
+            <div className='flex flex-col gap-6'>
+              <div className='grid grid-cols-1 gap-x-4 gap-y-2'>
+                {formItems.map((item, index) => (
+                  <FormLabel
+                    key={`${index}_${item.name}`}
+                    name={item.name}
+                    label={item.label}
+                    rules={item.rule}
+                    classNames={{
+                      root: cn('col-span-1'),
+                      label: 'font-semibold',
+                    }}
+                  >
+                    {item.renderFormControl}
+                  </FormLabel>
+                ))}
+              </div>
 
-      <div className='mx-auto flex min-w-[60rem] max-w-full flex-col gap-4 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0'>
-        <p className='text-2xl font-bold'>Create New Commodity</p>
-
-        <Form form={form} onFinish={onFinish}>
-          <div className='flex flex-col gap-6'>
-            <div className='grid grid-cols-1 gap-x-4 gap-y-2'>
-              {formItems.map((item, index) => (
-                <FormLabel
-                  key={`${index}_${item.name}`}
-                  name={item.name}
-                  label={item.label}
-                  rules={item.rule}
-                  classNames={{
-                    root: cn('col-span-1'),
-                    label: 'font-semibold',
-                  }}
+              <div className='flex gap-4'>
+                <AButton
+                  type='primary'
+                  className='bg-yellow-600'
+                  loading={isLoading}
+                  htmlType='submit'
                 >
-                  {item.renderFormControl}
-                </FormLabel>
-              ))}
-            </div>
+                  Create Commodity
+                </AButton>
 
-            <div className='flex gap-4'>
-              <AButton
-                type='primary'
-                className='bg-yellow-600'
-                loading={isLoading}
-                htmlType='submit'
-              >
-                Create Commodity
-              </AButton>
-
-              <AButton onClick={() => navigate('/app/commodity/managment')}>
-                Cancel
-              </AButton>
+                <AButton onClick={() => navigate('/app/commodity/managment')}>
+                  Cancel
+                </AButton>
+              </div>
             </div>
-          </div>
-        </Form>
+          </Form>
+        </div>
       </div>
-    </div>
+    </PageCommon>
   );
 }

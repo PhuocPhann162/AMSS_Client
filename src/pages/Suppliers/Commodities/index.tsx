@@ -1,12 +1,18 @@
 import { Role } from '@/interfaces';
 import { SuppliersByRole } from '../components';
-import { Breadcrumb } from '@/components/UI';
+import { PageCommon } from '@/components/layout/page/page-common';
 
 export function CommoditySuppliers() {
   return (
-    <div>
-      <Breadcrumb pageParent='Suppliers' pageName='Commodity' />
+    <PageCommon
+      headerTitle='Commodity Suppliers'
+      renderHeader={(HeaderComp, title) => (
+        <HeaderComp className='flex items-center justify-between'>
+          {title}
+        </HeaderComp>
+      )}
+    >
       <SuppliersByRole supplierRole={Role.SUPPLIER_COMMODITY} />
-    </div>
+    </PageCommon>
   );
 }

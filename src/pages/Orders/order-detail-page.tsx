@@ -27,6 +27,11 @@ import Skeleton from 'antd/es/skeleton';
 import Typography from 'antd/es/typography';
 import { format } from 'date-fns';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { OrderStatusActionButton } from '@/components/Orders/OrderStatusActionButton';
+import { useState } from 'react';
+import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
+import { Role } from '@/interfaces';
+import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
 
 const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   const statusMap: Record<
@@ -79,9 +84,17 @@ export const OrderDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [refreshKey, setRefreshKey] = useState(0);
+  const userState = useAppSelector((state) => state.auth.user);
+  const isAdmin = userState?.role === Role.ADMIN;
   const { data: orderResponse, isLoading } = useGetOrderDetailQuery(
     { id: id ?? '' },
-    { skip: !id },
+    {
+      skip: !id,
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    },
   );
 
   const order = orderResponse?.result;
@@ -132,7 +145,16 @@ export const OrderDetailPage = () => {
               Placed on {formattedDate}
             </Typography.Text>
           </div>
-          {order.status && <OrderStatusBadge status={order.status} />}
+          <div className='flex flex-col items-end gap-2'>
+            {order.status && <OrderStatusBadge status={order.status} />}
+            {order.status && id && isAdmin && (
+              <OrderStatusActionButton
+                orderId={id}
+                currentStatus={order.status}
+                onStatusChanged={() => setRefreshKey((k) => k + 1)}
+              />
+            )}
+          </div>
         </div>
 
         <div className='grid grid-cols-1 gap-6 lg:grid-cols-3'>
@@ -163,13 +185,21 @@ export const OrderDetailPage = () => {
                   </div>
                   <div className='ml-4 flex-1'>
                     <div className='flex justify-between'>
-                      <Typography.Text strong className='block'>
-                        {item.itemName}
-                      </Typography.Text>
+                      <div className='flex items-center gap-2'>
+                        <Typography.Text strong className='block'>
+                          {item.itemName}
+                        </Typography.Text>
+                        <CommodityCategoryTag
+                          value={item.commodity?.category ?? 0}
+                        />
+                      </div>
                       <Typography.Text strong>
                         {formatCurrency(item.price || 0)}
                       </Typography.Text>
                     </div>
+                    <Typography.Text className='text-xs font-medium text-gray-400'>
+                      {item?.commodity?.description}.
+                    </Typography.Text>
                     <Typography.Text type='secondary' className='block'>
                       Qty: {item.quantity}
                     </Typography.Text>
