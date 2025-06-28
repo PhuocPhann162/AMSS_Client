@@ -108,9 +108,7 @@ export const CultivationProcess = () => {
             <CardInfoIcon asChild>
               <GiProgression className='self-center' />
             </CardInfoIcon>
-            <CardInfoTitle className='text-green-800'>
-              Cultivation Timeline
-            </CardInfoTitle>
+            <CardInfoTitle>Cultivation Timeline</CardInfoTitle>
             <div />
             <CardInfoDescription>
               From planting to harvest - every step documented

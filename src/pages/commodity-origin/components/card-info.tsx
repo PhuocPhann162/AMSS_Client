@@ -23,7 +23,7 @@ export const CardInfoHeader = (props: CardInfoHeaderProps) => {
     <div
       {...props}
       className={twMerge(
-        'flex items-center gap-2 bg-gradient-to-br from-green-600/80 via-green-500/80 to-green-400/80 p-4 text-green-900',
+        'flex items-center gap-2 bg-gradient-to-br from-green-600/80 via-green-500/80 to-green-400/80 p-4 text-white',
         props.className,
       )}
     />
@@ -60,7 +60,7 @@ export const CardInfoDescription = (props: CardInfoDescriptionProps) => {
   return (
     <div
       {...props}
-      className={twMerge('text-sm font-medium text-green-700', props.className)}
+      className={twMerge('text-sm font-medium opacity-90', props.className)}
     />
   );
 };

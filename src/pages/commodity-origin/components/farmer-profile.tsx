@@ -16,10 +16,12 @@ import {
 import type { SupplierOrigin } from '@/interfaces/origin/supplier-origin';
 
 export interface FarmerProfileProps {
-  farmer: SupplierOrigin;
+  farmer?: SupplierOrigin;
 }
 
 export const FarmerProfile = ({ farmer }: FarmerProfileProps) => {
+  if (farmer == null) return null;
+
   return (
     <SectionInfo>
       <SectionInfoHeader>

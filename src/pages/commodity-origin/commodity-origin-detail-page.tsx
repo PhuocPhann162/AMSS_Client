@@ -4,7 +4,7 @@ import { CommodityHeader } from '@/pages/commodity-origin/components/commodity-h
 import { useParams } from 'react-router-dom';
 import { useGetCommodityOriginQuery } from '@/api';
 import { CropInfo } from '@/pages/commodity-origin/components/crop-info';
-import { PlotInfo } from '@/pages/commodity-origin/components/plot-info';
+import { FieldInfo } from '@/pages/commodity-origin/components/field-info';
 
 export const CommodityOriginDetailPage = () => {
   const { id } = useParams();
@@ -19,16 +19,14 @@ export const CommodityOriginDetailPage = () => {
   const crop = commodityOriginData?.result.crop;
   const field = commodityOriginData?.result.fields[0];
 
+  if (getCommodityOrigin.isFetching) return null;
+
   return (
     <div className='bg-gray-50'>
       {!!commodity && <CommodityHeader commodity={commodity} />}
-      {!!crop && commodity && (
-        <CropInfo crop={{ ...crop, supplier: commodity.supplier }} />
-      )}
-      {!!field && <PlotInfo field={field} />}
-      {commodity?.supplier != null && (
-        <FarmerProfile farmer={commodity?.supplier} />
-      )}
+      {!!crop && commodity && <CropInfo crop={crop} />}
+      {!!field && <FieldInfo field={field} />}
+      {null && <FarmerProfile />}
       <CultivationProcess />
     </div>
   );
