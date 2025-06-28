@@ -1,4 +1,4 @@
-import { type Role } from '@/interfaces/role';
+import type { Role } from '@/interfaces/role/role';
 
 export interface Supplier {
   id: string;
@@ -13,6 +13,6 @@ export interface Supplier {
   provinceCode: string;
   provinceName: string;
   supplierRole: Role;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

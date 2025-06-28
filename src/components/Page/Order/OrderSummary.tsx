@@ -186,7 +186,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
       </div>
 
       {/* Estimated Delivery */}
-      <div className='mt-6 rounded-lg bg-green-haze-100 p-4'>
+      <div className='mt-6 rounded-lg bg-green-100 p-4'>
         <div className='flex items-center gap-2'>
           <FaTruck className='text-green-600' />
           <p className='text-green-800'>

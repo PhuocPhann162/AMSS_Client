@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { AModal, ADescriptions } from '@/common/ui-common';
+import { AModal } from '@/common/ui-common';
 import { CommodityCategory } from '@/interfaces';
 import { CommodityStatusTag } from '@/components/UI';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';

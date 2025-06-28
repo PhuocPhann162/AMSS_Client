@@ -9,11 +9,11 @@ import {
   locationModel,
 } from '@/interfaces';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
-import { supplierModel } from '@/interfaces/supplierModel';
 import { CropResponse } from '@/models/response/crop-response';
 import { FilterOpstion } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { getStatusColor } from './getStatusColor';
 import { OrderStatus } from '@/interfaces';
+import type { Supplier } from '@/interfaces/supplier/supplier';
 
 export const farmDescriptionItems = (farmValue: farmModel) => {
   return [
@@ -192,7 +192,7 @@ export const fieldEditDescriptionItems = (fieldValue?: fieldModel) => {
   return items;
 };
 
-export const supplierDescriptionItems = (supplierValue: supplierModel) => {
+export const supplierDescriptionItems = (supplierValue: Supplier) => {
   return [
     {
       key: '1',

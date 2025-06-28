@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
-import Image, { type ImageProps } from 'antd/es/image';
+import { Image, type ImageProps } from 'antd';
+import { twMerge } from 'tailwind-merge';
 
 export type AImageProps = ImageProps;
 
@@ -11,6 +11,6 @@ export const AImage = (props: AImageProps) => (
         ? props.preview
         : { destroyOnClose: true, ...props.preview }
     }
-    className={cn('object-cover [&.ant-image-img]:h-full', props.className)}
+    className={twMerge('h-full object-cover', props.className)}
   />
 );

@@ -30,8 +30,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { OrderStatusActionButton } from '@/components/Orders/OrderStatusActionButton';
 import { useState } from 'react';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
-import { Role } from '@/interfaces';
 import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
+import { ROLE } from '@/interfaces/role/role';
 
 const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   const statusMap: Record<
@@ -86,7 +86,7 @@ export const OrderDetailPage = () => {
   const location = useLocation();
   const [refreshKey, setRefreshKey] = useState(0);
   const userState = useAppSelector((state) => state.auth.user);
-  const isAdmin = userState?.role === Role.ADMIN;
+  const isAdmin = userState?.role === ROLE.ADMIN;
   const { data: orderResponse, isLoading } = useGetOrderDetailQuery(
     { id: id ?? '' },
     {

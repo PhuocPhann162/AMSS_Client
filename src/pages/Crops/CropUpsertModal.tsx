@@ -12,10 +12,11 @@ import {
 import { AButton, AModal } from '@/common/ui-common';
 import { EditTableIcon, UploadIcon } from '@/components/Icon';
 import { inputHelper, LabelHelper, toastNotify } from '@/helper';
-import { apiResponse, Role } from '@/interfaces';
+import { apiResponse } from '@/interfaces';
 import CreateCropIcon from '@/components/Icon/icon-svg/crop-upsert.svg?react';
 import DatePickerIcon from '@/components/Icon/icon-svg/date-picker.svg?react';
 import { GetSelectionSuppliersByRoleResponse } from '@/models';
+import { ROLE } from '@/interfaces/role/role';
 
 interface CropUpsertModalProps {
   id?: string;
@@ -67,7 +68,7 @@ export const CropUpsertModal = ({
     skip: !id,
   });
   const { data: cropSuppliers } = useGetSuppliersByRoleQuery(
-    Role.SUPPLIER_CROP,
+    ROLE.SUPPLIER_CROP,
   );
 
   const handleUserInput = (

@@ -1,6 +1,6 @@
 import type locationModel from '@/interfaces/locationModel';
-import { User } from '../user';
-import { OrderDetail } from './order-detail-model';
+import type { OrderDetail } from '@/interfaces/orders/order-detail-model';
+import type { User } from '@/interfaces/user/user';
 
 export enum OrderStatus {
   Pending,

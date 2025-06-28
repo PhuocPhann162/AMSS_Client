@@ -1,6 +1,4 @@
-import { icon } from 'leaflet';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaTractor } from 'react-icons/fa';
 import L from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
 

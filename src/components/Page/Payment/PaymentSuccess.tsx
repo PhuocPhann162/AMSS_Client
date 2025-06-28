@@ -36,7 +36,7 @@ const PaymentSuccess: React.FC = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
             >
-              <FaCheckCircle className='h-20 w-20 text-green-haze-500' />
+              <FaCheckCircle className='h-20 w-20 text-green-500' />
             </motion.div>
           </div>
 

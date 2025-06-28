@@ -1,5 +1,5 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import { Role } from '@/interfaces';
+import { Role } from '@/interfaces/role/role';
 import { GetSuppliersRequest } from '@/models/request';
 import {
   GetSelectionSuppliersByRoleApiResponse,

@@ -4,7 +4,8 @@ import { FormLabel } from '@/components/form-label';
 import { SelectCountry } from '@/components/UI/select/select-country';
 import { SelectPhoneCode } from '@/components/UI/select/select-phonecode';
 import { toastNotify } from '@/helper';
-import { Country, Province, Role } from '@/interfaces';
+import { Country, Province } from '@/interfaces';
+import { ROLE } from '@/interfaces/role/role';
 import { cn } from '@/lib/utils';
 import {
   RegisterResponse,
@@ -199,7 +200,7 @@ export const RegisterCustomer: FC<RegisterCustomerProps> = ({
     try {
       const response = await registerUser({
         ...values,
-        role: Role.CUSTOMER,
+        role: ROLE.CUSTOMER,
         avatar: `https://ui-avatars.com/api/?name=${form.getFieldValue('contactName').trim()}&background=00c46a&color=fff`,
       }).unwrap();
       if (response.isSuccess) {

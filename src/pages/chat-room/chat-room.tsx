@@ -1,5 +1,5 @@
 // components/Chat/ChatRoom.tsx
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useChat, useTyping } from '../../hooks/useChat';
 import { MessageType } from '@/interfaces/chat/chat-system';
 import MessageList from './components/message-list';

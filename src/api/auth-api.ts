@@ -1,5 +1,5 @@
 import { appBaseApi } from '@/api/instances';
-import { convertStringToRole } from '@/interfaces';
+import { ROLE } from '@/interfaces/role/role';
 import type {
   LoginRequest,
   LoginResponse,
@@ -30,7 +30,7 @@ export const authApi = appBaseApi.injectEndpoints({
             ...apiResponse.result,
             user: {
               ...apiResponse.result.user,
-              role: convertStringToRole(apiResponse.result.user.role),
+              role: ROLE[apiResponse.result.user.role],
             },
           },
         };

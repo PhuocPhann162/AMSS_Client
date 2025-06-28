@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import React, { useState, useCallback } from 'react';
-import { FaRegPaperPlane, FaPlus, FaEdit } from 'react-icons/fa';
+import { FaRegPaperPlane } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface GooeyInitialResponse {

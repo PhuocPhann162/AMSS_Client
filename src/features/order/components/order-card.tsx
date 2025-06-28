@@ -15,7 +15,7 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
   > = {
     [OrderStatus.Cancelled]: {
       label: 'Cancelled',
-      bgClassName: 'bg-green-pea-500',
+      bgClassName: 'bg-green-500',
     },
     [OrderStatus.Confirmed]: { label: 'Confirmed', bgClassName: 'bg-blue-500' },
     [OrderStatus.Processing]: {
@@ -24,15 +24,15 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
     },
     [OrderStatus.ReadyForShipment]: {
       label: 'Ready for shipment',
-      bgClassName: 'bg-green-pea-500',
+      bgClassName: 'bg-green-500',
     },
     [OrderStatus.Delivered]: {
       label: 'Delivered',
-      bgClassName: 'bg-green-pea-500',
+      bgClassName: 'bg-green-500',
     },
     [OrderStatus.Completed]: {
       label: 'Completed',
-      bgClassName: 'bg-green-pea-500',
+      bgClassName: 'bg-green-500',
     },
     [OrderStatus.Pending]: { label: 'Pending', bgClassName: 'bg-red-500' },
   };
@@ -82,7 +82,7 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
           </p>
         )}
 
-        <div className='xs:grid-cols-2 grid gap-3 p-4'>
+        <div className='grid gap-3 p-4 xs:grid-cols-2'>
           {infoItems.map((item, index) => (
             <div key={index} className='flex flex-col gap-2 text-base'>
               <p className='font-semibold'>{item.label}</p>

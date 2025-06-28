@@ -1,16 +1,16 @@
-import { Role } from '@/interfaces';
+import { ROLE } from '@/interfaces/role/role';
 
 export const NOVARIS_ROLE_OPTIONS = [
   {
     label: 'Supplier Crop',
-    value: Role.SUPPLIER_CROP,
+    value: ROLE.SUPPLIER_CROP,
   },
   {
     label: 'Owner Farm',
-    value: Role.OWNER_FARM,
+    value: ROLE.OWNER_FARM,
   },
   {
     label: 'Supplier Commodity',
-    value: Role.SUPPLIER_COMMODITY,
+    value: ROLE.SUPPLIER_COMMODITY,
   },
 ];

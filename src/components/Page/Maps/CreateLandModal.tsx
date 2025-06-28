@@ -11,7 +11,6 @@ import {
   farmModel,
   locationModel,
   pointModel,
-  Role,
 } from '@/interfaces';
 import { useCreateFieldMutation } from '@/api';
 import { SD_PlaceType } from '@/utils/SD';
@@ -26,6 +25,7 @@ import { Option } from 'antd/es/mentions';
 import CreateLandIcon from '@/components/Icon/icon-svg/supplier-crop-sidebar.svg?react';
 import TextArea from 'antd/es/input/TextArea';
 import { GetSelectionSuppliersByRoleResponse } from '@/models';
+import { ROLE } from '@/interfaces/role/role';
 
 interface CreateLandModalProps {
   area?: number;
@@ -52,7 +52,7 @@ export const CreateLandModal = ({
   const placeTypeSelected = Form.useWatch('placeType', form);
   const [createFarm] = useCreateFarmMutation();
   const [createField] = useCreateFieldMutation();
-  const { data: ownerFarms } = useGetSuppliersByRoleQuery(Role.OWNER_FARM);
+  const { data: ownerFarms } = useGetSuppliersByRoleQuery(ROLE.OWNER_FARM);
   const { data } = useGetAllFarmsQuery('');
 
   const handleSubmit = async (values: CreateLandFormState) => {

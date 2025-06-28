@@ -51,7 +51,7 @@ export const CommodityDetailPage = () => {
     return undefined;
   }
 
-  const qrValue = `/logistics?supplierId=${data.supplierId}&commodityId=${id}&cropId=${data.cropId}`;
+  const qrValue = `/commodity-origin/${id}`;
 
   return (
     <section>
@@ -77,7 +77,7 @@ export const CommodityDetailPage = () => {
             content={
               <>
                 <p
-                  className='w-max cursor-pointer text-xs font-bold uppercase text-green-pea-500 opacity-70 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
+                  className='w-max cursor-pointer text-xs font-bold uppercase text-green-500 opacity-70 transition-[opacity,color] ease-out hover:underline hover:opacity-100'
                   onClick={() => navigate(-1)}
                 >
                   Back
