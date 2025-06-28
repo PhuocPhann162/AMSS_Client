@@ -26,7 +26,7 @@ export const CommodityOriginDetailPage = () => {
       {!!commodity && <CommodityHeader commodity={commodity} />}
       {!!crop && commodity && <CropInfo crop={crop} />}
       {!!field && <FieldInfo field={field} />}
-      <FarmerProfile farmer={crop?.supplier} />
+      <FarmerProfile farmer={commodity?.supplier} />
       <CultivationProcess />
     </div>
   );
