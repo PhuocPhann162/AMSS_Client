@@ -44,7 +44,7 @@ export type {
   socialYearModel,
 };
 
-export * from './user';
+export * from './user/user';
 export * from './role';
 export * from './meta-data';
 export * from './apiResponse';

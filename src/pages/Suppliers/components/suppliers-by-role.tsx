@@ -8,7 +8,7 @@ import { SearchInput } from '@/components/UI/search-input';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
-import { apiResponse, Country, Role } from '@/interfaces';
+import { apiResponse, Country } from '@/interfaces';
 import { GetSuppliersResponse } from '@/models/response';
 import { RootState } from '@/storage/redux/store';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
@@ -22,6 +22,7 @@ import { ADrawer } from '@/common/ui-common/atoms/a-drawer/a-drawer';
 import { Supplier } from '@/interfaces/supplier/supplier';
 import { Descriptions } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
+import type { Role } from '@/interfaces/role/role';
 
 interface SuppliersByRoleProps {
   supplierRole: Role;

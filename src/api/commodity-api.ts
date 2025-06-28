@@ -6,6 +6,8 @@ import type {
   GetCommodityByIdResponse,
 } from '@/models';
 import { CommodityCategory, CommodityStatus } from '@/interfaces';
+import type { GetCommodityOriginRequest } from '@/models/request/commodity/get-commodity-origin-request';
+import type { GetCommodityOriginResponse } from '@/models/response/commodity/get-commodity-origin-response';
 
 export interface CreateCommodityRequest {
   name: string;
@@ -47,6 +49,15 @@ export const commodityApi = appBaseApi.injectEndpoints({
         { type: TAG_TYPES.Commodities, id: props.id },
       ],
     }),
+    getCommodityOrigin: build.query<
+      GetCommodityOriginResponse,
+      GetCommodityOriginRequest
+    >({
+      query: (props) => `commodity/${props.id}/origin`,
+      providesTags: (_, __, props) => [
+        { type: TAG_TYPES.Commodities, id: props.id },
+      ],
+    }),
     createCommodity: build.mutation<
       CreateCommodityResponse,
       CreateCommodityRequest
@@ -64,5 +75,6 @@ export const commodityApi = appBaseApi.injectEndpoints({
 export const {
   useGetCommoditiesQuery,
   useGetCommodityByIdQuery,
+  useGetCommodityOriginQuery,
   useCreateCommodityMutation,
 } = commodityApi;

@@ -1,6 +1,6 @@
-import cropTypeModel from './cropTypeModel';
-import fieldCropModel from './fieldCropModel';
-import { supplierModel } from './supplierModel';
+import type cropTypeModel from '@/interfaces/cropTypeModel';
+import type fieldCropModel from '@/interfaces/fieldCropModel';
+import type { Supplier } from '@/interfaces/supplier/supplier';
 
 export default interface cropModel {
   id?: string;
@@ -24,7 +24,7 @@ export default interface cropModel {
   cropTypeId?: string;
   cropType?: cropTypeModel;
   fieldCrops?: fieldCropModel[];
-  supplier?: supplierModel;
+  supplier?: Supplier;
   createdAt?: string;
   updatedAt?: string;
 }

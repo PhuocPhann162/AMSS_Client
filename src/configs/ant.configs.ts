@@ -5,7 +5,7 @@ export const themeConfig: ThemeConfig = {
   token: {
     fontFamily: 'Satoshi, sans-serif',
     colorPrimary: colors['Green'][700],
-    colorTextBase: colors['Gray'][950],
+    colorTextBase: colors['Neutral'][900],
     colorLink: colors['Green'][700],
   },
   components: {

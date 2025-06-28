@@ -1,6 +1,6 @@
-import { Role } from '@/interfaces';
 import { SuppliersByRole } from '../components';
 import { PageCommon } from '@/components/layout/page/page-common';
+import { ROLE } from '@/interfaces/role/role';
 
 export function SeedCropSuppliers() {
   return (
@@ -12,7 +12,7 @@ export function SeedCropSuppliers() {
         </HeaderComp>
       )}
     >
-      <SuppliersByRole supplierRole={Role.SUPPLIER_CROP} />
+      <SuppliersByRole supplierRole={ROLE.SUPPLIER_CROP} />
     </PageCommon>
   );
 }

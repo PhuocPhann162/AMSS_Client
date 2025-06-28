@@ -26,4 +26,5 @@ export default interface fieldModel {
   fieldCrops?: fieldCropModel[];
   createdAt?: string;
   updatedAt?: string;
+  polygonAppId?: string;
 }

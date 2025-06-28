@@ -1,7 +1,8 @@
 import { ADropdown } from '@/common/ui-common';
 import { AvatarWithUsername } from '@/components/avatar/avatar-with-username';
 import { clearAuth } from '@/features/auth/store/auth-slice';
-import { Role, type User } from '@/interfaces';
+import { type User } from '@/interfaces';
+import { ROLE } from '@/interfaces/role/role';
 import { useAppDispatch } from '@/storage/redux/hooks/use-app-dispatch';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import {
@@ -23,10 +24,10 @@ export const DropdownUser = ({ showName, children }: DropdownUserProps) => {
   const navigate = useNavigate();
 
   const canAccessAdmin =
-    userState?.role === Role.ADMIN ||
-    userState?.role === Role.OWNER_FARM ||
-    userState?.role === Role.SUPPLIER_COMMODITY ||
-    userState?.role === Role.SUPPLIER_CROP;
+    userState?.role === ROLE.ADMIN ||
+    userState?.role === ROLE.OWNER_FARM ||
+    userState?.role === ROLE.SUPPLIER_COMMODITY ||
+    userState?.role === ROLE.SUPPLIER_CROP;
 
   const handleLogOut = () => {
     dispatch(clearAuth());

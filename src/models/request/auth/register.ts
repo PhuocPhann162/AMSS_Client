@@ -1,4 +1,4 @@
-import { Role } from '@/interfaces';
+import type { Role } from '@/interfaces/role/role';
 
 export interface RegisterRequest {
   userName: string;

@@ -5,7 +5,7 @@ import {
   setUser,
 } from '@/features/auth/store/auth-slice';
 import { inputHelper, toastNotify } from '@/helper';
-import { Role } from '@/interfaces';
+import { ROLE } from '@/interfaces/role/role';
 import type { LoginResponse } from '@/models';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -49,7 +49,7 @@ function Login() {
       setLoading(false);
       toastNotify(response.successMessage || '');
 
-      const redirect = user.role === Role.ADMIN ? '/app/dashBoard' : from;
+      const redirect = user.role === ROLE.ADMIN ? '/app/dashBoard' : from;
 
       navigate(redirect, { replace: true });
     } catch (error) {

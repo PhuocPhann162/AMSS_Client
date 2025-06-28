@@ -1,4 +1,4 @@
-import type { User } from '@/interfaces/user';
+import type { User } from '@/interfaces/user/user';
 
 export default interface locationModel {
   id?: string;

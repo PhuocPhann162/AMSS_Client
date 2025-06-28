@@ -51,6 +51,8 @@ import { CouponManagment } from './pages/coupons/coupon-management';
 import { HomeLayout } from '@/layouts/home-layout';
 import { ChatApp } from './pages/chat-room/chat-app';
 import { Reports } from './pages/Reports/report-page';
+import { CommodityOriginLayout } from '@/layouts/commodity-origin-layout';
+import { CommodityOriginDetailPage } from '@/pages/commodity-origin/commodity-origin-detail-page';
 
 export interface Route {
   name: string;
@@ -67,6 +69,16 @@ export interface RouteHandle {
 
 export const router = createBrowserRouter(
   [
+    {
+      Component: CommodityOriginLayout,
+      path: 'commodity-origin',
+      children: [
+        {
+          path: ':id',
+          Component: CommodityOriginDetailPage,
+        },
+      ],
+    },
     {
       Component: HomeLayout,
       children: [

@@ -1,6 +1,6 @@
-import { Role } from '@/interfaces';
 import { SuppliersByRole } from '../components';
 import { PageCommon } from '@/components/layout/page/page-common';
+import { ROLE } from '@/interfaces/role/role';
 
 export function OwnerFarmSuppliers() {
   return (
@@ -12,7 +12,7 @@ export function OwnerFarmSuppliers() {
         </HeaderComp>
       )}
     >
-      <SuppliersByRole supplierRole={Role.OWNER_FARM} />
+      <SuppliersByRole supplierRole={ROLE.OWNER_FARM} />
     </PageCommon>
   );
 }
