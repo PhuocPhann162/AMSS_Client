@@ -3,6 +3,7 @@ import { ADivider, ARawImage } from '@/common/ui-common';
 import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
 import { QuantitySelector } from '@/features/cart/components/quantity-selector';
 import { CouponsSection } from '@/pages/cart/components/coupons-section';
+import { AppliedCouponSection } from '@/pages/cart/components/applied-coupon-section';
 import { TitleContentSection } from '@/pages/cart/components/title-content-section';
 import { formatCurrency } from '@/utils/format-currency';
 import Button from 'antd/es/button';
@@ -81,7 +82,15 @@ export const CartPage = () => {
           )}
         </TitleContentSection>
 
-        <CouponsSection />
+        {/* Hiển thị coupon section dựa trên trạng thái có coupon code hay không */}
+        {getCartData?.result.couponCode ? (
+          <AppliedCouponSection
+            couponCode={getCartData.result.couponCode}
+            discount={getCartData.result.discount ?? 0}
+          />
+        ) : (
+          <CouponsSection />
+        )}
       </div>
 
       <div className='md:col-span-2'>

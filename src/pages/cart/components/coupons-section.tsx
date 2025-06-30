@@ -202,7 +202,7 @@ export const CouponsSection = () => {
       <AModal
         title={
           <div className='flex items-center justify-between'>
-            <span className='text-lg font-bold'>Select Shopee Voucher</span>
+            <span className='text-lg font-bold'>Select Novaris Voucher</span>
           </div>
         }
         open={isModalOpen}
