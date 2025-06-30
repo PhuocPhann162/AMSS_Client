@@ -29,6 +29,13 @@ export const cartApi = appBaseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Cart],
     }),
+    removeCoupon: build.mutation<BooleanResponse, void>({
+      query: () => ({
+        url: 'shopping-cart/remove-coupon',
+        method: 'DELETE',
+      }),
+      invalidatesTags: [TAG_TYPES.Cart],
+    }),
   }),
 });
 
@@ -36,6 +43,7 @@ export const {
   useGetCartQuery,
   useAddUpdateCartItemMutation,
   useApplyCouponMutation,
+  useRemoveCouponMutation,
 } = cartApi;
 
 export const useAuthGetCartQuery: typeof useGetCartQuery = (args, opts) => {

@@ -70,7 +70,6 @@ export const FieldList = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setfieldList(data.apiResponse.result);
       const { TotalRecords } = JSON.parse(data.totalRecords);
       setTotalRecords(TotalRecords);
