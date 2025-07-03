@@ -32,7 +32,7 @@ export const CreateCareLogModal = ({
     <>
       <Modal
         title='Create Care log'
-        destroyOnClose
+        destroyOnHidden
         afterClose={() => {
           form.resetFields();
         }}

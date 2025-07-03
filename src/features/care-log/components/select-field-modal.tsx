@@ -61,7 +61,7 @@ export const SelectFieldModal = ({
   return (
     <Modal
       title='Select Field 🌾'
-      destroyOnClose
+      destroyOnHidden
       {...props}
       classNames={{
         ...props.classNames,

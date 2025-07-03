@@ -2,16 +2,22 @@ import { Table, TableProps } from 'antd';
 import { APagination } from './a-pagination';
 import { TablePaginationConfig, TableParams } from '@/utils/models/Tables';
 import { isEqual } from 'lodash';
+import type { AnyObject } from 'antd/es/_util/type';
 
-type ATableProps = Omit<TableProps, 'onChange'> & {
+export type ATableProps<T extends AnyObject = AnyObject> = Omit<
+  TableProps<T>,
+  'onChange'
+> & {
   onChange?: (params: TableParams) => void;
   tableParams?: TableParams;
   totalRecord?: number;
 };
 
-export const ATable = (props: ATableProps) => {
+export const ATable = <T extends AnyObject = AnyObject>(
+  props: ATableProps<T>,
+) => {
   const { onChange, tableParams, totalRecord } = props;
-  const handleTableChange: TableProps['onChange'] = (_, filters, sorter) => {
+  const handleTableChange: TableProps<T>['onChange'] = (_, filters, sorter) => {
     const isFiltersChanged = !isEqual(filters, tableParams?.filters);
     if (onChange) {
       onChange({
@@ -36,7 +42,7 @@ export const ATable = (props: ATableProps) => {
   };
   return (
     <>
-      <Table
+      <Table<T>
         rowClassName={(_, idx) => (idx % 2 === 0 ? 'even-row' : '')}
         {...props}
         className='shadow-md'

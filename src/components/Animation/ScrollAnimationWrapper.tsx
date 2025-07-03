@@ -5,7 +5,11 @@ interface ScrollAnimationWrapperProps {
   className?: string;
 }
 
-export default function ScrollAnimationWrapper({ children, className, ...props }: ScrollAnimationWrapperProps) {
+export default function ScrollAnimationWrapper({
+  children,
+  className,
+  ...props
+}: ScrollAnimationWrapperProps) {
   return (
     <motion.div
       initial='offscreen'

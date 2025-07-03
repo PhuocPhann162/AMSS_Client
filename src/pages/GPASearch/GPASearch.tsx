@@ -14,7 +14,6 @@ import { motion, useInView } from 'framer-motion';
 import {
   farmDescriptionItems,
   fieldDescriptionItems,
-  getScrollAnimation,
   locationDescriptionItems,
   toastNotify,
 } from '@/helper';
@@ -77,7 +76,6 @@ export const GPASearch = () => {
   const [landValue, setLandValue] = useState<(farmModel & fieldModel) | null>(
     null,
   );
-  const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   const [isSearching, setIsSearching] = useState(false);
 
   const { data } = useGetAllSocialMetricsQuery(

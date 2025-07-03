@@ -11,7 +11,7 @@ import {
   ORDER_STATUS_SEGMENTED,
   ORDER_STATUS_FILTER,
 } from '@/helper/descriptionItems';
-import { Breadcrumb, OrderStatusTag } from '@/components/UI';
+import { OrderStatusTag } from '@/components/UI';
 import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { useGetOrdersQuery } from '@/api/order-api';
 import { GetOrdersOrderBy } from '@/models/request/order/get-orders-request';
@@ -206,6 +206,7 @@ export function OrdersManagement() {
               onChange={(params: TableParams) => {
                 setTableParams(params);
               }}
+              rowKey={(row) => row.id}
             />
           </div>
         </div>

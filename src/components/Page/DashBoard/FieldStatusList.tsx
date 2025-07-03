@@ -14,7 +14,7 @@ export const FieldStatusList = () => {
   // Start State
   const [fieldList, setfieldList] = useState<fieldModel[]>([]);
 
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     searchString: '',
     status: '',
   });
@@ -22,11 +22,11 @@ export const FieldStatusList = () => {
     searchString: '',
     status: '',
   });
-  const [pageOptions, setPageOptions] = useState<pageOptions>({
+  const [pageOptions] = useState<pageOptions>({
     pageNumber: 1,
     pageSize: 5,
   });
-  const [totalRecords, setTotalRecords] = useState(0);
+  const [, setTotalRecords] = useState(0);
   // End State
 
   const [debouncedFilter] = useDebounce(filters, 500);

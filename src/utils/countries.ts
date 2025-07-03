@@ -219,5 +219,5 @@ export const countries = [
   { code: 'VI', name: 'Virgin Islands' },
   { code: 'YE', name: 'Yemen' },
   { code: 'ZM', name: 'Zambia' },
-  { code: 'ZW', name: 'Zimbabwe' }
+  { code: 'ZW', name: 'Zimbabwe' },
 ];

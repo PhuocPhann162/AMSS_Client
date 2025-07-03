@@ -5,7 +5,6 @@ import { OrderStatus } from '@/interfaces/orders/order-header-model';
 import { useUpdateOrderMutation } from '@/api/order-api';
 import {
   CheckCircleOutlined,
-  ClockCircleOutlined,
   TruckOutlined,
   CheckOutlined,
   PlayCircleOutlined,

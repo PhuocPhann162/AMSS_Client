@@ -1,5 +1,5 @@
 import { useGetSeedCropSuppliersQuery, useChangePasswordMutation } from '@/api';
-import { AButton, ATable } from '@/common/ui-common';
+import { AButton, ATable, type ATableProps } from '@/common/ui-common';
 import {
   AFilterDropdown,
   FilterOpstion,
@@ -13,7 +13,6 @@ import { GetSuppliersResponse } from '@/models/response';
 import { RootState } from '@/storage/redux/store';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { TableParams } from '@/utils/models/Tables';
-import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
 import { FaRedoAlt, FaRegPaperPlane } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
@@ -61,113 +60,114 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
   const [changePassword, { isLoading: isResetting }] =
     useChangePasswordMutation();
 
-  const supplierCropCol: ColumnsType = useMemo(() => {
-    return [
-      {
-        width: '6rem',
-        title: 'Company Name',
-        dataIndex: 'Name',
-        sorter: true,
-        ellipsis: true,
-      },
-      {
-        width: '6rem',
-        title: 'Contact Name',
-        dataIndex: 'ContactName',
-        sorter: true,
-        ellipsis: true,
-      },
-      {
-        width: '7rem',
-        title: 'Email',
-        dataIndex: 'Email',
-        ellipsis: true,
-      },
-      {
-        width: '6rem',
-        title: 'Contact Number',
-        dataIndex: 'PhoneNumber',
-        ellipsis: true,
-        render: (_, record) => {
-          const { PhoneCode, PhoneNumber } = record;
-          return `${PhoneCode || ''} ${PhoneNumber || ''}`;
+  const supplierCropCol: ATableProps<GetSuppliersResponse>['columns'] =
+    useMemo(() => {
+      return [
+        {
+          width: '6rem',
+          title: 'Company Name',
+          dataIndex: 'Name',
+          sorter: true,
+          ellipsis: true,
         },
-      },
-      {
-        width: '6rem',
-        title: 'Country',
-        dataIndex: 'CountryName',
-        filterDropdown: (props) => (
-          <AFilterDropdown {...props} optionsFilter={countryFilters} />
-        ),
-        ellipsis: true,
-        render: (_, record) => {
-          const { CountryCode, CountryName } = record;
-          return (
-            <div className='flex items-center gap-2'>
-              <p>{flagemojiToPNG(convertToEmoji(CountryCode as string))} </p>
-              <p>{CountryName}</p>
+        {
+          width: '6rem',
+          title: 'Contact Name',
+          dataIndex: 'ContactName',
+          sorter: true,
+          ellipsis: true,
+        },
+        {
+          width: '7rem',
+          title: 'Email',
+          dataIndex: 'Email',
+          ellipsis: true,
+        },
+        {
+          width: '6rem',
+          title: 'Contact Number',
+          dataIndex: 'PhoneNumber',
+          ellipsis: true,
+          render: (_, record) => {
+            const { PhoneCode, PhoneNumber } = record;
+            return `${PhoneCode || ''} ${PhoneNumber || ''}`;
+          },
+        },
+        {
+          width: '6rem',
+          title: 'Country',
+          dataIndex: 'CountryName',
+          filterDropdown: (props) => (
+            <AFilterDropdown {...props} optionsFilter={countryFilters} />
+          ),
+          ellipsis: true,
+          render: (_, record) => {
+            const { CountryCode, CountryName } = record;
+            return (
+              <div className='flex items-center gap-2'>
+                <p>{flagemojiToPNG(convertToEmoji(CountryCode))} </p>
+                <p>{CountryName}</p>
+              </div>
+            );
+          },
+        },
+        {
+          width: '5rem',
+          title: 'Province',
+          dataIndex: 'ProvinceName',
+          sorter: true,
+          ellipsis: true,
+          render: (value: string) => value || 'N/A',
+        },
+        {
+          title: 'Created Date',
+          align: 'center',
+          width: '5rem',
+          dataIndex: 'CreatedAt',
+          sorter: true,
+          ellipsis: true,
+          render: (value: string) => displayDateTimeByLocale(value),
+        },
+        {
+          title: 'Action',
+          width: '12rem',
+          align: 'center',
+          fixed: 'right',
+          dataIndex: '_',
+          render: (_, record) => (
+            <div className='flex items-center justify-center'>
+              <AButton
+                type='link'
+                className='color-primary hover:underline'
+                aria-label='View supplier details'
+                tabIndex={0}
+                onClick={() => handleViewSupplier(record)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ')
+                    handleViewSupplier(record);
+                }}
+              >
+                <EyeOutlined /> View
+              </AButton>
+              <AButton
+                type='link'
+                className='color-primary hover:underline'
+                aria-label='Reset supplier password'
+                tabIndex={0}
+                disabled={isResetting}
+                onClick={() => handleResetPassword()}
+                onKeyDown={(e) => {
+                  if ((e.key === 'Enter' || e.key === ' ') && !isResetting)
+                    handleResetPassword();
+                }}
+              >
+                <FaRedoAlt /> {isResetting ? 'Resetting...' : 'Reset Password'}
+              </AButton>
             </div>
-          );
+          ),
         },
-      },
-      {
-        width: '5rem',
-        title: 'Province',
-        dataIndex: 'ProvinceName',
-        sorter: true,
-        ellipsis: true,
-        render: (value: string) => value || 'N/A',
-      },
-      {
-        title: 'Created Date',
-        align: 'center',
-        width: '5rem',
-        dataIndex: 'CreatedAt',
-        sorter: true,
-        ellipsis: true,
-        render: (value: string) => displayDateTimeByLocale(value),
-      },
-      {
-        title: 'Action',
-        width: '12rem',
-        align: 'center',
-        fixed: 'right',
-        dataIndex: '_',
-        render: (_, record) => (
-          <div className='flex items-center justify-center'>
-            <AButton
-              type='link'
-              className='color-primary hover:underline'
-              aria-label='View supplier details'
-              tabIndex={0}
-              onClick={() => handleViewSupplier(record)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ')
-                  handleViewSupplier(record);
-              }}
-            >
-              <EyeOutlined /> View
-            </AButton>
-            <AButton
-              type='link'
-              className='color-primary hover:underline'
-              aria-label='Reset supplier password'
-              tabIndex={0}
-              disabled={isResetting}
-              onClick={() => handleResetPassword()}
-              onKeyDown={(e) => {
-                if ((e.key === 'Enter' || e.key === ' ') && !isResetting)
-                  handleResetPassword();
-              }}
-            >
-              <FaRedoAlt /> {isResetting ? 'Resetting...' : 'Reset Password'}
-            </AButton>
-          </div>
-        ),
-      },
-    ];
-  }, [countryFilters, isResetting]);
+      ];
+    }, [countryFilters, isResetting]);
 
   useEffect(() => {
     const countryOptions = allCountries
@@ -275,6 +275,7 @@ export function SuppliersByRole(props: SuppliersByRoleProps) {
         onChange={(params: TableParams) => {
           setTableParams(params);
         }}
+        rowKey={(row) => row.Id}
       />
       <ADrawer
         open={isDrawerOpen}

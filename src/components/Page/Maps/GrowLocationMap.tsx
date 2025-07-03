@@ -323,7 +323,7 @@ const GrowLocationMap: React.FC<GrowLocationMapProps> = ({
           provider={new OpenStreetMapProvider()}
           showMarker={true}
           showPopup={false}
-          popupFormat={({ query, result }: { query: unknown; result: any }) =>
+          popupFormat={({ result }: { query: unknown; result: any }) =>
             result.label as string
           }
           maxMarkers={3}

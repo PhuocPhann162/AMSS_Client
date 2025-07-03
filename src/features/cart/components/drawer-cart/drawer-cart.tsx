@@ -43,7 +43,7 @@ export const DrawerCart = ({
     <ADrawer
       open={open}
       onClose={onClose}
-      destroyOnClose
+      destroyOnHidden
       title='Cart'
       footer={
         getCartData?.result.cartItems?.length ? (

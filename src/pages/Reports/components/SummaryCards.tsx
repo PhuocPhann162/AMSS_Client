@@ -78,9 +78,9 @@ export const SummaryCards: FC<{
   ];
   return (
     <Row gutter={[16, 16]}>
-      {summaryData.map((item, idx) => (
+      {summaryData.map((item) => (
         <Col xs={24} sm={12} md={6} key={item.title}>
-          <Card className='rounded-lg shadow' bordered={false}>
+          <Card className='rounded-lg shadow' variant='borderless'>
             {loading ? (
               <Skeleton active paragraph={false} />
             ) : (

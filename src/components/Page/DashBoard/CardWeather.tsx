@@ -16,9 +16,12 @@ const CardWeather: React.FC<CardWeatherProps> = ({ forecast }) => {
       <div>
         <h2 className='flex items-center gap-2'>
           Weather of {forecast.name},{' '}
-          <span className='font-thin'> {flagemojiToPNG(convertToEmoji(forecast.country))}</span>
+          <span className='font-thin'>
+            {' '}
+            {flagemojiToPNG(convertToEmoji(forecast.country))}
+          </span>
         </h2>
-        <h1 className='text-4xl font-semibold flex items-center'>
+        <h1 className='flex items-center text-4xl font-semibold'>
           <Degree temp={Math.round(forecast.list[0].main.temp)} />C
           <img
             alt={`weather-icon-${forecast.list[0].weather[0].description}`}
@@ -27,10 +30,12 @@ const CardWeather: React.FC<CardWeatherProps> = ({ forecast }) => {
         </h1>
         <div className='flex items-center justify-between pb-1'>
           <p className='text-base font-semibold'>
-            {forecast.list[0].weather[0].main} ({forecast.list[0].weather[0].description})
+            {forecast.list[0].weather[0].main} (
+            {forecast.list[0].weather[0].description})
           </p>
           <p className='text-sm'>
-            Feels like: <Degree temp={Math.round(forecast.list[0].main.feels_like)} />C{' '}
+            Feels like:{' '}
+            <Degree temp={Math.round(forecast.list[0].main.feels_like)} />C{' '}
           </p>
         </div>
 
@@ -45,16 +50,22 @@ const CardWeather: React.FC<CardWeatherProps> = ({ forecast }) => {
         <div className='flex items-center justify-between pb-1'>
           <p className='text-sm'>Humidity: {forecast.list[0].main.humidity}%</p>
           <p className='text-sm'>
-            1-Hr Precip: {forecast.list[0].rain?.['1h'] ?? forecast.list[0].rain?.['3h'] ?? 0} mm
+            1-Hr Precip:{' '}
+            {forecast.list[0].rain?.['1h'] ??
+              forecast.list[0].rain?.['3h'] ??
+              0}{' '}
+            mm
           </p>
         </div>
 
-        <div className='text-sm flex items-center justify-between pb-1'>
+        <div className='flex items-center justify-between pb-1 text-sm'>
           <p className='flex items-center gap-1'>
-            <Sunrise /> <span className='mt-2'>{getSunTime(forecast.sunrise)}</span>
+            <Sunrise />{' '}
+            <span className='mt-2'>{getSunTime(forecast.sunrise)}</span>
           </p>
           <p className='flex items-center gap-1'>
-            <Sunset /> <span className='mt-2'>{getSunTime(forecast.sunset)}</span>
+            <Sunset />{' '}
+            <span className='mt-2'>{getSunTime(forecast.sunset)}</span>
           </p>
         </div>
       </div>

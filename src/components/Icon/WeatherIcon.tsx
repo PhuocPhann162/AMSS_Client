@@ -1,6 +1,11 @@
 export const PrecipiIcon = (): JSX.Element => {
   return (
-    <svg className='h-3' viewBox='0 0 10 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      className='h-3'
+      viewBox='0 0 10 11'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <path
         d='M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z'
         fill='currentColor'
@@ -31,7 +36,7 @@ export const SpeedIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5 mx-3 text-gray-400 dark:text-gray-600'
+      className='mx-3 h-5 w-5 text-gray-400 dark:text-gray-600'
     >
       <path
         strokeLinecap='round'
@@ -44,7 +49,11 @@ export const SpeedIcon = (): JSX.Element => {
 
 export const ForecastIcon = (): JSX.Element => {
   return (
-    <svg xmlns='http://www.w3.org/2000/svg' className='w-5 h-5' viewBox='0 0 24 24'>
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      className='h-5 w-5'
+      viewBox='0 0 24 24'
+    >
       <title>clouds_line</title>
       <g id='clouds_line' fill='none' fillRule='evenodd'>
         <path d='M24 0v24H0V0h24ZM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019 0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01-.184-.092Z' />
@@ -65,9 +74,13 @@ export const CreateIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
-      <path strokeLinecap='round' strokeLinejoin='round' d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z' />
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+      />
     </svg>
   );
 };
@@ -80,7 +93,7 @@ export const EditTableIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
       <path
         strokeLinecap='round'

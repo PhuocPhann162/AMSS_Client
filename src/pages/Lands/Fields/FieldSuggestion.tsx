@@ -12,7 +12,7 @@ export const FieldSuggestion = () => {
   const [fieldData, setFieldData] = useState<fieldModel>();
   const [plantList, setPlantList] = useState<plantSuggestModel[]>();
   const { id } = useParams();
-  const { data, isLoading } = useGetFieldByIdQuery(id);
+  const { data } = useGetFieldByIdQuery(id);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   useEffect(() => {

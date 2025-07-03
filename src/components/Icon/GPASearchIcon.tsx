@@ -23,7 +23,12 @@ export const GPAHomeIcon = () => {
 
 export const UploadIcon = () => {
   return (
-    <svg className='w-24 h-24' viewBox='0 0 120 84' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      className='h-24 w-24'
+      viewBox='0 0 120 84'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <path
         d='M100.8 36.4875C101.569 34.4813 102 32.2875 102 30C102 20.0625 93.9375 12 84 12C80.3062 12 76.8563 13.125 74.0063 15.0375C68.8125 6.0375 59.1187 0 48 0C31.425 0 18 13.425 18 30C18 30.5063 18.0187 31.0125 18.0375 31.5188C7.5375 35.2125 0 45.225 0 57C0 71.9062 12.0938 84 27 84H96C109.256 84 120 73.2562 120 60C120 48.3937 111.75 38.7 100.8 36.4875ZM73.7625 48H61.5V69C61.5 70.65 60.15 72 58.5 72H49.5C47.85 72 46.5 70.65 46.5 69V48H34.2375C31.5563 48 30.225 44.775 32.1188 42.8813L51.8813 23.1188C53.0438 21.9563 54.9562 21.9563 56.1187 23.1188L75.8813 42.8813C77.775 44.775 76.425 48 73.7625 48V48Z'
         fill='#5E9BFF'
@@ -34,7 +39,12 @@ export const UploadIcon = () => {
 
 export const ImportIcon = () => {
   return (
-    <svg className='h-5 w-5' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      className='h-5 w-5'
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <g id='System / Data'>
         <path
           id='Vector'
@@ -51,7 +61,12 @@ export const ImportIcon = () => {
 
 export const FileIcon = () => {
   return (
-    <svg className='w-24 h-24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      className='h-24 w-24'
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <path
         fillRule='evenodd'
         clipRule='evenodd'
@@ -64,7 +79,12 @@ export const FileIcon = () => {
 
 export const DownloadIcon = () => {
   return (
-    <svg className='w-4 h-4' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      className='h-4 w-4'
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <path
         fillRule='evenodd'
         clipRule='evenodd'
@@ -80,7 +100,7 @@ export const DeleteFileIcon = () => {
     <svg
       fill='currentColor'
       xmlns='http://www.w3.org/2000/svg'
-      className='w-5 h-5'
+      className='h-5 w-5'
       viewBox='0 0 52 52'
       enableBackground='new 0 0 52 52'
       xmlSpace='preserve'
@@ -103,7 +123,7 @@ export const DeleteFileIcon = () => {
 export const FileBackgroundIcon = () => {
   return (
     <svg
-      className='w-60 h-60'
+      className='h-60 w-60'
       viewBox='0 0 435 435'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -111,7 +131,12 @@ export const FileBackgroundIcon = () => {
     >
       <rect width='435' height='435' fill='url(#pattern0_3_113)' />
       <defs>
-        <pattern id='pattern0_3_113' patternContentUnits='objectBoundingBox' width='1' height='1'>
+        <pattern
+          id='pattern0_3_113'
+          patternContentUnits='objectBoundingBox'
+          width='1'
+          height='1'
+        >
           <use xlinkHref='#image0_3_113' transform='scale(0.0015625)' />
         </pattern>
         <image

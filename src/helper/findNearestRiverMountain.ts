@@ -5,7 +5,7 @@ export const findNearestRiver = async (latitude: number, longitude: number) => {
     let river: string = '';
     await fetch(overpassUrl, {
       method: 'POST',
-      body: query
+      body: query,
     })
       .then((response) => response.json())
       .then((data: any) => {

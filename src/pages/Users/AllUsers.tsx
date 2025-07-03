@@ -1,12 +1,12 @@
 import { useGetCustomersQuery, useLockUnLockUserMutation } from '@/api';
-import { AButton, ATable } from '@/common/ui-common';
+import { AButton, ATable, type ATableProps } from '@/common/ui-common';
 import {
   AFilterDropdown,
   FilterOpstion,
 } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { CreateIcon } from '@/components/Icon';
 import { PageCommon } from '@/components/layout/page/page-common';
-import { Breadcrumb, SearchInput } from '@/components/UI';
+import { SearchInput } from '@/components/UI';
 import { PopupConfirmation } from '@/components/UI/modal';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
@@ -17,7 +17,6 @@ import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { convertToEmoji, flagemojiToPNG } from '@/utils/convertEmoji';
 import { TableParams } from '@/utils/models/Tables';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
-import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -69,7 +68,7 @@ export const AllUsers = () => {
     }
   };
 
-  const userCol: ColumnsType = useMemo(() => {
+  const userCol: ATableProps<GetUsersResponse>['columns'] = useMemo(() => {
     return [
       {
         width: '6rem',
@@ -114,7 +113,7 @@ export const AllUsers = () => {
           const { CountryCode, CountryName } = record;
           return (
             <div className='flex items-center gap-2'>
-              <p>{flagemojiToPNG(convertToEmoji(CountryCode as string))} </p>
+              <p>{flagemojiToPNG(convertToEmoji(CountryCode))} </p>
               <p>{CountryName}</p>
             </div>
           );
@@ -266,6 +265,7 @@ export const AllUsers = () => {
             onChange={(params: TableParams) => {
               setTableParams(params);
             }}
+            rowKey={(row) => row.Id}
           />
         </div>
       </PageCommon>

@@ -1,17 +1,26 @@
 import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
 import toastNotify from './toastNotify';
 
-export const inputWordTypeAnalysis = async (input: string, language?: string) => {
+export const inputWordTypeAnalysis = async (
+  input: string,
+  language?: string,
+) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_VNLP_CORE_URL}/analyze`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+    const response = await fetch(
+      `${import.meta.env.VITE_VNLP_CORE_URL}/analyze`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sentence: input, language }),
       },
-      body: JSON.stringify({ sentence: input, language })
-    });
+    );
     if (!response.ok) {
-      toastNotify('Please input your sentence to fetch VNLP Core data', 'error');
+      toastNotify(
+        'Please input your sentence to fetch VNLP Core data',
+        'error',
+      );
     }
     const responseData = await response.json();
 

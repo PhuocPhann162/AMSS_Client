@@ -84,7 +84,7 @@ export const OrderDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [, setRefreshKey] = useState(0);
   const userState = useAppSelector((state) => state.auth.user);
   const isAdmin = userState?.role === ROLE.ADMIN;
   const { data: orderResponse, isLoading } = useGetOrderDetailQuery(

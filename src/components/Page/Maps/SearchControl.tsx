@@ -25,7 +25,7 @@ export const SearchControl: React.FC<SearchControlProps> = ({
   animateZoom,
   autoClose,
   searchLabel,
-  keepResult
+  keepResult,
 }) => {
   const map = useMap();
 
@@ -40,7 +40,7 @@ export const SearchControl: React.FC<SearchControlProps> = ({
       animateZoom: animateZoom,
       autoClose: autoClose,
       searchLabel: searchLabel,
-      keepResult: keepResult
+      keepResult: keepResult,
     });
 
     map.addControl(searchControl);

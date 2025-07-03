@@ -4,7 +4,7 @@ import { SD_BASE_WEATHER_URL } from '@/utils/SD';
 const getForecast = async (data: optionType): Promise<forecastType> => {
   try {
     const response = await fetch(
-      `${SD_BASE_WEATHER_URL}/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&lang=en&appid=${import.meta.env.VITE_APP_NAME}`
+      `${SD_BASE_WEATHER_URL}/data/2.5/forecast?lat=${data.lat}&lon=${data.lon}&units=metric&lang=en&appid=${import.meta.env.VITE_APP_NAME}`,
     );
 
     if (!response.ok) {
@@ -15,7 +15,7 @@ const getForecast = async (data: optionType): Promise<forecastType> => {
 
     const forecast: forecastType = {
       ...responseData.city,
-      list: responseData.list.slice(0, 16)
+      list: responseData.list.slice(0, 16),
     };
 
     return forecast;

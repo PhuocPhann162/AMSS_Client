@@ -1,6 +1,11 @@
 export const SortIcon = (): JSX.Element => {
   return (
-    <svg className='h-3' viewBox='0 0 10 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      className='h-3'
+      viewBox='0 0 10 11'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <path
         d='M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z'
         fill='currentColor'
@@ -31,7 +36,7 @@ export const SearchIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5 mx-3 text-gray-400 dark:text-gray-600'
+      className='mx-3 h-5 w-5 text-gray-400 dark:text-gray-600'
     >
       <path
         strokeLinecap='round'
@@ -50,7 +55,7 @@ export const ExpandIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-6 h-6'
+      className='h-6 w-6'
     >
       <path
         strokeLinecap='round'
@@ -69,9 +74,13 @@ export const CreateIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
-      <path strokeLinecap='round' strokeLinejoin='round' d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z' />
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+      />
     </svg>
   );
 };
@@ -84,7 +93,7 @@ export const EditTableIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
       <path
         strokeLinecap='round'
@@ -103,7 +112,7 @@ export const EditExpandIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
       <path
         strokeLinecap='round'
@@ -122,7 +131,7 @@ export const DeleteIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
       <path
         strokeLinecap='round'
@@ -141,9 +150,13 @@ export const MarkerIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-6 h-6'
+      className='h-6 w-6'
     >
-      <path strokeLinecap='round' strokeLinejoin='round' d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+      />
       <path
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -161,14 +174,18 @@ export const DetailIcon = (): JSX.Element => {
       viewBox='0 0 24 24'
       strokeWidth='1.5'
       stroke='currentColor'
-      className='w-5 h-5'
+      className='h-5 w-5'
     >
       <path
         strokeLinecap='round'
         strokeLinejoin='round'
         d='M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z'
       />
-      <path strokeLinecap='round' strokeLinejoin='round' d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z' />
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+      />
     </svg>
   );
 };
