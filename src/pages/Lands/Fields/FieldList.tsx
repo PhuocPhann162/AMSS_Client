@@ -12,7 +12,6 @@ import {
   SortIcon,
 } from '@/components/Icon';
 import { MainLoader } from '@/components/Page/common';
-import { Breadcrumb } from '@/components/UI';
 
 import { getStatusColor, inputHelper } from '@/helper';
 import { fieldModel, pageOptions } from '@/interfaces';

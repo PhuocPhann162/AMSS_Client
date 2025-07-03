@@ -4,26 +4,27 @@ export function useGeolocation() {
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState({
     lat: 0,
-    lng: 0
+    lng: 0,
   });
   const [error, setError] = useState('');
 
   function getPosition() {
-    if (!navigator.geolocation) return setError('Your browser does not support geolocation');
+    if (!navigator.geolocation)
+      return setError('Your browser does not support geolocation');
 
     setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setPosition({
           lat: pos.coords.latitude,
-          lng: pos.coords.longitude
+          lng: pos.coords.longitude,
         });
         setIsLoading(false);
       },
       (error) => {
         setError(error.message);
         setIsLoading(false);
-      }
+      },
     );
   }
 

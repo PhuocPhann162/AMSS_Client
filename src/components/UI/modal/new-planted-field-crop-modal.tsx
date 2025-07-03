@@ -46,7 +46,7 @@ export const NewPlantedFieldCropModal = ({
     (cropModel & { type?: string; typeName?: string })[]
   >([]);
   const [cropTypes, setCropTypes] = useState<string[]>([]);
-  const [allCrops, setAllCrops] = useState<
+  const [, setAllCrops] = useState<
     (cropModel & { type?: string; typeName?: string })[]
   >([]);
   const [createPlanting] = useAddCropPlatingMutation();

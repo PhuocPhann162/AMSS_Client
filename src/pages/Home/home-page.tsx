@@ -1,7 +1,20 @@
 import { ChatFloatButton } from '@/components/UI';
-import { CommodityCategoriesIntroSection } from '@/pages/Home/components/commodity-categories-intro-section';
 import { FarmManagementIntroSection } from '@/pages/Home/components/farm-management-intro-section';
-import { Hero } from '@/pages/Home/components/hero';
+import { lazy } from 'react';
+
+const Hero = lazy(() =>
+  import('@/pages/Home/components/hero').then((module) => ({
+    default: module.Hero,
+  })),
+);
+
+const CommodityCategoriesIntroSection = lazy(() =>
+  import('@/pages/Home/components/commodity-categories-intro-section').then(
+    (module) => ({
+      default: module.CommodityCategoriesIntroSection,
+    }),
+  ),
+);
 
 export default function HomePage() {
   return (

@@ -2,7 +2,6 @@ import { apiResponse, locationModel, pointModel } from '@/interfaces';
 import * as turf from '@turf/turf';
 import { useUpdateFieldMutation } from '@/api';
 import { toastNotify } from '@/helper';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { MiniLoader } from '../common';
 import { useUrlPosition } from '@/hooks';
@@ -20,7 +19,6 @@ export const UpdateLandModal = ({
 }: UpdateLandModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fieldId] = useUrlPosition();
-  const navigate = useNavigate();
   const [updateField] = useUpdateFieldMutation();
 
   const handleUpdate = async () => {

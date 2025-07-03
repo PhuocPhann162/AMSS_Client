@@ -1,7 +1,9 @@
 import { PROVINCE_CODES } from '@/constants/provinceTemplate';
 import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
 
-export const findProvinceCode = (analysis: vnlpAnalysisModel[]): string | null => {
+export const findProvinceCode = (
+  analysis: vnlpAnalysisModel[],
+): string | null => {
   const propnWords: string[] = [];
   for (const item of analysis) {
     if (item.pos === 'PROPN') {

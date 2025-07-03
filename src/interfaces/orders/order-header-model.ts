@@ -15,7 +15,7 @@ export enum OrderStatus {
 export type OrderStatusKey = keyof typeof OrderStatus;
 
 export interface OrderHeader {
-  id?: string;
+  id: string;
   applicationUserId?: string;
   pickupName?: string;
   pickupPhoneNumber?: string;

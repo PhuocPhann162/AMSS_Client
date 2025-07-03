@@ -6,4 +6,3 @@ export * from './meta-data';
 export * from './id-response';
 export * from './boolean-response';
 export * from './commodity';
-

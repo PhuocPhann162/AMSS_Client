@@ -30,7 +30,7 @@ export const SelectTypeModal = ({
   return (
     <Modal
       title='Select Type 💧'
-      destroyOnClose
+      destroyOnHidden
       {...props}
       classNames={{
         ...props.classNames,

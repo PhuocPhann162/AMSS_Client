@@ -37,7 +37,7 @@ export const SimpleTable = <T extends AnyObject = AnyObject>(
           : false
       }
       rootClassName={twMerge(
-        'min-h-0 flex',
+        'flex min-h-0',
         antTableBodyClassName,
         antTableHeaderClassName,
         antTableContainerClassName,

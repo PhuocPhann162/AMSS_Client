@@ -12,7 +12,10 @@ const AccessDenied = () => {
       subTitle='Sorry, you are not authorized to access this page.'
       className='h-screen'
       extra={
-        <AButton type='default' onClick={() => navigate('/', { replace: true })}>
+        <AButton
+          type='default'
+          onClick={() => navigate('/', { replace: true })}
+        >
           Back Home
         </AButton>
       }

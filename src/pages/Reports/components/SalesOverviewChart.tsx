@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import { Line, Bar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart,
   CategoryScale,

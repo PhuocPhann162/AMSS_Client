@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import { useGetAllCropTypesQuery } from '@/api';
@@ -194,11 +194,8 @@ export const CropTypeList = () => {
                         </thead>
                         <tbody className='bg-white'>
                           {cropTypeList.map((ct: cropTypeModel) => (
-                            <>
-                              <tr
-                                key={ct.id}
-                                className='border-b border-zinc-100 bg-zinc-100 font-bold'
-                              >
+                            <Fragment key={ct.id}>
+                              <tr className='border-b border-zinc-100 bg-zinc-100 font-bold'>
                                 <td className='whitespace-nowrap border-r border-zinc-100 px-3 py-4 text-sm'></td>
                                 <td className='whitespace-nowrap px-4 py-4 text-sm'>
                                   <div>
@@ -252,15 +249,17 @@ export const CropTypeList = () => {
                                       <div className='flex items-center gap-1'>
                                         {crop.fieldCrops &&
                                           crop?.fieldCrops.length >= 1 &&
-                                          crop.fieldCrops?.map((fieldCrop) => (
-                                            <Link
-                                              key={fieldCrop.id}
-                                              to={`/app/map?lat=${fieldCrop.field.location?.lat}&lng=${fieldCrop.field.location?.lng}`}
-                                              className={`mr-auto inline-flex items-center rounded-lg bg-zinc-100 px-4 py-3 text-center align-baseline text-sm leading-none text-slate-600 underline hover:text-primary`}
-                                            >
-                                              {fieldCrop.field?.name}
-                                            </Link>
-                                          ))}
+                                          crop.fieldCrops?.map(
+                                            (fieldCrop, index) => (
+                                              <Link
+                                                key={index}
+                                                to={`/app/map?lat=${fieldCrop.field.location?.lat}&lng=${fieldCrop.field.location?.lng}`}
+                                                className={`mr-auto inline-flex items-center rounded-lg bg-zinc-100 px-4 py-3 text-center align-baseline text-sm leading-none text-slate-600 underline hover:text-primary`}
+                                              >
+                                                {fieldCrop.field?.name}
+                                              </Link>
+                                            ),
+                                          )}
                                       </div>
                                     </div>
                                   </td>
@@ -289,7 +288,7 @@ export const CropTypeList = () => {
                                   </td>
                                 </tr>
                               ))}
-                            </>
+                            </Fragment>
                           ))}
                         </tbody>
                       </table>

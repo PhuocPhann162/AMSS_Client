@@ -4,4 +4,10 @@ import { DailyWeather } from './DailyWeather';
 import CardDataStats from './CardDataStats';
 import { FieldStatusList } from './FieldStatusList';
 
-export { CardWeather, SearchWeather, DailyWeather, CardDataStats, FieldStatusList };
+export {
+  CardWeather,
+  SearchWeather,
+  DailyWeather,
+  CardDataStats,
+  FieldStatusList,
+};

@@ -14,7 +14,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     userName: '',

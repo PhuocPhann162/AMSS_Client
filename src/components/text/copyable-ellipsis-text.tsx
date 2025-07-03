@@ -41,7 +41,7 @@ export const CopyableEllipsisText = ({
   return (
     <Tooltip
       title={textToCopy ? (copied ? 'Copied' : 'Copy') : undefined}
-      destroyTooltipOnHide
+      destroyOnHidden
     >
       <EllipsisText
         ellipsis={true}

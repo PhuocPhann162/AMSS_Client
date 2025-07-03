@@ -45,7 +45,6 @@ const AddPlanting: React.FC<AddPlantingProps> = ({
   locationId,
   locationName,
   onPlantingAdded,
-  bedId,
   bedName,
 }) => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);

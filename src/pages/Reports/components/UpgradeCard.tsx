@@ -4,7 +4,7 @@ import type { FC } from 'react';
 export const UpgradeCard: FC = () => (
   <Card
     className='h-full rounded-lg border-0 bg-gradient-to-r from-pink-100 to-blue-100 shadow'
-    bordered={false}
+    variant={'borderless'}
   >
     <div className='flex h-full flex-col items-start justify-between gap-2'>
       <Typography.Title level={5} className='!mb-1 !text-pink-600'>

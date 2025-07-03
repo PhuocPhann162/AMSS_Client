@@ -1,18 +1,22 @@
 import { useGetCommoditiesQuery } from '@/api';
-import { AButton, ASegmented, ATable } from '@/common/ui-common';
+import {
+  AButton,
+  ASegmented,
+  ATable,
+  type ATableProps,
+} from '@/common/ui-common';
 import { SearchInput } from '@/components/UI/search-input';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
 import { apiResponse, Commodity, CommodityCategory } from '@/interfaces';
 import { TableParams } from '@/utils/models/Tables';
-import { ColumnsType } from 'antd/es/table';
 import { useEffect, useMemo, useState } from 'react';
 import {
   COMMODITIES_CATEGORY_SEGMENTED,
   COMMODITY_STATUS_FILTER,
 } from '@/helper/descriptionItems';
-import { Breadcrumb, CommodityStatusTag } from '@/components/UI';
+import { CommodityStatusTag } from '@/components/UI';
 import { CommodityOrderBy } from '@/models';
 import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { ViewCommodityModal } from '@/components/UI/modal/view-commodity-modal';
@@ -76,7 +80,7 @@ export function CommodityManagement() {
     setSelectedCommodityId('');
   };
 
-  const commoditiesCol: ColumnsType = useMemo(() => {
+  const commoditiesCol: ATableProps<Commodity>['columns'] = useMemo(() => {
     return [
       {
         width: '10rem',
@@ -88,8 +92,8 @@ export function CommodityManagement() {
           <div className='flex items-center'>
             {record.image && (
               <img
-                src={record.image as string}
-                alt={record.name as string}
+                src={record.image}
+                alt={record.name}
                 className='mr-2 h-8 w-8 rounded-full object-cover'
               />
             )}
@@ -149,7 +153,7 @@ export function CommodityManagement() {
           <AButton
             type='link'
             className='color-primary hover:underline'
-            onClick={() => handleViewCommodity(record as Commodity)}
+            onClick={() => handleViewCommodity(record)}
             aria-label='View commodity'
           >
             View
@@ -244,6 +248,7 @@ export function CommodityManagement() {
               onChange={(params: TableParams) => {
                 setTableParams(params);
               }}
+              rowKey={(row) => row.id}
             />
           </div>
         </div>

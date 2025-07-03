@@ -4,15 +4,20 @@ import { SearchControl } from './SearchControl';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 const WeatherMap = () => {
-  const [center, setCenter] = useState([19.076, 72.8777]);
+  const [center] = useState([19.076, 72.8777]);
 
   const maps = (
-    <MapContainer center={{ lat: center[0], lng: center[1] }} zoom={12} scrollWheelZoom={true} className='h-[38rem]'>
+    <MapContainer
+      center={{ lat: center[0], lng: center[1] }}
+      zoom={12}
+      scrollWheelZoom={true}
+      className='h-[38rem]'
+    >
       <SearchControl
         provider={new OpenStreetMapProvider()}
         showMarker={true}
         showPopup={false}
-        popupFormat={({ query, result }: { query: any; result: any }) => result.label}
+        popupFormat={({ result }: { query: any; result: any }) => result.label}
         maxMarkers={3}
         retainZoomLevel={false}
         animateZoom={true}
@@ -59,7 +64,7 @@ const WeatherMap = () => {
     </MapContainer>
   );
 
-  return <div className='h-full relative flex-1 overflow-hidden'>{maps}</div>;
+  return <div className='relative h-full flex-1 overflow-hidden'>{maps}</div>;
 };
 
 export default WeatherMap;

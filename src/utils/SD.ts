@@ -2,12 +2,12 @@ export enum SD_Roles {
   ADMIN = 'ADMIN',
   OWNER = 'OWNER',
   FARMER = 'FARMER',
-  CLIENT = 'CLIENT'
+  CLIENT = 'CLIENT',
 }
 
 export enum SD_PlaceType {
   FARM = 'Farm',
-  FIELD = 'Field'
+  FIELD = 'Field',
 }
 
 export enum SD_FieldStatus {
@@ -16,7 +16,7 @@ export enum SD_FieldStatus {
   NEEDS_CARE = 'Needs Care',
   AWAITING_HARVEST = 'Awaiting Harvest',
   HARVESTING = 'Harvesting',
-  RECOVERY_NEEDED = 'Recovery Needed'
+  RECOVERY_NEEDED = 'Recovery Needed',
 }
 
 export const SD_BASE_WEATHER_URL = 'http://api.openweathermap.org';

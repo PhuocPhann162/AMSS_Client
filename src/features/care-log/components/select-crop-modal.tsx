@@ -56,7 +56,7 @@ export const SelectCropModal = ({
   return (
     <Modal
       title='Select Crop 🌱'
-      destroyOnClose
+      destroyOnHidden
       {...props}
       classNames={{
         ...props.classNames,

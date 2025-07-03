@@ -24,7 +24,7 @@ interface forecastType {
           main: string;
           icon: string;
           description: string;
-        }
+        },
       ];
       wind: {
         speed: number;
@@ -40,7 +40,7 @@ interface forecastType {
       };
       pop: number;
       visibility: number;
-    }
+    },
   ];
   sunrise: number;
   sunset: number;
@@ -64,7 +64,7 @@ interface airPollutionType {
         pm10: number;
         nh3: number;
       };
-    }
+    },
   ];
 }
 

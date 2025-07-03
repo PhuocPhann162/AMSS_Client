@@ -9,7 +9,7 @@ export const AImage = (props: AImageProps) => (
     preview={
       typeof props.preview === 'boolean'
         ? props.preview
-        : { destroyOnClose: true, ...props.preview }
+        : { destroyOnHidden: true, ...props.preview }
     }
     className={twMerge('h-full object-cover', props.className)}
   />
