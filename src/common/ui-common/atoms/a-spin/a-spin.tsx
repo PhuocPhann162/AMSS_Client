@@ -1,11 +1,9 @@
-import { LoadingOutlined } from '@ant-design/icons';
-import Spin, { type SpinProps } from 'antd/es/spin';
-import { type FC } from 'react';
+import { Spin, type SpinProps } from 'antd';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ASpinProps extends SpinProps {}
+export type ASpinProps = SpinProps;
 
-export const ASpin: FC<ASpinProps> = ({
-  indicator = <LoadingOutlined style={{ fontSize: 48 }} spin />,
+export const ASpin = ({
+  indicator = <AiOutlineLoading3Quarters className='size-12' />,
   ...props
-}) => <Spin indicator={indicator} {...props} />;
+}: ASpinProps) => <Spin indicator={indicator} spinning {...props} />;

@@ -6,7 +6,6 @@ import {
   GetSuppliersResponse,
   PaginationResponse,
 } from '@/models/response';
-import type { GetCropsBySupplierResponse } from '@/models/response/supplier/get-crops-by-supplier-response';
 
 export const supplierApi = appBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -36,15 +35,8 @@ export const supplierApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.Suppliers],
     }),
-    getCropsBySupplier: builder.query<GetCropsBySupplierResponse, void>({
-      query: () => `suppliers/get-crops`,
-      providesTags: [TAG_TYPES.Suppliers],
-    }),
   }),
 });
 
-export const {
-  useGetSeedCropSuppliersQuery,
-  useGetSuppliersByRoleQuery,
-  useGetCropsBySupplierQuery,
-} = supplierApi;
+export const { useGetSeedCropSuppliersQuery, useGetSuppliersByRoleQuery } =
+  supplierApi;

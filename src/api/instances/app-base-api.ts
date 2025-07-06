@@ -20,6 +20,7 @@ export const TAG_TYPES = {
   Coupons: 'Coupons',
   Chats: 'Chats',
   Reports: 'Reports',
+  CareLogs: 'CareLogs',
 } as const;
 
 export const appBaseApi = createApi({

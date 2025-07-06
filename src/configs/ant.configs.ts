@@ -15,12 +15,12 @@ export const themeConfig: ThemeConfig = {
       borderRadius: 8,
     },
     Segmented: {
-      itemActiveBg: '#d2ebe2',
-      itemHoverBg: '#d2ebe2',
-      itemSelectedBg: '#c4ecdd',
+      itemActiveBg: colors['Green'][100],
+      itemHoverBg: colors['Green'][100],
+      itemSelectedBg: colors['Green'][200],
       trackBg: '#ffffff',
       trackPadding: 0,
-      itemColor: 'rgba(0, 0, 0, 0.33)',
+      itemColor: colors['Neutral'][500],
     },
     Menu: {
       itemBorderRadius: 8,
@@ -31,10 +31,6 @@ export const themeConfig: ThemeConfig = {
     Tag: {
       defaultBg: colors['Green'][100],
       defaultColor: colors['Green'][700],
-    },
-    Typography: {
-      titleMarginBottom: 0,
-      titleMarginTop: 0,
     },
   },
 };
