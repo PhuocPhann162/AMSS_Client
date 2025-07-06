@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import { Button, Card, Modal, Input, type ModalProps, Form } from 'antd';
-import { SelectCropModal } from '@/features/care-log/components/select-crop-modal';
-import { SelectFieldModal } from '@/features/care-log/components/select-field-modal';
-import { SelectTypeModal } from '@/features/care-log/components/select-type-modal';
+import { Modal, Input, type ModalProps, Form } from 'antd';
 import { MyDatePicker } from '@/components/date-picker/date-picker';
 import { SimpleFormItem } from '@/components/form/simple-form-item';
 import type { CreateCareLogRequest } from '@/models/request/care-log/create-care-log-request';
 import { useCreateCareLogMutation } from '@/api/care-log-api';
 import { useAntMessage } from '@/contexts/ant-message/use-ant-message';
-import { TypeTag } from '@/features/care-log/components/type-tag';
+import { FieldByCropSelect } from '@/features/care-log/components/field-by-crop-select';
+import { CropSelect } from '@/features/care-log/components/crop-select';
+import { TypeSelect } from '@/features/care-log/components/type-select';
 
 interface CreateCareLogModalProps extends Omit<ModalProps, 'onOk'> {
   onSuccess?: () => void;
@@ -19,10 +17,6 @@ export const CreateCareLogModal = ({
   ...props
 }: CreateCareLogModalProps) => {
   const antMessage = useAntMessage();
-
-  const [openSelectCropModal, setOpenSelectCropModal] = useState(false);
-  const [openSelectFieldModal, setOpenSelectFieldModal] = useState(false);
-  const [openSelectTypeModal, setOpenSelectTypeModal] = useState(false);
 
   const [form] = Form.useForm<CreateCareLogRequest>();
 
@@ -43,9 +37,14 @@ export const CreateCareLogModal = ({
           try {
             const values = await form.validateFields();
 
-            await createCareLog(values);
-            antMessage.api.success('Created care log');
-            onSuccess?.();
+            try {
+              await createCareLog(values).unwrap();
+              antMessage.api.success('Created care log');
+              onSuccess?.();
+            } catch (error) {
+              antMessage.api.error('Failed to create care log');
+              console.error(error);
+            }
           } catch (error) {
             console.error(error);
           }
@@ -54,90 +53,42 @@ export const CreateCareLogModal = ({
       >
         <Form form={form} layout='vertical'>
           <div className='flex flex-col gap-6'>
-            <SimpleFormItem<CreateCareLogRequest> noStyle shouldUpdate>
-              {(form) => {
-                const cropIdError = form.getFieldError(['cropId']);
-
-                return (
-                  <SimpleFormItem
-                    name='cropId'
-                    rules={[{ required: true, message: 'Please select Crop' }]}
-                  >
-                    <Card
-                      title={'Select Crop'}
-                      className={cropIdError.length > 0 ? 'border-red-500' : ''}
-                      extra={
-                        <Button
-                          onClick={() => {
-                            setOpenSelectCropModal(true);
-                          }}
-                        >
-                          Click to select
-                        </Button>
-                      }
-                    ></Card>
-                  </SimpleFormItem>
-                );
-              }}
+            <SimpleFormItem<CreateCareLogRequest>
+              name={'cropId'}
+              label='Crop'
+              rules={[{ required: true }]}
+            >
+              <CropSelect />
             </SimpleFormItem>
-            <SimpleFormItem<CreateCareLogRequest> noStyle shouldUpdate>
-              {(form) => {
-                const fieldIdError = form.getFieldError(['fieldId']);
-
-                return (
-                  <SimpleFormItem<CreateCareLogRequest>
-                    name='fieldId'
-                    rules={[{ required: true, message: 'Please select Field' }]}
-                  >
-                    <Card
-                      title={'Select Field'}
-                      extra={
-                        <Button
-                          onClick={() => {
-                            setOpenSelectFieldModal(true);
-                          }}
-                        >
-                          Click to select
-                        </Button>
-                      }
-                      className={
-                        fieldIdError.length > 0 ? 'border-red-500' : ''
-                      }
-                    ></Card>
-                  </SimpleFormItem>
-                );
+            <SimpleFormItem<CreateCareLogRequest>
+              noStyle
+              shouldUpdate={(prev, curr) => {
+                return prev.cropId !== curr.cropId;
               }}
-            </SimpleFormItem>
-            <SimpleFormItem<CreateCareLogRequest> noStyle shouldUpdate>
-              {(form) => {
-                const type = form.getFieldValue('type') as
-                  | CreateCareLogRequest['type']
+            >
+              {() => {
+                const cropId = form.getFieldValue('cropId') as
+                  | CreateCareLogRequest['cropId']
                   | undefined;
-                const typeError = form.getFieldError(['type']);
 
                 return (
                   <SimpleFormItem<CreateCareLogRequest>
-                    name='type'
-                    rules={[{ required: true, message: 'Please select Type' }]}
+                    name={'fieldId'}
+                    label='Field'
+                    rules={[{ required: true }]}
+                    extra='You should select the crop first to choose the field.'
                   >
-                    <Card
-                      title={'Select Type'}
-                      extra={
-                        <Button
-                          onClick={() => {
-                            setOpenSelectTypeModal(true);
-                          }}
-                        >
-                          Click to select
-                        </Button>
-                      }
-                      className={typeError.length > 0 ? 'border-red-500' : ''}
-                    >
-                      {typeof type === 'number' && <TypeTag type={type} />}
-                    </Card>
+                    <FieldByCropSelect cropId={cropId ?? ''} />
                   </SimpleFormItem>
                 );
               }}
+            </SimpleFormItem>
+            <SimpleFormItem<CreateCareLogRequest>
+              name={'type'}
+              label='Type'
+              rules={[{ required: true }]}
+            >
+              <TypeSelect />
             </SimpleFormItem>
             <SimpleFormItem
               name='description'
@@ -154,71 +105,6 @@ export const CreateCareLogModal = ({
               <MyDatePicker showTime maxDate={new Date()} />
             </SimpleFormItem>
           </div>
-          <SimpleFormItem noStyle shouldUpdate>
-            {(form) => {
-              const type = form.getFieldValue('type') as
-                | CreateCareLogRequest['type']
-                | undefined;
-
-              return (
-                <SelectTypeModal
-                  defaultValue={type}
-                  open={openSelectTypeModal}
-                  onCancel={() => {
-                    setOpenSelectTypeModal(false);
-                  }}
-                  onOk={(type) => {
-                    setOpenSelectTypeModal(false);
-                    form.setFieldsValue({
-                      type,
-                    });
-                  }}
-                />
-              );
-            }}
-          </SimpleFormItem>
-          <SimpleFormItem noStyle shouldUpdate>
-            {() => {
-              const cropId = form.getFieldValue('cropId') as
-                | CreateCareLogRequest['cropId']
-                | undefined;
-
-              return (
-                <SelectCropModal
-                  defaultValue={cropId}
-                  open={openSelectCropModal}
-                  onCancel={() => setOpenSelectCropModal(false)}
-                  onOk={(crop) => {
-                    setOpenSelectCropModal(false);
-                    form.setFieldsValue({
-                      cropId: crop.id,
-                    });
-                  }}
-                />
-              );
-            }}
-          </SimpleFormItem>
-          <SimpleFormItem noStyle shouldUpdate>
-            {() => {
-              const fieldId = form.getFieldValue('fieldId') as
-                | CreateCareLogRequest['fieldId']
-                | undefined;
-
-              return (
-                <SelectFieldModal
-                  defaultValue={fieldId}
-                  open={openSelectFieldModal}
-                  onCancel={() => setOpenSelectFieldModal(false)}
-                  onOk={(field) => {
-                    setOpenSelectFieldModal(false);
-                    form.setFieldsValue({
-                      fieldId: field.id,
-                    });
-                  }}
-                />
-              );
-            }}
-          </SimpleFormItem>
         </Form>
       </Modal>
     </>

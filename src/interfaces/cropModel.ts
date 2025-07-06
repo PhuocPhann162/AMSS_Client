@@ -3,7 +3,7 @@ import type fieldCropModel from '@/interfaces/fieldCropModel';
 import type { Supplier } from '@/interfaces/supplier/supplier';
 
 export default interface cropModel {
-  id?: string;
+  id: string;
   icon?: string;
   name?: string;
   cycle?: string;

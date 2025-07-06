@@ -275,7 +275,7 @@ export const CropTypeList = () => {
                                   <td className='whitespace-nowrap border-r border-zinc-100 px-4 py-4 text-base'>
                                     <Dropdown
                                       menu={{
-                                        items: dropDownMenuItems(crop.id!),
+                                        items: dropDownMenuItems(crop.id),
                                       }}
                                     >
                                       <Button

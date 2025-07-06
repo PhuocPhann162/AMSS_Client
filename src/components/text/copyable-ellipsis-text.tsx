@@ -1,8 +1,10 @@
 import { EllipsisText } from '@/components/text/ellipsis-text';
-import { Tooltip } from 'antd';
-import copy from 'copy-to-clipboard';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { IoCopyOutline } from 'react-icons/io5';
+import { Button } from 'antd';
+import { FaCheck } from 'react-icons/fa6';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 
 export interface CopyableEllipsisTextProps {
   text?: string;
@@ -15,21 +17,7 @@ export const CopyableEllipsisText = ({
   children,
   className,
 }: CopyableEllipsisTextProps) => {
-  const [copied, setCopied] = useState(false);
-
-  const copyTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const clearCopyTimerRef = () => {
-    if (copyTimerRef.current) {
-      clearTimeout(copyTimerRef.current);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      clearCopyTimerRef();
-    };
-  }, []);
+  const { isCopied, copyToClipboard } = useCopyToClipboard();
 
   const textToCopy =
     typeof text === 'string'
@@ -39,28 +27,21 @@ export const CopyableEllipsisText = ({
         : undefined;
 
   return (
-    <Tooltip
-      title={textToCopy ? (copied ? 'Copied' : 'Copy') : undefined}
-      destroyOnHidden
-    >
-      <EllipsisText
-        ellipsis={true}
+    <div className={twMerge('flex gap-1', className)}>
+      <EllipsisText ellipsis={{ tooltip: false }}>{children}</EllipsisText>
+      <Button
+        type={'text'}
         onClick={() => {
-          clearCopyTimerRef();
-
           if (typeof textToCopy === 'string') {
-            copy(textToCopy);
+            copyToClipboard(textToCopy);
           }
-
-          setCopied(true);
-          copyTimerRef.current = setTimeout(() => {
-            setCopied(false);
-          }, 2000);
         }}
-        className={twMerge('cursor-pointer hover:underline', className)}
-      >
-        {children}
-      </EllipsisText>
-    </Tooltip>
+        icon={
+          isCopied ? <FaCheck className='text-green-700' /> : <IoCopyOutline />
+        }
+        size='small'
+        className='shrink-0'
+      />
+    </div>
   );
 };
