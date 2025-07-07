@@ -7,6 +7,7 @@ import { RootState } from '@/storage/redux/store';
 import { ChatRoom } from './chat-room';
 import { setCurrentRoom, setRooms } from '@/storage/redux/chatSlice';
 import { useGetChatRoomsQuery } from '@/api/chat-api';
+import UserSidebar from '@/components/UserSidebar';
 
 export const ChatApp = () => {
   const dispatch = useAppDispatch();
@@ -55,6 +56,7 @@ export const ChatApp = () => {
           </div>
         )}
       </div>
+      <UserSidebar />
 
       {/* Error Toast */}
       {error && (

@@ -51,7 +51,7 @@ export const CommodityDetailPage = () => {
     return undefined;
   }
 
-  const qrValue = `/commodity-origin/${id}`;
+  const qrValue = `${import.meta.env.VITE_CLIENT_NGROK_BASE_URL || import.meta.env.VITE_CLIENT_BASE_URL}/commodity-origin/${id}`;
 
   return (
     <section>

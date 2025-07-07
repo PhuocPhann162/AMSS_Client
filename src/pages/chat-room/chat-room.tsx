@@ -5,7 +5,6 @@ import { MessageType } from '@/interfaces/chat/chat-system';
 import MessageList from './components/message-list';
 import TypingIndicator from './components/typing-indicator';
 import { MessageInput } from './components/message-input';
-import OnlineUsers from './components/online-users';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { User } from '@/interfaces';
 import { useGetRoomMessagesQuery, useSearchUsersQuery } from '@/api/chat-api';
@@ -30,9 +29,13 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const allUsers: User[] = (usersData?.result?.collection || [])
     .filter((u) => typeof u.id === 'string')
     .map((u) => ({ ...u, id: String(u.id) }));
-  const onlineUserObjects = allUsers.filter((u) =>
-    chat.onlineUsers.includes(u.id ?? ''),
-  );
+
+  const allUserObjects = allUsers.map((u) => ({
+    ...u,
+    isOnline: chat.onlineUsers.includes(u.id ?? ''),
+  }));
+
+  allUserObjects.sort((a, b) => Number(b.isOnline) - Number(a.isOnline));
 
   // Map userId sang fullName
   const userIdToName = Object.fromEntries(
@@ -150,14 +153,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
           onTyping={handleTyping}
           onStopTyping={stopTyping}
           disabled={!chat.isConnected}
-        />
-      </div>
-
-      {/* Online users sidebar */}
-      <div className='w-72 border-l border-gray-200'>
-        <OnlineUsers
-          onlineUsers={onlineUserObjects}
-          onSendPrivateMessage={chat.sendPrivateMessage}
         />
       </div>
     </div>

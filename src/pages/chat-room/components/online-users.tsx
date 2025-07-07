@@ -6,12 +6,12 @@ import { AButton, AModal, ATooltip } from '@/common/ui-common';
 const { Text } = Typography;
 
 interface OnlineUsersProps {
-  onlineUsers: User[];
+  users: (User & { isOnline: boolean })[];
   onSendPrivateMessage: (recipientId: string, content: string) => void;
 }
 
 const OnlineUsers: React.FC<OnlineUsersProps> = ({
-  onlineUsers,
+  users,
   onSendPrivateMessage,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,12 +35,13 @@ const OnlineUsers: React.FC<OnlineUsersProps> = ({
   return (
     <div className='bg-white p-4'>
       <h3 className='mb-4 text-lg font-semibold text-gray-800'>
-        Online Users ({onlineUsers.length})
+        Users ({users.length})
       </h3>
       <List
         itemLayout='horizontal'
-        dataSource={onlineUsers}
-        locale={{ emptyText: <Empty description='No users online' /> }}
+        dataSource={users}
+        locale={{ emptyText: <Empty description='No users' /> }}
+        className='overflow-x-hidden'
         renderItem={(user) => (
           <List.Item
             actions={[
@@ -56,17 +57,19 @@ const OnlineUsers: React.FC<OnlineUsersProps> = ({
             ]}
           >
             <List.Item.Meta
-              className='min-w-0'
+              className='min-w-28'
               avatar={<Avatar src={user.avatar || '/avatar.png'} />}
               title={
-                <Text className='font-medium' ellipsis>
+                <Text className='min-w-28 font-medium' ellipsis>
                   <ATooltip title={user.fullName}>{user.fullName}</ATooltip>
                 </Text>
               }
               description={
                 <div className='flex items-center justify-center gap-2'>
-                  <div className='inline-block h-2 w-2 rounded-full bg-green-500'></div>
-                  Online
+                  <div
+                    className={`inline-block h-2 w-2 rounded-full ${user.isOnline ? 'bg-green-500' : 'bg-gray-400'}`}
+                  ></div>
+                  {user.isOnline ? 'Online' : 'Offline'}
                 </div>
               }
             />

@@ -20,6 +20,8 @@ export const baseQuery = fetchBaseQuery({
       headers.set('Authorization', 'Bearer ' + accessToken);
     }
 
+    headers.set('ngrok-skip-browser-warning', "true");
+
     return headers;
   },
   paramsSerializer: (params) => {
