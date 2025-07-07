@@ -1,4 +1,7 @@
-import { useGetOrderDetailQuery } from '@/api/order-api';
+import {
+  useGetOrderDetailQuery,
+  useUpdateOrderMutation,
+} from '@/api/order-api';
 import {
   ABadge,
   AButton,
@@ -31,7 +34,9 @@ import { OrderStatusActionButton } from '@/components/Orders/OrderStatusActionBu
 import { useState } from 'react';
 import { useAppSelector } from '@/storage/redux/hooks/use-app-selector';
 import { CommodityCategoryTag } from '@/components/UI/tag/commodity-category-tag';
-import { ROLE } from '@/interfaces/role/role';
+import { toastNotify } from '@/helper';
+import Modal from 'antd/es/modal';
+import { apiResponse, Role } from '@/interfaces';
 
 const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
   const statusMap: Record<
@@ -86,7 +91,7 @@ export const OrderDetailPage = () => {
   const location = useLocation();
   const [, setRefreshKey] = useState(0);
   const userState = useAppSelector((state) => state.auth.user);
-  const isAdmin = userState?.role === ROLE.ADMIN;
+  const isAdmin = userState?.role === Role.ADMIN;
   const { data: orderResponse, isLoading } = useGetOrderDetailQuery(
     { id: id ?? '' },
     {
@@ -96,12 +101,33 @@ export const OrderDetailPage = () => {
       refetchOnFocus: true,
     },
   );
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [updateOrder, { isLoading: isCancelling }] = useUpdateOrderMutation();
 
   const order = orderResponse?.result;
   const orderDate = order?.orderDate ? new Date(order.orderDate) : null;
   const formattedDate = orderDate
     ? format(orderDate, 'MMMM d, yyyy h:mm a')
     : '';
+
+  const handleOpenCancelModal = () => setCancelModalOpen(true);
+  const handleCloseCancelModal = () => setCancelModalOpen(false);
+  const handleConfirmCancel = async () => {
+    try {
+      await updateOrder({
+        orderId: id ?? '',
+        status: OrderStatus.Cancelled,
+      }).unwrap();
+      setCancelModalOpen(false);
+      setRefreshKey((k) => k + 1);
+      toastNotify('Order cancelled successfully');
+    } catch (e) {
+      toastNotify(
+        (e as apiResponse)?.data?.errorMessages?.[0] ?? 'Something went wrong!',
+        'error',
+      );
+    }
+  };
 
   if (isLoading) {
     return (
@@ -147,12 +173,76 @@ export const OrderDetailPage = () => {
           </div>
           <div className='flex flex-col items-end gap-2'>
             {order.status && <OrderStatusBadge status={order.status} />}
-            {order.status && id && isAdmin && (
-              <OrderStatusActionButton
-                orderId={id}
-                currentStatus={order.status}
-                onStatusChanged={() => setRefreshKey((k) => k + 1)}
-              />
+            {order.status && id && (
+              <div className='flex gap-2'>
+                {isAdmin && (
+                  <OrderStatusActionButton
+                    orderId={id}
+                    currentStatus={order.status}
+                    onStatusChanged={() => setRefreshKey((k) => k + 1)}
+                  />
+                )}
+                {order.status !== OrderStatus.Cancelled &&
+                  order.status !== OrderStatus.Completed && (
+                    <Button
+                      danger
+                      type='primary'
+                      aria-label='Cancel Order'
+                      onClick={handleOpenCancelModal}
+                      loading={isCancelling}
+                      tabIndex={0}
+                      className='font-semibold'
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
+                <Modal
+                  open={cancelModalOpen}
+                  onCancel={handleCloseCancelModal}
+                  onOk={handleConfirmCancel}
+                  confirmLoading={isCancelling}
+                  okText='Confirm'
+                  cancelText='Cancel'
+                  title={
+                    <div className='flex items-center gap-2'>
+                      <CloseCircleOutlined className='text-red-500' />
+                      <span>Cancel Order</span>
+                    </div>
+                  }
+                  okButtonProps={{ danger: true }}
+                >
+                  <div className='py-4'>
+                    <div className='mb-3'>
+                      <p className='mb-2 text-gray-700'>
+                        Are you sure you want to cancel this order? This action
+                        cannot be undone.
+                      </p>
+                      <div className='rounded-md bg-gray-50 p-3'>
+                        <div className='mb-2 flex items-center justify-between'>
+                          <span className='text-sm text-gray-600'>
+                            Current Status:
+                          </span>
+                          <span className='font-medium text-gray-800'>
+                            {OrderStatus[order.status]}
+                          </span>
+                        </div>
+                        <div className='flex items-center justify-between'>
+                          <span className='text-sm text-gray-600'>
+                            New Status:
+                          </span>
+                          <span className='font-medium text-red-600'>
+                            Cancelled
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className='text-sm italic text-gray-600'>
+                      This will mark the order as cancelled and cannot be
+                      reversed.
+                    </p>
+                  </div>
+                </Modal>
+              </div>
             )}
           </div>
         </div>
