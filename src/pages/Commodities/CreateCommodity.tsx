@@ -13,10 +13,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import type { CreateCommodityRequest } from '@/api/commodity-api';
 import TextArea from 'antd/es/input/TextArea';
 import { PageCommon } from '@/components/layout/page/page-common';
 import { apiResponse } from '@/interfaces';
+import type { CreateCommodityRequest } from '@/models/request/commodity/create-commodity-request';
 
 export function CreateCommodity() {
   const [form] = Form.useForm<CreateCommodityRequest>();

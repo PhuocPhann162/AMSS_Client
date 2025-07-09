@@ -2,7 +2,6 @@ import { useGetCareLogsQuery } from '@/api/care-log-api';
 import { EllipsisText } from '@/components/text/ellipsis-text';
 import PaginationCommon from '@/components/pagination/pagination-common';
 import { SimpleTable } from '@/components/table/simple-table';
-import { ListSortDirection } from '@/models';
 import { useStateSearchParams } from '@/hooks/use-state-search-params';
 import type { GetCareLogsRequest } from '@/models/request/care-log/get-care-logs-request';
 import { CreateCareLogModal } from '@/features/care-log/components/create-care-log-modal';
@@ -19,6 +18,8 @@ import { IoIosSearch } from 'react-icons/io';
 import { DebounceInput } from '@/components/input/debounce-input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { CopyableEllipsisText } from '@/components/text/copyable-ellipsis-text';
+import { NameWithId } from '@/pages/CareLogs/components/name-with-id';
+import { ListSortDirection } from '@/models';
 
 export const CareLogsPage = () => {
   const isMobile = useIsMobile();
@@ -28,7 +29,7 @@ export const CareLogsPage = () => {
       currentPage: 1,
       limit: 10,
       search: undefined,
-      orderBy: 'date',
+      orderBy: 'createdAt',
       orderByDirection: ListSortDirection.Descending,
     },
     {
@@ -89,76 +90,74 @@ export const CareLogsPage = () => {
                 title: 'Date',
                 dataIndex: 'date',
                 fixed: isMobile ? undefined : 'left',
-                width: '8rem',
-                ellipsis: {
-                  showTitle: false,
-                },
+                width: '9rem',
                 render: (_, row) => (
-                  <EllipsisText className='w-[8rem]'>
-                    {formatDateTime(row.date)}
-                  </EllipsisText>
+                  <EllipsisText>{formatDateTime(row.date)}</EllipsisText>
                 ),
               },
               {
                 title: 'Created by',
                 dataIndex: 'createdBy',
                 width: '10rem',
-                ellipsis: {
-                  showTitle: false,
-                },
                 className: 'text-green-700',
                 render: (_, row) => (
-                  <EllipsisText className='w-[10rem] font-semibold text-inherit'>
+                  <EllipsisText className='font-semibold text-inherit'>
                     {row.createdBy.fullName}
                   </EllipsisText>
                 ),
               },
               {
-                title: 'Crop ID',
+                title: 'Crop',
                 dataIndex: 'cropId',
                 width: '10rem',
-                ellipsis: {
-                  showTitle: false,
+                render: (_, row) => {
+                  const cropName = row.crop.name;
+                  const cropId = row.cropId;
+
+                  if (cropName == null) return undefined;
+
+                  return <NameWithId name={cropName} id={cropId} />;
                 },
-                render: (_, row) => (
-                  <CopyableEllipsisText className='w-[10rem]'>
-                    {row.cropId}
-                  </CopyableEllipsisText>
-                ),
               },
               {
-                title: 'Field ID',
+                title: 'Field',
                 dataIndex: 'fieldId',
                 width: '10rem',
-                ellipsis: {
-                  showTitle: false,
+                render: (_, row) => {
+                  const fieldName = row.field.name;
+                  const fieldId = row.fieldId;
+
+                  if (fieldName == null) return undefined;
+
+                  return <NameWithId name={fieldName} id={fieldId} />;
                 },
-                render: (_, row) => (
-                  <CopyableEllipsisText className='w-[10rem]'>
-                    {row.fieldId}
-                  </CopyableEllipsisText>
-                ),
               },
               {
                 title: 'Type',
                 dataIndex: 'type',
                 width: '6rem',
-                ellipsis: {
-                  showTitle: false,
-                },
                 render: (_, row) => <TypeTag type={row.type} />,
+              },
+              {
+                title: 'Created at',
+                dataIndex: 'createdAt',
+                width: '9rem',
+                render: (_, row) => {
+                  const createdAt = row.createdAt;
+
+                  if (createdAt == null) return undefined;
+
+                  return (
+                    <EllipsisText>{formatDateTime(createdAt)}</EllipsisText>
+                  );
+                },
               },
               {
                 title: 'Description',
                 dataIndex: 'description',
                 width: '10rem',
-                ellipsis: {
-                  showTitle: false,
-                },
                 render: (_, row) => (
-                  <CopyableEllipsisText className='max-w-[80vw]'>
-                    {row.description}
-                  </CopyableEllipsisText>
+                  <CopyableEllipsisText>{row.description}</CopyableEllipsisText>
                 ),
               },
             ]}
@@ -172,6 +171,7 @@ export const CareLogsPage = () => {
             size={filter.limit}
             total={getCareLogsData?.result.totalRow}
             onChange={(page, size) => {
+              console.log(page, size);
               setFilter({
                 ...filter,
                 currentPage: page,

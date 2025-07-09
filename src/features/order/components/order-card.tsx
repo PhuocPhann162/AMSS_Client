@@ -15,7 +15,7 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
   > = {
     [OrderStatus.Cancelled]: {
       label: 'Cancelled',
-      bgClassName: 'bg-green-500',
+      bgClassName: 'bg-yellow-700',
     },
     [OrderStatus.Confirmed]: { label: 'Confirmed', bgClassName: 'bg-blue-500' },
     [OrderStatus.Processing]: {
@@ -24,7 +24,7 @@ export const OrderCard = ({ orderHeader }: OrderCardProps) => {
     },
     [OrderStatus.ReadyForShipment]: {
       label: 'Ready for shipment',
-      bgClassName: 'bg-green-500',
+      bgClassName: 'bg-blue-500',
     },
     [OrderStatus.Delivered]: {
       label: 'Delivered',

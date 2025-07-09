@@ -9,7 +9,7 @@ import { SearchInput } from '@/components/UI/search-input';
 import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
-import { apiResponse, Commodity, CommodityCategory } from '@/interfaces';
+import { apiResponse, CommodityCategory } from '@/interfaces';
 import { TableParams } from '@/utils/models/Tables';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -17,12 +17,13 @@ import {
   COMMODITY_STATUS_FILTER,
 } from '@/helper/descriptionItems';
 import { CommodityStatusTag } from '@/components/UI';
-import { CommodityOrderBy } from '@/models';
 import { AFilterDropdown } from '@/common/ui-common/atoms/a-table/filter-dropdown';
 import { ViewCommodityModal } from '@/components/UI/modal/view-commodity-modal';
 import { useNavigate } from 'react-router-dom';
 import { CreateIcon } from '@/components/Icon';
 import { PageCommon } from '@/components/layout/page/page-common';
+import type { CommodityResponse } from '@/models/response/commodity/get-commodity-response';
+import type { CommodityOrderBy } from '@/models/request/commodity/commodity-order-by';
 
 const getValidOrderBy = (sortField: unknown): CommodityOrderBy => {
   const value = (Array.isArray(sortField) ? sortField[0] : sortField) as string;
@@ -48,7 +49,7 @@ export function CommodityManagement() {
     CommodityCategory | string
   >('');
 
-  const [dataTable, setDataTable] = useState<Commodity[]>([]);
+  const [dataTable, setDataTable] = useState<CommodityResponse[]>([]);
   const [totalRecord, setTotalRecord] = useState<number>(0);
   const { data, isLoading } = useGetCommoditiesQuery({
     ...(tableParams.filters &&
@@ -70,7 +71,7 @@ export function CommodityManagement() {
     useState<boolean>(false);
   const [selectedCommodityId, setSelectedCommodityId] = useState<string>('');
 
-  const handleViewCommodity = (commodity: Commodity) => {
+  const handleViewCommodity = (commodity: CommodityResponse) => {
     setSelectedCommodityId(commodity.id);
     setIsViewCommodityModalOpen(true);
   };
@@ -80,88 +81,92 @@ export function CommodityManagement() {
     setSelectedCommodityId('');
   };
 
-  const commoditiesCol: ATableProps<Commodity>['columns'] = useMemo(() => {
-    return [
-      {
-        width: '10rem',
-        title: 'Name',
-        dataIndex: 'name',
-        sorter: true,
-        ellipsis: true,
-        render: (_, record) => (
-          <div className='flex items-center'>
-            {record.image && (
-              <img
-                src={record.image}
-                alt={record.name}
-                className='mr-2 h-8 w-8 rounded-full object-cover'
-              />
-            )}
-            <span>{record.name}</span>
-          </div>
-        ),
-      },
-      {
-        width: '6rem',
-        title: 'Category',
-        dataIndex: 'category',
-        ellipsis: true,
-        render: (value: number) => CommodityCategory[value],
-      },
-      {
-        width: '7rem',
-        title: 'Price',
-        dataIndex: 'price',
-        sorter: true,
-        ellipsis: true,
-        render: (value: number) => `$${value.toFixed(2)}`,
-      },
-      {
-        width: '6rem',
-        title: 'Expiration Date',
-        dataIndex: 'expirationDate',
-        sorter: true,
-        ellipsis: true,
-        render: (value: string) => displayDateTimeByLocale(value),
-      },
-      {
-        width: '7rem',
-        title: 'Status',
-        align: 'center',
-        dataIndex: 'status',
-        filterDropdown: (props) => (
-          <AFilterDropdown {...props} optionsFilter={COMMODITY_STATUS_FILTER} />
-        ),
-        render: (value: number) => <CommodityStatusTag value={value} />,
-      },
-      {
-        title: 'Created Date',
-        align: 'center',
-        width: '7rem',
-        dataIndex: 'createdAt',
-        sorter: true,
-        ellipsis: true,
-        render: (value: string) => displayDateTimeByLocale(value),
-      },
-      {
-        title: 'Action',
-        width: '8rem',
-        align: 'center',
-        fixed: 'right',
-        dataIndex: '_',
-        render: (_, record) => (
-          <AButton
-            type='link'
-            className='color-primary hover:underline'
-            onClick={() => handleViewCommodity(record)}
-            aria-label='View commodity'
-          >
-            View
-          </AButton>
-        ),
-      },
-    ];
-  }, []);
+  const commoditiesCol: ATableProps<CommodityResponse>['columns'] =
+    useMemo(() => {
+      return [
+        {
+          width: '10rem',
+          title: 'Name',
+          dataIndex: 'name',
+          sorter: true,
+          ellipsis: true,
+          render: (_, record) => (
+            <div className='flex items-center'>
+              {record.image && (
+                <img
+                  src={record.image}
+                  alt={record.name}
+                  className='mr-2 h-8 w-8 rounded-full object-cover'
+                />
+              )}
+              <span>{record.name}</span>
+            </div>
+          ),
+        },
+        {
+          width: '6rem',
+          title: 'Category',
+          dataIndex: 'category',
+          ellipsis: true,
+          render: (value: number) => CommodityCategory[value],
+        },
+        {
+          width: '7rem',
+          title: 'Price',
+          dataIndex: 'price',
+          sorter: true,
+          ellipsis: true,
+          render: (value: number) => `$${value.toFixed(2)}`,
+        },
+        {
+          width: '6rem',
+          title: 'Expiration Date',
+          dataIndex: 'expirationDate',
+          sorter: true,
+          ellipsis: true,
+          render: (value: string) => displayDateTimeByLocale(value),
+        },
+        {
+          width: '7rem',
+          title: 'Status',
+          align: 'center',
+          dataIndex: 'status',
+          filterDropdown: (props) => (
+            <AFilterDropdown
+              {...props}
+              optionsFilter={COMMODITY_STATUS_FILTER}
+            />
+          ),
+          render: (value: number) => <CommodityStatusTag value={value} />,
+        },
+        {
+          title: 'Created Date',
+          align: 'center',
+          width: '7rem',
+          dataIndex: 'createdAt',
+          sorter: true,
+          ellipsis: true,
+          render: (value: string) => displayDateTimeByLocale(value),
+        },
+        {
+          title: 'Action',
+          width: '8rem',
+          align: 'center',
+          fixed: 'right',
+          dataIndex: '_',
+          render: (_, record) => (
+            <AButton
+              type='link'
+              className='color-primary hover:underline'
+              onClick={() => handleViewCommodity(record)}
+              aria-label='View commodity'
+            >
+              View
+            </AButton>
+          ),
+        },
+      ];
+    }, []);
 
   useEffect(() => {
     const getCommodities = () => {

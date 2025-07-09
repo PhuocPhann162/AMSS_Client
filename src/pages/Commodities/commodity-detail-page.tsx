@@ -1,10 +1,9 @@
-import { useGetCommodityByIdQuery } from '@/api';
+import { useGetCommodityDetailQuery } from '@/api';
 import { ADivider, AImage, AQRCode, ATooltip } from '@/common/ui-common';
 import { AddToCartButton } from '@/features/cart/components/add-to-cart-button';
 import { QuantityCounterInput } from '@/features/cart/components/quantity-counter-input';
 import { SpecialTagTag } from '@/features/commodity/components/special-tag-tag';
 import { TagCommodityStatus } from '@/features/commodity/components/tag-commodity-status';
-import { type Commodity } from '@/interfaces';
 import { formatCurrency } from '@/utils/format-currency';
 import { format } from 'date-fns';
 import { Fragment, useState, type ReactNode } from 'react';
@@ -18,27 +17,27 @@ export const CommodityDetailPage = () => {
 
   const [quantity, setQuantity] = useState(1);
 
-  const getCommodityById = useGetCommodityByIdQuery({ id: id ?? '' });
+  const getCommodityDetail = useGetCommodityDetailQuery({ id: id ?? '' });
 
-  const data = getCommodityById.currentData?.result;
+  const data = getCommodityDetail.data?.result;
 
   const extraInfoItems: {
     label: ReactNode;
-    render: (data?: Commodity) => ReactNode;
+    render: (commodity?: NonNullable<typeof data>) => ReactNode;
   }[] = [
     {
       label: 'Supplier',
-      render: (data) => data?.supplier?.name,
+      render: (commodity) => commodity?.supplier?.name,
     },
     {
       label: 'Crop',
-      render: (data) => data?.crop?.name,
+      render: (commodity) => commodity?.crop?.name,
     },
     {
       label: 'Expiration Date',
-      render: (data) =>
-        data?.expirationDate
-          ? format(new Date(data.expirationDate), 'MM/dd/yyyy')
+      render: (commodity) =>
+        commodity?.expirationDate
+          ? format(new Date(commodity.expirationDate), 'MM/dd/yyyy')
           : 'N/A',
     },
   ];

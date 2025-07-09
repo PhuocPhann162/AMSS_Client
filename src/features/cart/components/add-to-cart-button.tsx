@@ -1,4 +1,4 @@
-import { useGetCommodityByIdQuery } from '@/api';
+import { useGetCommodityDetailQuery } from '@/api';
 import { useAddUpdateCartItemMutation, useGetCartQuery } from '@/api/cart-api';
 import { useAntMessage } from '@/contexts/ant-message/use-ant-message';
 import { useAuthenticationAction } from '@/features/auth/hooks/use-authentication-action';
@@ -36,7 +36,7 @@ export const AddToCartButton = ({
     (item) => item.commodityId === id,
   );
 
-  const getCommodityById = useGetCommodityByIdQuery({ id });
+  const getCommodityById = useGetCommodityDetailQuery({ id });
 
   const getCommodityByIdData =
     getCommodityById.data && !getCommodityById.isError

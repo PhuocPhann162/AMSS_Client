@@ -3,7 +3,7 @@ import { AModal } from '@/common/ui-common';
 import { CommodityCategory } from '@/interfaces';
 import { CommodityStatusTag } from '@/components/UI';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
-import { useGetCommodityByIdQuery } from '@/api/commodity-api';
+import { useGetCommodityDetailQuery } from '@/api/commodity-api';
 import {
   HiOutlineMail,
   HiOutlinePhone,
@@ -26,7 +26,7 @@ export const ViewCommodityModal: FC<ViewCommodityModalProps> = ({
   onClose,
   commodityId,
 }) => {
-  const { data, isLoading, error } = useGetCommodityByIdQuery(
+  const { data, isLoading, error } = useGetCommodityDetailQuery(
     { id: commodityId },
     { skip: !commodityId },
   );
@@ -107,7 +107,9 @@ export const ViewCommodityModal: FC<ViewCommodityModalProps> = ({
                   aria-label='Created Date'
                 />
                 <span className='font-semibold'>Created:</span>
-                <span>{displayDateTimeByLocale(commodity.createdAt)}</span>
+                {/* TODO: i comment this line because api doesnt return createdAt */}
+                {/* <span>{displayDateTimeByLocale(commodity.createdAt)}</span> */}
+                <span>{displayDateTimeByLocale()}</span>
               </div>
             </div>
           </div>

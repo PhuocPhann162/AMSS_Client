@@ -1,26 +1,11 @@
 import { appBaseApi, TAG_TYPES } from '@/api/instances';
-import type {
-  GetCommoditiesRequest,
-  GetCommoditiesResponse,
-  GetCommodityByIdRequest,
-  GetCommodityByIdResponse,
-} from '@/models';
-import { CommodityCategory, CommodityStatus } from '@/interfaces';
 import type { GetCommodityOriginRequest } from '@/models/request/commodity/get-commodity-origin-request';
 import type { GetCommodityOriginResponse } from '@/models/response/commodity/get-commodity-origin-response';
-
-export interface CreateCommodityRequest {
-  name: string;
-  description: string;
-  specialTag?: string;
-  category: CommodityCategory;
-  price: number;
-  image: string;
-  expirationDate?: string;
-  status: CommodityStatus;
-  supplierId: string;
-  cropId: string;
-}
+import type { GetCommoditiesResponse } from '@/models/response/commodity/get-commodity-response';
+import type { GetCommodityDetailResponse } from '@/models/response/commodity/get-commodity-detail-response';
+import type { CreateCommodityRequest } from '@/models/request/commodity/create-commodity-request';
+import type { GetCommoditiesRequest } from '@/models/request/commodity/get-commodities-request';
+import type { GetCommodityDetailRequest } from '@/models/request/commodity/get-commodity-detail-request';
 
 export interface CreateCommodityResponse {
   isSuccess: boolean;
@@ -37,9 +22,9 @@ export const commodityApi = appBaseApi.injectEndpoints({
       }),
       providesTags: [TAG_TYPES.Commodities],
     }),
-    getCommodityById: build.query<
-      GetCommodityByIdResponse,
-      GetCommodityByIdRequest
+    getCommodityDetail: build.query<
+      GetCommodityDetailResponse,
+      GetCommodityDetailRequest
     >({
       query: (props) => ({
         url: `commodity/${props.id}`,
@@ -74,7 +59,7 @@ export const commodityApi = appBaseApi.injectEndpoints({
 
 export const {
   useGetCommoditiesQuery,
-  useGetCommodityByIdQuery,
+  useGetCommodityDetailQuery,
   useGetCommodityOriginQuery,
   useCreateCommodityMutation,
 } = commodityApi;
