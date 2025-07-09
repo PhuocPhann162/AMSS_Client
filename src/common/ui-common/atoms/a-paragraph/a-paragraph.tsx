@@ -1,5 +1,4 @@
-import { type GetRef } from 'antd/es/_util/type';
-import Typography from 'antd/es/typography';
+import { type GetRef, Typography } from 'antd';
 import type { ParagraphProps } from 'antd/es/typography/Paragraph';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';

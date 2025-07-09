@@ -1,22 +1,26 @@
 import { useGetCommoditiesQuery } from '@/api';
-import { ABadge, ADropdown, AList } from '@/common/ui-common';
 import {
   TabNavigation,
   type TabNavigationProps,
 } from '@/components/tabs/tab-navigation';
 import { CardStore } from '@/features/commodity/components/card-store';
-import { CommodityCategory } from '@/interfaces/commodity/commodity-category';
 import {
-  COMMODITY_ORDER_BY,
-  CommodityOrderBy,
-  ListSortDirection,
-} from '@/models';
-import { SwapOutlined } from '@ant-design/icons';
+  COMMODITY_CATEGORY_V2,
+  type CommodityCategoryV2,
+} from '@/interfaces/commodity/commodity-category-v2';
+import { ListSortDirection } from '@/models';
+import { Badge, Dropdown } from 'antd';
 import Button from 'antd/es/button';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { IoIosSwap } from 'react-icons/io';
+import { AList } from '@/common/ui-common';
+import {
+  COMMODITY_ORDER_BY,
+  type CommodityOrderBy,
+} from '@/models/request/commodity/commodity-order-by';
 
-type CustomCommodityCategory = CommodityCategory | 'all';
+type CustomCommodityCategory = CommodityCategoryV2 | 'all';
 
 const categoryLabel: Record<
   CustomCommodityCategory,
@@ -29,19 +33,19 @@ const categoryLabel: Record<
     order: 0,
     label: 'All',
   },
-  [CommodityCategory.Vegetable]: {
+  [COMMODITY_CATEGORY_V2.Vegetable]: {
     order: 1,
     label: 'Vegetable',
   },
-  [CommodityCategory.Fruit]: {
+  [COMMODITY_CATEGORY_V2.Fruit]: {
     order: 2,
     label: 'Fruit',
   },
-  [CommodityCategory.Grain]: {
+  [COMMODITY_CATEGORY_V2.Grain]: {
     order: 3,
     label: 'Grain',
   },
-  [CommodityCategory.Seed]: {
+  [COMMODITY_CATEGORY_V2.Seed]: {
     order: 4,
     label: 'Seed',
   },
@@ -185,7 +189,7 @@ export const StorePage = () => {
             tab: 'px-2 py-1 md:px-4 md:py-2',
           }}
         />
-        <ADropdown
+        <Dropdown
           trigger={['click']}
           placement={'bottomRight'}
           open={sortOpen}
@@ -212,26 +216,26 @@ export const StorePage = () => {
             })(),
           }}
         >
-          <ABadge dot={!!sortValue}>
+          <Badge dot={!!sortValue}>
             <Button
               type='text'
               iconPosition={'end'}
-              icon={<SwapOutlined className='rotate-90' />}
+              icon={<IoIosSwap className='size-4 rotate-90' />}
             >
               Sort
             </Button>
-          </ABadge>
-        </ADropdown>
+          </Badge>
+        </Dropdown>
       </div>
 
       <AList
         className='[&_.ant-list-items]:grid [&_.ant-list-items]:grid-cols-1 [&_.ant-list-items]:gap-6 md:[&_.ant-list-items]:grid-cols-2 lg:[&_.ant-list-items]:grid-cols-3 xl:[&_.ant-list-items]:grid-cols-4'
-        dataSource={getCommoditiesData?.result?.collection ?? undefined}
+        dataSource={getCommoditiesData?.result.collection ?? undefined}
         renderItem={(item) => <CardStore key={item.id} commodity={item} />}
         loading={getCommodities.isFetching}
         pagination={{
           showSizeChanger: true,
-          total: getCommoditiesData?.result?.totalRow,
+          total: getCommoditiesData?.result.totalRow,
           size: 'small',
           current: page,
           pageSize: limit,

@@ -34,8 +34,11 @@ export const HeaderPage = ({ hasHeaderOffset }: HeaderPageProps) => {
         }}
       >
         {!!isMobile && <SidebarTrigger />}
-        <Link to='/' className='flex items-center text-xl font-bold uppercase'>
-          <NovarisLogo className='bg-none' />
+        <Link
+          to='/'
+          className='flex items-center gap-1 text-xl font-bold uppercase'
+        >
+          <NovarisLogo className='-m-2 bg-none' />
           Novaris
         </Link>
 

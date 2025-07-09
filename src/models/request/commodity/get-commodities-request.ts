@@ -7,7 +7,3 @@ export interface GetCommoditiesRequest
   categories?: CommodityCategory[];
   statuses?: CommodityStatus[];
 }
-
-export interface GetCommodityByIdRequest {
-  id: string;
-}

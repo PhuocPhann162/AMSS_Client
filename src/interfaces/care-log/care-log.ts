@@ -14,4 +14,6 @@ export interface CareLog {
   cropId: string;
   field: fieldModel;
   fieldId: string;
+
+  createdAt?: string;
 }

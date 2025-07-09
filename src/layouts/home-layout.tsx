@@ -22,7 +22,7 @@ export const HomeLayout = () => {
 
   return (
     <LenisProvider>
-      <SidebarProvider className='flex flex-col'>
+      <SidebarProvider className='flex flex-col bg-neutral-50'>
         {!!isMobile && (
           <AppSidebar
             content={{

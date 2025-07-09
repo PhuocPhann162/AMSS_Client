@@ -10,12 +10,14 @@ export interface CopyableEllipsisTextProps {
   text?: string;
   children?: ReactNode;
   className?: string;
+  classNames?: Partial<Record<'text' | 'button', string>>;
 }
 
 export const CopyableEllipsisText = ({
   text,
   children,
   className,
+  classNames,
 }: CopyableEllipsisTextProps) => {
   const { isCopied, copyToClipboard } = useCopyToClipboard();
 
@@ -27,8 +29,10 @@ export const CopyableEllipsisText = ({
         : undefined;
 
   return (
-    <div className={twMerge('flex gap-1', className)}>
-      <EllipsisText ellipsis={{ tooltip: false }}>{children}</EllipsisText>
+    <div className={twMerge('flex items-center gap-1', className)}>
+      <EllipsisText ellipsis={{ tooltip: false }} className={classNames?.text}>
+        {children}
+      </EllipsisText>
       <Button
         type={'text'}
         onClick={() => {
@@ -40,7 +44,7 @@ export const CopyableEllipsisText = ({
           isCopied ? <FaCheck className='text-green-700' /> : <IoCopyOutline />
         }
         size='small'
-        className='shrink-0'
+        className={twMerge('shrink-0', classNames?.button)}
       />
     </div>
   );
