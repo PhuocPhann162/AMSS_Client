@@ -2,7 +2,6 @@ import * as turf from '@turf/turf';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  DeletePopupIcon,
   EditTableIcon,
   ForecastIcon,
   LightIcon,
