@@ -138,44 +138,16 @@ export const MapboxDirections: React.FC = () => {
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
 
-    // Load Leaflet dynamically
-    const loadLeaflet = async () => {
-      try {
-        // Add Leaflet CSS
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href =
-          'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css';
-        document.head.appendChild(link);
+    mapRef.current = L.map(mapContainer.current, {
+      center: [40.767887, -73.970393],
+      zoom: 12,
+    });
 
-        // Load Leaflet JS
-        await new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src =
-            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-          script.onload = resolve;
-          script.onerror = reject;
-          document.head.appendChild(script);
-        });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(mapRef.current);
 
-        mapRef.current = L.map(mapContainer.current!, {
-          center: [40.767887, -73.970393],
-          zoom: 12,
-        });
-
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors',
-        }).addTo(mapRef.current);
-
-        setMapLoaded(true);
-      } catch (error) {
-        console.error('Error loading Leaflet:', error);
-        alert('Failed to load map. Please refresh the page.');
-      }
-    };
-
-    loadLeaflet();
+    setMapLoaded(true);
 
     return () => {
       if (mapRef.current) {
@@ -202,7 +174,7 @@ export const MapboxDirections: React.FC = () => {
 
       const data = (await response.json()) as DirectionsResponse;
 
-      if (!data.routes || data.routes.length === 0) {
+      if (!data.routes || data.routes?.length === 0) {
         throw new Error('No routes found');
       }
 
@@ -239,12 +211,12 @@ export const MapboxDirections: React.FC = () => {
       // Collect all coordinates from steps
       const allCoordinates: [number, number][] = [];
 
-      if (!route.legs || route.legs.length === 0) {
+      if (!route.legs || route.legs?.length === 0) {
         throw new Error('No legs found in route');
       }
 
       const leg = route.legs[0];
-      if (!leg.steps || leg.steps.length === 0) {
+      if (!leg.steps || leg.steps?.length === 0) {
         throw new Error('No steps found in leg');
       }
 
@@ -255,17 +227,25 @@ export const MapboxDirections: React.FC = () => {
         }
 
         step.geometry.coordinates.forEach((coord) => {
-          if (Array.isArray(coord) && coord.length >= 2) {
+          if (Array.isArray(coord) && coord?.length >= 2) {
             allCoordinates.push([coord[1], coord[0]]); // Leaflet uses [lat, lng]
           }
         });
       });
 
       // Add route polyline
-      if (allCoordinates.length > 0) {
+      if (allCoordinates?.length > 0) {
         // Fit map to route bounds
         const bounds = L.latLngBounds(allCoordinates);
         mapRef.current.fitBounds(bounds, { padding: [20, 20] });
+
+        // Vẽ polyline cho route
+        L.polyline(allCoordinates, {
+          color: 'blue',
+          weight: 5,
+          opacity: 0.8,
+          isRoute: true,
+        }).addTo(mapRef.current);
 
         // Add start marker
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -348,7 +328,7 @@ export const MapboxDirections: React.FC = () => {
                     .split(',')
                     .map((c) => parseFloat(c.trim()));
                   if (
-                    coords.length === 2 &&
+                    coords?.length === 2 &&
                     !isNaN(coords[0]) &&
                     !isNaN(coords[1])
                   ) {
@@ -373,7 +353,7 @@ export const MapboxDirections: React.FC = () => {
                     .split(',')
                     .map((c) => parseFloat(c.trim()));
                   if (
-                    coords.length === 2 &&
+                    coords?.length === 2 &&
                     !isNaN(coords[0]) &&
                     !isNaN(coords[1])
                   ) {
@@ -401,7 +381,7 @@ export const MapboxDirections: React.FC = () => {
         </div>
 
         {/* Route Information */}
-        {directionsData && directionsData.routes.length > 0 && (
+        {directionsData && directionsData.routes?.length > 0 && (
           <div className='p-4'>
             <div className='mb-4 rounded-lg bg-black p-4 text-white'>
               <div className='mb-2 flex items-center space-x-2'>
@@ -433,7 +413,7 @@ export const MapboxDirections: React.FC = () => {
             </div>
 
             {/* Alternative Routes */}
-            {directionsData.routes.length > 1 && (
+            {directionsData.routes?.length > 1 && (
               <div className='mb-4'>
                 <h3 className='mb-2 font-medium text-gray-700'>
                   Alternative Routes
@@ -486,8 +466,8 @@ export const MapboxDirections: React.FC = () => {
             </div>
 
             {/* Notifications */}
-            {directionsData.routes[selectedRoute].legs[0].notifications.length >
-              0 && (
+            {directionsData.routes[selectedRoute].legs[0].notifications
+              ?.length > 0 && (
               <div>
                 <h3 className='mb-2 font-medium text-gray-700'>Alerts</h3>
                 <div className='space-y-2'>

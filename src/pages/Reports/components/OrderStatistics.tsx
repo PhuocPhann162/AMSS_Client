@@ -45,14 +45,8 @@ export const OrderStatistics: FC<{
         <Skeleton active paragraph={false} />
       ) : (
         <div className='flex flex-col items-center justify-center gap-2'>
-          <Statistic
-            title='Total Orders'
-            value={stats.totalOrders}
-            precision={0}
-            className='mb-2'
-            valueStyle={{ fontWeight: 700, fontSize: 22 }}
-          />
-          <div className='h-32 w-32'>
+          <span className='mb-1 text-sm text-gray-500'>Total Orders</span>
+          <div className='relative h-32 w-32'>
             <Doughnut
               data={chartData}
               options={{
@@ -60,6 +54,11 @@ export const OrderStatistics: FC<{
                 plugins: { legend: { display: false } },
               }}
             />
+            <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
+              <span className='text-2xl font-bold text-gray-800'>
+                {stats.totalOrders}
+              </span>
+            </div>
           </div>
           <div className='mt-2 flex gap-4'>
             <span className='flex items-center gap-1 text-xs text-gray-500'>

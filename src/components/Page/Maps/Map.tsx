@@ -34,6 +34,7 @@ import 'leaflet/dist/leaflet.css';
 import { AButton } from '@/common/ui-common';
 import FloatButtonGroup from 'antd/es/float-button/FloatButtonGroup';
 import { FloatButton } from 'antd';
+import 'leaflet/dist/leaflet.css';
 
 const style = {
   color: '#ee7219',
@@ -297,8 +298,6 @@ const Map: React.FC = () => {
               onCreated={handleCreated}
               onEdited={handleEdited}
             ></EditControl>
-          </FeatureGroup>
-          <FeatureGroup>
             {dataFarm &&
               (dataFarm?.apiResponse?.result as farmModel[]).map(
                 (item: farmModel) => (
@@ -329,8 +328,6 @@ const Map: React.FC = () => {
                   </div>
                 ),
               )}
-          </FeatureGroup>
-          <FeatureGroup>
             {dataField &&
               (dataField?.apiResponse?.result as fieldModel[]).map(
                 (item: fieldModel) => (

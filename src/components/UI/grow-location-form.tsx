@@ -70,26 +70,26 @@ const GrowLocationForm: React.FC<GrowLocationFormProps> = ({
     onFinish(processedValues);
   };
 
-  // Thêm phần hiển thị danh sách farms
-  const renderFarmSelect = () => (
-    <FormLabel
-      name='farmId'
-      label='Farm'
-      rules={[{ required: true, message: 'Please select a farm' }]}
-    >
-      {isLoadingFarms ? (
-        <Spin size='small' />
-      ) : (
-        <Select placeholder='Select a farm'>
-          {farmsData.map((farm) => (
-            <Option key={farm.id} value={farm.id}>
-              {farm.name}
-            </Option>
-          ))}
-        </Select>
-      )}
-    </FormLabel>
-  );
+  // // Thêm phần hiển thị danh sách farms
+  // const renderFarmSelect = () => (
+  //   <FormLabel
+  //     name='farmId'
+  //     label='Farm'
+  //     rules={[{ required: true, message: 'Please select a farm' }]}
+  //   >
+  //     {isLoadingFarms ? (
+  //       <Spin size='small' />
+  //     ) : (
+  //       <Select placeholder='Select a farm'>
+  //         {farmsData.map((farm) => (
+  //           <Option key={farm.id} value={farm.id}>
+  //             {farm.name}
+  //           </Option>
+  //         ))}
+  //       </Select>
+  //     )}
+  //   </FormLabel>
+  // );
 
   return (
     <Form

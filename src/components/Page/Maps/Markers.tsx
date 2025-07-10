@@ -6,9 +6,9 @@ interface MarkerProps {
 }
 
 const Markers = ({ position, children }: MarkerProps) => {
-  const getWeatherIconUrl = (iconCode: string) => {
-    return `https://openweathermap.org/img/wn/${iconCode}.png`;
-  };
+  // const getWeatherIconUrl = (iconCode: string) => {
+  //   return `https://openweathermap.org/img/wn/${iconCode}.png`;
+  // };
 
   return (
     <>

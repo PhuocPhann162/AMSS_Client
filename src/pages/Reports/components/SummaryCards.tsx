@@ -14,66 +14,48 @@ export type SummaryCardsData = {
   totalSales?: number;
 };
 
-const defaultData = [
-  {
-    title: 'Total Products',
-    value: 854,
-    icon: (
-      <ShoppingCartOutlined className='rounded-full bg-blue-100 p-2 text-xl text-blue-500' />
-    ),
-    change: '+2.65%',
-    changeType: 'up',
-  },
-  {
-    title: 'Total Users',
-    value: 31876,
-    icon: (
-      <UserOutlined className='rounded-full bg-pink-100 p-2 text-xl text-pink-500' />
-    ),
-    change: '+0.34%',
-    changeType: 'up',
-  },
-  {
-    title: 'Total Revenue',
-    value: 34241,
-    icon: (
-      <DollarOutlined className='rounded-full bg-green-100 p-2 text-xl text-green-500' />
-    ),
-    change: '+7.68%',
-    changeType: 'up',
-    prefix: '$',
-  },
-  {
-    title: 'Total Sales',
-    value: 1766586,
-    icon: (
-      <LineChartOutlined className='rounded-full bg-purple-100 p-2 text-xl text-purple-500' />
-    ),
-    change: '-0.74%',
-    changeType: 'down',
-  },
-];
-
 export const SummaryCards: FC<{
   loading?: boolean;
   data?: SummaryCardsData;
 }> = ({ loading, data }) => {
+  // Fake change percent and type for demo
   const summaryData = [
     {
-      ...defaultData[0],
-      value: data?.totalProducts ?? defaultData[0].value,
+      title: 'Total Products',
+      value: data?.totalProducts ?? 0,
+      icon: (
+        <ShoppingCartOutlined className='rounded-full bg-blue-100 p-2 text-xl text-blue-500' />
+      ),
+      change: '+2.65%',
+      changeType: 'up',
     },
     {
-      ...defaultData[1],
-      value: data?.totalUsers ?? defaultData[1].value,
+      title: 'Total Users',
+      value: data?.totalUsers ?? 0,
+      icon: (
+        <UserOutlined className='rounded-full bg-pink-100 p-2 text-xl text-pink-500' />
+      ),
+      change: '+0.34%',
+      changeType: 'up',
     },
     {
-      ...defaultData[2],
-      value: data?.totalRevenue ?? defaultData[2].value,
+      title: 'Total Revenue',
+      value: data?.totalRevenue ?? 0,
+      icon: (
+        <DollarOutlined className='rounded-full bg-green-100 p-2 text-xl text-green-500' />
+      ),
+      change: '+7.68%',
+      changeType: 'up',
+      prefix: '$',
     },
     {
-      ...defaultData[3],
-      value: data?.totalSales ?? defaultData[3].value,
+      title: 'Total Sales',
+      value: data?.totalSales ?? 0,
+      icon: (
+        <LineChartOutlined className='rounded-full bg-purple-100 p-2 text-xl text-purple-500' />
+      ),
+      change: '-0.74%',
+      changeType: 'down',
     },
   ];
   return (
@@ -101,6 +83,7 @@ export const SummaryCards: FC<{
                     prefix={item.prefix}
                     valueStyle={{ fontWeight: 700, fontSize: 22 }}
                   />
+                  {/* Fake change percent for demo */}
                   <span
                     className={`text-xs ${item.changeType === 'up' ? 'text-green-500' : 'text-red-500'}`}
                   >
