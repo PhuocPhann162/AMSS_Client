@@ -1,4 +1,4 @@
-import { Card, Statistic, Skeleton } from 'antd';
+import { Card, Skeleton } from 'antd';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import type { FC } from 'react';

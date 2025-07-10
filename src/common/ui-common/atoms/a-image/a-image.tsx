@@ -7,9 +7,7 @@ export const AImage = (props: AImageProps) => (
   <Image
     {...props}
     preview={
-      typeof props.preview === 'boolean'
-        ? props.preview
-        : { destroyOnHidden: true, ...props.preview }
+      typeof props.preview === 'boolean' ? props.preview : { ...props.preview }
     }
     className={twMerge('h-full object-cover', props.className)}
   />

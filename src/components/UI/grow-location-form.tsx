@@ -7,7 +7,6 @@ import {
   Tooltip,
   InputNumber,
   Divider,
-  Spin,
 } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { FormLabel } from '@/components/form-label/form-label';
@@ -19,7 +18,6 @@ import {
 import { farmModel } from '@/interfaces';
 
 const { TextArea } = Input;
-const { Option } = Select;
 
 interface GrowLocationFormProps {
   onFinish: (values: GrowLocationModel) => void;
@@ -55,6 +53,8 @@ const GrowLocationForm: React.FC<GrowLocationFormProps> = ({
   };
 
   const handleFinish = (values: GrowLocationModel) => {
+    console.log(farmsData);
+    console.log(isLoadingFarms);
     const processedValues = {
       ...values,
       numberOfBeds: values.numberOfBeds
