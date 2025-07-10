@@ -6,3 +6,8 @@ export interface GetReportRequest {
   month: number;
   endYear: number;
 }
+
+export interface GetTotalStatisticRequest {
+  startDate: Date;
+  endDate: Date;
+}

@@ -157,7 +157,7 @@ const MapboxAddressSearch: React.FC<MapboxAddressSearchProps> = ({
     if (!geocoder.current) {
       geocoder.current = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken!,
-        mapboxgl: mapboxgl,
+        mapboxgl: mapboxgl as any,
         marker: false,
         placeholder: placeholder,
       });

@@ -24,6 +24,8 @@ class SignalRService {
 
   private initializeConnection() {
     // Nếu đã có connection cũ thì stop và xóa
+    console.log(this.reconnectAttempts);
+    console.log(this.maxReconnectAttempts);
     if (this.connection) {
       this.connection.stop();
       this.connection = null;

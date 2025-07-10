@@ -98,12 +98,6 @@ export const PopupField = ({ fieldInfo }: PopupFieldProps) => {
             <div className='underline'>Edit Detail</div>
           </Link>
         </div>
-        <div className='text-sm'>
-          <button className='flex items-center gap-1'>
-            <DeletePopupIcon />
-            <div className='underline'>Delete</div>
-          </button>
-        </div>
       </div>
     </>
   );
