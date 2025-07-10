@@ -135,7 +135,7 @@ export const CareLogsPage = () => {
               {
                 title: 'Type',
                 dataIndex: 'type',
-                width: '6rem',
+                width: '10rem',
                 render: (_, row) => <TypeTag type={row.type} />,
               },
               {
