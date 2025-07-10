@@ -191,7 +191,7 @@ export const GooeyAiChat: React.FC<GooeyAiChatProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className='flex-1 space-y-3 overflow-y-hidden p-4'
+        className='flex-1 space-y-3 overflow-y-auto p-4'
       >
         {messages.length === 0 ? (
           <motion.div

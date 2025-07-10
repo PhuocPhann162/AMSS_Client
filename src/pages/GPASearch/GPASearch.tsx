@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { inputWordTypeAnalysis } from '@/helper/vnlpServerAnalysis';
 import Select, { MultiValue } from 'react-select';
 import vnlpAnalysisModel from '@/interfaces/vnlpAnalysisModel';
-import { SENTENCE_LIST } from '@/constants/sentenceInput';
+import { SENTENCE_LIST_EN, SENTENCE_LIST_VI } from '@/constants/sentenceInput';
+
 import {
   farmModel,
   fieldModel,
@@ -17,7 +18,6 @@ import {
   locationDescriptionItems,
   toastNotify,
 } from '@/helper';
-import { LANGUAGE } from '@/constants/languages';
 import { SocialMetricLineChart } from '@/components/UI/Chart/SocialMetricLineChart';
 import { useGetAllSocialMetricsQuery } from '@/api';
 import { findProvinceCode } from '@/helper/findProvinceCodeWithVnlp';
@@ -29,6 +29,7 @@ import { AButton, ACard, ADescriptions } from '@/common/ui-common';
 import { SocialMetricBarChart } from '@/components/UI/Chart/SocialMetricBarChart';
 import { FaSearch, FaMapMarkedAlt, FaInfoCircle } from 'react-icons/fa';
 import { Spin, Typography } from 'antd';
+import { LANGUAGE } from '@/constants/languages';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -77,6 +78,7 @@ export const GPASearch = () => {
     null,
   );
   const [isSearching, setIsSearching] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<'EN' | 'VI'>('EN');
 
   const { data } = useGetAllSocialMetricsQuery(
     {
@@ -97,6 +99,11 @@ export const GPASearch = () => {
     skip: !type || type === '0',
   });
 
+  // Khi đổi ngôn ngữ, reset filter
+  useEffect(() => {
+    setFilters([]);
+  }, [selectedLanguage]);
+
   const handleSearch = async () => {
     if (!sentenceFilters.length) {
       toastNotify('Please select at least one filter', 'info');
@@ -113,7 +120,7 @@ export const GPASearch = () => {
       for (const filter of sentenceFilters) {
         const response: vnlpAnalysisModel[] = await inputWordTypeAnalysis(
           filter.label,
-          LANGUAGE.EN,
+          selectedLanguage === 'EN' ? LANGUAGE.EN : LANGUAGE.VI,
         );
         if (response) {
           newVnlpList[filter.value] = response;
@@ -314,7 +321,27 @@ export const GPASearch = () => {
                   Select one or more criteria to analyze
                 </Typography.Paragraph>
               </div>
-
+              {/* Language Selector */}
+              <div className='mb-4 flex items-center gap-4'>
+                <label
+                  htmlFor='language-select'
+                  className='font-medium text-gray-700'
+                >
+                  Language:
+                </label>
+                <select
+                  id='language-select'
+                  value={selectedLanguage}
+                  onChange={(e) =>
+                    setSelectedLanguage(e.target.value as 'EN' | 'VI')
+                  }
+                  className='rounded border px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-lime-500'
+                  aria-label='Select language'
+                >
+                  <option value='EN'>English</option>
+                  <option value='VI'>Vietnamese</option>
+                </select>
+              </div>
               <Select
                 isMulti
                 value={sentenceFilters}
@@ -322,7 +349,11 @@ export const GPASearch = () => {
                 placeholder='Select analysis criteria...'
                 getOptionLabel={(option: OptionType) => option.label}
                 getOptionValue={(option: OptionType) => option.value}
-                options={SENTENCE_LIST}
+                options={
+                  selectedLanguage === 'EN'
+                    ? SENTENCE_LIST_EN
+                    : SENTENCE_LIST_VI
+                }
                 isClearable={true}
                 className='mb-4 font-rubik'
                 isDisabled={isSearching}
