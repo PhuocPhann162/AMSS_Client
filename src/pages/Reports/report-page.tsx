@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Row, Col, DatePicker, Button } from 'antd';
+import { Row, Col } from 'antd';
 import SummaryCards from './components/SummaryCards';
 import SalesOverviewChart from './components/SalesOverviewChart';
 import OrderStatistics from './components/OrderStatistics';
@@ -13,6 +13,7 @@ export const Reports = () => {
     dayjs().subtract(29, 'day'),
     dayjs(),
   ]);
+  console.log(setDateRange);
 
   const startDate = dateRange[0];
   const endDate = dateRange[1];
@@ -45,9 +46,9 @@ export const Reports = () => {
     : undefined;
 
   // Fix RangePicker onChange type
-  const handleRangeChange = (values: [Dayjs | null, Dayjs | null] | null) => {
-    if (values && values[0] && values[1]) setDateRange([values[0], values[1]]);
-  };
+  // const handleRangeChange = (values: [Dayjs | null, Dayjs | null] | null) => {
+  //   if (values && values[0] && values[1]) setDateRange([values[0], values[1]]);
+  // };
 
   return (
     <div className='min-h-screen bg-gray-50 p-4'>

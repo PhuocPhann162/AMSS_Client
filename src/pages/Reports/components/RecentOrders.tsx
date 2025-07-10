@@ -1,7 +1,6 @@
 import { useGetOrdersQuery } from '@/api/order-api';
 import { ATable } from '@/common/ui-common';
 import { OrderStatusTag } from '@/components/UI';
-import { INITIAL_PAGINATION } from '@/configs/component.config';
 import { toastNotify } from '@/helper';
 import { displayDateTimeByLocale } from '@/helper/dayFormat';
 import { apiResponse, OrderHeader } from '@/interfaces';
